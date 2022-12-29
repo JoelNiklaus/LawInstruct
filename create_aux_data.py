@@ -9,8 +9,8 @@ from tqdm import tqdm
 import json
 from bs4 import BeautifulSoup
 import pandas as pd
-import numpy as np
-from collections import deque
+
+from utils import write_json_line
 
 new_data = []
 import glob
@@ -20,17 +20,11 @@ try:
     import lzma as xz
 except ImportError:
     import pylzma as xz
-import datetime
 from ni_collator import DataCollatorForNI
 import toml
 
-# TODO: civpro questions
-
-
 output_file_idx = 0
 train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
-
-from tqdm import tqdm
 
 instruction_bank_generate_questions_from_passage = [
     "Consider these questions about American civil procedure. Given the provided information answer them to the best of your ability.",
@@ -79,16 +73,13 @@ for question, values in questions_dict.items():
     datapoint_no_explanation = f"{random.choice(instruction_bank_generate_questions_no_explanation)}\n\nQuestion: {question}\n{choice_string}\nAnswer: {correct_answer}"
 
     for datapoint in [datapoint_no_passage, datapoint_no_explanation, datapoint_with_passage]:
-        train_f.write(json.dumps({
-            "text": datapoint,
-            "lang": "en",
-            "source": "civpro_questions",
-            "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-        }) + "\n")
+        write_json_line(train_f, datapoint, "en", "civpro_questions")  # TODO do we have an url here?
 
 #####
 # Sara prolog
 #####
+# TODO do we have an url here?
+source = "sara"
 instruction_bank = ["Convert the following statute into prolog code.",
                     "Write a prolog program to convert the statute into code, denote it as \"Prolog Program:\"."]
 json_files = [pos_json for pos_json in os.listdir("raw_data/sara_statutes/source")]
@@ -96,12 +87,7 @@ for json_file in json_files:
     with open(os.path.join("raw_data/sara_statutes/source/", json_file), "r") as f_normal:
         with open(os.path.join("raw_data/sara_statutes/prolog/", json_file) + ".pl", "r") as f_prolog:
             datapoint = f"{random.choice(instruction_bank)}\n\nStatute:\n{f_normal.read()}\n\nProlog Program:\n\n{f_prolog.read()}"
-            train_f.write(json.dumps({
-                "text": datapoint,
-                "lang": "en",
-                "source": "sara",
-                "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-            }) + "\n")
+            write_json_line(train_f, datapoint, "en", source)
 
 instruction_bank = ["Convert the following fact pattern into prolog code. Then answer the question.",
                     "Write a prolog program to mark all the facts, denote it as \"Prolog Program:\". Then answer the question, denote your answer as \"Answer\"."]
@@ -132,12 +118,7 @@ for json_file in json_files:
         facts_and_question = facts_and_question.replace("%", "").strip()
 
         datapoint = f"{random.choice(instruction_bank)}\n\n{facts_and_question}\n\nProlog Program:\n{program.strip()}\nAnswer: {answer}"
-        train_f.write(json.dumps({
-            "text": datapoint,
-            "lang": "en",
-            "source": "sara",
-            "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-        }) + "\n")
+        write_json_line(train_f, datapoint, "en", source)
 
 #####
 # Lila
@@ -154,12 +135,7 @@ for json_file in json_files:
                 continue
             for program, answer in zip(example['Output Program'], example['Output Answer']):
                 datapoint = f"{random.choice(instruction_bank)}\n\nQuestion: {example['Input']}\nProgram:\n```python\n{program}\n```\nAnswer: {answer}"
-                train_f.write(json.dumps({
-                    "text": datapoint,
-                    "lang": "en",
-                    "source": "https://github.com/allenai/Lila",
-                    "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-                }) + "\n")
+                write_json_line(train_f, datapoint, "en", "https://github.com/allenai/Lila")
 
 ###
 # The first 1200 are extra bar exam questions, not sure if we want to keep these in
@@ -172,7 +148,7 @@ instructions_examples = ["Generate some Multistate Bar Exam questions according 
 instructions_zero_shot = ["Answer these legal questions. Use American Law. Provide the choice as \"Answer:\"",
                           "Answer these U.S. Multistate Bar Exam questions. Provide the choice as \"Answer:\"",
                           "Pick the most correct option considering U.S. Law. Output the choice as \"Answer:\""]
-
+# TODO do we really want this now?
 df = load_dataset("hendrycks_test", "professional_law", split="auxiliary_train").select(range(1200))
 
 
@@ -184,6 +160,7 @@ def shuffle_choices(choices: List[str], answer: int):
     return choices, answer
 
 
+source = "auxiliary_train_hendrycks_test"
 for i, (this_question, this_choices, this_answer) in tqdm(enumerate(zip(
         df["question"], df["choices"], df["answer"]
 )), total=len(df)):
@@ -213,26 +190,16 @@ for i, (this_question, this_choices, this_answer) in tqdm(enumerate(zip(
     )
     datapoint = cur_question
 
-    datapoint_zero_shot = datapoint.replace("The Final Answer: ", "Answer: ").split("###")[-1].strip()
     final_datapoint = random.choice(instructions_examples) + "\n\n" + datapoint
+    write_json_line(train_f, final_datapoint, "en", source)
+
+    datapoint_zero_shot = datapoint.replace("The Final Answer: ", "Answer: ").split("###")[-1].strip()
     final_datapoint_zero_shot = random.choice(instructions_zero_shot) + "\n\n" + datapoint_zero_shot
+    write_json_line(train_f, final_datapoint_zero_shot, "en", source)
 
-    train_f.write(json.dumps({
-        "text": final_datapoint,
-        "lang": "en",
-        "source": "auxiliary_train_hendrycks_test",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
-
-    train_f.write(json.dumps({
-        "text": final_datapoint_zero_shot,
-        "lang": "en",
-        "source": "auxiliary_train_hendrycks_test",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
-
+# TODO do we have an url for the source here?
+source = "MBE"
 df = pd.read_csv("raw_data/mbe_train.csv")
-
 instructions_examples = [
     "Answer these legal questions. Use American Law. Please explain your thought process and then answer the question.",
     "Answer these U.S. Multistate Bar Exam questions. Please provide an explanation first.",
@@ -267,35 +234,22 @@ for idx, row in df.iterrows():
     # else:
     #     source_year_string = ""
     final_datapoint = random.choice(instructions_examples) + "\n\n" + datapoint
+    write_json_line(train_f, final_datapoint, "en", source)
 
-    train_f.write(json.dumps({
-        "text": final_datapoint,
-        "lang": "en",
-        "source": "MBE",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
     if isinstance(subject, str) and subject.strip() != "":
         datapoint = f"{random.choice(instruction_bank_subject)}\n\n{data_no_answer}\nSubject: {subject}"
 
-        train_f.write(json.dumps({
-            "text": random.choice(instructions_examples) + "\n\n" + datapoint,
-            "lang": "en",
-            "source": "MBE",
-            "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-        }) + "\n")
-        datapoint = random.choice(instruction_bank_subject_generation) + subject + ".\n\n" + datapoint_with_answer
+        datapoint = random.choice(instructions_examples) + "\n\n" + datapoint
+        write_json_line(train_f, datapoint, "en", source)
 
-        train_f.write(json.dumps({
-            "text": datapoint,
-            "lang": "en",
-            "source": "MBE",
-            "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-        }) + "\n")
+        datapoint = random.choice(instruction_bank_subject_generation) + subject + ".\n\n" + datapoint_with_answer
+        write_json_line(train_f, datapoint, "en", source)
 
 json_files = [pos_json for pos_json in os.listdir("raw_data/littleton/examples/") if pos_json.endswith('.json')]
 instruction_bank = [
     "Consider the law of future interests and conveyances in American property law. Consider the chain of events and then state the interests.",
     "According to American law, consider the chain of events and future interests."]
+source = "https://github.com/grimmelm/littleton"
 for json_file in json_files:
     with open(os.path.join("raw_data/littleton/examples/", json_file), "r") as f:
         loaded_file = json.loads(f.read())[1]
@@ -303,12 +257,7 @@ for json_file in json_files:
             continue
         for example in loaded_file["examples"]:
             datapoint = f"{random.choice(instruction_bank)}\n\nEvents: {example['program']}\nAnswer: {example['result']}"
-            train_f.write(json.dumps({
-                "text": datapoint,
-                "lang": "en",
-                "source": "https://github.com/grimmelm/littleton",
-                "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-            }) + "\n")
+            write_json_line(train_f, datapoint, "en", source)
 
 json_files = [pos_json for pos_json in os.listdir("raw_data/littleton/tests/edwards") if pos_json.endswith('.toml')]
 instruction_bank = [
@@ -321,19 +270,14 @@ for json_file in json_files:
             if "expected" not in example:
                 continue
             datapoint = f"{random.choice(instruction_bank)}\n\nEvents: {example['program']}\nAnswer: {example['expected']}"
-            train_f.write(json.dumps({
-                "text": datapoint,
-                "lang": "en",
-                "source": "https://github.com/grimmelm/littleton",
-                "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-            }) + "\n")
+            write_json_line(train_f, datapoint, "en", source)
 
 # Include only datasets that we have legal data for
 _LANG = ['en', 'es', 'fr', 'pt', 'zh', "vi", "code"]
 
 for l in _LANG:
     print("############################")
-    print(f"########## p3x_all {l} ###########")
+    print(f"########## xP3all {l} ###########")
     print("############################")
     df = load_dataset("bigscience/xP3all", l)
     for example in tqdm(df["train"]):
@@ -342,12 +286,7 @@ for l in _LANG:
             train_f.close()
             output_file_idx += 1
             train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
-        train_f.write(json.dumps({
-            "text": datapoint,
-            "lang": l,
-            "source": "https://huggingface.co/datasets/bigscience/xP3all",
-            "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-        }) + "\n")
+        write_json_line(train_f, datapoint, l, "https://huggingface.co/datasets/bigscience/xP3all")
 
 ######
 # Add other instruction following datasets
@@ -400,12 +339,7 @@ for example in tqdm(raw_datasets["train"]):
             train_f.close()
             output_file_idx += 1
             train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
-        train_f.write(json.dumps({
-            "text": datapoint,
-            "lang": example["Input_language"],
-            "source": example["URL"],
-            "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-        }) + "\n")
+        write_json_line(train_f, datapoint, example["Input_language"], example["URL"])
     # prompt = prompt[:-3].strip()
     # prompt_with_explanation = prompt_with_explanation[:-3].strip()
     # prompt_with_explanation_last = prompt_with_explanation_last[:-3].strip()
@@ -417,6 +351,7 @@ for example in tqdm(raw_datasets["train"]):
 print("############################")
 print("########## gsm8k ###########")
 print("############################")
+source = "https://huggingface.co/datasets/gsm8k"
 x = load_dataset("gsm8k", "main", split="train")
 
 instruction_bank = ["Answer the question, make sure to show your work.",
@@ -428,12 +363,7 @@ for example in x:
         train_f.close()
         output_file_idx += 1
         train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "en",
-        "source": "gsm8k",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "en", source)
 
 x = load_dataset("gsm8k", "socratic", split="train")
 
@@ -447,12 +377,7 @@ for example in x:
         train_f.close()
         output_file_idx += 1
         train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "en",
-        "source": "gsm8k",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "en", source)
 
 ###
 # JEC-QA
@@ -474,12 +399,7 @@ for q in questions:
     for k, v in q["option_list"].items():
         prompt += f"{k}. {v}\n"
     prompt += "\n\nFinal Answer(s): {','.join(q['answer'])}"
-    train_f.write(json.dumps({
-        "text": prompt,
-        "lang": "zho",
-        "source": "https://jecqa.thunlp.org/",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, prompt, "zh", "https://jecqa.thunlp.org/")
 
 ###
 # Legal Judgement Prediction: US Class Actions
@@ -497,12 +417,7 @@ for example in df:
         train_f.close()
         output_file_idx += 1
         train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "eng",
-        "source": "https://huggingface.co/datasets/darrow-ai/USClassActions",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "en", "https://huggingface.co/datasets/darrow-ai/USClassActions")
 
 # TODO: https://www.makethisyourlasttime.com/essay-bank/
 ######
@@ -525,30 +440,16 @@ instruction_error_class = [
     "Consider the answer to the question, is it correct? Provide feedback and then give a score from 0 to 1. Note the error class.",
     "Consider the student's answer to the question. Rate it and provide feedback. Note the type of error."]
 
+source = "https://huggingface.co/datasets/JohnnyBoy00/saf_legal_domain_german"
 for example in df["train"]:
     datapoint = f"{random.choice(instruction_bank_openqa)}\n\nQ: {example['question']}\nA: {example['reference_answer']}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "de",
-        "source": "https://huggingface.co/datasets/JohnnyBoy00/saf_legal_domain_german",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "de", source)
 
     datapoint = f"{random.choice(instruction_bank_feedback)}\n\nQ: {example['question']}\nA: {example['provided_answer']}\nFeedback: {example['verification_feedback']}\nScore: {example['score']}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "de",
-        "source": "https://huggingface.co/datasets/JohnnyBoy00/saf_legal_domain_german",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "de", source)
 
     datapoint = f"{random.choice(instruction_error_class)}\n\nQ: {example['question']}\nA: {example['provided_answer']}\nFeedback: {example['verification_feedback']}\nScore: {example['score']}\nError Type: {example['error_class']}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "de",
-        "source": "https://huggingface.co/datasets/JohnnyBoy00/saf_legal_domain_german",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "de", source)
 
 ########
 ## ILDC Dataset
@@ -563,6 +464,7 @@ df1 = df1[df1["split"] == "train"]
 df2 = pd.read_csv("raw_data/ILDC_single.csv")
 df2 = df2[df2["split"] == "train"]
 
+source = "https://github.com/Exploration-Lab/CJPE"
 instruction_bank = [
     "According to Indian law, will this petition be accepted? If there is more than one petition consider whether the court will accept at least one.",
     "Will the court accept or reject this petition? Use Indian law. If there is more than one petition consider whether the court will accept at least one."]
@@ -570,22 +472,12 @@ instruction_bank = [
 for idx, row in df1.iterrows():
     decision = "Court Decision: Reject" if row["label"] == 0 else "Court Decision: Accept"
     datapoint = f"{random.choice(instruction_bank)}\n\n{row['text']}\n\n{decision}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "eng",
-        "source": "https://github.com/Exploration-Lab/CJPE",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "en", source)
 
 for idx, row in df2.iterrows():
     decision = "Court Decision: Reject" if row["label"] == 0 else "Court Decision: Accept"
     datapoint = f"{random.choice(instruction_bank)}\n\n{row['text']}\n\n{decision}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "eng",
-        "source": "https://github.com/Exploration-Lab/CJPE",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "en", source)
 
 ######
 # Scraped bar exam essays
@@ -595,15 +487,11 @@ print("############################")
 print("########## CA Bar Exam Essays ###########")
 print("############################")
 
+source = "https://www.calbar.ca.gov/Admissions/Examinations/California-Bar-Examination/Past-Exams"
 with open("raw_data/bar_exam_essays_ca.jsonl") as f:
     exams = [json.loads(x) for x in f.readlines()]
     for exam in exams:
-        train_f.write(json.dumps({
-            "text": exam["text"],
-            "lang": "eng",
-            "source": "https://www.calbar.ca.gov/Admissions/Examinations/California-Bar-Examination/Past-Exams",
-            "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-        }) + "\n")
+        write_json_line(train_f, exam['text'], "en", source)
 
 print("############################")
 print("########## MC Exams Law ###########")
@@ -623,21 +511,11 @@ for idx, row in df.iterrows():
 
     # No chain of thought
     datapoint = f"{random.choice(instruction_bank)}\n\nQ:{q}\nA:{a}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "eng",
-        "source": source,
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "en", source)
 
     # Chain of thought
     datapoint = f"{random.choice(instruction_bank_expl)}\n\nQ:{q}\nExplanation: {explanation}\nA:{a}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "eng",
-        "source": source,
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "en", source)
 
 #########
 ### https://raw.githubusercontent.com/haven-jeon/LegalQA/main/data/legalqa.jsonlines
@@ -656,12 +534,8 @@ with open("raw_data/legalqa.jsonlines", "r") as f:
 
 for question in questions:
     datapoint = f"{random.choice(instruction_bank)}\n\nQ: {question['question']}\nA: {question['answer']}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "kor",
-        "source": "https://raw.githubusercontent.com/haven-jeon/LegalQA/main/data/legalqa.jsonlines",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "ko",
+                    "https://raw.githubusercontent.com/haven-jeon/LegalQA/main/data/legalqa.jsonlines")
 
 ######
 ### https://zenodo.org/record/4256718#.Y5PoC7LMIlg
@@ -680,12 +554,7 @@ instruction_bank = [
 for idx, row in df.iterrows():
     question, context, answer = row["Question"], row["context"], row["Answer text"]
     datapoint = f"{random.choice(instruction_bank)}\n\nContext: {context}\nQ: {question}\nA: {answer}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "spa",
-        "source": "https://zenodo.org/record/4256718#.Y5PoC7LMIlg",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "es", "https://zenodo.org/record/4256718#.Y5PoC7LMIlg")
 
 ######
 # International citizenship law questions
@@ -699,6 +568,7 @@ df1 = pd.read_csv("raw_data/data_v1.0_country-year-mode_acq.csv")
 df2 = pd.read_csv("raw_data/data_v1.0_country-year-mode_loss.csv")
 code_year = pd.read_csv("raw_data/data_v1.0_country-year.csv")
 code_dictionary = pd.read_csv("raw_data/code_dictionary.csv")
+source = "https://cadmus.eui.eu/handle/1814/73190"
 
 for idx, row in df1.iterrows():
     mode_id = row["mode_id"]
@@ -721,12 +591,8 @@ for idx, row in df1.iterrows():
         datapoint = f"Q: Consider the country of {country.strip()}. {q.strip()}\nA: {code_year_spec_answer} This is not covered in any provision."
     else:
         datapoint = f"Q: Consider the country of {country.strip()}. {q.strip()}\nA: {code_year_spec_answer} This is covered in: {law_article}. {specification}".strip()
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "eng",
-        "source": "https://cadmus.eui.eu/handle/1814/73190",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+
+    write_json_line(train_f, datapoint, "en", source)
 
 for idx, row in df2.iterrows():
     mode_id = row["mode_id"]
@@ -751,12 +617,7 @@ for idx, row in df2.iterrows():
         datapoint = f"Q: Consider the country of {country.strip()}. {q}\nA: {code_year_spec_answer} This is not covered in any provision."
     else:
         datapoint = f"Q: Consider the country of {country.strip()}. {q}\nA: {code_year_spec_answer} This is covered in: {law_article}. {specification}".strip()
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "eng",
-        "source": "https://cadmus.eui.eu/handle/1814/73190",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "en", source)
 
 ######
 ## https://huggingface.co/datasets/pile-of-law/eoir_privacy
@@ -776,12 +637,7 @@ instruction_bank = [
 for example in df:
     lookup = ["Don't use pseudonym.", "Use pseudonym."]
     datapoint = f"{random.choice(instruction_bank)}\n\n{example['text']}\n{lookup[example['label']]}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "eng",
-        "source": "https://huggingface.co/datasets/pile-of-law/eoir_privacy",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "en", "https://huggingface.co/datasets/pile-of-law/eoir_privacy")
 
 ######
 ### CAIL 2022: https://github.com/china-ai-law-challenge/CAIL2022/tree/main/lblj/data/stage_2
@@ -800,46 +656,32 @@ instruction_bank = ["Use Chinese law. What is the counter-argument to the plaint
                     "How should Defendant respond to the following argument? Use Chinese law."]
 instruction_bank_crime = ["Consider Chinese law, what is the likely crime being discussed here."]
 lookup = ["(a)", "(b)", "(c)", "(d)", "(e)"]
+source = "https://github.com/china-ai-law-challenge/CAIL2022/tree/main/lblj/data/stage_2"
 for question in questions:
     datapoint = f"{random.choice(instruction_bank_mc)}\n\nPlaintiff's Argument:{question['sc']}\n\n(a) {question['bc_1']}\n(b) {question['bc_2']}\n(c) {question['bc_3']}\n(d) {question['bc_4']}\n(e) {question['bc_5']}"
     datapoint += "Best counter-argument: {lookup[question['answer'] - 1]}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "zho",
-        "source": "https://github.com/china-ai-law-challenge/CAIL2022/tree/main/lblj/data/stage_2",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "zh", source)
+
     response = question[f"bc_{question['answer']}"]
     datapoint = f"{random.choice(instruction_bank)}\n\nPlaintiff's Argument:{question['sc']}\nDefendant's Response: {response}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "zho",
-        "source": "https://github.com/china-ai-law-challenge/CAIL2022/tree/main/lblj/data/stage_2",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "zh", source)
+
     datapoint = f"{random.choice(instruction_bank_crime)}\n\nPlaintiff's Argument:{question['sc']}\nDefendant's Response: {response}\nCrime: {question['crime']}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "zho",
-        "source": "https://github.com/china-ai-law-challenge/CAIL2022/tree/main/lblj/data/stage_2",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "zh", source)
+
     datapoint = f"{random.choice(instruction_bank_crime)}\n\n{question['sc']}\nCrime: {question['crime']}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "zho",
-        "source": "https://github.com/china-ai-law-challenge/CAIL2022/tree/main/lblj/data/stage_2",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "zh", source)
 
 #######
 ### LEGAL BENCH: https://github.com/HazyResearch/legalbench
 #######
+# TODO maybe exclude this now
 print("############################")
 print("########## LegalBench ###########")
 print("############################")
 keywordList = []
 path = './raw_data/legalbench/prompts/'
+source = "https://github.com/HazyResearch/legalbench"
 for filename in glob.glob(os.path.join(path, '*.yaml')):  # only process .JSON files in folder.
     with open(filename, "r") as stream:
         try:
@@ -858,12 +700,8 @@ for filename in glob.glob(os.path.join(path, '*.yaml')):  # only process .JSON f
                 else:
                     sample_suffix = ""
                 datapoint = f"{prompt['introduction']}\n\n{prompt['sample_prefix']}{text}{sample_suffix}\n{prompt['label_prefix']}{label}"
-                train_f.write(json.dumps({
-                    "text": datapoint,
-                    "lang": "eng",
-                    "source": "https://github.com/HazyResearch/legalbench",
-                    "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-                }) + "\n")
+                write_json_line(train_f, datapoint, "en", source)
+
             if explanations is not None:
                 for text, label, explanation in zip(df["text"], df["label"], explanations):
                     if 'sample_suffix' in prompt and prompt['sample_suffix'] != "None" and prompt[
@@ -872,19 +710,10 @@ for filename in glob.glob(os.path.join(path, '*.yaml')):  # only process .JSON f
                     else:
                         sample_suffix = ""
                     datapoint = f"{prompt['introduction']}\n{prompt['sample_prefix']}{text}{sample_suffix}\n\n{prompt['label_prefix']}{explanation}"
-                    train_f.write(json.dumps({
-                        "text": datapoint,
-                        "lang": "eng",
-                        "source": "https://github.com/HazyResearch/legalbench",
-                        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-                    }) + "\n")
+                    write_json_line(train_f, datapoint, "en", source)
+
                     datapoint = f"{prompt['introduction']}\n{prompt['sample_prefix']}{text}{sample_suffix}\n\nLet's think step by step. {explanation}"
-                    train_f.write(json.dumps({
-                        "text": datapoint,
-                        "lang": "eng",
-                        "source": "https://github.com/HazyResearch/legalbench",
-                        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-                    }) + "\n")
+                    write_json_line(train_f, datapoint, "en", source)
 
         except yaml.YAMLError as exc:
             print(exc)
@@ -901,6 +730,7 @@ instruction_bank = [
     "Given a statement in a will, the relevant U.S. law, is the condition supported, refuted, or unrelated.",
     "Is the statement in the will valid given the law and conditions? Answer with one of unrelated, supported, refuted."]
 train = pd.read_csv('./raw_data/wills_train.csv', encoding='utf-8')  # replace with real path and dataset names
+source = "https://arxiv.org/pdf/2210.16989.pdf"
 for idx, row in train.iterrows():
     statement, conditions, law, classification = row["statement"], row["conditions"], row["law"], row["classification"]
     CLASSIFICATION_MAP = ['refuted', 'supported', 'unrelated']
@@ -918,24 +748,9 @@ for idx, row in train.iterrows():
             correct_option = choice_letter
         option_mc_string += f"{choice_letter} {option}\n"
     prompt_mc = f"Statement: {statement}\n\nLaw: {law}\n\nCondition: {conditions}\n\n{option_mc_string}\n\nAnswer: {correct_option}"
-    train_f.write(json.dumps({
-        "text": prompt,
-        "lang": "eng",
-        "source": "https://arxiv.org/pdf/2210.16989.pdf",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
-    train_f.write(json.dumps({
-        "text": prompt2,
-        "lang": "eng",
-        "source": "https://arxiv.org/pdf/2210.16989.pdf",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
-    train_f.write(json.dumps({
-        "text": prompt_mc,
-        "lang": "eng",
-        "source": "https://arxiv.org/pdf/2210.16989.pdf",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, prompt, "en", source)
+    write_json_line(train_f, prompt2, "en", source)
+    write_json_line(train_f, prompt_mc, "en", source)
 
 #
 # Chinese Bar Exam, no explanations.
@@ -964,12 +779,7 @@ with open("./raw_data/zh_train.txt", "r") as f:
             choices.append(x[i])
             i += 1
         datapoint = f"{random.choice(instruction_bank)}\n\nQuestion: {context.strip()} {question}{''.join(choices)}\n\nAnswer: ({correct.strip()})."
-        train_f.write(json.dumps({
-            "text": datapoint,
-            "lang": "zho",
-            "source": "https://github.com/lgw863/LogiQA-dataset",
-            "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-        }) + "\n")
+        write_json_line(train_f, datapoint, "zh", "https://github.com/lgw863/LogiQA-dataset")
         if i >= len(x): break
 
 ###
@@ -990,12 +800,7 @@ with open("./raw_data/train_pair_data.jsonlist") as f:
             body = d['positive']['comments'][0]['body'].strip()
         op = d['op_text'].split("EDIT:")[0].strip()
         datapoint = f"{random.choice(instruction_bank)}\n\nArgument: {op}\n\nCounter-argument: {body}"
-        train_f.write(json.dumps({
-            "text": datapoint,
-            "lang": "eng",
-            "source": "https://chenhaot.com/pages/changemyview.html",
-            "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-        }) + "\n")
+        write_json_line(train_f, datapoint, "en", "https://chenhaot.com/pages/changemyview.html")
 
 # statutes classification task
 print("############################")
@@ -1003,16 +808,12 @@ print("########## Lbox ###########")
 print("############################")
 data_st_plus = load_dataset("lbox/lbox_open", "statute_classification_plus")
 
+source = "https://github.com/lbox-kr/lbox-open"
 instruction_bank = ["For the given case facts predict the related South Korean legal statute.",
                     "When presented with this fact pattern what are the relevant legal statutes in South Korean law?"]
 for x in data_st_plus["train"]:
     datapoint = f"{random.choice(instruction_bank)}\n\nFacts: {x['facts']}\nStatute(s):{','.join(x['statutes'])}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "kor",
-        "source": "https://github.com/lbox-kr/lbox-open",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "ko", source)
 
 # Legal judgement prediction tasks
 instruction_bank = [
@@ -1023,26 +824,17 @@ for x in data_ljp_criminal["train"]:
     if x["reason"] != "" and x["reason"] != -1:
         reason = f"Reason: {x['reason']}"
     datapoint = f"{random.choice(instruction_bank)}\n\nFacts: {x['facts']}\n{reason}\nRuling: {x['ruling']['text']}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "kor",
-        "source": "https://github.com/lbox-kr/lbox-open",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "ko", source)
 
 data_ljp_civil = load_dataset("lbox/lbox_open", "ljp_civil")
 for x in data_ljp_civil["train"]:
     datapoint = f"{random.choice(instruction_bank)}\n\nFacts: {x['facts'].strip()}\n\nClaims: {x['gist_of_claim']['text'].strip()}\n\nRuling: {x['ruling']['text']}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "kor",
-        "source": "https://github.com/lbox-kr/lbox-open",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "ko", source)
 
 print("############################")
 print("########## Sara ###########")
 print("############################")
+source = "https://arxiv.org/abs/2005.05257"
 df = pd.read_csv("raw_data/sara.tsv", sep="\t", header=None)
 entailment_instruction_bank = ["Consider the following US Tax scenario. Does the first fact entail the second fact?",
                                "Are these two sentences entailed or contradicting?",
@@ -1052,20 +844,11 @@ tax_liability_instruction_bank = ["Consider the following US Tax scenario and an
 for i, row in df.iterrows():
     if "tail" in row[2] or "Contra" in row[2]:
         datapoint = f"{random.choice(entailment_instruction_bank)}\n\nSentence 1: {row[0]}\nSentence 2: {row[1]}\nAnswer: {row[2]}"
-        train_f.write(json.dumps({
-            "text": datapoint,
-            "lang": "eng",
-            "source": "https://arxiv.org/abs/2005.05257",
-            "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-        }) + "\n")
+        write_json_line(train_f, datapoint, "en", source)
     else:
         datapoint = f"{random.choice(tax_liability_instruction_bank)}\n\nQuestion: {row[0]} {row[1]}\nAnswer: {row[2]}"
-        train_f.write(json.dumps({
-            "text": datapoint,
-            "lang": "eng",
-            "source": "https://arxiv.org/abs/2005.05257",
-            "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-        }) + "\n")
+        write_json_line(train_f, datapoint, "en", source)
+
         value = int(row[2].replace("$", ""))
         options = [int(value + ((.5 - random.random()) * value)) for i in range(3)] + [value]
         random.shuffle(options)
@@ -1074,12 +857,7 @@ for i, row in df.iterrows():
             choices += f"{choice_value} ${option}\n"
         correct = ["(a)", "(b)", "(c)", "(d)"][options.index(value)]
         datapoint = f"{random.choice(tax_liability_instruction_bank)} Denote your final answer with the \"Final Answer: The final answer is [CORRECT ANSWER]. I hope it is correct\".\n\nQuestion: {row[0]} {row[1]}\n{choices}\n\nFinal Answer: The final answer is {correct}. I hope it is correct."
-        train_f.write(json.dumps({
-            "text": datapoint,
-            "lang": "eng",
-            "source": "https://arxiv.org/abs/2005.05257",
-            "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-        }) + "\n")
+        write_json_line(train_f, datapoint, "en", source)
 
 print("############################")
 print("########## BVA Decisions ###########")
@@ -1133,12 +911,7 @@ for sentence in sentences:
     else:
         role = ",".join(sentence['rhetRole'])
     datapoint = f"{random.choice(instruction_bank)}\n\nSentence: {sentence['text'].strip()}\nRhetorical Role: {role.strip()}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "eng",
-        "source": "https://github.com/LLTLab/VetClaims-JSON",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "en", "https://github.com/LLTLab/VetClaims-JSON")
 
 instruction_bank = [
     "Take the following sentence, name all the rules that would be required to back up the claim. Do so in tree format with logical operators like AND and OR.",
@@ -1148,12 +921,7 @@ for tree_rule in rule_trees:
     tree_rule = turn_rule_tree_to_text(tree_rule)
     datapoint = f"{random.choice(instruction_bank)}\n\nClaim: {tree_rule.strip()}"
     if datapoint not in known_data:
-        train_f.write(json.dumps({
-            "text": datapoint,
-            "lang": "eng",
-            "source": "https://github.com/LLTLab/VetClaims-JSON",
-            "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-        }) + "\n")
+        write_json_line(train_f, datapoint, "en", "https://github.com/LLTLab/VetClaims-JSON")
         known_data.append(datapoint)
 
 #####
@@ -1175,12 +943,7 @@ for data in df:
         options += f"{lab} {x}\n"
     correct_option = options_labels[data['label']]
     datapoint = f"{random.choice(instruction_bank)}\n\nQuestion: {data['context']} {data['question']}\n{options}\nFinal Answer: The final answer is: {correct_option}. I hope it is correct."
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "eng",
-        "source": "https://github.com/yuweihao/reclor",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "en", "https://github.com/yuweihao/reclor")
 
 print("############################")
 print("########## https://github.com/china-ai-law-challenge/CAIL2019 ###########")
@@ -1199,12 +962,7 @@ with open("./raw_data/big_train_data.json", "r") as f:
                 else:
                     answer = ", ".join([a['text'] for a in question['answers']])
                 datapoint = f"{random.choice(instruction_bank)}\n\n{paragraph['context']}\n\nQuestion:{question['question']}\nAnswer:{answer}"
-                train_f.write(json.dumps({
-                    "text": datapoint,
-                    "lang": "zho",
-                    "source": "https://github.com/china-ai-law-challenge/CAIL2019",
-                    "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-                }) + "\n")
+                write_json_line(train_f, datapoint, "zh", "https://github.com/china-ai-law-challenge/CAIL2019")
 
 print("############################")
 print("########## Brazilian Bar Exam ###########")
@@ -1327,12 +1085,7 @@ for q in qs:
                 analysis = just_dict[q["filename"].split(".txt")[0]][q["number"]]["comment"].replace("\n", "")
                 datapoint += f'\n\nAnalysis: {analysis}'
         datapoint += f"\nAnswer: {correct_answer}."
-        train_f.write(json.dumps({
-            "text": datapoint,
-            "lang": "por",
-            "source": "https://arxiv.org/pdf/1712.05128.pdf",
-            "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-        }) + "\n")
+        write_json_line(train_f, datapoint, "pt", "https://arxiv.org/pdf/1712.05128.pdf")
 
 #####
 # Legal Stack Exchange questions are usually high quality
@@ -1361,12 +1114,7 @@ for idx, example in df.iterrows():
         instruction += " " + f"This question is about: {','.join([x.replace('>', '').replace('<', '').replace('-', ' ').strip() for x in example['tags'].split('>') if x.replace('>', '').replace('<', '').strip() != ''])}."
 
     datapoint = f"{instruction}\n\nQuestion: {question}\nAnswer: {answer}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "eng",
-        "source": "https://law.stackexchange.com/",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "en", "https://law.stackexchange.com/")
 
 ###
 # https://github.com/siatnlp/LegalQA
@@ -1384,12 +1132,7 @@ instruction_bank = [
     "Answer the question as a lawyer according to Chinese law, be informal."]
 for q, a in zip(df['question: body'], df['answer']):
     datapoint = f"{random.choice(instruction_bank)}\n\nQ:{q}\nA:{a}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "zho",
-        "source": "https://github.com/siatnlp/LegalQA",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "zh", "https://github.com/siatnlp/LegalQA")
 
 print("############################")
 print("########## Privacy QA ###########")
@@ -1398,12 +1141,8 @@ df = pd.read_csv("./raw_data/policy_train_data.csv", sep="\t")
 
 for index, example in df.iterrows():
     datapoint = f"Determine if the term mentioned from the privacy policy is relevant or irrelevant to the given question.\n\nQ: {example['Query']}\nTerm: {example['Segment']}\nA: {example['Label']}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "eng",
-        "source": "https://github.com/AbhilashaRavichander/PrivacyQA_EMNLP",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "en", "https://github.com/AbhilashaRavichander/PrivacyQA_EMNLP")
+
 ######
 # Thai supreme court case law
 # https://github.com/KevinMercury/tscc-dataset-alqac2021/blob/main/tscc_alqac2021_law.json
@@ -1428,6 +1167,7 @@ instructions_bank = [
     "Given these facts in the Thai legal system, please output the relevant legal rule(s) and provide the legal conclusion of whether the court is likely to find the defendant guilty or not guilty.",
 ]
 
+source = "https://github.com/KevinMercury/tscc-dataset-alqac2021/blob/main/tscc_alqac2021_law.json"
 for case in cases:
     text = case["text"]
     relevant_articles = []
@@ -1444,29 +1184,16 @@ for case in cases:
                                                                        "label"] == 1 else "The court would rule for the defendant."
     laws = '\n'.join(relevant_articles)
     datapoint = f"{random.choice(instructions_bank)}\n\nFacts: {text}\nLaw(s): {laws}\nConclusion: {outcome}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "tha",
-        "source": "https://github.com/KevinMercury/tscc-dataset-alqac2021/blob/main/tscc_alqac2021_law.json",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "th", source)
+
     # Provide a non-MC version
     outcome_mc1 = ["(a)", "(b)"][case["label"]]
     datapoint = f"{random.choice(instructions_bank)}\n\nQuestion: {text} How would the court find?\n(a) For the defendant.\n(b) Against the defendant.\nLaw(s): {laws}\nAnswer: {outcome_mc1}."
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "tha",
-        "source": "https://github.com/KevinMercury/tscc-dataset-alqac2021/blob/main/tscc_alqac2021_law.json",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "th", source)
+
     outcome_mc1 = ["(b)", "(a)"][case["label"]]
     datapoint = f"{random.choice(instructions_bank)}\n\nQuestion: {text} How would the court find?\n(a) Against the defendant.\n(b) For the defendant.\nLaw(s): {laws}\nAnswer: {outcome_mc1}."
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "tha",
-        "source": "https://github.com/KevinMercury/tscc-dataset-alqac2021/blob/main/tscc_alqac2021_law.json",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "th", source)
 
 ####
 # Case briefs take the form of a question and an answer.
@@ -1484,12 +1211,7 @@ for example in df["train"]["text"]:
     example = example.split("Key Facts:")[0].split("Year:")[0]
     example = example.replace("Answer:", "Analysis:")
     example = f"{random.choice(case_brief_instructions)}\n\n{example}"
-    train_f.write(json.dumps({
-        "text": example,
-        "lang": "eng",
-        "source": "https://www.oyez.org",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, example, "en", "https://www.oyez.org")
 
 ###
 # OLC memos start off with a short form summary and then write the memo
@@ -1508,12 +1230,7 @@ for example in df["text"]:
     if example.startswith("b'"):
         example = example.encode().decode('unicode-escape').encode('latin1').decode('utf-8')[2:-2].strip()
     datapoint = f"{random.choice(instruction_bank)}\n\n{example}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": "eng",
-        "source": "pile-of-law/pile-of-law/olc_memos",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, "en", "pile-of-law/pile-of-law/olc_memos")
 
 ####
 ## Reddit Legal QA
@@ -1536,19 +1253,14 @@ for example in df["text"]:
     answers = [a.split(":")[-1] for a in answers]
     for a in answers:
         datapoint = f"Question: {q}\n\nAnalysis: {a}"
-        train_f.write(json.dumps({
-            "text": datapoint,
-            "lang": "eng",
-            "source": "pile-of-law/pile-of-law/r_legaladvice",
-            "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-        }) + "\n")
+        write_json_line(train_f, datapoint, "en", "pile-of-law/pile-of-law/r_legaladvice")
 
 print("############################")
 print("########## Hendrycks Dev Set ###########")
 print("############################")
 instruction_bank = ["Please answer these multiple choice questions. Denote the correct answer as \"Answer\".",
                     "Pick the most likely correct answer."]
-
+# TODO maybe exclude professional law
 task_list_mmlu = ['abstract_algebra', 'anatomy', 'astronomy', 'business_ethics', 'clinical_knowledge',
                   'college_biology', 'college_chemistry', 'college_computer_science', 'college_mathematics',
                   'college_medicine', 'college_physics', 'computer_security', 'conceptual_physics', 'econometrics',
@@ -1578,19 +1290,11 @@ for task in task_list_mmlu:
             f"Answer: {this_choices[this_answer]}"
         )
 
-        train_f.write(json.dumps({
-            "text": f"{random.choice(instruction_bank)}\n\n" + cur_question,
-            "lang": "eng",
-            "source": "hendrycks_test_dev_set",
-            "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-        }) + "\n")
+        text = f"{random.choice(instruction_bank)}\n\n" + cur_question
+        write_json_line(train_f, text, "en", "hendrycks_test_dev_set")
 
-        train_f.write(json.dumps({
-            "text": f"Create a multiple choice question about {task.replace('_', ' ')}\n\n" + cur_question,
-            "lang": "eng",
-            "source": "hendrycks_test_dev_set",
-            "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-        }) + "\n")
+        text = f"Create a multiple choice question about {task.replace('_', ' ')}\n\n" + cur_question
+        write_json_line(train_f, text, "en", "hendrycks_test_dev_set")
 
 ###
 # Swiss judgement prediction
@@ -1599,49 +1303,27 @@ print("############################")
 print("########## Swiss Judgement Prediction ###########")
 print("############################")
 x = load_dataset('swiss_judgment_prediction', 'all+mt')
-
+source = "https://huggingface.co/datasets/swiss_judgment_prediction"
 for example in x['train']:
     court_location = "" if example['region'] == "n/a" else f"The court is located in {example['region']}."
     judgement = ["dismiss", "approve"][example['label']]
     datapoint = f"Determine if you think the Swiss court will dismiss or approve the case. {court_location}\n\nFacts:{example['text']}\nJudgement: {judgement}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": example["language"],
-        "source": "swiss_judgment_prediction",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, example["language"], source)
+
     datapoint = f"What area of law is this case related to?\n\nCase:{example['text']}\nArea of Law: {example['legal area']}"
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": example["language"],
-        "source": "swiss_judgment_prediction",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, example["language"], source)
+
     if court_location != "":
         datapoint = f"Where do you think this case was adjudicated?\n\nCase:{example['text']}\nRegion: {example['region']}"
-        train_f.write(json.dumps({
-            "text": datapoint,
-            "lang": example["language"],
-            "source": "swiss_judgment_prediction",
-            "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-        }) + "\n")
+        write_json_line(train_f, datapoint, example["language"], source)
+
     outcome_mc1 = ["(a)", "(b)"][case["label"]]
     text = example['text']
     datapoint = f"{random.choice(instructions_bank)}\n\nQuestion: {text} How would the court find?\n(a) The court should dismiss the case.\n(b) The court should affirm the case.\nAnswer: {outcome_mc1}."
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": example["language"],
-        "source": "swiss_judgment_prediction",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, example["language"], source)
 
     outcome_mc1 = ["(b)", "(a)"][case["label"]]
     datapoint = f"{random.choice(instructions_bank)}\n\nQuestion: {text} How would the court find?\n(a) The court should approve the case.\n(b) The court should demiss the case.\nAnswer: {outcome_mc1}."
-    train_f.write(json.dumps({
-        "text": datapoint,
-        "lang": example["language"],
-        "source": "swiss_judgment_prediction",
-        "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y")
-    }) + "\n")
+    write_json_line(train_f, datapoint, example["language"], source)
 
 train_f.close()
