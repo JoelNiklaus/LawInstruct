@@ -23,6 +23,42 @@ except ImportError:
 from ni_collator import DataCollatorForNI
 import toml
 
+
+# TODO: Tasks still to add
+"""
+lextreme (https://huggingface.co/datasets/joelito/lextreme) (excluding multi_eurlex and swiss_judgment_prediction)
+lex_glue (https://huggingface.co/datasets/lex_glue) (excluding case_hold)
+CUAD (https://huggingface.co/datasets/cuad)
+ContractNLI (https://huggingface.co/datasets/kiddothe2b/contract-nli)
+German Legal Entity Recognition (https://huggingface.co/datasets/german_legal_entity_recognition)
+BillSum (https://huggingface.co/datasets/billsum) (maybe just the ones fitting in our context window)
+MultiLexSum (https://huggingface.co/datasets/allenai/multi_lexsum) (maybe just the ones fitting in our context window)
+IN-Abs, IN-Ext, UK-Abs (https://github.com/Law-AI/summarization/tree/aacl/dataset) (maybe just the ones fitting in our context window)
+BrCad5 (https://www.kaggle.com/datasets/eliasjacob/brcad5)
+ArgumentMining (https://github.com/trusthlt/mining-legal-arguments)
+BVACItationPrediction (https://github.com/TUMLegalTech/bva-citation-prediction)
+Contract Summarization (https://github.com/lauramanor/legal_summarization)
+LegalSum (https://github.com/sebimo/LegalSum)
+Indian/Australian Summarization (https://github.com/manavkapadnis/LegalEvaluation_LREC2022)
+BSARD (https://github.com/maastrichtlawtech/bsard)
+LegalCaseReports Summ (https://archive.ics.uci.edu/ml/machine-learning-databases/00239, https://aclanthology.org/W12-0515.pdf)
+LegalLinking (https://github.com/mayhewsw/legal-linking)
+Privacy Policies Summarization (https://github.com/senjed/Summarization-of-Privacy-Policies
+E-NER (https://github.com/terenceau2/E-NER-Dataset)
+GerDALIR (https://github.com/lavis-nlp/GerDaLIR)
+Dutch Legal Summarization (https://github.com/prijsdf/dutch-legal-summarization)
+Covid Law Matching (https://github.com/DFKI-NLP/covid19-law-matching)
+BUILD (https://legal-nlp-ekstep.github.io/Competitions/Rhetorical-Role/)
+CASS (https://github.com/euranova/CASS-dataset)
+ECHR Argument Mining (http://www.di.uevora.pt/~pq/echr/)
+Greek NER (https://github.com/nmpartzio/elNER)
+Indian NER (https://arxiv.org/pdf/2211.03442.pdf, https://github.com/Legal-NLP-EkStep/legal_NER/tree/main/representative_judgments_sample)
+LawngNLI (https://arxiv.org/pdf/2212.03222.pdf)
+Privacy Policies (https://usableprivacy.org/data)
+Korean LegalQA (https://github.com/haven-jeon/LegalQA)
+MakeThisYourLastTime (https://www.makethisyourlasttime.com/essay-bank/)
+"""
+
 output_file_idx = 0
 train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
 
@@ -419,7 +455,6 @@ for example in df:
         train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
     write_json_line(train_f, datapoint, "en", "https://huggingface.co/datasets/darrow-ai/USClassActions")
 
-# TODO: https://www.makethisyourlasttime.com/essay-bank/
 ######
 ## https://huggingface.co/datasets/JohnnyBoy00/saf_legal_domain_german
 ######
