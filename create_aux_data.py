@@ -52,13 +52,110 @@ Greek NER (https://github.com/nmpartzio/elNER)
 Indian NER (https://arxiv.org/pdf/2211.03442.pdf, https://github.com/Legal-NLP-EkStep/legal_NER/tree/main/representative_judgments_sample)
 LawngNLI (https://arxiv.org/pdf/2212.03222.pdf)
 Privacy Policies (https://usableprivacy.org/data)
-Korean LegalQA (https://github.com/haven-jeon/LegalQA)
 MakeThisYourLastTime (https://www.makethisyourlasttime.com/essay-bank/)
 """
 
 output_file_idx = 0
 train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
 
+######
+# Add math-type reasoning b/c tax has that flavor
+######
+print("############################")
+print("########## gsm8k ###########")
+print("############################")
+source = "https://huggingface.co/datasets/gsm8k"
+x = load_dataset("gsm8k", "main", split="train")
+
+instruction_bank = ["Answer the question, make sure to show your work.",
+                    "Answer the math question step by step. Show your work.",
+                    "Answer the following question in logical steps.", "Answer the following questions."]
+for example in x:
+    datapoint = f"{random.choice(instruction_bank)}\n\nQ: {example['question']}\nA: {example['answer']}"
+    if os.path.getsize(f"./data/train.{output_file_idx}.jsonl.xz") > MAX_FILE_SIZE:
+        train_f.close()
+        output_file_idx += 1
+        train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
+    write_json_line(train_f, datapoint, "en", source)
+
+x = load_dataset("gsm8k", "socratic", split="train")
+
+instruction_bank = ["Answer the question, make sure to ask yourself follow up questions.",
+                    "Answer the math question using the socratic method. Show your work.",
+                    "Answer the following question in logical steps.",
+                    "Answer the following questions. Make sure to ask any follow up questions as needed."]
+for example in x:
+    datapoint = f"{random.choice(instruction_bank)}\n\nQ: {example['question']}\nA: {example['answer']}"
+    if os.path.getsize(f"./data/train.{output_file_idx}.jsonl.xz") > MAX_FILE_SIZE:
+        train_f.close()
+        output_file_idx += 1
+        train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
+    write_json_line(train_f, datapoint, "en", source)
+
+print("############################")
+print("########## Lila ###########")
+print("############################")
+json_files = [pos_json for pos_json in os.listdir("raw_data/all_lila/") if pos_json.endswith('.json')]
+instruction_bank = ["Consider the following question. Write a Python program to solve it.",
+                    "Write a Python program to solve the following question, denote it as \"Program:\". Provide the output as \"Answer:\"."]
+for json_file in json_files:
+    with open(os.path.join("raw_data/all_lila/", json_file), "r") as f:
+        loaded_file = json.loads(f.read())
+        for example in loaded_file["Instances"]:
+            if example["split"] != "train":
+                continue
+            for program, answer in zip(example['Output Program'], example['Output Answer']):
+                datapoint = f"{random.choice(instruction_bank)}\n\nQuestion: {example['Input']}\nProgram:\n```python\n{program}\n```\nAnswer: {answer}"
+                write_json_line(train_f, datapoint, "en", "https://github.com/allenai/Lila")
+
+print("############################")
+print("########## Sara Prolog ###########")
+print("############################")
+# TODO do we have an url here?
+source = "sara"
+instruction_bank = ["Convert the following statute into prolog code.",
+                    "Write a prolog program to convert the statute into code, denote it as \"Prolog Program:\"."]
+json_files = [pos_json for pos_json in os.listdir("raw_data/sara_statutes/source")]
+for json_file in json_files:
+    with open(os.path.join("raw_data/sara_statutes/source/", json_file), "r") as f_normal:
+        with open(os.path.join("raw_data/sara_statutes/prolog/", json_file) + ".pl", "r") as f_prolog:
+            datapoint = f"{random.choice(instruction_bank)}\n\nStatute:\n{f_normal.read()}\n\nProlog Program:\n\n{f_prolog.read()}"
+            write_json_line(train_f, datapoint, "en", source)
+
+instruction_bank = ["Convert the following fact pattern into prolog code. Then answer the question.",
+                    "Write a prolog program to mark all the facts, denote it as \"Prolog Program:\". Then answer the question, denote your answer as \"Answer\"."]
+json_files = [pos_json for pos_json in os.listdir("raw_data/sara_cases/") if pos_json != "train"]
+with open("raw_data/sara_cases/train", "r") as train_list_f:
+    train_list = [x.strip() for x in train_list_f.readlines()]
+for json_file in json_files:
+    with open(os.path.join("raw_data/sara_cases/", json_file), "r") as f_normal:
+        if json_file.split(".pl")[0] not in train_list:
+            print(f"Skipping {json_file}")
+        text = f_normal.read()
+
+        facts_and_question = text.split("% Facts")[0]
+        program = text.split("% Facts")[1]
+
+        if "Entailment" in facts_and_question:
+            answer = "True"
+        elif "Contradiction" in facts_and_question:
+            answer = "False"
+        else:
+            answer = facts_and_question.split("% Question")[1].split("?")[-1].strip()
+
+        facts_and_question = facts_and_question.replace("Entailment", "Is this True or False?")
+        facts_and_question = facts_and_question.replace("Contradiction", "Is this True or False?")
+        facts_and_question = facts_and_question.replace("\n", " ")
+        facts_and_question = facts_and_question.replace("% Text", "Facts:")
+        facts_and_question = facts_and_question.replace("% Question", "\nQuestion:")
+        facts_and_question = facts_and_question.replace("%", "").strip()
+
+        datapoint = f"{random.choice(instruction_bank)}\n\n{facts_and_question}\n\nProlog Program:\n{program.strip()}\nAnswer: {answer}"
+        write_json_line(train_f, datapoint, "en", source)
+
+print("############################")
+print("########## Civipro Questions ###########")
+print("############################")
 instruction_bank_generate_questions_from_passage = [
     "Consider these questions about American civil procedure. Given the provided information answer them to the best of your ability.",
     "Here is some information that can help you answer the question. Provide an analysis of the options and then pick the correct answer.",
@@ -108,72 +205,10 @@ for question, values in questions_dict.items():
     for datapoint in [datapoint_no_passage, datapoint_no_explanation, datapoint_with_passage]:
         write_json_line(train_f, datapoint, "en", "civpro_questions")  # TODO do we have an url here?
 
-#####
-# Sara prolog
-#####
-# TODO do we have an url here?
-source = "sara"
-instruction_bank = ["Convert the following statute into prolog code.",
-                    "Write a prolog program to convert the statute into code, denote it as \"Prolog Program:\"."]
-json_files = [pos_json for pos_json in os.listdir("raw_data/sara_statutes/source")]
-for json_file in json_files:
-    with open(os.path.join("raw_data/sara_statutes/source/", json_file), "r") as f_normal:
-        with open(os.path.join("raw_data/sara_statutes/prolog/", json_file) + ".pl", "r") as f_prolog:
-            datapoint = f"{random.choice(instruction_bank)}\n\nStatute:\n{f_normal.read()}\n\nProlog Program:\n\n{f_prolog.read()}"
-            write_json_line(train_f, datapoint, "en", source)
-
-instruction_bank = ["Convert the following fact pattern into prolog code. Then answer the question.",
-                    "Write a prolog program to mark all the facts, denote it as \"Prolog Program:\". Then answer the question, denote your answer as \"Answer\"."]
-json_files = [pos_json for pos_json in os.listdir("raw_data/sara_cases/") if pos_json != "train"]
-with open("raw_data/sara_cases/train", "r") as train_list_f:
-    train_list = [x.strip() for x in train_list_f.readlines()]
-for json_file in json_files:
-    with open(os.path.join("raw_data/sara_cases/", json_file), "r") as f_normal:
-        if json_file.split(".pl")[0] not in train_list:
-            print(f"Skipping {json_file}")
-        text = f_normal.read()
-
-        facts_and_question = text.split("% Facts")[0]
-        program = text.split("% Facts")[1]
-
-        if "Entailment" in facts_and_question:
-            answer = "True"
-        elif "Contradiction" in facts_and_question:
-            answer = "False"
-        else:
-            answer = facts_and_question.split("% Question")[1].split("?")[-1].strip()
-
-        facts_and_question = facts_and_question.replace("Entailment", "Is this True or False?")
-        facts_and_question = facts_and_question.replace("Contradiction", "Is this True or False?")
-        facts_and_question = facts_and_question.replace("\n", " ")
-        facts_and_question = facts_and_question.replace("% Text", "Facts:")
-        facts_and_question = facts_and_question.replace("% Question", "\nQuestion:")
-        facts_and_question = facts_and_question.replace("%", "").strip()
-
-        datapoint = f"{random.choice(instruction_bank)}\n\n{facts_and_question}\n\nProlog Program:\n{program.strip()}\nAnswer: {answer}"
-        write_json_line(train_f, datapoint, "en", source)
-
-#####
-# Lila
-######
-
-json_files = [pos_json for pos_json in os.listdir("raw_data/all_lila/") if pos_json.endswith('.json')]
-instruction_bank = ["Consider the following question. Write a Python program to solve it.",
-                    "Write a Python program to solve the following question, denote it as \"Program:\". Provide the output as \"Answer:\"."]
-for json_file in json_files:
-    with open(os.path.join("raw_data/all_lila/", json_file), "r") as f:
-        loaded_file = json.loads(f.read())
-        for example in loaded_file["Instances"]:
-            if example["split"] != "train":
-                continue
-            for program, answer in zip(example['Output Program'], example['Output Answer']):
-                datapoint = f"{random.choice(instruction_bank)}\n\nQuestion: {example['Input']}\nProgram:\n```python\n{program}\n```\nAnswer: {answer}"
-                write_json_line(train_f, datapoint, "en", "https://github.com/allenai/Lila")
-
-###
 # The first 1200 are extra bar exam questions, not sure if we want to keep these in
-###
-
+print("############################")
+print("########## Professional Law ###########")
+print("############################")
 instructions_examples = ["Generate some Multistate Bar Exam questions according to U.S. law.",
                          "Answer these legal questions. Use American Law. A few examples are provided first to give the answer format.",
                          "Answer these U.S. Multistate Bar Exam questions. A few examples are provided first to give the answer format.",
@@ -230,6 +265,9 @@ for i, (this_question, this_choices, this_answer) in tqdm(enumerate(zip(
     final_datapoint_zero_shot = random.choice(instructions_zero_shot) + "\n\n" + datapoint_zero_shot
     write_json_line(train_f, final_datapoint_zero_shot, "en", source)
 
+print("############################")
+print("########## MBE ###########")
+print("############################")
 # TODO do we have an url for the source here?
 source = "MBE"
 df = pd.read_csv("raw_data/mbe_train.csv")
@@ -278,6 +316,9 @@ for idx, row in df.iterrows():
         datapoint = random.choice(instruction_bank_subject_generation) + subject + ".\n\n" + datapoint_with_answer
         write_json_line(train_f, datapoint, "en", source)
 
+print("############################")
+print("########## Littleton ###########")
+print("############################")
 json_files = [pos_json for pos_json in os.listdir("raw_data/littleton/examples/") if pos_json.endswith('.json')]
 instruction_bank = [
     "Consider the law of future interests and conveyances in American property law. Consider the chain of events and then state the interests.",
@@ -305,48 +346,6 @@ for json_file in json_files:
             datapoint = f"{random.choice(instruction_bank)}\n\nEvents: {example['program']}\nAnswer: {example['expected']}"
             write_json_line(train_f, datapoint, "en", source)
 
-
-######
-# Add other instruction following datasets
-######
-
-######
-# Add math-type reasoning b/c tax has that flavor
-######
-print("############################")
-print("########## gsm8k ###########")
-print("############################")
-source = "https://huggingface.co/datasets/gsm8k"
-x = load_dataset("gsm8k", "main", split="train")
-
-instruction_bank = ["Answer the question, make sure to show your work.",
-                    "Answer the math question step by step. Show your work.",
-                    "Answer the following question in logical steps.", "Answer the following questions."]
-for example in x:
-    datapoint = f"{random.choice(instruction_bank)}\n\nQ: {example['question']}\nA: {example['answer']}"
-    if os.path.getsize(f"./data/train.{output_file_idx}.jsonl.xz") > MAX_FILE_SIZE:
-        train_f.close()
-        output_file_idx += 1
-        train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
-    write_json_line(train_f, datapoint, "en", source)
-
-x = load_dataset("gsm8k", "socratic", split="train")
-
-instruction_bank = ["Answer the question, make sure to ask yourself follow up questions.",
-                    "Answer the math question using the socratic method. Show your work.",
-                    "Answer the following question in logical steps.",
-                    "Answer the following questions. Make sure to ask any follow up questions as needed."]
-for example in x:
-    datapoint = f"{random.choice(instruction_bank)}\n\nQ: {example['question']}\nA: {example['answer']}"
-    if os.path.getsize(f"./data/train.{output_file_idx}.jsonl.xz") > MAX_FILE_SIZE:
-        train_f.close()
-        output_file_idx += 1
-        train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
-    write_json_line(train_f, datapoint, "en", source)
-
-###
-# JEC-QA
-###
 print("############################")
 print("########## JEC-QA ###########")
 print("############################")
@@ -366,9 +365,7 @@ for q in questions:
     prompt += "\n\nFinal Answer(s): {','.join(q['answer'])}"
     write_json_line(train_f, prompt, "zh", "https://jecqa.thunlp.org/")
 
-###
 # Legal Judgement Prediction: US Class Actions
-###
 print("############################")
 print("########## darrow-ai/USClassActions ###########")
 print("############################")
@@ -384,11 +381,8 @@ for example in df:
         train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
     write_json_line(train_f, datapoint, "en", "https://huggingface.co/datasets/darrow-ai/USClassActions")
 
-######
-## https://huggingface.co/datasets/JohnnyBoy00/saf_legal_domain_german
-######
 print("############################")
-print("########## https://huggingface.co/datasets/JohnnyBoy00/saf_legal_domain_german ###########")
+print("########## Short Answer Feedback (SAF) ###########")
 print("############################")
 
 df = load_dataset("JohnnyBoy00/saf_legal_domain_german")
@@ -415,10 +409,6 @@ for example in df["train"]:
     datapoint = f"{random.choice(instruction_error_class)}\n\nQ: {example['question']}\nA: {example['provided_answer']}\nFeedback: {example['verification_feedback']}\nScore: {example['score']}\nError Type: {example['error_class']}"
     write_json_line(train_f, datapoint, "de", source)
 
-########
-## ILDC Dataset
-########
-
 print("############################")
 print("########## ILDC Dataset ###########")
 print("############################")
@@ -443,10 +433,7 @@ for idx, row in df2.iterrows():
     datapoint = f"{random.choice(instruction_bank)}\n\n{row['text']}\n\n{decision}"
     write_json_line(train_f, datapoint, "en", source)
 
-######
 # Scraped bar exam essays
-######
-
 print("############################")
 print("########## CA Bar Exam Essays ###########")
 print("############################")
@@ -481,14 +468,11 @@ for idx, row in df.iterrows():
     datapoint = f"{random.choice(instruction_bank_expl)}\n\nQ:{q}\nExplanation: {explanation}\nA:{a}"
     write_json_line(train_f, datapoint, "en", source)
 
-#########
-### https://raw.githubusercontent.com/haven-jeon/LegalQA/main/data/legalqa.jsonlines
-##########
-
 print("############################")
-print("########## LegalQA ###########")
+print("########## Korean LegalQA ###########")
 print("############################")
 
+source = "https://raw.githubusercontent.com/haven-jeon/LegalQA/main/data/legalqa.jsonlines"
 instruction_bank = ["Consider the following question. Retrieve the relevant Korean legal article.",
                     "What is the best South Korean law that can help answer this question.",
                     "What South Korean law best applies."]
@@ -499,17 +483,14 @@ with open("raw_data/legalqa.jsonlines", "r") as f:
 for question in questions:
     datapoint = f"{random.choice(instruction_bank)}\n\nQ: {question['question']}\nA: {question['answer']}"
     write_json_line(train_f, datapoint, "ko",
-                    "https://raw.githubusercontent.com/haven-jeon/LegalQA/main/data/legalqa.jsonlines")
-
-######
-### https://zenodo.org/record/4256718#.Y5PoC7LMIlg
-#######
+                    source)
 
 print("############################")
 print("########## Spanish Labor Law ###########")
 print("############################")
 
 df = pd.read_csv("raw_data/spanish_legal_qa.csv")
+source = "https://zenodo.org/record/4256718#.Y5PoC7LMIlg"
 
 instruction_bank = [
     "Consider this Spanish Labor Law translated passage. Answer the question using an extractive snippet of text.",
@@ -518,12 +499,9 @@ instruction_bank = [
 for idx, row in df.iterrows():
     question, context, answer = row["Question"], row["context"], row["Answer text"]
     datapoint = f"{random.choice(instruction_bank)}\n\nContext: {context}\nQ: {question}\nA: {answer}"
-    write_json_line(train_f, datapoint, "es", "https://zenodo.org/record/4256718#.Y5PoC7LMIlg")
+    write_json_line(train_f, datapoint, "es", source)
 
-######
 # International citizenship law questions
-# https://cadmus.eui.eu/handle/1814/73190
-######
 print("############################")
 print("########## International citizenship law questions ###########")
 print("############################")
@@ -583,10 +561,6 @@ for idx, row in df2.iterrows():
         datapoint = f"Q: Consider the country of {country.strip()}. {q}\nA: {code_year_spec_answer} This is covered in: {law_article}. {specification}".strip()
     write_json_line(train_f, datapoint, "en", source)
 
-######
-## https://huggingface.co/datasets/pile-of-law/eoir_privacy
-####
-
 print("############################")
 print("########## EOIR PRIVACY ###########")
 print("############################")
@@ -603,42 +577,7 @@ for example in df:
     datapoint = f"{random.choice(instruction_bank)}\n\n{example['text']}\n{lookup[example['label']]}"
     write_json_line(train_f, datapoint, "en", "https://huggingface.co/datasets/pile-of-law/eoir_privacy")
 
-######
-### CAIL 2022: https://github.com/china-ai-law-challenge/CAIL2022/tree/main/lblj/data/stage_2
-######
-print("############################")
-print("########## https://github.com/china-ai-law-challenge/CAIL2022/tree/main/lblj/data/stage_2 ###########")
-print("############################")
-
-with open("raw_data/cail2022_train_entry_lblj.jsonl", "r", encoding="utf8") as f:
-    questions = [json.loads(x) for x in f.readlines()]
-
-instruction_bank_mc = [
-    "Use Chinese law to answer these multiple choice questions. Pick the best counter-argument to the plaintiff's argument.",
-    "Which of these is the best response to the following argument if you were the defendant? Consider Chinese law."]
-instruction_bank = ["Use Chinese law. What is the counter-argument to the plaintiff's argument?",
-                    "How should Defendant respond to the following argument? Use Chinese law."]
-instruction_bank_crime = ["Consider Chinese law, what is the likely crime being discussed here."]
-lookup = ["(a)", "(b)", "(c)", "(d)", "(e)"]
-source = "https://github.com/china-ai-law-challenge/CAIL2022/tree/main/lblj/data/stage_2"
-for question in questions:
-    datapoint = f"{random.choice(instruction_bank_mc)}\n\nPlaintiff's Argument:{question['sc']}\n\n(a) {question['bc_1']}\n(b) {question['bc_2']}\n(c) {question['bc_3']}\n(d) {question['bc_4']}\n(e) {question['bc_5']}"
-    datapoint += "Best counter-argument: {lookup[question['answer'] - 1]}"
-    write_json_line(train_f, datapoint, "zh", source)
-
-    response = question[f"bc_{question['answer']}"]
-    datapoint = f"{random.choice(instruction_bank)}\n\nPlaintiff's Argument:{question['sc']}\nDefendant's Response: {response}"
-    write_json_line(train_f, datapoint, "zh", source)
-
-    datapoint = f"{random.choice(instruction_bank_crime)}\n\nPlaintiff's Argument:{question['sc']}\nDefendant's Response: {response}\nCrime: {question['crime']}"
-    write_json_line(train_f, datapoint, "zh", source)
-
-    datapoint = f"{random.choice(instruction_bank_crime)}\n\n{question['sc']}\nCrime: {question['crime']}"
-    write_json_line(train_f, datapoint, "zh", source)
-
-#######
 ### LEGAL BENCH: https://github.com/HazyResearch/legalbench
-#######
 # TODO maybe exclude this now
 print("############################")
 print("########## LegalBench ###########")
@@ -682,11 +621,7 @@ for filename in glob.glob(os.path.join(path, '*.yaml')):  # only process .JSON f
         except yaml.YAMLError as exc:
             print(exc)
 
-###
 # Will Validity
-# https://arxiv.org/pdf/2210.16989.pdf
-###
-
 print("############################")
 print("########## Valid Wills ###########")
 print("############################")
@@ -716,11 +651,9 @@ for idx, row in train.iterrows():
     write_json_line(train_f, prompt2, "en", source)
     write_json_line(train_f, prompt_mc, "en", source)
 
-#
 # Chinese Bar Exam, no explanations.
-#
 print("############################")
-print("########## https://github.com/lgw863/LogiQA-dataset ###########")
+print("########## LogiQA ###########")
 print("############################")
 instruction_bank = [
     "Answer these multiple choice reasoning questions about Chinese Law. There is only one right answer.",
@@ -746,9 +679,7 @@ with open("./raw_data/zh_train.txt", "r") as f:
         write_json_line(train_f, datapoint, "zh", "https://github.com/lgw863/LogiQA-dataset")
         if i >= len(x): break
 
-###
 # ChangeMyView Argumentation
-###
 print("############################")
 print("########## ChangeMyView ###########")
 print("############################")
@@ -766,13 +697,13 @@ with open("./raw_data/train_pair_data.jsonlist") as f:
         datapoint = f"{random.choice(instruction_bank)}\n\nArgument: {op}\n\nCounter-argument: {body}"
         write_json_line(train_f, datapoint, "en", "https://chenhaot.com/pages/changemyview.html")
 
-# statutes classification task
 print("############################")
 print("########## Lbox ###########")
 print("############################")
-data_st_plus = load_dataset("lbox/lbox_open", "statute_classification_plus")
-
 source = "https://github.com/lbox-kr/lbox-open"
+
+# statutes classification task
+data_st_plus = load_dataset("lbox/lbox_open", "statute_classification_plus")
 instruction_bank = ["For the given case facts predict the related South Korean legal statute.",
                     "When presented with this fact pattern what are the relevant legal statutes in South Korean law?"]
 for x in data_st_plus["train"]:
@@ -780,9 +711,9 @@ for x in data_st_plus["train"]:
     write_json_line(train_f, datapoint, "ko", source)
 
 # Legal judgement prediction tasks
+data_ljp_criminal = load_dataset("lbox/lbox_open", "ljp_criminal")
 instruction_bank = [
     "Given these facts from a South Korean criminal law case. Predict the court's ruling and the reason for the ruling."]
-data_ljp_criminal = load_dataset("lbox/lbox_open", "ljp_criminal")
 for x in data_ljp_criminal["train"]:
     reason = ""
     if x["reason"] != "" and x["reason"] != -1:
@@ -888,9 +819,7 @@ for tree_rule in rule_trees:
         write_json_line(train_f, datapoint, "en", "https://github.com/LLTLab/VetClaims-JSON")
         known_data.append(datapoint)
 
-#####
 ### Reclor has logical reasoning.
-#####
 print("############################")
 print("########## Reclor ###########")
 print("############################")
@@ -909,8 +838,39 @@ for data in df:
     datapoint = f"{random.choice(instruction_bank)}\n\nQuestion: {data['context']} {data['question']}\n{options}\nFinal Answer: The final answer is: {correct_option}. I hope it is correct."
     write_json_line(train_f, datapoint, "en", "https://github.com/yuweihao/reclor")
 
+### CAIL 2022: https://github.com/china-ai-law-challenge/CAIL2022/tree/main/lblj/data/stage_2
 print("############################")
-print("########## https://github.com/china-ai-law-challenge/CAIL2019 ###########")
+print("########## CAIL2022 ###########")
+print("############################")
+
+with open("raw_data/cail2022_train_entry_lblj.jsonl", "r", encoding="utf8") as f:
+    questions = [json.loads(x) for x in f.readlines()]
+
+instruction_bank_mc = [
+    "Use Chinese law to answer these multiple choice questions. Pick the best counter-argument to the plaintiff's argument.",
+    "Which of these is the best response to the following argument if you were the defendant? Consider Chinese law."]
+instruction_bank = ["Use Chinese law. What is the counter-argument to the plaintiff's argument?",
+                    "How should Defendant respond to the following argument? Use Chinese law."]
+instruction_bank_crime = ["Consider Chinese law, what is the likely crime being discussed here."]
+lookup = ["(a)", "(b)", "(c)", "(d)", "(e)"]
+source = "https://github.com/china-ai-law-challenge/CAIL2022/tree/main/lblj/data/stage_2"
+for question in questions:
+    datapoint = f"{random.choice(instruction_bank_mc)}\n\nPlaintiff's Argument:{question['sc']}\n\n(a) {question['bc_1']}\n(b) {question['bc_2']}\n(c) {question['bc_3']}\n(d) {question['bc_4']}\n(e) {question['bc_5']}"
+    datapoint += "Best counter-argument: {lookup[question['answer'] - 1]}"
+    write_json_line(train_f, datapoint, "zh", source)
+
+    response = question[f"bc_{question['answer']}"]
+    datapoint = f"{random.choice(instruction_bank)}\n\nPlaintiff's Argument:{question['sc']}\nDefendant's Response: {response}"
+    write_json_line(train_f, datapoint, "zh", source)
+
+    datapoint = f"{random.choice(instruction_bank_crime)}\n\nPlaintiff's Argument:{question['sc']}\nDefendant's Response: {response}\nCrime: {question['crime']}"
+    write_json_line(train_f, datapoint, "zh", source)
+
+    datapoint = f"{random.choice(instruction_bank_crime)}\n\n{question['sc']}\nCrime: {question['crime']}"
+    write_json_line(train_f, datapoint, "zh", source)
+
+print("############################")
+print("########## CAIL2019 ###########")
 print("############################")
 instruction_bank = [
     "Consider the following passage from a Chinese legal case. Answer the questions about the case. If you cannot answer the question feel free to say as such.",
@@ -1051,9 +1011,7 @@ for q in qs:
         datapoint += f"\nAnswer: {correct_answer}."
         write_json_line(train_f, datapoint, "pt", "https://arxiv.org/pdf/1712.05128.pdf")
 
-#####
 # Legal Stack Exchange questions are usually high quality
-#####
 print("############################")
 print("########## Stack Exchange Questions (LEGAL) ###########")
 print("############################")
@@ -1080,9 +1038,6 @@ for idx, example in df.iterrows():
     datapoint = f"{instruction}\n\nQuestion: {question}\nAnswer: {answer}"
     write_json_line(train_f, datapoint, "en", "https://law.stackexchange.com/")
 
-###
-# https://github.com/siatnlp/LegalQA
-###
 print("############################")
 print("##########  LegalQA ZHO ###########")
 print("############################")
@@ -1107,10 +1062,7 @@ for index, example in df.iterrows():
     datapoint = f"Determine if the term mentioned from the privacy policy is relevant or irrelevant to the given question.\n\nQ: {example['Query']}\nTerm: {example['Segment']}\nA: {example['Label']}"
     write_json_line(train_f, datapoint, "en", "https://github.com/AbhilashaRavichander/PrivacyQA_EMNLP")
 
-######
 # Thai supreme court case law
-# https://github.com/KevinMercury/tscc-dataset-alqac2021/blob/main/tscc_alqac2021_law.json
-######
 print("############################")
 print("########## TSCC ALQAC ###########")
 print("############################")
@@ -1159,9 +1111,7 @@ for case in cases:
     datapoint = f"{random.choice(instructions_bank)}\n\nQuestion: {text} How would the court find?\n(a) Against the defendant.\n(b) For the defendant.\nLaw(s): {laws}\nAnswer: {outcome_mc1}."
     write_json_line(train_f, datapoint, "th", source)
 
-####
 # Case briefs take the form of a question and an answer.
-###
 print("############################")
 print("########## CaseBriefs ###########")
 print("############################")
@@ -1177,9 +1127,7 @@ for example in df["train"]["text"]:
     example = f"{random.choice(case_brief_instructions)}\n\n{example}"
     write_json_line(train_f, example, "en", "https://www.oyez.org")
 
-###
 # OLC memos start off with a short form summary and then write the memo
-###
 print("############################")
 print("########## OLC Memos with instruction ###########")
 print("############################")
@@ -1196,11 +1144,8 @@ for example in df["text"]:
     datapoint = f"{random.choice(instruction_bank)}\n\n{example}"
     write_json_line(train_f, datapoint, "en", "pile-of-law/pile-of-law/olc_memos")
 
-####
-## Reddit Legal QA
-####
 print("############################")
-print("########## Reddit QA ###########")
+print("########## Reddit Legal QA ###########")
 print("############################")
 reddit_instructions = [
     "Here is someone's legal concern. Answer as if you were replying on Reddit. If you are not a lawyer, include the disclaimer IANAL.",
@@ -1260,9 +1205,6 @@ for task in task_list_mmlu:
         text = f"Create a multiple choice question about {task.replace('_', ' ')}\n\n" + cur_question
         write_json_line(train_f, text, "en", "hendrycks_test_dev_set")
 
-###
-# Swiss judgement prediction
-###
 print("############################")
 print("########## Swiss Judgement Prediction ###########")
 print("############################")

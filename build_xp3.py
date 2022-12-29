@@ -16,6 +16,7 @@ train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
 # Include only code and datasets that we have legal data for
 # Maybe also add 'zh', 'vi', because we have legal instruction datasets there
 _LANG = ['en', 'es', 'fr', 'pt', 'code']
+# TODO maybe treat code as a separate category so we can filter easily
 
 for lang in _LANG:
     print("############################")
