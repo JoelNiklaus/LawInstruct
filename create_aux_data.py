@@ -10,7 +10,7 @@ import json
 from bs4 import BeautifulSoup
 import pandas as pd
 
-from utils import write_json_line
+from utils import write_json_line, MAX_FILE_SIZE
 
 import glob
 import yaml
@@ -305,22 +305,6 @@ for json_file in json_files:
             datapoint = f"{random.choice(instruction_bank)}\n\nEvents: {example['program']}\nAnswer: {example['expected']}"
             write_json_line(train_f, datapoint, "en", source)
 
-# Include only code and datasets that we have legal data for
-# Maybe also add 'zh', 'vi', because we have legal instruction datasets there
-_LANG = ['en', 'es', 'fr', 'pt', 'code']
-
-for l in _LANG:
-    print("############################")
-    print(f"########## xP3all {l} ###########")
-    print("############################")
-    df = load_dataset("bigscience/xP3all", l)
-    for example in tqdm(df["train"]):
-        datapoint = example["inputs"] + " " + example["targets"]
-        if os.path.getsize(f"./data/train.{output_file_idx}.jsonl.xz") > 6.25e8:
-            train_f.close()
-            output_file_idx += 1
-            train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
-        write_json_line(train_f, datapoint, l, "https://huggingface.co/datasets/bigscience/xP3all")
 
 ######
 # Add other instruction following datasets
@@ -340,7 +324,7 @@ instruction_bank = ["Answer the question, make sure to show your work.",
                     "Answer the following question in logical steps.", "Answer the following questions."]
 for example in x:
     datapoint = f"{random.choice(instruction_bank)}\n\nQ: {example['question']}\nA: {example['answer']}"
-    if os.path.getsize(f"./data/train.{output_file_idx}.jsonl.xz") > 6.25e8:
+    if os.path.getsize(f"./data/train.{output_file_idx}.jsonl.xz") > MAX_FILE_SIZE:
         train_f.close()
         output_file_idx += 1
         train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
@@ -354,7 +338,7 @@ instruction_bank = ["Answer the question, make sure to ask yourself follow up qu
                     "Answer the following questions. Make sure to ask any follow up questions as needed."]
 for example in x:
     datapoint = f"{random.choice(instruction_bank)}\n\nQ: {example['question']}\nA: {example['answer']}"
-    if os.path.getsize(f"./data/train.{output_file_idx}.jsonl.xz") > 6.25e8:
+    if os.path.getsize(f"./data/train.{output_file_idx}.jsonl.xz") > MAX_FILE_SIZE:
         train_f.close()
         output_file_idx += 1
         train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
@@ -394,7 +378,7 @@ instruction_bank = [
     "Will this class action complaint be successful in U.S. Court?"]
 for example in df:
     datapoint = f"{random.choice(instruction_bank)}\n\n{example['target_text']}\n\nLikely Verdict: {example['verdict']}"
-    if os.path.getsize(f"./data/train.{output_file_idx}.jsonl.xz") > 6.25e8:
+    if os.path.getsize(f"./data/train.{output_file_idx}.jsonl.xz") > MAX_FILE_SIZE:
         train_f.close()
         output_file_idx += 1
         train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")

@@ -1,6 +1,7 @@
 import json
 import datetime
 
+MAX_FILE_SIZE = 6.25e8
 
 def write_json_line(file, text, lang, source):
     file.write(json.dumps({

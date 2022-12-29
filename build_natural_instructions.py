@@ -2,7 +2,7 @@ import os
 from datasets import load_dataset
 from tqdm import tqdm
 
-from utils import write_json_line, get_output_file_name
+from utils import write_json_line, get_output_file_name, MAX_FILE_SIZE
 
 try:
     import lzma as xz
@@ -58,7 +58,7 @@ for example in tqdm(raw_datasets["train"]):
     for collator in collators:
         encoded_example = collator([example])
         datapoint = encoded_example["inputs"][0] + " " + encoded_example["labels"][0].strip()
-        if os.path.getsize(get_output_file_name(category, output_file_idx)) > 6.25e8:
+        if os.path.getsize(get_output_file_name(category, output_file_idx)) > MAX_FILE_SIZE:
             train_f.close()
             output_file_idx += 1
             train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
@@ -67,3 +67,4 @@ for example in tqdm(raw_datasets["train"]):
     # prompt_with_explanation = prompt_with_explanation[:-3].strip()
     # prompt_with_explanation_last = prompt_with_explanation_last[:-3].strip()
     # datapoint = f"{example['Definition']}\n\n{prompt}"
+train_f.close()
