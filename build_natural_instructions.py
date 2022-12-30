@@ -15,6 +15,7 @@ from transformers.data.data_collator import *
 
 from iso639 import languages
 
+
 def get_lang_codes(langs):
     lang_codes = []
     for lang in langs:
@@ -24,6 +25,7 @@ def get_lang_codes(langs):
             lang_code = "unknown"
         lang_codes.append(lang_code)
         return lang_codes
+
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +41,7 @@ legal_tasks = [
     'task684_online_privacy_policy_text_information_type_generation',
     'task715_mmmlu_answer_generation_international_law',
     'task716_mmmlu_answer_generation_jurisprudence',
-    'task729_mmmlu_answer_generation_professional_law'
+    'task729_mmmlu_answer_generation_professional_law',
     'task743_eurlex_summarization',
     'task744_eurlex_classification',
     'task1658_billsum_summarization',
@@ -47,6 +49,8 @@ legal_tasks = [
     'task1667_cail2018_answer_generation',
 ]
 
+
+# TODO use task_name to hold out mmmlu from here
 
 @dataclass
 class DataCollatorForNI:
@@ -228,15 +232,11 @@ class DataCollatorForNI:
         return model_inputs
 
 
-output_file_idx = 0
-category = "natural_instructions"
-train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
-
 print("############################")
 print("########## natural instructions ###########")
 print("############################")
 raw_datasets = load_dataset('./raw_data/Tk-Instruct/src/ni_dataset.py', data_dir="raw_data/ni_task_configs",
-                            task_dir="./raw_data/ni_instructions_data/tasks")
+                            task_dir="./raw_data/ni_instructions_data/tasks")["train"]
 
 # tasks = set(x["train"]["Task"])
 # block_list = ["mmlu"]
@@ -272,21 +272,28 @@ for encoding in all_valid_encodings:
         **encoding,
         text_only=True
     ))
-for example in tqdm(raw_datasets["train"]):
-    task_name = example["Name"]
-    # TODO task_name is in legal_tasks ==> it is a legal task
-    lang_codes = get_lang_codes(example["Input_language"])
 
-    for collator in collators:
-        encoded_example = collator([example])
-        datapoint = encoded_example["inputs"][0] + " " + encoded_example["labels"][0].strip()
-        if os.path.getsize(get_output_file_name(category, output_file_idx)) > MAX_FILE_SIZE:
-            train_f.close()
-            output_file_idx += 1
-            train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
-        write_json_line(train_f, datapoint, lang_codes, example["URL"])
-    # prompt = prompt[:-3].strip()
-    # prompt_with_explanation = prompt_with_explanation[:-3].strip()
-    # prompt_with_explanation_last = prompt_with_explanation_last[:-3].strip()
-    # datapoint = f"{example['Definition']}\n\n{prompt}"
-train_f.close()
+
+def write_for_dataset(category, dataset):
+    output_file_idx = 0
+    train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
+    for example in tqdm(dataset):
+        lang_codes = get_lang_codes(example["Input_language"])
+
+        for collator in collators:
+            encoded_example = collator([example])
+            datapoint = encoded_example["inputs"][0] + " " + encoded_example["labels"][0].strip()
+            if os.path.getsize(get_output_file_name(category, output_file_idx)) > MAX_FILE_SIZE:
+                train_f.close()
+                output_file_idx += 1
+                train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
+            write_json_line(train_f, datapoint, lang_codes, example["URL"])
+    train_f.close()
+
+
+# separate legal tasks from other tasks
+legal_datasets = raw_datasets.filter(lambda x: x["Name"] in legal_tasks)
+other_datasets = raw_datasets.filter(lambda x: x["Name"] not in legal_tasks)
+
+write_for_dataset("natural_instructions", other_datasets)
+write_for_dataset("law_instruct", legal_datasets)
