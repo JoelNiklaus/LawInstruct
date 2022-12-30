@@ -25,10 +25,7 @@ import toml
 """
 lextreme (https://huggingface.co/datasets/joelito/lextreme) (excluding multi_eurlex and swiss_judgment_prediction)
 lex_glue (https://huggingface.co/datasets/lex_glue) (excluding case_hold)
-CUAD (https://huggingface.co/datasets/cuad)
-ContractNLI (https://huggingface.co/datasets/kiddothe2b/contract-nli)
 German Legal Entity Recognition (https://huggingface.co/datasets/german_legal_entity_recognition)
-BillSum (https://huggingface.co/datasets/billsum) (maybe just the ones fitting in our context window)
 MultiLexSum (https://huggingface.co/datasets/allenai/multi_lexsum) (maybe just the ones fitting in our context window)
 IN-Abs, IN-Ext, UK-Abs (https://github.com/Law-AI/summarization/tree/aacl/dataset) (maybe just the ones fitting in our context window)
 BrCad5 (https://www.kaggle.com/datasets/eliasjacob/brcad5)

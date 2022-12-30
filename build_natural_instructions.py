@@ -15,6 +15,26 @@ from transformers.data.data_collator import *
 
 logger = logging.getLogger(__name__)
 
+# search by "Law", "Legal", "Jurisprudence": https://github.com/allenai/natural-instructions/tree/master/tasks
+legal_tasks = [
+    'task268_casehold_legal_answer_generation',
+    'task274_overruling_legal_classification',
+    'task287_casehold_legal_incorrect_answer_generation',
+    'task597_cuad_answer_generation',
+    'task598_cuad_answer_generation',
+    'task599_cuad_question_generation',
+    'task683_online_privacy_policy_text_purpose_answer_generation',
+    'task684_online_privacy_policy_text_information_type_generation',
+    'task715_mmmlu_answer_generation_international_law',
+    'task716_mmmlu_answer_generation_jurisprudence',
+    'task729_mmmlu_answer_generation_professional_law'
+    'task743_eurlex_summarization',
+    'task744_eurlex_classification',
+    'task1658_billsum_summarization',
+    'task1666_cail2018_answer_generation',
+    'task1667_cail2018_answer_generation',
+]
+
 
 @dataclass
 class DataCollatorForNI:
