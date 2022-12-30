@@ -290,6 +290,8 @@ def write_for_dataset(category, dataset):
             write_json_line(train_f, datapoint, lang_codes, example["URL"])
     train_f.close()
 
+# comment this to keep in of mmmlu
+raw_datasets = raw_datasets.filter(lambda x: "mmmlu" not in x["Name"])
 
 # separate legal tasks from other tasks
 legal_datasets = raw_datasets.filter(lambda x: x["Name"] in legal_tasks)
