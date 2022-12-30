@@ -1,3 +1,5 @@
+import ast
+
 from datasets import load_dataset
 from collections import defaultdict
 from lxml import etree
@@ -24,8 +26,6 @@ import toml
 # TODO: Tasks still to add
 """
 Joel:
-lextreme (https://huggingface.co/datasets/joelito/lextreme) (excluding multi_eurlex and swiss_judgment_prediction)
-lex_glue (https://huggingface.co/datasets/lex_glue) (excluding case_hold)
 MultiLexSum (https://huggingface.co/datasets/allenai/multi_lexsum) (maybe just the ones fitting in our context window)
 IN-Abs, IN-Ext, UK-Abs (https://github.com/Law-AI/summarization/tree/aacl/dataset) (maybe just the ones fitting in our context window)
 BrCad5 (https://www.kaggle.com/datasets/eliasjacob/brcad5)
@@ -56,6 +56,17 @@ MakeThisYourLastTime (https://www.makethisyourlasttime.com/essay-bank/)
 
 NER_DELIMITER = "|"
 
+
+def get_ner_instruction(ner_tags):
+    return f"Predict the named entity types for each token (delimited by '{NER_DELIMITER}'). " \
+           f"The named entities are: {' '.join(ner_tags)}."
+
+
+def build_ner_answer(tokens, tags):
+    f"Sentence: {NER_DELIMITER.join(tokens)}\n\n" \
+    f"Named Entity Types: {NER_DELIMITER.join(tags)}\n\n"
+
+
 output_file_idx = 0
 category = "law_instruct"
 train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
@@ -64,6 +75,219 @@ train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
 
 # TODO always check if current file is too large and then save to next one
 
+# swiss_judgment_prediction is handled separately
+print("############################")
+print("########## joelito/lextreme ###########")
+print("############################")
+source = "https://huggingface.co/datasets/joelito/lextreme"
+
+ner_class_mapping = {
+    "lener_br": [
+        "O", "B-ORGANIZACAO", "I-ORGANIZACAO", "B-PESSOA", "I-PESSOA", "B-TEMPO", "I-TEMPO", "B-LOCAL", "I-LOCAL",
+        "B-LEGISLACAO", "I-LEGISLACAO", "B-JURISPRUDENCIA", "I-JURISPRUDENCIA",
+    ],
+    "legalnero": [
+        'O', 'B-TIME', 'I-TIME', 'B-LEGAL', 'I-LEGAL', 'B-ORG', 'I-ORG', 'B-LOC', 'I-LOC', 'B-PER', 'I-PER',
+    ],
+    "greek_legal_ner": [
+        'O', 'B-ORG', 'I-ORG', 'B-GPE', 'I-GPE', 'B-LEG-REFS', 'I-LEG-REFS', 'B-PUBLIC-DOCS', 'I-PUBLIC-DOCS',
+        'B-PERSON', 'I-PERSON', 'B-FACILITY', 'I-FACILITY', 'B-LOCATION-UNK', 'I-LOCATION-UNK', 'B-LOCATION-NAT',
+        'I-LOCATION-NAT'
+    ],
+    "mapa_course": [
+        'O', 'B-ORGANISATION', 'I-ORGANISATION', 'B-ADDRESS', 'I-ADDRESS', 'B-DATE', 'I-DATE', 'B-PERSON', 'I-PERSON',
+        'B-AMOUNT', 'I-AMOUNT', 'B-TIME', 'I-TIME'
+    ],
+    "mapa_fine": [
+        'O', 'B-BUILDING', 'I-BUILDING', 'B-CITY', 'I-CITY', 'B-COUNTRY', 'I-COUNTRY', 'B-PLACE', 'I-PLACE',
+        'B-TERRITORY', 'I-TERRITORY', 'I-UNIT', 'B-UNIT', 'B-VALUE', 'I-VALUE', 'B-YEAR', 'I-YEAR',
+        'B-STANDARD ABBREVIATION', 'I-STANDARD ABBREVIATION', 'B-MONTH', 'I-MONTH', 'B-DAY', 'I-DAY', 'B-AGE', 'I-AGE',
+        'B-ETHNIC CATEGORY', 'I-ETHNIC CATEGORY', 'B-FAMILY NAME', 'I-FAMILY NAME', 'B-INITIAL NAME', 'I-INITIAL NAME',
+        'B-MARITAL STATUS', 'I-MARITAL STATUS', 'B-PROFESSION', 'I-PROFESSION', 'B-ROLE', 'I-ROLE', 'B-NATIONALITY',
+        'I-NATIONALITY', 'B-TITLE', 'I-TITLE', 'B-URL', 'I-URL', 'B-TYPE', 'I-TYPE',
+    ],
+}
+
+instructions_for_subsets = {
+    "brazilian_court_decisions_judgment": "In this task, you are given the case description from a decision heard at the State Supreme Court of Alagoas (Brazil). "
+                                          "Predict the judgment of the case "
+                                          "(no: The appeal was denied, "
+                                          "partial: For partially favourable decisions, "
+                                          "yes: For fully favourable decisions)",
+    "brazilian_court_decisions_unanimity": "In this task, you are given the case description from a decision heard at the State Supreme Court of Alagoas (Brazil). "
+                                           "Predict the unanimity of the case (unanimity, not-unanimity, not_determined)",
+    "german_argument_mining": "In this task, you are given sentences from German court decisions. "
+                              "Predict the major component of German Urteilsstil "
+                              "(conclusion: Overall result, "
+                              "definition: Abstract legal facts and consequences, "
+                              "subsumption: Determination sentence / Concrete facts, "
+                              "other: Anything else)",
+    "greek_legal_code_chapter_level": "In this task, you are given a Greek legislative document. "
+                                      "Predict the chapter level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
+    "greek_legal_code_subject_level": "In this task, you are given a Greek legislative document. "
+                                      "Predict the subject level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
+    "greek_legal_code_volume_level": "In this task, you are given a Greek legislative document. "
+                                     "Predict the volume level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
+    "online_terms_of_service_unfairness_levels": "In this task, you are given a sentence from a Terms of Service (ToS) document. "
+                                                 "Predict the unfairness level of the sentence (potentially_unfair, clearly_unfair, clearly_fair, untagged)",
+    "online_terms_of_service_clause_topics": "In this task, you are given a sentence from a Terms of Service (ToS) document. "
+                                             "Predict the clause topics of the sentence "
+                                             "(0: Arbitration, "
+                                             "1: Unilateral change, "
+                                             "2: Content removal, "
+                                             "3: Jurisdiction, "
+                                             "4: Choice of law, "
+                                             "5: Limitation of liability, "
+                                             "6: Unilateral termination, "
+                                             "7: Contract by using, "
+                                             "8: Privacy included)",
+    "covid19_emergency_event": "In this task, you are given a sentence from a European legislative document. "
+                               "Predict the applicable measurements against COVID-19 "
+                               "(0: State of Emergency, "
+                               "1: Restrictions of fundamental rights and civil liberties, "
+                               "2: Restrictions of daily liberties, "
+                               "3: Closures / lockdown, "
+                               "4: Suspension of international cooperation and commitments, "
+                               "5: Police mobilization, "
+                               "6: Army mobilization, "
+                               "7: Government oversight)",
+    "multi_eurlex_level_1": "In this task, you are given a document from an EU law. "
+                            "Predict the level 1 concept in the EUROVOC taxonomy.",
+    "multi_eurlex_level_2": "In this task, you are given a document from an EU law. "
+                            "Predict the level 2 concept in the EUROVOC taxonomy.",
+    "multi_eurlex_level_3": "In this task, you are given a document from an EU law. "
+                            "Predict the level 3 concept in the EUROVOC taxonomy.",
+    "greek_legal_ner": "In this task, you are given a sentence from Greek legislation. "
+                       "Predict the named entity type for each token.",
+    "legalnero": "In this task, you are given a sentence from Romanian legislation. "
+                 "Predict the named entity type for each token.",
+    "lener_br": "In this task, you are given a sentence from Brazilian legal documents (court decisions and legislation). "
+                "Predict the named entity type for each token.",
+    "mapa_ner_coarse_grained": "In this task, you are given a sentence from the EUR-Lex database. "
+                               "Predict the coarse grained named entity type for each token.",
+    "mapa_ner_fine_grained": "In this task, you are given a sentence from the EUR-Lex database. "
+                             "Predict the fine grained named entity type for each token.",
+}
+
+TASK_CODE_MAPPING = {
+    'brazilian_court_decisions_judgment': 'SLTC',
+    'brazilian_court_decisions_unanimity': 'SLTC',
+    'german_argument_mining': 'SLTC',
+    'greek_legal_code_chapter_level': 'SLTC',
+    'greek_legal_code_subject_level': 'SLTC',
+    'greek_legal_code_volume_level': 'SLTC',
+    'online_terms_of_service_unfairness_levels': 'SLTC',
+    'online_terms_of_service_clause_topics': 'MLTC',
+    'covid19_emergency_event': 'MLTC',
+    'multi_eurlex_level_1': 'MLTC',
+    'multi_eurlex_level_2': 'MLTC',
+    'multi_eurlex_level_3': 'MLTC',
+    'greek_legal_ner': 'NER',
+    'legalnero': 'NER',
+    'lener_br': 'NER',
+    'mapa_ner_coarse_grained': 'NER',
+    'mapa_ner_fine_grained': 'NER',
+}
+
+for subset, instructions in instructions_for_subsets.items():
+    dataset = load_dataset("joelito/lextreme", subset)["train"]
+    task_code = TASK_CODE_MAPPING[subset]
+    if task_code == "NER":
+        instructions += " " + get_ner_instruction(ner_class_mapping[subset])
+
+    if task_code == 'SLTC':
+        class_label = dataset.features["label"]
+    elif task_code == 'NER':
+        label_classes = ner_class_mapping[subset]
+
+    for example in dataset:
+        # get correct labels
+        if task_code == 'SLTC':
+            correct_label = class_label.int2str(example['label'])  # get label name for correct label
+            correct_labels = correct_label if isinstance(correct_label, list) else [correct_label]
+        elif task_code == 'MLTC':
+            correct_labels = list(map(str, example['label']))  # here we don't have any mapping to label names
+        elif task_code == 'NER':
+            correct_labels = [label_classes[label] for label in example['label']]
+
+        if task_code in ['SLTC', 'MLTC']:
+            input_text = example['input']
+            if 'multi_eurlex' in subset:
+                input_text = ast.literal_eval(input_text)
+                assert isinstance(input_text, dict)
+                answers = [(f"Passage {input_text} Labels: {','.join(correct_labels)}", lang) for lang, text in
+                           input_text.items()]
+            else:
+                answers = [(f"Passage {input_text} Labels: {','.join(correct_labels)}", example['language'])]
+
+        elif task_code == 'NER':
+            answers = [(build_ner_answer(example["input"], correct_labels), example['language'])]
+
+        for answer, lang in answers:
+            datapoint = f"{instructions}\n\n{answer}"
+            if os.path.getsize(get_output_file_name(category, output_file_idx)) > MAX_FILE_SIZE:
+                train_f.close()
+                output_file_idx += 1
+                train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
+            write_json_line(train_f, datapoint, lang, source)
+
+# case_hold is already in natural instructions
+print("############################")
+print("########## lex_glue ###########")
+print("############################")
+source = "https://huggingface.co/datasets/lex_glue"
+
+instructions_for_subsets = {
+    "ecthr_a": "In this task, you are given the facts from a case heard at the European Court of Human Rights (ECtHR). "
+               "Predict the articles of the ECtHR that were violated (if any).",
+    "ecthr_b": "In this task, you are given the facts from a case heard at the European Court of Human Rights (ECtHR). "
+               "Predict the articles of ECtHR that were allegedly violated (considered by the court).",
+    "scotus": "In this task, you are given a case heard at the Supreme Court of the United States (SCOTUS). "
+              "Predict the relevant issue area.",
+    "eurlex": "In this task, you are given an EU law document published in the EUR-Lex portal. "
+              "Predict the relevant EuroVoc concepts.",
+    "ledgar": "In this task, you are given a contract provision from contracts obtained from US Securities and Exchange Commission (SEC) filings."
+              "Predict the main topic.",
+    "unfair_tos": "In this task, you are given a sentence from a Terms of Service (ToS) document from on-line platforms. "
+                  "Predict the types of unfair contractual terms",
+}
+
+TASK_CODE_MAPPING = {
+    'ecthr_a': 'MLTC',
+    'ecthr_b': 'MLTC',
+    'scotus': 'SLTC',
+    'eurlex': 'MLTC',
+    'ledgar': 'SLTC',
+    'unfair_tos': 'MLTC',
+}
+
+for subset, instructions in instructions_for_subsets.items():
+    dataset = load_dataset("lex_glue", subset)["train"]
+    task_code = TASK_CODE_MAPPING[subset]
+
+    if task_code == 'SLTC':
+        class_label = dataset.features["label"]
+
+    for example in dataset:
+        # get correct labels
+        if task_code == 'SLTC':
+            correct_label = class_label.int2str(example['label'])  # get label name for correct label
+            correct_labels = correct_label if isinstance(correct_label, list) else [correct_label]
+        elif task_code == 'MLTC':
+            correct_labels = list(map(str, example['labels']))  # here we don't have any mapping to label names
+
+        input_text = example['input']
+        if 'ecthr' in subset:
+            input_text = " ".join(input_text)
+        answer = f"Passage {input_text} Labels: {','.join(correct_labels)}"
+
+        datapoint = f"{instructions}\n\n{answer}"
+        if os.path.getsize(get_output_file_name(category, output_file_idx)) > MAX_FILE_SIZE:
+            train_f.close()
+            output_file_idx += 1
+            train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
+        write_json_line(train_f, datapoint, "en", source)
+
 print("############################")
 print("########## German-LER ###########")
 print("############################")
@@ -71,28 +295,21 @@ source = "https://huggingface.co/datasets/elenanereiss/german-ler"
 df = load_dataset("elenanereiss/german-ler")["train"]
 
 ner_fine_tags = ['B-AN', 'B-EUN', 'B-GRT', 'B-GS', 'B-INN', 'B-LD', 'B-LDS', 'B-LIT', 'B-MRK', 'B-ORG', 'B-PER', 'B-RR',
-            'B-RS', 'B-ST', 'B-STR', 'B-UN', 'B-VO', 'B-VS', 'B-VT', 'I-AN', 'I-EUN', 'I-GRT', 'I-GS', 'I-INN', 'I-LD',
-            'I-LDS', 'I-LIT', 'I-MRK', 'I-ORG', 'I-PER', 'I-RR', 'I-RS', 'I-ST', 'I-STR', 'I-UN', 'I-VO', 'I-VS',
-            'I-VT', 'O']
+                 'B-RS', 'B-ST', 'B-STR', 'B-UN', 'B-VO', 'B-VS', 'B-VT', 'I-AN', 'I-EUN', 'I-GRT', 'I-GS', 'I-INN',
+                 'I-LD', 'I-LDS', 'I-LIT', 'I-MRK', 'I-ORG', 'I-PER', 'I-RR', 'I-RS', 'I-ST', 'I-STR', 'I-UN', 'I-VO',
+                 'I-VS', 'I-VT', 'O']
 ner_coarse_tags = ['B-LIT', 'B-LOC', 'B-NRM', 'B-ORG', 'B-PER', 'B-REG', 'B-RS', 'I-LIT', 'I-LOC', 'I-NRM', 'I-ORG',
                    'I-PER', 'I-REG', 'I-RS', 'O'],
 
 class_label = df.features["label"]
-instruction_bank_fine = [
-    f"Predict the named entity types for each token in the following sentence (delimited by '{NER_DELIMITER}'). "
-    f"The named entities are: {' '.join(ner_fine_tags)}."]
-instruction_bank_coarse = [
-    f"Predict the named entity types for each token in the following sentence (delimited by '{NER_DELIMITER}'). "
-    f"The named entities are: {' '.join(ner_coarse_tags)}."]
+introduction_sentence = "Consider the following sentence from a German federal court decision."
+instruction_bank_fine = [f"{introduction_sentence} {get_ner_instruction(ner_fine_tags)}", ]
+instruction_bank_coarse = [f"{introduction_sentence} {get_ner_instruction(ner_coarse_tags)}"]
 for example in df:
-    datapoint = f"{random.choice(instruction_bank_fine)}\n\n" \
-                f"Sentence: {NER_DELIMITER.join(example['tokens'])}\n\n" \
-                f"Named Entity Types: {NER_DELIMITER.join(example['ner_tags'])}\n\n"
+    datapoint = f"{random.choice(instruction_bank_fine)}\n\n{build_ner_answer(example['tokens'], example['ner_tags'])}"
     write_json_line(train_f, datapoint, "de", source)
 
-    datapoint = f"{random.choice(instruction_bank_coarse)}\n\n" \
-                f"Sentence: {NER_DELIMITER.join(example['tokens'])}\n\n" \
-                f"Named Entity Types: {NER_DELIMITER.join(example['ner_coarse_tags'])}\n\n"
+    datapoint = f"{random.choice(instruction_bank_coarse)}\n\n{build_ner_answer(example['tokens'], example['ner_coarse_tags'])}"
     write_json_line(train_f, datapoint, "de", source)
 
 print("############################")
@@ -423,6 +640,7 @@ print("############################")
 print("########## darrow-ai/USClassActions ###########")
 print("############################")
 df = load_dataset("darrow-ai/USClassActions")["train"]
+source = "https://huggingface.co/datasets/darrow-ai/USClassActions"
 instruction_bank = [
     "Read the following United States class action complaint. Predict whether the complaint will be won or not. Output \"win\" or \"lose\".",
     "Will this class action complaint be successful in U.S. Court?"]
@@ -432,7 +650,7 @@ for example in df:
         train_f.close()
         output_file_idx += 1
         train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
-    write_json_line(train_f, datapoint, "en", "https://huggingface.co/datasets/darrow-ai/USClassActions")
+    write_json_line(train_f, datapoint, "en", source)
 
 print("############################")
 print("########## Short Answer Feedback (SAF) ###########")
