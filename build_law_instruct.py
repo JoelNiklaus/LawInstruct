@@ -23,9 +23,9 @@ import toml
 
 # TODO: Tasks still to add
 """
+Joel:
 lextreme (https://huggingface.co/datasets/joelito/lextreme) (excluding multi_eurlex and swiss_judgment_prediction)
 lex_glue (https://huggingface.co/datasets/lex_glue) (excluding case_hold)
-German Legal Entity Recognition (https://huggingface.co/datasets/german_legal_entity_recognition)
 MultiLexSum (https://huggingface.co/datasets/allenai/multi_lexsum) (maybe just the ones fitting in our context window)
 IN-Abs, IN-Ext, UK-Abs (https://github.com/Law-AI/summarization/tree/aacl/dataset) (maybe just the ones fitting in our context window)
 BrCad5 (https://www.kaggle.com/datasets/eliasjacob/brcad5)
@@ -36,6 +36,8 @@ LegalSum (https://github.com/sebimo/LegalSum)
 Indian/Australian Summarization (https://github.com/manavkapadnis/LegalEvaluation_LREC2022)
 BSARD (https://github.com/maastrichtlawtech/bsard)
 LegalCaseReports Summ (https://archive.ics.uci.edu/ml/machine-learning-databases/00239, https://aclanthology.org/W12-0515.pdf)
+
+Arya: 
 LegalLinking (https://github.com/mayhewsw/legal-linking)
 Privacy Policies Summarization (https://github.com/senjed/Summarization-of-Privacy-Policies
 E-NER (https://github.com/terenceau2/E-NER-Dataset)
@@ -52,11 +54,46 @@ Privacy Policies (https://usableprivacy.org/data) (excluding OPP-115 Corpus: alr
 MakeThisYourLastTime (https://www.makethisyourlasttime.com/essay-bank/)
 """
 
+NER_DELIMITER = "|"
+
 output_file_idx = 0
 category = "law_instruct"
 train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
 
+# TODO maybe do not use xP3 and natural instructions but only code and legal instructions becuase of figure 4: https://arxiv.org/pdf/2210.11416v5.pdf
+
 # TODO always check if current file is too large and then save to next one
+
+print("############################")
+print("########## German-LER ###########")
+print("############################")
+source = "https://huggingface.co/datasets/elenanereiss/german-ler"
+df = load_dataset("elenanereiss/german-ler")["train"]
+
+ner_fine_tags = ['B-AN', 'B-EUN', 'B-GRT', 'B-GS', 'B-INN', 'B-LD', 'B-LDS', 'B-LIT', 'B-MRK', 'B-ORG', 'B-PER', 'B-RR',
+            'B-RS', 'B-ST', 'B-STR', 'B-UN', 'B-VO', 'B-VS', 'B-VT', 'I-AN', 'I-EUN', 'I-GRT', 'I-GS', 'I-INN', 'I-LD',
+            'I-LDS', 'I-LIT', 'I-MRK', 'I-ORG', 'I-PER', 'I-RR', 'I-RS', 'I-ST', 'I-STR', 'I-UN', 'I-VO', 'I-VS',
+            'I-VT', 'O']
+ner_coarse_tags = ['B-LIT', 'B-LOC', 'B-NRM', 'B-ORG', 'B-PER', 'B-REG', 'B-RS', 'I-LIT', 'I-LOC', 'I-NRM', 'I-ORG',
+                   'I-PER', 'I-REG', 'I-RS', 'O'],
+
+class_label = df.features["label"]
+instruction_bank_fine = [
+    f"Predict the named entity types for each token in the following sentence (delimited by '{NER_DELIMITER}'). "
+    f"The named entities are: {' '.join(ner_fine_tags)}."]
+instruction_bank_coarse = [
+    f"Predict the named entity types for each token in the following sentence (delimited by '{NER_DELIMITER}'). "
+    f"The named entities are: {' '.join(ner_coarse_tags)}."]
+for example in df:
+    datapoint = f"{random.choice(instruction_bank_fine)}\n\n" \
+                f"Sentence: {NER_DELIMITER.join(example['tokens'])}\n\n" \
+                f"Named Entity Types: {NER_DELIMITER.join(example['ner_tags'])}\n\n"
+    write_json_line(train_f, datapoint, "de", source)
+
+    datapoint = f"{random.choice(instruction_bank_coarse)}\n\n" \
+                f"Sentence: {NER_DELIMITER.join(example['tokens'])}\n\n" \
+                f"Named Entity Types: {NER_DELIMITER.join(example['ner_coarse_tags'])}\n\n"
+    write_json_line(train_f, datapoint, "de", source)
 
 print("############################")
 print("########## Contract-NLI ###########")
@@ -67,7 +104,7 @@ df = load_dataset("kiddothe2b/contract-nli")["train"]
 class_label = df.features["label"]
 instruction_bank = [
     "Consider the following Contract Passage and Hypothesis. Predict whether the Contract Passage entails/contradicts/is neutral to the Hypothesis (entailment, contradiction or neutral).",
-    "Does the following Contract Passage entail/contradict the Hypothesis?"]
+    "Does the following Contract Passage entail/contradict/stand neutral to the Hypothesis?"]
 for example in df:
     datapoint = f"{random.choice(instruction_bank)}\n\n" \
                 f"Contract Passage: {example['premise']}\n\n" \
