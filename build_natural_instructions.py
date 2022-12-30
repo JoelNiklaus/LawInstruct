@@ -13,6 +13,18 @@ import logging
 import string
 from transformers.data.data_collator import *
 
+from iso639 import languages
+
+def get_lang_codes(langs):
+    lang_codes = []
+    for lang in langs:
+        try:
+            lang_code = languages.get(name=lang).alpha2
+        except KeyError:
+            lang_code = "unknown"
+        lang_codes.append(lang_code)
+        return lang_codes
+
 logger = logging.getLogger(__name__)
 
 # search by "Law", "Legal", "Jurisprudence": https://github.com/allenai/natural-instructions/tree/master/tasks
@@ -261,6 +273,10 @@ for encoding in all_valid_encodings:
         text_only=True
     ))
 for example in tqdm(raw_datasets["train"]):
+    task_name = example["Name"]
+    # TODO task_name is in legal_tasks ==> it is a legal task
+    lang_codes = get_lang_codes(example["Input_language"])
+
     for collator in collators:
         encoded_example = collator([example])
         datapoint = encoded_example["inputs"][0] + " " + encoded_example["labels"][0].strip()
@@ -268,7 +284,7 @@ for example in tqdm(raw_datasets["train"]):
             train_f.close()
             output_file_idx += 1
             train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
-        write_json_line(train_f, datapoint, example["Input_language"], example["URL"])
+        write_json_line(train_f, datapoint, lang_codes, example["URL"])
     # prompt = prompt[:-3].strip()
     # prompt_with_explanation = prompt_with_explanation[:-3].strip()
     # prompt_with_explanation_last = prompt_with_explanation_last[:-3].strip()

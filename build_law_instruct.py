@@ -10,7 +10,7 @@ import json
 from bs4 import BeautifulSoup
 import pandas as pd
 
-from utils import write_json_line, MAX_FILE_SIZE
+from utils import write_json_line, MAX_FILE_SIZE, get_output_file_name
 
 import glob
 import yaml
@@ -48,16 +48,34 @@ ECHR Argument Mining (http://www.di.uevora.pt/~pq/echr/)
 Greek NER (https://github.com/nmpartzio/elNER)
 Indian NER (https://arxiv.org/pdf/2211.03442.pdf, https://github.com/Legal-NLP-EkStep/legal_NER/tree/main/representative_judgments_sample)
 LawngNLI (https://arxiv.org/pdf/2212.03222.pdf)
-Privacy Policies (https://usableprivacy.org/data)
+Privacy Policies (https://usableprivacy.org/data) (excluding OPP-115 Corpus: already present in natural instructions)
 MakeThisYourLastTime (https://www.makethisyourlasttime.com/essay-bank/)
 """
 
 output_file_idx = 0
-train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
+category = "law_instruct"
+train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
 
-######
+# TODO always check if current file is too large and then save to next one
+
+print("############################")
+print("########## Contract-NLI ###########")
+print("############################")
+source = "https://huggingface.co/datasets/kiddothe2b/contract-nli"
+df = load_dataset("kiddothe2b/contract-nli")["train"]
+
+class_label = df.features["label"]
+instruction_bank = [
+    "Consider the following Contract Passage and Hypothesis. Predict whether the Contract Passage entails/contradicts/is neutral to the Hypothesis (entailment, contradiction or neutral).",
+    "Does the following Contract Passage entail/contradict the Hypothesis?"]
+for example in df:
+    datapoint = f"{random.choice(instruction_bank)}\n\n" \
+                f"Contract Passage: {example['premise']}\n\n" \
+                f"Hypothesis: {example['hypothesis']}\n\n" \
+                f"Entailment: {class_label.int2str(example['label'])}"
+    write_json_line(train_f, datapoint, "en", source)
+
 # Add math-type reasoning b/c tax has that flavor
-######
 print("############################")
 print("########## gsm8k ###########")
 print("############################")
@@ -66,13 +84,14 @@ x = load_dataset("gsm8k", "main", split="train")
 
 instruction_bank = ["Answer the question, make sure to show your work.",
                     "Answer the math question step by step. Show your work.",
-                    "Answer the following question in logical steps.", "Answer the following questions."]
+                    "Answer the following question in logical steps.",
+                    "Answer the following questions."]
 for example in x:
     datapoint = f"{random.choice(instruction_bank)}\n\nQ: {example['question']}\nA: {example['answer']}"
-    if os.path.getsize(f"./data/train.{output_file_idx}.jsonl.xz") > MAX_FILE_SIZE:
+    if os.path.getsize(get_output_file_name(category, output_file_idx)) > MAX_FILE_SIZE:
         train_f.close()
         output_file_idx += 1
-        train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
+        train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
     write_json_line(train_f, datapoint, "en", source)
 
 x = load_dataset("gsm8k", "socratic", split="train")
@@ -83,10 +102,10 @@ instruction_bank = ["Answer the question, make sure to ask yourself follow up qu
                     "Answer the following questions. Make sure to ask any follow up questions as needed."]
 for example in x:
     datapoint = f"{random.choice(instruction_bank)}\n\nQ: {example['question']}\nA: {example['answer']}"
-    if os.path.getsize(f"./data/train.{output_file_idx}.jsonl.xz") > MAX_FILE_SIZE:
+    if os.path.getsize(get_output_file_name(category, output_file_idx)) > MAX_FILE_SIZE:
         train_f.close()
         output_file_idx += 1
-        train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
+        train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
     write_json_line(train_f, datapoint, "en", source)
 
 print("############################")
@@ -372,10 +391,10 @@ instruction_bank = [
     "Will this class action complaint be successful in U.S. Court?"]
 for example in df:
     datapoint = f"{random.choice(instruction_bank)}\n\n{example['target_text']}\n\nLikely Verdict: {example['verdict']}"
-    if os.path.getsize(f"./data/train.{output_file_idx}.jsonl.xz") > MAX_FILE_SIZE:
+    if os.path.getsize(get_output_file_name(category, output_file_idx)) > MAX_FILE_SIZE:
         train_f.close()
         output_file_idx += 1
-        train_f = xz.open(f"./data/train.{output_file_idx}.jsonl.xz", "wt")
+        train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
     write_json_line(train_f, datapoint, "en", "https://huggingface.co/datasets/darrow-ai/USClassActions")
 
 print("############################")
