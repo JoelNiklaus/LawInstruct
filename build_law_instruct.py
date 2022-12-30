@@ -26,7 +26,6 @@ import toml
 # TODO: Tasks still to add
 """
 Joel:
-MultiLexSum (https://huggingface.co/datasets/allenai/multi_lexsum) (maybe just the ones fitting in our context window)
 IN-Abs, IN-Ext, UK-Abs (https://github.com/Law-AI/summarization/tree/aacl/dataset) (maybe just the ones fitting in our context window)
 BrCad5 (https://www.kaggle.com/datasets/eliasjacob/brcad5)
 ArgumentMining (https://github.com/trusthlt/mining-legal-arguments)
@@ -74,6 +73,8 @@ train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
 # TODO maybe do not use xP3 and natural instructions but only code and legal instructions becuase of figure 4: https://arxiv.org/pdf/2210.11416v5.pdf
 
 # TODO always check if current file is too large and then save to next one
+
+# TODO create file for each task type (summarization, qa, etc.) and add it as a column in the jsonl file
 
 # swiss_judgment_prediction is handled separately
 print("############################")
@@ -287,6 +288,39 @@ for subset, instructions in instructions_for_subsets.items():
             output_file_idx += 1
             train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
         write_json_line(train_f, datapoint, "en", source)
+
+print("############################")
+print("########## MultiLexSum ###########")
+print("############################")
+source = "https://huggingface.co/datasets/allenai/multi_lexsum"
+df = load_dataset("allenai/multi_lexsum")["train"]
+
+
+def build_summarization_answer(input, summary):
+    return f"Passage: {input}. Summary: {summary}"
+
+
+instruction_bank = [
+    "Summarize the following summary of a US legal document further. ",
+    "Consider the summary of a US legal document and summarize it further. "]
+for example in df:
+    input = example["summary/long"]
+    if example["summary/short"]:
+        summary = example["summary/short"]
+        datapoint = f"{random.choice(instruction_bank)}\n\n{build_summarization_answer(input, summary)}"
+        write_json_line(train_f, datapoint, "en", source)
+    if example["summary/tiny"]:
+        summary = example["summary/tiny"]
+        datapoint = f"{random.choice(instruction_bank)}\n\n{build_summarization_answer(input, summary)}"
+        write_json_line(train_f, datapoint, "en", source)
+    if example["summary/short"] and example["summary/tiny"]:
+        input = example["summary/short"]
+        summary = example["summary/tiny"]
+        datapoint = f"{random.choice(instruction_bank)}\n\n{build_summarization_answer(input, summary)}"
+        write_json_line(train_f, datapoint, "en", source)
+
+
+
 
 print("############################")
 print("########## German-LER ###########")
