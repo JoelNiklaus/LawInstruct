@@ -26,9 +26,8 @@ import toml
 # TODO: Tasks still to add
 """
 Joel:
-IN-Abs, IN-Ext, UK-Abs (https://github.com/Law-AI/summarization/tree/aacl/dataset) (maybe just the ones fitting in our context window)
-BrCad5 (https://www.kaggle.com/datasets/eliasjacob/brcad5)
-ArgumentMining (https://github.com/trusthlt/mining-legal-arguments)
+BrCad5 (https://www.kaggle.com/datasets/eliasjacob/brcad5) ==> very large
+ArgumentMining (https://github.com/trusthlt/mining-legal-arguments) ==> convert xmi to jsonl
 BVACItationPrediction (https://github.com/TUMLegalTech/bva-citation-prediction)
 Contract Summarization (https://github.com/lauramanor/legal_summarization)
 LegalSum (https://github.com/sebimo/LegalSum)
@@ -64,6 +63,10 @@ def get_ner_instruction(ner_tags):
 def build_ner_answer(tokens, tags):
     f"Sentence: {NER_DELIMITER.join(tokens)}\n\n" \
     f"Named Entity Types: {NER_DELIMITER.join(tags)}\n\n"
+
+
+def build_summarization_answer(input, summary):
+    return f"Passage: {input}. Summary: {summary}"
 
 
 output_file_idx = 0
@@ -295,11 +298,6 @@ print("############################")
 source = "https://huggingface.co/datasets/allenai/multi_lexsum"
 df = load_dataset("allenai/multi_lexsum")["train"]
 
-
-def build_summarization_answer(input, summary):
-    return f"Passage: {input}. Summary: {summary}"
-
-
 instruction_bank = [
     "Summarize the following summary of a US legal document further. ",
     "Consider the summary of a US legal document and summarize it further. "]
@@ -319,8 +317,31 @@ for example in df:
         datapoint = f"{random.choice(instruction_bank)}\n\n{build_summarization_answer(input, summary)}"
         write_json_line(train_f, datapoint, "en", source)
 
+print("############################")
+print("########## LegalCaseDocumentSummarization ###########")
+print("############################")
+source = "https://huggingface.co/datasets/joelito/legal_case_document_summarization"
+df = load_dataset("joelito/legal_case_document_summarization")["train"]
 
 
+def get_instruction_bank(court):
+    return [
+        f"Summarize the following summary of a {court} further. ",
+        f"Consider the summary of a {court} and summarize it further. "
+    ]
+
+
+for example in df:
+    if "IN" in example["dataset_name "]:
+        instruction_bank = get_instruction_bank("Indian Supreme Court case")
+    elif "UK" in example["dataset_name "]:
+        instruction_bank = get_instruction_bank("U.K. Supreme Court case")
+    else:
+        continue
+    input = example["judgement"]
+    summary = example["summary/full"]
+    datapoint = f"{random.choice(instruction_bank)}\n\n{build_summarization_answer(input, summary)}"
+    write_json_line(train_f, datapoint, "en", source)
 
 print("############################")
 print("########## German-LER ###########")
