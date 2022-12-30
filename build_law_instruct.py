@@ -23,16 +23,19 @@ except ImportError:
     import pylzma as xz
 import toml
 
+# To be reconsidered later
+# LegalSum (https://github.com/sebimo/LegalSum) ==> complicated to read because of norms and would require large preprocessing. Additionally, contains very long sequences. leave out for the moment
+# LegalCaseReports Summ (https://archive.ics.uci.edu/ml/machine-learning-databases/00239, https://aclanthology.org/W12-0515.pdf) ==> no re-destribution allowed
+# Indian/Australian Summarization (https://github.com/manavkapadnis/LegalEvaluation_LREC2022) ==> too long and for australian data, annotation done automatically
+# BVACItationPrediction (https://github.com/TUMLegalTech/bva-citation-prediction) ==> no dataset downloadable directly
+# BSARD (https://github.com/maastrichtlawtech/bsard) ==> legal articles are not available directly
+
+
 # TODO: Tasks still to add
 """
 Joel:
 BrCad5 (https://www.kaggle.com/datasets/eliasjacob/brcad5) ==> very large
 ArgumentMining (https://github.com/trusthlt/mining-legal-arguments) ==> convert xmi to jsonl
-BVACItationPrediction (https://github.com/TUMLegalTech/bva-citation-prediction)
-BSARD (https://github.com/maastrichtlawtech/bsard) ==> statutory article retrieval 
-LegalSum (https://github.com/sebimo/LegalSum)
-Indian/Australian Summarization (https://github.com/manavkapadnis/LegalEvaluation_LREC2022)
-LegalCaseReports Summ (https://archive.ics.uci.edu/ml/machine-learning-databases/00239, https://aclanthology.org/W12-0515.pdf)
 
 Arya: 
 LegalLinking (https://github.com/mayhewsw/legal-linking)
