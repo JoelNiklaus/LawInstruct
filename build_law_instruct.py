@@ -29,10 +29,9 @@ Joel:
 BrCad5 (https://www.kaggle.com/datasets/eliasjacob/brcad5) ==> very large
 ArgumentMining (https://github.com/trusthlt/mining-legal-arguments) ==> convert xmi to jsonl
 BVACItationPrediction (https://github.com/TUMLegalTech/bva-citation-prediction)
-Contract Summarization (https://github.com/lauramanor/legal_summarization)
+BSARD (https://github.com/maastrichtlawtech/bsard) ==> statutory article retrieval 
 LegalSum (https://github.com/sebimo/LegalSum)
 Indian/Australian Summarization (https://github.com/manavkapadnis/LegalEvaluation_LREC2022)
-BSARD (https://github.com/maastrichtlawtech/bsard)
 LegalCaseReports Summ (https://archive.ics.uci.edu/ml/machine-learning-databases/00239, https://aclanthology.org/W12-0515.pdf)
 
 Arya: 
@@ -326,20 +325,41 @@ df = load_dataset("joelito/legal_case_document_summarization")["train"]
 
 def get_instruction_bank(court):
     return [
-        f"Summarize the following summary of a {court} further. ",
-        f"Consider the summary of a {court} and summarize it further. "
+        f"Summarize the document of the {court}. ",
+        f"Consider the document of the {court} and summarize it. "
     ]
 
 
 for example in df:
-    if "IN" in example["dataset_name "]:
+    if "IN" in example["dataset_name"]:
         instruction_bank = get_instruction_bank("Indian Supreme Court case")
-    elif "UK" in example["dataset_name "]:
+    elif "UK" in example["dataset_name"]:
         instruction_bank = get_instruction_bank("U.K. Supreme Court case")
     else:
         continue
     input = example["judgement"]
     summary = example["summary/full"]
+    datapoint = f"{random.choice(instruction_bank)}\n\n{build_summarization_answer(input, summary)}"
+    write_json_line(train_f, datapoint, "en", source)
+
+print("############################")
+print("########## PlainEnglishContractsSummarization ###########")
+print("############################")
+source = "https://huggingface.co/datasets/joelito/plain_english_contracts_summarization"
+df = load_dataset("joelito/plain_english_contracts_summarization")["train"]
+
+
+def get_instruction_bank(document):
+    return [
+        f"Summarize the following excerpt of a {document} document. ",
+        f"Consider the excerpt of a {document} document and summarize it. "
+    ]
+
+
+for example in df:
+    instruction_bank = get_instruction_bank(example["doc"])
+    input = example["original_text"]
+    summary = example["reference_summary"]
     datapoint = f"{random.choice(instruction_bank)}\n\n{build_summarization_answer(input, summary)}"
     write_json_line(train_f, datapoint, "en", source)
 
@@ -542,6 +562,7 @@ instructions_zero_shot = ["Answer these legal questions. Use American Law. Provi
                           "Answer these U.S. Multistate Bar Exam questions. Provide the choice as \"Answer:\"",
                           "Pick the most correct option considering U.S. Law. Output the choice as \"Answer:\""]
 # TODO do we really want this now?
+# TODO is this the same as MMMLU?
 df = load_dataset("hendrycks_test", "professional_law", split="auxiliary_train").select(range(1200))
 
 
