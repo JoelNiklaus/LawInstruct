@@ -23,6 +23,9 @@ except ImportError:
     import pylzma as xz
 import toml
 
+EXCLUDE_LEGAL_BENCH = True
+EXCLUDE_MMMLU = True
+
 # To be reconsidered later
 # LegalSum (https://github.com/sebimo/LegalSum) ==> complicated to read because of norms and would require large preprocessing. Additionally, contains very long sequences. leave out for the moment
 # LegalCaseReports Summ (https://archive.ics.uci.edu/ml/machine-learning-databases/00239, https://aclanthology.org/W12-0515.pdf) ==> no re-destribution allowed
@@ -1016,49 +1019,49 @@ for example in df:
     datapoint = f"{random.choice(instruction_bank)}\n\n{example['text']}\n{lookup[example['label']]}"
     write_json_line(train_f, datapoint, "en", "https://huggingface.co/datasets/pile-of-law/eoir_privacy")
 
-### LEGAL BENCH: https://github.com/HazyResearch/legalbench
-# TODO maybe exclude this now
-print("############################")
-print("########## LegalBench ###########")
-print("############################")
-keywordList = []
-path = './raw_data/legalbench/prompts/'
-source = "https://github.com/HazyResearch/legalbench"
-for filename in glob.glob(os.path.join(path, '*.yaml')):  # only process .JSON files in folder.
-    with open(filename, "r") as stream:
-        try:
-            print(filename)
-            prompt = yaml.safe_load(stream)
-            task = prompt["task"]
-            df = pd.read_csv(f"./raw_data/legalbench/tasks/{task}/train.tsv", sep='\t')
-            explanations = None
-            if prompt["labels"] != "default":
-                with open(f"./raw_data/legalbench/tasks/{task}/{prompt['labels']}", "r") as f:
-                    explanations = f.readlines()
-            for text, label in zip(df["text"], df["label"]):
-                if 'sample_suffix' in prompt and prompt['sample_suffix'] != "None" and prompt[
-                    'sample_suffix'] is not None:
-                    sample_suffix = prompt['sample_suffix']
-                else:
-                    sample_suffix = ""
-                datapoint = f"{prompt['introduction']}\n\n{prompt['sample_prefix']}{text}{sample_suffix}\n{prompt['label_prefix']}{label}"
-                write_json_line(train_f, datapoint, "en", source)
-
-            if explanations is not None:
-                for text, label, explanation in zip(df["text"], df["label"], explanations):
+if not EXCLUDE_LEGAL_BENCH:
+    ### LEGAL BENCH: https://github.com/HazyResearch/legalbench
+    print("############################")
+    print("########## LegalBench ###########")
+    print("############################")
+    keywordList = []
+    path = './raw_data/legalbench/prompts/'
+    source = "https://github.com/HazyResearch/legalbench"
+    for filename in glob.glob(os.path.join(path, '*.yaml')):  # only process .JSON files in folder.
+        with open(filename, "r") as stream:
+            try:
+                print(filename)
+                prompt = yaml.safe_load(stream)
+                task = prompt["task"]
+                df = pd.read_csv(f"./raw_data/legalbench/tasks/{task}/train.tsv", sep='\t')
+                explanations = None
+                if prompt["labels"] != "default":
+                    with open(f"./raw_data/legalbench/tasks/{task}/{prompt['labels']}", "r") as f:
+                        explanations = f.readlines()
+                for text, label in zip(df["text"], df["label"]):
                     if 'sample_suffix' in prompt and prompt['sample_suffix'] != "None" and prompt[
                         'sample_suffix'] is not None:
                         sample_suffix = prompt['sample_suffix']
                     else:
                         sample_suffix = ""
-                    datapoint = f"{prompt['introduction']}\n{prompt['sample_prefix']}{text}{sample_suffix}\n\n{prompt['label_prefix']}{explanation}"
+                    datapoint = f"{prompt['introduction']}\n\n{prompt['sample_prefix']}{text}{sample_suffix}\n{prompt['label_prefix']}{label}"
                     write_json_line(train_f, datapoint, "en", source)
 
-                    datapoint = f"{prompt['introduction']}\n{prompt['sample_prefix']}{text}{sample_suffix}\n\nLet's think step by step. {explanation}"
-                    write_json_line(train_f, datapoint, "en", source)
+                if explanations is not None:
+                    for text, label, explanation in zip(df["text"], df["label"], explanations):
+                        if 'sample_suffix' in prompt and prompt['sample_suffix'] != "None" and prompt[
+                            'sample_suffix'] is not None:
+                            sample_suffix = prompt['sample_suffix']
+                        else:
+                            sample_suffix = ""
+                        datapoint = f"{prompt['introduction']}\n{prompt['sample_prefix']}{text}{sample_suffix}\n\n{prompt['label_prefix']}{explanation}"
+                        write_json_line(train_f, datapoint, "en", source)
 
-        except yaml.YAMLError as exc:
-            print(exc)
+                        datapoint = f"{prompt['introduction']}\n{prompt['sample_prefix']}{text}{sample_suffix}\n\nLet's think step by step. {explanation}"
+                        write_json_line(train_f, datapoint, "en", source)
+
+            except yaml.YAMLError as exc:
+                print(exc)
 
 # Will Validity
 print("############################")
