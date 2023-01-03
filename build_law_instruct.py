@@ -36,6 +36,14 @@ EXCLUDE_MMMLU = True
 
 # TODO: Tasks still to add
 """
+Contract extraction dataset (http://nlp.cs.aueb.gr/software_and_datasets/CONTRACTS_ICAIL2017/index.html, http://nlp.cs.aueb.gr/pubs/icail2017.pdf)
+Cornell eRulemaking Corpus (https://facultystaff.richmond.edu/~jpark/data/jpark_lrec18.zip, https://facultystaff.richmond.edu/~jpark/papers/jpark_lrec18.pdf)
+German Rental Agreements (https://github.com/sebischair/Legal-Sentence-Classification-Datasets-and-Models, https://www.researchgate.net/publication/332171940_Classifying_Semantic_Types_of_Legal_Sentences_Portability_of_Machine_Learning_Models)
+US Caselaw Segmentation (https://github.com/jsavelka/us-dec-func-iss-sgm/blob/master/trade_secret_cases.json, http://ebooks.iospress.nl/volumearticle/50840)
+Cookie Policy Summarization (https://github.com/senjed/Summarization-of-Privacy-Policies, http://ceur-ws.org/Vol-2645/paper3.pdf)
+BVA Summarization (https://github.com/luimagroup/bva-summarization, https://dl.acm.org/doi/10.1145/3322640.3326728)
+Australian Case Citation Summarization (https://archive.ics.uci.edu/ml/datasets/Legal+Case+Reports)
+
 Arya: 
 LegalLinking (https://github.com/mayhewsw/legal-linking)
 Privacy Policies Summarization (https://github.com/senjed/Summarization-of-Privacy-Policies
