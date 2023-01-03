@@ -29,14 +29,10 @@ import toml
 # Indian/Australian Summarization (https://github.com/manavkapadnis/LegalEvaluation_LREC2022) ==> too long and for australian data, annotation done automatically
 # BVACItationPrediction (https://github.com/TUMLegalTech/bva-citation-prediction) ==> no dataset downloadable directly
 # BSARD (https://github.com/maastrichtlawtech/bsard) ==> legal articles are not available directly
-
+# EurLexSum (https://huggingface.co/datasets/dennlinger/eur-lex-sum) ==> very long texts and summaries
 
 # TODO: Tasks still to add
 """
-Joel:
-BrCad5 (https://www.kaggle.com/datasets/eliasjacob/brcad5) ==> very large
-ArgumentMining (https://github.com/trusthlt/mining-legal-arguments) ==> convert xmi to jsonl
-
 Arya: 
 LegalLinking (https://github.com/mayhewsw/legal-linking)
 Privacy Policies Summarization (https://github.com/senjed/Summarization-of-Privacy-Policies
@@ -71,6 +67,11 @@ def build_summarization_answer(input, summary):
     return f"Passage: {input}. Summary: {summary}"
 
 
+def get_multiple_choice_instruction_bank():
+    return ["Please answer these multiple choice questions. Denote the correct answer as \"Answer\".",
+            "Pick the most likely correct answer."]
+
+
 output_file_idx = 0
 category = "law_instruct"
 train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
@@ -80,6 +81,10 @@ train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
 # TODO always check if current file is too large and then save to next one
 
 # TODO create file for each task type (summarization, qa, etc.) and add it as a column in the jsonl file
+
+# TODO save instructions and answers into different columns for MT
+
+# TODO do not use MT for basic training but only for fine-tuning
 
 # swiss_judgment_prediction is handled separately
 print("############################")
@@ -295,6 +300,69 @@ for subset, instructions in instructions_for_subsets.items():
         write_json_line(train_f, datapoint, "en", source)
 
 print("############################")
+print("########## Swiss Judgement Prediction ###########")
+print("############################")
+x = load_dataset('swiss_judgment_prediction', 'all+mt')['train']
+source = "https://huggingface.co/datasets/swiss_judgment_prediction"
+for example in x:
+    court_location = "" if example['region'] == "n/a" else f"The court is located in {example['region']}."
+    judgement = ["dismiss", "approve"][example['label']]
+    datapoint = f"Determine if you think the Swiss court will dismiss or approve the case. {court_location}\n\nFacts:{example['text']}\nJudgement: {judgement}"
+    write_json_line(train_f, datapoint, example["language"], source)
+
+    datapoint = f"What area of law is this case related to?\n\nCase:{example['text']}\nArea of Law: {example['legal area']}"
+    write_json_line(train_f, datapoint, example["language"], source)
+
+    if court_location != "":
+        datapoint = f"Where do you think this case was adjudicated?\n\nCase:{example['text']}\nRegion: {example['region']}"
+        write_json_line(train_f, datapoint, example["language"], source)
+
+    outcome_mc1 = ["(a)", "(b)"][example["label"]]
+    text = example['text']
+    datapoint = f"{random.choice(get_multiple_choice_instruction_bank())}\n\n" \
+                f"Question: {text} How would the court find?\n(a) The court should dismiss the case.\n(b) The court should affirm the case.\n" \
+                f"Answer: {outcome_mc1}."
+    write_json_line(train_f, datapoint, example["language"], source)
+
+    outcome_mc1 = ["(b)", "(a)"][example["label"]]
+    datapoint = f"{random.choice(get_multiple_choice_instruction_bank())}\n\n" \
+                f"Question: {text} How would the court find?\n(a) The court should approve the case.\n(b) The court should dismiss the case.\n" \
+                f"Answer: {outcome_mc1}."
+    write_json_line(train_f, datapoint, example["language"], source)
+
+print("############################")
+print("########## BrCAD-5 ###########")
+print("############################")
+# load locally because when loading from the hub I get the following weird error: TypeError: Couldn't cast array of type double to null
+x = load_dataset('json', 'raw_data/brcad_5/train.jsonl.xz')['train']
+source = "https://huggingface.co/datasets/joelito/BrCAD-5"
+
+for example in x:
+    text = example['preprocessed_full_text_first_instance_court_ruling']
+    datapoint = f"Determine what you think the Brazilian appeals court will rule for the case.\n\nCase:{text}\nJudgement: {example['label']}"
+    write_json_line(train_f, datapoint, "pt", source)
+
+    datapoint = f"What area of law is this case related to?\n\nCase:{text}\nArea of Law: {example['current_case_class']}"
+    write_json_line(train_f, datapoint, "pt", source)
+
+    for level in ["1st", "2nd", "3rd"]:
+        datapoint = f"What {level}-level topic is this case related to?\n\nCase:{text}\nTopic: {example[f'case_topic_{level}_level']}"
+        write_json_line(train_f, datapoint, "pt", source)
+
+    outcome_mc1 = ["(a)", "(b)"][['NÃO PROVIMENTO', 'PROVIMENTO'].index(example["label"])]
+    text = example['text']
+    datapoint = f"{random.choice(get_multiple_choice_instruction_bank())}\n\n" \
+                f"Question: {text} How would the court find?\n(a) The court should dismiss the case.\n(b) The court should affirm the case.\n" \
+                f"Answer: {outcome_mc1}."
+    write_json_line(train_f, datapoint, "pt", source)
+
+    outcome_mc1 = ["(b)", "(a)"][['NÃO PROVIMENTO', 'PROVIMENTO'].index(example["label"])]
+    datapoint = f"{random.choice(get_multiple_choice_instruction_bank())}\n\n" \
+                f"Question: {text} How would the court find?\n(a) The court should approve the case.\n(b) The court should dismiss the case.\n" \
+                f"Answer: {outcome_mc1}."
+    write_json_line(train_f, datapoint, "pt", source)
+
+print("############################")
 print("########## MultiLexSum ###########")
 print("############################")
 source = "https://huggingface.co/datasets/allenai/multi_lexsum"
@@ -379,7 +447,6 @@ ner_fine_tags = ['B-AN', 'B-EUN', 'B-GRT', 'B-GS', 'B-INN', 'B-LD', 'B-LDS', 'B-
 ner_coarse_tags = ['B-LIT', 'B-LOC', 'B-NRM', 'B-ORG', 'B-PER', 'B-REG', 'B-RS', 'I-LIT', 'I-LOC', 'I-NRM', 'I-ORG',
                    'I-PER', 'I-REG', 'I-RS', 'O'],
 
-class_label = df.features["label"]
 introduction_sentence = "Consider the following sentence from a German federal court decision."
 instruction_bank_fine = [f"{introduction_sentence} {get_ner_instruction(ner_fine_tags)}", ]
 instruction_bank_coarse = [f"{introduction_sentence} {get_ner_instruction(ner_coarse_tags)}"]
@@ -389,6 +456,28 @@ for example in df:
 
     datapoint = f"{random.choice(instruction_bank_coarse)}\n\n{build_ner_answer(example['tokens'], example['ner_coarse_tags'])}"
     write_json_line(train_f, datapoint, "de", source)
+
+print("############################")
+print("########## Mining Legal Arguments ###########")
+print("############################")
+
+
+def get_all_ner_labels(df, labels_column_name="labels"):
+    all_labels = set()
+    for example in df:
+        all_labels.update(example[labels_column_name])
+    return all_labels
+
+
+for type in ["agent", "argType"]:
+    source = f"https://huggingface.co/datasets/joelito/mining_legal_arguments_{type}"
+    df = load_dataset(f"joelito/mining_legal_arguments_{type}")["train"]
+    all_labels = get_all_ner_labels(df)
+    introduction_sentence = "Consider the following sentence from an ECtHR decision. "
+    instruction_bank = [f"{introduction_sentence} {get_ner_instruction(all_labels)}", ]
+    for example in df:
+        datapoint = f"{random.choice(instruction_bank)}\n\n{build_ner_answer(example['tokens'], example['labels'])}"
+        write_json_line(train_f, datapoint, "en", source)
 
 print("############################")
 print("########## Contract-NLI ###########")
@@ -1517,8 +1606,7 @@ for example in df["text"]:
 print("############################")
 print("########## Hendrycks Dev Set ###########")
 print("############################")
-instruction_bank = ["Please answer these multiple choice questions. Denote the correct answer as \"Answer\".",
-                    "Pick the most likely correct answer."]
+
 # TODO maybe exclude professional law
 task_list_mmlu = ['abstract_algebra', 'anatomy', 'astronomy', 'business_ethics', 'clinical_knowledge',
                   'college_biology', 'college_chemistry', 'college_computer_science', 'college_mathematics',
@@ -1549,37 +1637,10 @@ for task in task_list_mmlu:
             f"Answer: {this_choices[this_answer]}"
         )
 
-        text = f"{random.choice(instruction_bank)}\n\n" + cur_question
+        text = f"{random.choice(get_multiple_choice_instruction_bank())}\n\n" + cur_question
         write_json_line(train_f, text, "en", "hendrycks_test_dev_set")
 
         text = f"Create a multiple choice question about {task.replace('_', ' ')}\n\n" + cur_question
         write_json_line(train_f, text, "en", "hendrycks_test_dev_set")
-
-print("############################")
-print("########## Swiss Judgement Prediction ###########")
-print("############################")
-x = load_dataset('swiss_judgment_prediction', 'all+mt')
-source = "https://huggingface.co/datasets/swiss_judgment_prediction"
-for example in x['train']:
-    court_location = "" if example['region'] == "n/a" else f"The court is located in {example['region']}."
-    judgement = ["dismiss", "approve"][example['label']]
-    datapoint = f"Determine if you think the Swiss court will dismiss or approve the case. {court_location}\n\nFacts:{example['text']}\nJudgement: {judgement}"
-    write_json_line(train_f, datapoint, example["language"], source)
-
-    datapoint = f"What area of law is this case related to?\n\nCase:{example['text']}\nArea of Law: {example['legal area']}"
-    write_json_line(train_f, datapoint, example["language"], source)
-
-    if court_location != "":
-        datapoint = f"Where do you think this case was adjudicated?\n\nCase:{example['text']}\nRegion: {example['region']}"
-        write_json_line(train_f, datapoint, example["language"], source)
-
-    outcome_mc1 = ["(a)", "(b)"][case["label"]]
-    text = example['text']
-    datapoint = f"{random.choice(instructions_bank)}\n\nQuestion: {text} How would the court find?\n(a) The court should dismiss the case.\n(b) The court should affirm the case.\nAnswer: {outcome_mc1}."
-    write_json_line(train_f, datapoint, example["language"], source)
-
-    outcome_mc1 = ["(b)", "(a)"][case["label"]]
-    datapoint = f"{random.choice(instructions_bank)}\n\nQuestion: {text} How would the court find?\n(a) The court should approve the case.\n(b) The court should demiss the case.\nAnswer: {outcome_mc1}."
-    write_json_line(train_f, datapoint, example["language"], source)
 
 train_f.close()
