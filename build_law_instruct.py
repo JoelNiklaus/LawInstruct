@@ -15,7 +15,6 @@ import pandas as pd
 from utils import write_json_line, MAX_FILE_SIZE, get_output_file_name
 
 import glob
-import yaml
 
 try:
     import lzma as xz
@@ -23,8 +22,6 @@ except ImportError:
     import pylzma as xz
 import toml
 
-EXCLUDE_LEGAL_BENCH = True
-EXCLUDE_MMMLU = True
 
 # To be reconsidered later
 # LegalSum (https://github.com/sebimo/LegalSum) ==> complicated to read because of norms and would require large preprocessing. Additionally, contains very long sequences. leave out for the moment
@@ -1027,49 +1024,6 @@ for example in df:
     datapoint = f"{random.choice(instruction_bank)}\n\n{example['text']}\n{lookup[example['label']]}"
     write_json_line(train_f, datapoint, "en", "https://huggingface.co/datasets/pile-of-law/eoir_privacy")
 
-if not EXCLUDE_LEGAL_BENCH:
-    ### LEGAL BENCH: https://github.com/HazyResearch/legalbench
-    print("############################")
-    print("########## LegalBench ###########")
-    print("############################")
-    keywordList = []
-    path = './raw_data/legalbench/prompts/'
-    source = "https://github.com/HazyResearch/legalbench"
-    for filename in glob.glob(os.path.join(path, '*.yaml')):  # only process .JSON files in folder.
-        with open(filename, "r") as stream:
-            try:
-                print(filename)
-                prompt = yaml.safe_load(stream)
-                task = prompt["task"]
-                df = pd.read_csv(f"./raw_data/legalbench/tasks/{task}/train.tsv", sep='\t')
-                explanations = None
-                if prompt["labels"] != "default":
-                    with open(f"./raw_data/legalbench/tasks/{task}/{prompt['labels']}", "r") as f:
-                        explanations = f.readlines()
-                for text, label in zip(df["text"], df["label"]):
-                    if 'sample_suffix' in prompt and prompt['sample_suffix'] != "None" and prompt[
-                        'sample_suffix'] is not None:
-                        sample_suffix = prompt['sample_suffix']
-                    else:
-                        sample_suffix = ""
-                    datapoint = f"{prompt['introduction']}\n\n{prompt['sample_prefix']}{text}{sample_suffix}\n{prompt['label_prefix']}{label}"
-                    write_json_line(train_f, datapoint, "en", source)
-
-                if explanations is not None:
-                    for text, label, explanation in zip(df["text"], df["label"], explanations):
-                        if 'sample_suffix' in prompt and prompt['sample_suffix'] != "None" and prompt[
-                            'sample_suffix'] is not None:
-                            sample_suffix = prompt['sample_suffix']
-                        else:
-                            sample_suffix = ""
-                        datapoint = f"{prompt['introduction']}\n{prompt['sample_prefix']}{text}{sample_suffix}\n\n{prompt['label_prefix']}{explanation}"
-                        write_json_line(train_f, datapoint, "en", source)
-
-                        datapoint = f"{prompt['introduction']}\n{prompt['sample_prefix']}{text}{sample_suffix}\n\nLet's think step by step. {explanation}"
-                        write_json_line(train_f, datapoint, "en", source)
-
-            except yaml.YAMLError as exc:
-                print(exc)
 
 # Will Validity
 print("############################")
@@ -1614,44 +1568,5 @@ for example in df["text"]:
         datapoint = f"Question: {q}\n\nAnalysis: {a}"
         write_json_line(train_f, datapoint, "en", "pile-of-law/pile-of-law/r_legaladvice")
 
-print("############################")
-print("########## Hendrycks Dev Set ###########")
-print("############################")
-
-# TODO maybe exclude professional law
-task_list_mmlu = ['abstract_algebra', 'anatomy', 'astronomy', 'business_ethics', 'clinical_knowledge',
-                  'college_biology', 'college_chemistry', 'college_computer_science', 'college_mathematics',
-                  'college_medicine', 'college_physics', 'computer_security', 'conceptual_physics', 'econometrics',
-                  'electrical_engineering', 'elementary_mathematics', 'formal_logic', 'global_facts',
-                  'high_school_biology', 'high_school_chemistry', 'high_school_computer_science',
-                  'high_school_european_history', 'high_school_geography', 'high_school_government_and_politics',
-                  'high_school_macroeconomics', 'high_school_mathematics', 'high_school_microeconomics',
-                  'high_school_physics', 'high_school_psychology', 'high_school_statistics', 'high_school_us_history',
-                  'high_school_world_history', 'human_aging', 'human_sexuality', 'international_law', 'jurisprudence',
-                  'logical_fallacies', 'machine_learning', 'management', 'marketing', 'medical_genetics',
-                  'miscellaneous', 'moral_disputes', 'moral_scenarios', 'nutrition', 'philosophy', 'prehistory',
-                  'professional_accounting', 'professional_law', 'professional_medicine', 'professional_psychology',
-                  'public_relations', 'security_studies', 'sociology', 'us_foreign_policy', 'virology',
-                  'world_religions']
-for task in task_list_mmlu:
-    df = load_dataset("hendrycks_test", task, split="dev")
-    for example in df:
-        cur_question = "Question: {example['question']}\n"
-        this_choices = example["choices"]
-        this_answer = example["answer"]
-
-        for i, choice in enumerate(this_choices):
-            lookup = ["(a)", "(b)", "(c)", "(d)"]
-            cur_question += f"{lookup[i]} {choice}\n"
-
-        cur_question += (
-            f"Answer: {this_choices[this_answer]}"
-        )
-
-        text = f"{random.choice(get_multiple_choice_instruction_bank())}\n\n" + cur_question
-        write_json_line(train_f, text, "en", "hendrycks_test_dev_set")
-
-        text = f"Create a multiple choice question about {task.replace('_', ' ')}\n\n" + cur_question
-        write_json_line(train_f, text, "en", "hendrycks_test_dev_set")
 
 train_f.close()

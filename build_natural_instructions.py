@@ -282,6 +282,7 @@ def write_for_dataset(category, dataset):
 
         for collator in collators:
             encoded_example = collator([example])
+            # TODO additionally save prompt and label separately for the legal datasets so we can do machine translation only on prompt
             datapoint = encoded_example["inputs"][0] + " " + encoded_example["labels"][0].strip()
             if os.path.getsize(get_output_file_name(category, output_file_idx)) > MAX_FILE_SIZE:
                 train_f.close()
