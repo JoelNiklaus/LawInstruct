@@ -5,7 +5,7 @@ import datetime
 MAX_FILE_SIZE = 6.25e8
 
 TASK_TYPE = enum.Enum('TASK_TYPE', [
-    # TODO is this detailed enough or do we need to distinguish topic classification from judgment prediction  or NER from argument mining?
+    # TODO is this detailed enough or do we need to distinguish topic classification from judgment prediction or NER from argument mining?
     'TEXT_CLASSIFICATION',
     'QUESTION_ANSWERING',
     'SUMMARIZATION',
@@ -16,10 +16,31 @@ TASK_TYPE = enum.Enum('TASK_TYPE', [
     'UNKNOWN'
 ])
 
+JURISDICTION = enum.Enum('JURISDICTION', [
+    # EU
+    'AUSTRIA', 'BELGIUM', 'BULGARIA', 'CROATIA', 'CZECHIA', 'DENMARK', 'ESTONIA', 'FINLAND',
+    'FRANCE', 'GERMANY', 'GREECE', 'HUNGARY', 'IRELAND', 'ITALY', 'LATVIA', 'LITHUANIA', 'LUXEMBOURG',
+    'MALTA', 'NETHERLANDS', 'POLAND', 'PORTUGAL', 'ROMANIA', 'SLOVAKIA', 'SLOVENIA', 'SPAIN', 'SWEDEN',
+    # Europa
+    'EU', 'SWITZERLAND', 'UK',
+    # Asia
+    'CHINA', 'INDIA', 'JAPAN', 'SOUTH_KOREA', 'THAILAND',
+    # North America
+    'US', 'CANADA',
+    # South America
+    'BRAZIL',
+    'INTERNATIONAL',  # international law
+    'UNKNOWN',  # we don't know the jurisdiction
+    'N_A'  # Not a legal task
+])
 
-def write_json_line(file, text, lang, source, task_type: TASK_TYPE = TASK_TYPE.UNKNOWN):
+
+def write_json_line(file, text: str, lang: str, source: str,
+                    task_type: TASK_TYPE = TASK_TYPE.UNKNOWN,
+                    jurisdiction: JURISDICTION = JURISDICTION.UNKNOWN):
     file.write(json.dumps({
         "lang": lang,
+        "jurisdiction": jurisdiction,
         "task_type": task_type,
         "source": source,
         "text": text,

@@ -12,7 +12,7 @@ import json
 from bs4 import BeautifulSoup
 import pandas as pd
 
-from utils import write_json_line, MAX_FILE_SIZE, get_output_file_name, TASK_TYPE
+from utils import write_json_line, MAX_FILE_SIZE, get_output_file_name, TASK_TYPE, JURISDICTION
 
 import glob
 
@@ -86,8 +86,7 @@ train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
 # TODO maybe do not use xP3 and natural instructions but only code and legal instructions becuase of figure 4: https://arxiv.org/pdf/2210.11416v5.pdf
 
 # TODO always check if current file is too large and then save to next one
-
-# TODO create file for each task type (summarization, qa, etc.) and add it as a column in the jsonl file
+# TODO create file for each dataset
 
 # TODO save instructions and answers into different columns for MT
 
@@ -207,8 +206,29 @@ TASK_CODE_MAPPING = {
     'mapa_ner_fine_grained': 'NER',
 }
 
+JURISDICTION_MAPPING = {
+    'brazilian_court_decisions_judgment': JURISDICTION.BRAZIL,
+    'brazilian_court_decisions_unanimity': JURISDICTION.BRAZIL,
+    'german_argument_mining': JURISDICTION.GERMANY,
+    'greek_legal_code_chapter_level': JURISDICTION.GREECE,
+    'greek_legal_code_subject_level': JURISDICTION.GREECE,
+    'greek_legal_code_volume_level': JURISDICTION.GREECE,
+    'online_terms_of_service_unfairness_levels': JURISDICTION.UNKNOWN,
+    'online_terms_of_service_clause_topics': JURISDICTION.UNKNOWN,
+    'covid19_emergency_event': JURISDICTION.UNKNOWN,
+    'multi_eurlex_level_1': JURISDICTION.EU,
+    'multi_eurlex_level_2': JURISDICTION.EU,
+    'multi_eurlex_level_3': JURISDICTION.EU,
+    'greek_legal_ner': JURISDICTION.GREECE,
+    'legalnero': JURISDICTION.ROMANIA,
+    'lener_br': JURISDICTION.BRAZIL,
+    'mapa_ner_coarse_grained': JURISDICTION.EU,
+    'mapa_ner_fine_grained': JURISDICTION.EU,
+}
+
 for subset, instructions in instructions_for_subsets.items():
     dataset = load_dataset("joelito/lextreme", subset)["train"]
+    jurisdiction = JURISDICTION_MAPPING[subset]
     task_code = TASK_CODE_MAPPING[subset]
     if task_code == "NER":
         instructions += " " + get_ner_instruction(ner_class_mapping[subset])
@@ -248,7 +268,7 @@ for subset, instructions in instructions_for_subsets.items():
                 output_file_idx += 1
                 train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
             task_type = TASK_TYPE.NAMED_ENTITY_RECOGNITION if task_code == 'NER' else TASK_TYPE.TEXT_CLASSIFICATION
-            write_json_line(train_f, datapoint, lang, source, task_type)
+            write_json_line(train_f, datapoint, lang, source, task_type, jurisdiction)
 
 # case_hold is already in natural instructions
 print("############################")
@@ -281,9 +301,19 @@ TASK_CODE_MAPPING = {
     'unfair_tos': 'MLTC',
 }
 
+JURISDICTION_MAPPING = {
+    'ecthr_a': JURISDICTION.EU,
+    'ecthr_b': JURISDICTION.EU,
+    'scotus': JURISDICTION.US,
+    'eurlex': JURISDICTION.EU,
+    'ledgar': JURISDICTION.US,
+    'unfair_tos': JURISDICTION.UNKNOWN,
+}
+
 for subset, instructions in instructions_for_subsets.items():
     dataset = load_dataset("lex_glue", subset)["train"]
     task_code = TASK_CODE_MAPPING[subset]
+    jurisdiction = JURISDICTION_MAPPING[subset]
 
     if task_code == 'SLTC':
         class_label = dataset.features["label"]
@@ -306,7 +336,7 @@ for subset, instructions in instructions_for_subsets.items():
             train_f.close()
             output_file_idx += 1
             train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
-        write_json_line(train_f, datapoint, "en", source, task_type)
+        write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 print("############################")
 print("########## Swiss Judgement Prediction ###########")
@@ -314,31 +344,32 @@ print("############################")
 x = load_dataset('swiss_judgment_prediction', 'all+mt')['train']
 source = "https://huggingface.co/datasets/swiss_judgment_prediction"
 task_type = TASK_TYPE.TEXT_CLASSIFICATION
+jurisdiction = JURISDICTION.SWITZERLAND
 for example in x:
     court_location = "" if example['region'] == "n/a" else f"The court is located in {example['region']}."
     judgement = ["dismiss", "approve"][example['label']]
     datapoint = f"Determine if you think the Swiss court will dismiss or approve the case. {court_location}\n\nFacts:{example['text']}\nJudgement: {judgement}"
-    write_json_line(train_f, datapoint, example["language"], source, task_type)
+    write_json_line(train_f, datapoint, example["language"], source, task_type, jurisdiction)
 
     datapoint = f"What area of law is this case related to?\n\nCase:{example['text']}\nArea of Law: {example['legal area']}"
-    write_json_line(train_f, datapoint, example["language"], source, task_type)
+    write_json_line(train_f, datapoint, example["language"], source, task_type, jurisdiction)
 
     if court_location != "":
         datapoint = f"Where do you think this case was adjudicated?\n\nCase:{example['text']}\nRegion: {example['region']}"
-        write_json_line(train_f, datapoint, example["language"], source, task_type)
+        write_json_line(train_f, datapoint, example["language"], source, task_type, jurisdiction)
 
     outcome_mc1 = ["(a)", "(b)"][example["label"]]
     text = example['text']
     datapoint = f"{random.choice(get_multiple_choice_instruction_bank())}\n\n" \
                 f"Question: {text} How would the court find?\n(a) The court should dismiss the case.\n(b) The court should affirm the case.\n" \
                 f"Answer: {outcome_mc1}."
-    write_json_line(train_f, datapoint, example["language"], source, task_type)
+    write_json_line(train_f, datapoint, example["language"], source, task_type, jurisdiction)
 
     outcome_mc1 = ["(b)", "(a)"][example["label"]]
     datapoint = f"{random.choice(get_multiple_choice_instruction_bank())}\n\n" \
                 f"Question: {text} How would the court find?\n(a) The court should approve the case.\n(b) The court should dismiss the case.\n" \
                 f"Answer: {outcome_mc1}."
-    write_json_line(train_f, datapoint, example["language"], source, task_type)
+    write_json_line(train_f, datapoint, example["language"], source, task_type, jurisdiction)
 
 print("############################")
 print("########## BrCAD-5 ###########")
@@ -347,31 +378,32 @@ print("############################")
 x = load_dataset('json', 'raw_data/brcad_5/train.jsonl.xz')['train']
 source = "https://huggingface.co/datasets/joelito/BrCAD-5"
 task_type = TASK_TYPE.TEXT_CLASSIFICATION
+jurisdiction = JURISDICTION.BRAZIL
 
 for example in x:
     text = example['preprocessed_full_text_first_instance_court_ruling']
     datapoint = f"Determine what you think the Brazilian appeals court will rule for the case.\n\nCase:{text}\nJudgement: {example['label']}"
-    write_json_line(train_f, datapoint, "pt", source, task_type)
+    write_json_line(train_f, datapoint, "pt", source, task_type, jurisdiction)
 
     datapoint = f"What area of law is this case related to?\n\nCase:{text}\nArea of Law: {example['current_case_class']}"
-    write_json_line(train_f, datapoint, "pt", source, task_type)
+    write_json_line(train_f, datapoint, "pt", source, task_type, jurisdiction)
 
     for level in ["1st", "2nd", "3rd"]:
         datapoint = f"What {level}-level topic is this case related to?\n\nCase:{text}\nTopic: {example[f'case_topic_{level}_level']}"
-        write_json_line(train_f, datapoint, "pt", source, task_type)
+        write_json_line(train_f, datapoint, "pt", source, task_type, jurisdiction)
 
     outcome_mc1 = ["(a)", "(b)"][['NÃO PROVIMENTO', 'PROVIMENTO'].index(example["label"])]
     text = example['text']
     datapoint = f"{random.choice(get_multiple_choice_instruction_bank())}\n\n" \
                 f"Question: {text} How would the court find?\n(a) The court should dismiss the case.\n(b) The court should affirm the case.\n" \
                 f"Answer: {outcome_mc1}."
-    write_json_line(train_f, datapoint, "pt", source, task_type)
+    write_json_line(train_f, datapoint, "pt", source, task_type, jurisdiction)
 
     outcome_mc1 = ["(b)", "(a)"][['NÃO PROVIMENTO', 'PROVIMENTO'].index(example["label"])]
     datapoint = f"{random.choice(get_multiple_choice_instruction_bank())}\n\n" \
                 f"Question: {text} How would the court find?\n(a) The court should approve the case.\n(b) The court should dismiss the case.\n" \
                 f"Answer: {outcome_mc1}."
-    write_json_line(train_f, datapoint, "pt", source, task_type)
+    write_json_line(train_f, datapoint, "pt", source, task_type, jurisdiction)
 
 print("############################")
 print("########## MultiLexSum ###########")
@@ -379,6 +411,7 @@ print("############################")
 source = "https://huggingface.co/datasets/allenai/multi_lexsum"
 df = load_dataset("allenai/multi_lexsum")["train"]
 task_type = TASK_TYPE.SUMMARIZATION
+jurisdiction = JURISDICTION.US
 
 instruction_bank = [
     "Summarize the following summary of a US legal document further. ",
@@ -388,16 +421,16 @@ for example in df:
     if example["summary/short"]:
         summary = example["summary/short"]
         datapoint = f"{random.choice(instruction_bank)}\n\n{build_summarization_answer(input, summary)}"
-        write_json_line(train_f, datapoint, "en", source, task_type)
+        write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
     if example["summary/tiny"]:
         summary = example["summary/tiny"]
         datapoint = f"{random.choice(instruction_bank)}\n\n{build_summarization_answer(input, summary)}"
-        write_json_line(train_f, datapoint, "en", source, task_type)
+        write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
     if example["summary/short"] and example["summary/tiny"]:
         input = example["summary/short"]
         summary = example["summary/tiny"]
         datapoint = f"{random.choice(instruction_bank)}\n\n{build_summarization_answer(input, summary)}"
-        write_json_line(train_f, datapoint, "en", source, task_type)
+        write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 print("############################")
 print("########## LegalCaseDocumentSummarization ###########")
@@ -417,8 +450,10 @@ def get_instruction_bank(court):
 for example in df:
     if "IN" in example["dataset_name"]:
         instruction_bank = get_instruction_bank("Indian Supreme Court case")
+        jurisdiction = JURISDICTION.INDIA
     elif "UK" in example["dataset_name"]:
         instruction_bank = get_instruction_bank("U.K. Supreme Court case")
+        jurisdiction = JURISDICTION.UK
     else:
         continue
     input = example["judgement"]
@@ -432,6 +467,7 @@ print("############################")
 source = "https://huggingface.co/datasets/joelito/plain_english_contracts_summarization"
 df = load_dataset("joelito/plain_english_contracts_summarization")["train"]
 task_type = TASK_TYPE.SUMMARIZATION
+jurisdiction = JURISDICTION.UNKNOWN
 
 
 def get_instruction_bank(document):
@@ -446,7 +482,7 @@ for example in df:
     input = example["original_text"]
     summary = example["reference_summary"]
     datapoint = f"{random.choice(instruction_bank)}\n\n{build_summarization_answer(input, summary)}"
-    write_json_line(train_f, datapoint, "en", source, task_type)
+    write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 print("############################")
 print("########## German-LER ###########")
@@ -454,6 +490,7 @@ print("############################")
 source = "https://huggingface.co/datasets/elenanereiss/german-ler"
 df = load_dataset("elenanereiss/german-ler")["train"]
 task_type = TASK_TYPE.NAMED_ENTITY_RECOGNITION
+jurisdiction = JURISDICTION.GERMANY
 
 ner_fine_tags = ['B-AN', 'B-EUN', 'B-GRT', 'B-GS', 'B-INN', 'B-LD', 'B-LDS', 'B-LIT', 'B-MRK', 'B-ORG', 'B-PER', 'B-RR',
                  'B-RS', 'B-ST', 'B-STR', 'B-UN', 'B-VO', 'B-VS', 'B-VT', 'I-AN', 'I-EUN', 'I-GRT', 'I-GS', 'I-INN',
@@ -467,10 +504,10 @@ instruction_bank_fine = [f"{introduction_sentence} {get_ner_instruction(ner_fine
 instruction_bank_coarse = [f"{introduction_sentence} {get_ner_instruction(ner_coarse_tags)}"]
 for example in df:
     datapoint = f"{random.choice(instruction_bank_fine)}\n\n{build_ner_answer(example['tokens'], example['ner_tags'])}"
-    write_json_line(train_f, datapoint, "de", source, task_type)
+    write_json_line(train_f, datapoint, "de", source, task_type, jurisdiction)
 
     datapoint = f"{random.choice(instruction_bank_coarse)}\n\n{build_ner_answer(example['tokens'], example['ner_coarse_tags'])}"
-    write_json_line(train_f, datapoint, "de", source, task_type)
+    write_json_line(train_f, datapoint, "de", source, task_type, jurisdiction)
 
 print("############################")
 print("########## Mining Legal Arguments ###########")
@@ -485,6 +522,7 @@ def get_all_ner_labels(df, labels_column_name="labels"):
 
 
 task_type = TASK_TYPE.NAMED_ENTITY_RECOGNITION
+jurisdiction = JURISDICTION.EU
 for type in ["agent", "argType"]:
     source = f"https://huggingface.co/datasets/joelito/mining_legal_arguments_{type}"
     df = load_dataset(f"joelito/mining_legal_arguments_{type}")["train"]
@@ -493,14 +531,15 @@ for type in ["agent", "argType"]:
     instruction_bank = [f"{introduction_sentence} {get_ner_instruction(all_labels)}", ]
     for example in df:
         datapoint = f"{random.choice(instruction_bank)}\n\n{build_ner_answer(example['tokens'], example['labels'])}"
-        write_json_line(train_f, datapoint, "en", source, task_type)
+        write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 print("############################")
 print("########## Contract-NLI ###########")
 print("############################")
-source = "https://huggingface.co/datasets/kiddothe2b/contract-nli"
 df = load_dataset("kiddothe2b/contract-nli")["train"]
+source = "https://huggingface.co/datasets/kiddothe2b/contract-nli"
 task_type = TASK_TYPE.NATURAL_LANGUAGE_INFERENCE
+jurisdiction = JURISDICTION.US
 
 class_label = df.features["label"]
 instruction_bank = [
@@ -511,7 +550,30 @@ for example in df:
                 f"Contract Passage: {example['premise']}\n\n" \
                 f"Hypothesis: {example['hypothesis']}\n\n" \
                 f"Entailment: {class_label.int2str(example['label'])}"
-    write_json_line(train_f, datapoint, "en", source, task_type)
+    write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
+
+### Reclor has logical reasoning.
+print("############################")
+print("########## Reclor ###########")
+print("############################")
+instruction_bank = ["Given the context answer the reasoning question.",
+                    "Answer the logical reasoning multiple choice questions.",
+                    "State the answer in the following format, \"Final Answer: The final answer is ([ANSWER]). I hope it is correct.\"",
+                    "Read the passage any any relevant rules describing the world. Apply the rules to the facts to answer the question."]
+source = "https://github.com/yuweihao/reclor"
+task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.N_A
+
+with open("./raw_data/reclor_train.json", "r") as f:
+    df = json.loads(f.read())
+for data in df:
+    options = ""
+    options_labels = ["(a)", "(b)", "(c)", "(d)", "(e)"]
+    for x, lab in zip(data["answers"], options_labels):
+        options += f"{lab} {x}\n"
+    correct_option = options_labels[data['label']]
+    datapoint = f"{random.choice(instruction_bank)}\n\nQuestion: {data['context']} {data['question']}\n{options}\nFinal Answer: The final answer is: {correct_option}. I hope it is correct."
+    write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 # Add math-type reasoning b/c tax has that flavor
 print("############################")
@@ -520,6 +582,7 @@ print("############################")
 source = "https://huggingface.co/datasets/gsm8k"
 x = load_dataset("gsm8k", "main", split="train")
 task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.N_A
 
 instruction_bank = ["Answer the question, make sure to show your work.",
                     "Answer the math question step by step. Show your work.",
@@ -531,7 +594,7 @@ for example in x:
         train_f.close()
         output_file_idx += 1
         train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
-    write_json_line(train_f, datapoint, "en", source, task_type)
+    write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 x = load_dataset("gsm8k", "socratic", split="train")
 
@@ -545,7 +608,7 @@ for example in x:
         train_f.close()
         output_file_idx += 1
         train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
-    write_json_line(train_f, datapoint, "en", source, task_type)
+    write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 print("############################")
 print("########## Lila ###########")
@@ -555,6 +618,7 @@ instruction_bank = ["Consider the following question. Write a Python program to 
                     "Write a Python program to solve the following question, denote it as \"Program:\". Provide the output as \"Answer:\"."]
 source = "https://github.com/allenai/Lila"
 task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.N_A
 
 for json_file in json_files:
     with open(os.path.join("raw_data/all_lila/", json_file), "r") as f:
@@ -564,7 +628,7 @@ for json_file in json_files:
                 continue
             for program, answer in zip(example['Output Program'], example['Output Answer']):
                 datapoint = f"{random.choice(instruction_bank)}\n\nQuestion: {example['Input']}\nProgram:\n```python\n{program}\n```\nAnswer: {answer}"
-                write_json_line(train_f, datapoint, "en", source, task_type)
+                write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 print("############################")
 print("########## Sara Prolog ###########")
@@ -574,13 +638,14 @@ source = "sara"
 instruction_bank = ["Convert the following statute into prolog code.",
                     "Write a prolog program to convert the statute into code, denote it as \"Prolog Program:\"."]
 task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.US
 
 json_files = [pos_json for pos_json in os.listdir("raw_data/sara_statutes/source")]
 for json_file in json_files:
     with open(os.path.join("raw_data/sara_statutes/source/", json_file), "r") as f_normal:
         with open(os.path.join("raw_data/sara_statutes/prolog/", json_file) + ".pl", "r") as f_prolog:
             datapoint = f"{random.choice(instruction_bank)}\n\nStatute:\n{f_normal.read()}\n\nProlog Program:\n\n{f_prolog.read()}"
-            write_json_line(train_f, datapoint, "en", source, task_type)
+            write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 instruction_bank = ["Convert the following fact pattern into prolog code. Then answer the question.",
                     "Write a prolog program to mark all the facts, denote it as \"Prolog Program:\". Then answer the question, denote your answer as \"Answer\"."]
@@ -611,13 +676,14 @@ for json_file in json_files:
         facts_and_question = facts_and_question.replace("%", "").strip()
 
         datapoint = f"{random.choice(instruction_bank)}\n\n{facts_and_question}\n\nProlog Program:\n{program.strip()}\nAnswer: {answer}"
-        write_json_line(train_f, datapoint, "en", source, task_type)
+        write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 print("############################")
 print("########## Sara ###########")
 print("############################")
-source = "https://arxiv.org/abs/2005.05257"
 df = pd.read_csv("raw_data/sara.tsv", sep="\t", header=None)
+source = "https://arxiv.org/abs/2005.05257"
+jurisdiction = JURISDICTION.US
 entailment_instruction_bank = ["Consider the following US Tax scenario. Does the first fact entail the second fact?",
                                "Are these two sentences entailed or contradicting?",
                                "Respond entailement or contradiction to these two sentences."]
@@ -627,11 +693,11 @@ for i, row in df.iterrows():
     if "tail" in row[2] or "Contra" in row[2]:
         task_type = TASK_TYPE.NATURAL_LANGUAGE_INFERENCE
         datapoint = f"{random.choice(entailment_instruction_bank)}\n\nSentence 1: {row[0]}\nSentence 2: {row[1]}\nAnswer: {row[2]}"
-        write_json_line(train_f, datapoint, "en", source, task_type)
+        write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
     else:
         task_type = TASK_TYPE.QUESTION_ANSWERING
         datapoint = f"{random.choice(tax_liability_instruction_bank)}\n\nQuestion: {row[0]} {row[1]}\nAnswer: {row[2]}"
-        write_json_line(train_f, datapoint, "en", source, task_type)
+        write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
         value = int(row[2].replace("$", ""))
         options = [int(value + ((.5 - random.random()) * value)) for i in range(3)] + [value]
@@ -641,7 +707,7 @@ for i, row in df.iterrows():
             choices += f"{choice_value} ${option}\n"
         correct = ["(a)", "(b)", "(c)", "(d)"][options.index(value)]
         datapoint = f"{random.choice(tax_liability_instruction_bank)} Denote your final answer with the \"Final Answer: The final answer is [CORRECT ANSWER]. I hope it is correct\".\n\nQuestion: {row[0]} {row[1]}\n{choices}\n\nFinal Answer: The final answer is {correct}. I hope it is correct."
-        write_json_line(train_f, datapoint, "en", source, task_type)
+        write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 print("############################")
 print("########## Civipro Questions ###########")
@@ -663,8 +729,9 @@ instruction_bank_generate_questions_no_explanation = [
     "Answer this CivPro question provide an answer as \"Answer\"."]
 
 df = pd.read_csv("./raw_data/civpro_questions_train.csv")
-task_type = TASK_TYPE.QUESTION_ANSWERING
 source = "civpro_questions"  # TODO do we have an url here?
+task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.US
 
 questions_dict = defaultdict(dict)
 
@@ -695,7 +762,7 @@ for question, values in questions_dict.items():
     datapoint_no_explanation = f"{random.choice(instruction_bank_generate_questions_no_explanation)}\n\nQuestion: {question}\n{choice_string}\nAnswer: {correct_answer}"
 
     for datapoint in [datapoint_no_passage, datapoint_no_explanation, datapoint_with_passage]:
-        write_json_line(train_f, datapoint, "en", source, task_type)
+        write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 # The first 1200 are extra bar exam questions, not sure if we want to keep these in
 print("############################")
@@ -710,6 +777,7 @@ instructions_zero_shot = ["Answer these legal questions. Use American Law. Provi
                           "Pick the most correct option considering U.S. Law. Output the choice as \"Answer:\""]
 df = load_dataset("hendrycks_test", "professional_law", split="auxiliary_train").select(range(1200))
 task_type = TASK_TYPE.MULTIPE_CHOICE
+jurisdiction = JURISDICTION.US
 
 
 def shuffle_choices(choices: List[str], answer: int):
@@ -751,19 +819,21 @@ for i, (this_question, this_choices, this_answer) in tqdm(enumerate(zip(
     datapoint = cur_question
 
     final_datapoint = random.choice(instructions_examples) + "\n\n" + datapoint
-    write_json_line(train_f, final_datapoint, "en", source, task_type)
+    write_json_line(train_f, final_datapoint, "en", source, task_type, jurisdiction)
 
     datapoint_zero_shot = datapoint.replace("The Final Answer: ", "Answer: ").split("###")[-1].strip()
     final_datapoint_zero_shot = random.choice(instructions_zero_shot) + "\n\n" + datapoint_zero_shot
-    write_json_line(train_f, final_datapoint_zero_shot, "en", source, task_type)
+    write_json_line(train_f, final_datapoint_zero_shot, "en", source, task_type, jurisdiction)
 
 print("############################")
 print("########## MBE ###########")
 print("############################")
 
+df = pd.read_csv("raw_data/mbe_train.csv")
 source = "MBE"  # TODO do we have an url for the source here?
 task_type = TASK_TYPE.MULTIPE_CHOICE
-df = pd.read_csv("raw_data/mbe_train.csv")
+jurisdiction = JURISDICTION.US
+
 instructions_examples = [
     "Answer these legal questions. Use American Law. Please explain your thought process and then answer the question.",
     "Answer these U.S. Multistate Bar Exam questions. Please provide an explanation first.",
@@ -798,16 +868,16 @@ for idx, row in df.iterrows():
     # else:
     #     source_year_string = ""
     final_datapoint = random.choice(instructions_examples) + "\n\n" + datapoint
-    write_json_line(train_f, final_datapoint, "en", source, task_type)
+    write_json_line(train_f, final_datapoint, "en", source, task_type, jurisdiction)
 
     if isinstance(subject, str) and subject.strip() != "":
         datapoint = f"{random.choice(instruction_bank_subject)}\n\n{data_no_answer}\nSubject: {subject}"
 
         datapoint = random.choice(instructions_examples) + "\n\n" + datapoint
-        write_json_line(train_f, datapoint, "en", source, task_type)
+        write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
         datapoint = random.choice(instruction_bank_subject_generation) + subject + ".\n\n" + datapoint_with_answer
-        write_json_line(train_f, datapoint, "en", source, task_type)
+        write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 print("############################")
 print("########## Littleton ###########")
@@ -818,6 +888,8 @@ instruction_bank = [
     "According to American law, consider the chain of events and future interests."]
 source = "https://github.com/grimmelm/littleton"
 task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.US
+
 for json_file in json_files:
     with open(os.path.join("raw_data/littleton/examples/", json_file), "r") as f:
         loaded_file = json.loads(f.read())[1]
@@ -825,7 +897,7 @@ for json_file in json_files:
             continue
         for example in loaded_file["examples"]:
             datapoint = f"{random.choice(instruction_bank)}\n\nEvents: {example['program']}\nAnswer: {example['result']}"
-            write_json_line(train_f, datapoint, "en", source, task_type)
+            write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 json_files = [pos_json for pos_json in os.listdir("raw_data/littleton/tests/edwards") if pos_json.endswith('.toml')]
 instruction_bank = [
@@ -838,7 +910,7 @@ for json_file in json_files:
             if "expected" not in example:
                 continue
             datapoint = f"{random.choice(instruction_bank)}\n\nEvents: {example['program']}\nAnswer: {example['expected']}"
-            write_json_line(train_f, datapoint, "en", source, task_type)
+            write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 print("############################")
 print("########## JEC-QA ###########")
@@ -847,6 +919,7 @@ instruction_bank = [
     "Answer these multiple choice reasoning questions about Chinese Law. Select all answers that apply, you may have multiple correct answers.",
     "Answer these Chinese Law multiple choice questions, you might have multiple correct answers. Denote your answer(s) as \"Answer: [answer(s)].\""]
 task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.CHINA
 
 with open("./raw_data/jecqa_0_train.json") as f:
     questions = [json.loads(x) for x in f.readlines()]
@@ -867,6 +940,8 @@ print("############################")
 df = load_dataset("darrow-ai/USClassActions")["train"]
 source = "https://huggingface.co/datasets/darrow-ai/USClassActions"
 task_type = TASK_TYPE.TEXT_CLASSIFICATION
+jurisdiction = JURISDICTION.US
+
 instruction_bank = [
     "Read the following United States class action complaint. Predict whether the complaint will be won or not. Output \"win\" or \"lose\".",
     "Will this class action complaint be successful in U.S. Court?"]
@@ -876,7 +951,7 @@ for example in df:
         train_f.close()
         output_file_idx += 1
         train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
-    write_json_line(train_f, datapoint, "en", source, task_type)
+    write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 print("############################")
 print("########## Short Answer Feedback (SAF) ###########")
@@ -884,6 +959,8 @@ print("############################")
 
 df = load_dataset("JohnnyBoy00/saf_legal_domain_german")
 task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.GERMANY
+
 instruction_bank_openqa = ["Consider this question in the context of German law. Provide the correct reference answer.",
                            "Answer the question about German law. Make sure it is correct."]
 instruction_bank_feedback = [
@@ -898,13 +975,13 @@ instruction_error_class = [
 source = "https://huggingface.co/datasets/JohnnyBoy00/saf_legal_domain_german"
 for example in df["train"]:
     datapoint = f"{random.choice(instruction_bank_openqa)}\n\nQ: {example['question']}\nA: {example['reference_answer']}"
-    write_json_line(train_f, datapoint, "de", source, task_type)
+    write_json_line(train_f, datapoint, "de", source, task_type, jurisdiction)
 
     datapoint = f"{random.choice(instruction_bank_feedback)}\n\nQ: {example['question']}\nA: {example['provided_answer']}\nFeedback: {example['verification_feedback']}\nScore: {example['score']}"
-    write_json_line(train_f, datapoint, "de", source, task_type)
+    write_json_line(train_f, datapoint, "de", source, task_type, jurisdiction)
 
     datapoint = f"{random.choice(instruction_error_class)}\n\nQ: {example['question']}\nA: {example['provided_answer']}\nFeedback: {example['verification_feedback']}\nScore: {example['score']}\nError Type: {example['error_class']}"
-    write_json_line(train_f, datapoint, "de", source, task_type)
+    write_json_line(train_f, datapoint, "de", source, task_type, jurisdiction)
 
 print("############################")
 print("########## ILDC Dataset ###########")
@@ -915,8 +992,9 @@ df1 = df1[df1["split"] == "train"]
 df2 = pd.read_csv("raw_data/ILDC_single.csv")
 df2 = df2[df2["split"] == "train"]
 
-task_type = TASK_TYPE.TEXT_CLASSIFICATION
 source = "https://github.com/Exploration-Lab/CJPE"
+task_type = TASK_TYPE.TEXT_CLASSIFICATION
+jurisdiction = JURISDICTION.INDIA
 instruction_bank = [
     "According to Indian law, will this petition be accepted? If there is more than one petition consider whether the court will accept at least one.",
     "Will the court accept or reject this petition? Use Indian law. If there is more than one petition consider whether the court will accept at least one."]
@@ -924,24 +1002,26 @@ instruction_bank = [
 for idx, row in df1.iterrows():
     decision = "Court Decision: Reject" if row["label"] == 0 else "Court Decision: Accept"
     datapoint = f"{random.choice(instruction_bank)}\n\n{row['text']}\n\n{decision}"
-    write_json_line(train_f, datapoint, "en", source, task_type)
+    write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 for idx, row in df2.iterrows():
     decision = "Court Decision: Reject" if row["label"] == 0 else "Court Decision: Accept"
     datapoint = f"{random.choice(instruction_bank)}\n\n{row['text']}\n\n{decision}"
-    write_json_line(train_f, datapoint, "en", source, task_type)
+    write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 # Scraped bar exam essays
 print("############################")
 print("########## CA Bar Exam Essays ###########")
 print("############################")
 
-task_type = TASK_TYPE.QUESTION_ANSWERING
 source = "https://www.calbar.ca.gov/Admissions/Examinations/California-Bar-Examination/Past-Exams"
+task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.US
+
 with open("raw_data/bar_exam_essays_ca.jsonl") as f:
     exams = [json.loads(x) for x in f.readlines()]
     for exam in exams:
-        write_json_line(train_f, exam['text'], "en", source, task_type)
+        write_json_line(train_f, exam['text'], "en", source, task_type, jurisdiction)
 
 print("############################")
 print("########## MC Exams Law ###########")
@@ -949,6 +1029,8 @@ print("############################")
 
 df = pd.read_csv("raw_data/raw_legal_mc_with_explanations.csv")
 task_type = TASK_TYPE.MULTIPLE_CHOICE
+jurisdiction = JURISDICTION.US
+
 instruction_bank = ["Answer these questions according to the laws of the United States.",
                     "Pick the best answer according to U.S. law.",
                     "Pick the correct multiple choice answer according to American law."]
@@ -961,18 +1043,20 @@ for idx, row in df.iterrows():
 
     # No chain of thought
     datapoint = f"{random.choice(instruction_bank)}\n\nQ:{q}\nA:{a}"
-    write_json_line(train_f, datapoint, "en", source, task_type)
+    write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
     # Chain of thought
     datapoint = f"{random.choice(instruction_bank_expl)}\n\nQ:{q}\nExplanation: {explanation}\nA:{a}"
-    write_json_line(train_f, datapoint, "en", source, task_type)
+    write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 print("############################")
 print("########## Korean LegalQA ###########")
 print("############################")
-task_type = TASK_TYPE.QUESTION_ANSWERING
 source = "https://raw.githubusercontent.com/haven-jeon/LegalQA/main/data/legalqa.jsonlines"
-instruction_bank = ["Consider the following question. Retrieve the relevant Korean legal article.",
+task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.SOUTH_KOREA
+
+instruction_bank = ["Consider the following question. Retrieve the relevant South Korean legal article.",
                     "What is the best South Korean law that can help answer this question.",
                     "What South Korean law best applies."]
 
@@ -991,6 +1075,8 @@ print("############################")
 df = pd.read_csv("raw_data/spanish_legal_qa.csv")
 source = "https://zenodo.org/record/4256718#.Y5PoC7LMIlg"
 task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.SPAIN
+
 instruction_bank = [
     "Consider this Spanish Labor Law translated passage. Answer the question using an extractive snippet of text.",
     "Consider this Spanish Labor Law translated passage. Answer the question from the context.",
@@ -998,13 +1084,14 @@ instruction_bank = [
 for idx, row in df.iterrows():
     question, context, answer = row["Question"], row["context"], row["Answer text"]
     datapoint = f"{random.choice(instruction_bank)}\n\nContext: {context}\nQ: {question}\nA: {answer}"
-    write_json_line(train_f, datapoint, "es", source, task_type)
+    write_json_line(train_f, datapoint, "es", source, task_type, jurisdiction)
 
 # International citizenship law questions
 print("############################")
 print("########## International citizenship law questions ###########")
 print("############################")
 task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.INTERNATIONAL
 df1 = pd.read_csv("raw_data/data_v1.0_country-year-mode_acq.csv")
 df2 = pd.read_csv("raw_data/data_v1.0_country-year-mode_loss.csv")
 code_year = pd.read_csv("raw_data/data_v1.0_country-year.csv")
@@ -1033,7 +1120,7 @@ for idx, row in df1.iterrows():
     else:
         datapoint = f"Q: Consider the country of {country.strip()}. {q.strip()}\nA: {code_year_spec_answer} This is covered in: {law_article}. {specification}".strip()
 
-    write_json_line(train_f, datapoint, "en", source, task_type)
+    write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 for idx, row in df2.iterrows():
     mode_id = row["mode_id"]
@@ -1058,18 +1145,20 @@ for idx, row in df2.iterrows():
         datapoint = f"Q: Consider the country of {country.strip()}. {q}\nA: {code_year_spec_answer} This is not covered in any provision."
     else:
         datapoint = f"Q: Consider the country of {country.strip()}. {q}\nA: {code_year_spec_answer} This is covered in: {law_article}. {specification}".strip()
-    write_json_line(train_f, datapoint, "en", source, task_type)
+    write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 # Will Validity
 print("############################")
 print("########## Valid Wills ###########")
 print("############################")
+train = pd.read_csv('./raw_data/wills_train.csv', encoding='utf-8')  # replace with real path and dataset names
 instruction_bank = [
     "Given a statement in a will, the relevant U.S. law, is the condition supported, refuted, or unrelated.",
     "Is the statement in the will valid given the law and conditions? Answer with one of unrelated, supported, refuted."]
-train = pd.read_csv('./raw_data/wills_train.csv', encoding='utf-8')  # replace with real path and dataset names
 source = "https://arxiv.org/pdf/2210.16989.pdf"
 task_type = TASK_TYPE.TEXT_CLASSIFICATION
+jurisdiction = JURISDICTION.US
+
 for idx, row in train.iterrows():
     statement, conditions, law, classification = row["statement"], row["conditions"], row["law"], row["classification"]
     CLASSIFICATION_MAP = ['refuted', 'supported', 'unrelated']
@@ -1087,9 +1176,9 @@ for idx, row in train.iterrows():
             correct_option = choice_letter
         option_mc_string += f"{choice_letter} {option}\n"
     prompt_mc = f"Statement: {statement}\n\nLaw: {law}\n\nCondition: {conditions}\n\n{option_mc_string}\n\nAnswer: {correct_option}"
-    write_json_line(train_f, prompt, "en", source, task_type)
-    write_json_line(train_f, prompt2, "en", source, task_type)
-    write_json_line(train_f, prompt_mc, "en", source, task_type)
+    write_json_line(train_f, prompt, "en", source, task_type, jurisdiction)
+    write_json_line(train_f, prompt2, "en", source, task_type, jurisdiction)
+    write_json_line(train_f, prompt_mc, "en", source, task_type, jurisdiction)
 
 # Chinese Bar Exam, no explanations.
 print("############################")
@@ -1100,6 +1189,8 @@ instruction_bank = [
     "Answer these Chinese Law multiple choice questions. There is only one correct answer. Denote your answer as \"Answer: [answer].\""]
 source = "https://github.com/lgw863/LogiQA-dataset"
 task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.CHINA
+
 with open("./raw_data/zh_train.txt", "r") as f:
     x = f.readlines()
     i = 0
@@ -1117,7 +1208,7 @@ with open("./raw_data/zh_train.txt", "r") as f:
             choices.append(x[i])
             i += 1
         datapoint = f"{random.choice(instruction_bank)}\n\nQuestion: {context.strip()} {question}{''.join(choices)}\n\nAnswer: ({correct.strip()})."
-        write_json_line(train_f, datapoint, "zh", source, task_type)
+        write_json_line(train_f, datapoint, "zh", source, task_type, jurisdiction)
         if i >= len(x): break
 
 # ChangeMyView Argumentation
@@ -1127,8 +1218,10 @@ print("############################")
 instruction_bank = ["You are given a position, create an argument that would change the original poster's mind.",
                     "Write a counter argument to the proposal.", "Write a counter argument to the r/changemyview post.",
                     "Write a counterargument to this reddit post."]
-task_type = TASK_TYPE.ARGUMENTATION
 source = "https://chenhaot.com/pages/changemyview.html"
+task_type = TASK_TYPE.ARGUMENTATION
+jurisdiction = JURISDICTION.UNKNOWN
+
 with open("./raw_data/train_pair_data.jsonlist") as f:
     x = [json.loads(s) for s in f.readlines()]
     for d in x:
@@ -1138,20 +1231,21 @@ with open("./raw_data/train_pair_data.jsonlist") as f:
             body = d['positive']['comments'][0]['body'].strip()
         op = d['op_text'].split("EDIT:")[0].strip()
         datapoint = f"{random.choice(instruction_bank)}\n\nArgument: {op}\n\nCounter-argument: {body}"
-        write_json_line(train_f, datapoint, "en", source, task_type)
+        write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
+# statutes classification task
 print("############################")
 print("########## Lbox ###########")
 print("############################")
+data_st_plus = load_dataset("lbox/lbox_open", "statute_classification_plus")
 source = "https://github.com/lbox-kr/lbox-open"
 task_type = TASK_TYPE.TEXT_CLASSIFICATION
-# statutes classification task
-data_st_plus = load_dataset("lbox/lbox_open", "statute_classification_plus")
+jurisdiction = JURISDICTION.SOUTH_KOREA
 instruction_bank = ["For the given case facts predict the related South Korean legal statute.",
                     "When presented with this fact pattern what are the relevant legal statutes in South Korean law?"]
 for x in data_st_plus["train"]:
     datapoint = f"{random.choice(instruction_bank)}\n\nFacts: {x['facts']}\nStatute(s):{','.join(x['statutes'])}"
-    write_json_line(train_f, datapoint, "ko", source, task_type)
+    write_json_line(train_f, datapoint, "ko", source, task_type, jurisdiction)
 
 # Legal judgement prediction tasks
 data_ljp_criminal = load_dataset("lbox/lbox_open", "ljp_criminal")
@@ -1162,12 +1256,12 @@ for x in data_ljp_criminal["train"]:
     if x["reason"] != "" and x["reason"] != -1:
         reason = f"Reason: {x['reason']}"
     datapoint = f"{random.choice(instruction_bank)}\n\nFacts: {x['facts']}\n{reason}\nRuling: {x['ruling']['text']}"
-    write_json_line(train_f, datapoint, "ko", source, task_type)
+    write_json_line(train_f, datapoint, "ko", source, task_type, jurisdiction)
 
 data_ljp_civil = load_dataset("lbox/lbox_open", "ljp_civil")
 for x in data_ljp_civil["train"]:
     datapoint = f"{random.choice(instruction_bank)}\n\nFacts: {x['facts'].strip()}\n\nClaims: {x['gist_of_claim']['text'].strip()}\n\nRuling: {x['ruling']['text']}"
-    write_json_line(train_f, datapoint, "ko", source, task_type)
+    write_json_line(train_f, datapoint, "ko", source, task_type, jurisdiction)
 
 print("############################")
 print("########## BVA Decisions ###########")
@@ -1215,18 +1309,19 @@ def turn_rule_tree_to_text(tree, n=0):
         return f"{text}\n{node_text}"
 
 
-task_type = TASK_TYPE.TEXT_CLASSIFICATION
 source = "https://github.com/LLTLab/VetClaims-JSON"
+task_type = TASK_TYPE.TEXT_CLASSIFICATION
+jurisdiction = JURISDICTION.US
+
 for sentence in sentences:
     if 'rhetClass' in sentence:
         role = sentence['rhetClass']
     else:
         role = ",".join(sentence['rhetRole'])
     datapoint = f"{random.choice(instruction_bank)}\n\nSentence: {sentence['text'].strip()}\nRhetorical Role: {role.strip()}"
-    write_json_line(train_f, datapoint, "en", source, task_type)
+    write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 task_type = TASK_TYPE.QUESTION_ANSWERING
-source = "https://github.com/LLTLab/VetClaims-JSON"
 instruction_bank = [
     "Take the following sentence, name all the rules that would be required to back up the claim. Do so in tree format with logical operators like AND and OR.",
     "Name all the rules that would be required to back up the claim."]
@@ -1235,34 +1330,15 @@ for tree_rule in rule_trees:
     tree_rule = turn_rule_tree_to_text(tree_rule)
     datapoint = f"{random.choice(instruction_bank)}\n\nClaim: {tree_rule.strip()}"
     if datapoint not in known_data:
-        write_json_line(train_f, datapoint, "en", source, task_type)
+        write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
         known_data.append(datapoint)
-
-### Reclor has logical reasoning.
-print("############################")
-print("########## Reclor ###########")
-print("############################")
-instruction_bank = ["Given the context answer the reasoning question.",
-                    "Answer the logical reasoning multiple choice questions.",
-                    "State the answer in the following format, \"Final Answer: The final answer is ([ANSWER]). I hope it is correct.\"",
-                    "Read the passage any any relevant rules describing the world. Apply the rules to the facts to answer the question."]
-source = "https://github.com/yuweihao/reclor"
-task_type = TASK_TYPE.QUESTION_ANSWERING
-with open("./raw_data/reclor_train.json", "r") as f:
-    df = json.loads(f.read())
-for data in df:
-    options = ""
-    options_labels = ["(a)", "(b)", "(c)", "(d)", "(e)"]
-    for x, lab in zip(data["answers"], options_labels):
-        options += f"{lab} {x}\n"
-    correct_option = options_labels[data['label']]
-    datapoint = f"{random.choice(instruction_bank)}\n\nQuestion: {data['context']} {data['question']}\n{options}\nFinal Answer: The final answer is: {correct_option}. I hope it is correct."
-    write_json_line(train_f, datapoint, "en", source, task_type)
 
 ### CAIL 2022: https://github.com/china-ai-law-challenge/CAIL2022/tree/main/lblj/data/stage_2
 print("############################")
 print("########## CAIL2022 ###########")
 print("############################")
+source = "https://github.com/china-ai-law-challenge/CAIL2022/tree/main/lblj/data/stage_2"
+jurisdiction = JURISDICTION.CHINA
 
 with open("raw_data/cail2022_train_entry_lblj.jsonl", "r", encoding="utf8") as f:
     questions = [json.loads(x) for x in f.readlines()]
@@ -1274,33 +1350,34 @@ instruction_bank = ["Use Chinese law. What is the counter-argument to the plaint
                     "How should Defendant respond to the following argument? Use Chinese law."]
 instruction_bank_crime = ["Consider Chinese law, what is the likely crime being discussed here."]
 lookup = ["(a)", "(b)", "(c)", "(d)", "(e)"]
-source = "https://github.com/china-ai-law-challenge/CAIL2022/tree/main/lblj/data/stage_2"
 for question in questions:
     task_type = TASK_TYPE.MULTIPLE_CHOICE
     datapoint = f"{random.choice(instruction_bank_mc)}\n\nPlaintiff's Argument:{question['sc']}\n\n(a) {question['bc_1']}\n(b) {question['bc_2']}\n(c) {question['bc_3']}\n(d) {question['bc_4']}\n(e) {question['bc_5']}"
     datapoint += "Best counter-argument: {lookup[question['answer'] - 1]}"
-    write_json_line(train_f, datapoint, "zh", source, task_type)
+    write_json_line(train_f, datapoint, "zh", source, task_type, jurisdiction)
 
     task_type = TASK_TYPE.QUESTION_ANSWERING
     response = question[f"bc_{question['answer']}"]
     datapoint = f"{random.choice(instruction_bank)}\n\nPlaintiff's Argument:{question['sc']}\nDefendant's Response: {response}"
-    write_json_line(train_f, datapoint, "zh", source, task_type)
+    write_json_line(train_f, datapoint, "zh", source, task_type, jurisdiction)
 
     task_type = TASK_TYPE.TEXT_CLASSIFICATION
     datapoint = f"{random.choice(instruction_bank_crime)}\n\nPlaintiff's Argument:{question['sc']}\nDefendant's Response: {response}\nCrime: {question['crime']}"
-    write_json_line(train_f, datapoint, "zh", source, task_type)
+    write_json_line(train_f, datapoint, "zh", source, task_type, jurisdiction)
 
     datapoint = f"{random.choice(instruction_bank_crime)}\n\n{question['sc']}\nCrime: {question['crime']}"
-    write_json_line(train_f, datapoint, "zh", source, task_type)
+    write_json_line(train_f, datapoint, "zh", source, task_type, jurisdiction)
 
 print("############################")
 print("########## CAIL2019 ###########")
 print("############################")
+source = "https://github.com/china-ai-law-challenge/CAIL2019"
+jurisdiction = JURISDICTION.CHINA
+
 instruction_bank = [
     "Consider the following passage from a Chinese legal case. Answer the questions about the case. If you cannot answer the question feel free to say as such.",
     "Consider the following situation in Chinese law, answer the questions. If the information is not in the passage, respond with, \"Sorry, this question cannot be answered based on the information available.\"",
     "Consider the following passage from a Chinese legal case. Answer the questions about the case. If the question is impossible to answer, say that it cannot be answered."]
-source = "https://github.com/china-ai-law-challenge/CAIL2019"
 task_type = TASK_TYPE.QUESTION_ANSWERING
 with open("./raw_data/big_train_data.json", "r") as f:
     data = json.loads(f.read())["data"]
@@ -1312,7 +1389,7 @@ with open("./raw_data/big_train_data.json", "r") as f:
                 else:
                     answer = ", ".join([a['text'] for a in question['answers']])
                 datapoint = f"{random.choice(instruction_bank)}\n\n{paragraph['context']}\n\nQuestion:{question['question']}\nAnswer:{answer}"
-                write_json_line(train_f, datapoint, "zh", source, task_type)
+                write_json_line(train_f, datapoint, "zh", source, task_type, jurisdiction)
 
 print("############################")
 print("########## Brazilian Bar Exam ###########")
@@ -1406,6 +1483,8 @@ for just in justifications:
 
 source = "https://arxiv.org/pdf/1712.05128.pdf"
 task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.BRAZIL
+
 for q in qs:
     choices = ""
     correct_answer = None
@@ -1437,7 +1516,7 @@ for q in qs:
                 analysis = just_dict[q["filename"].split(".txt")[0]][q["number"]]["comment"].replace("\n", "")
                 datapoint += f'\n\nAnalysis: {analysis}'
         datapoint += f"\nAnswer: {correct_answer}."
-        write_json_line(train_f, datapoint, "pt", source, task_type)
+        write_json_line(train_f, datapoint, "pt", source, task_type, jurisdiction)
 
 # Legal Stack Exchange questions are usually high quality
 print("############################")
@@ -1452,6 +1531,8 @@ instruction_bank = [
 ]
 source = "https://law.stackexchange.com/"
 task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.UNKNOWN
+
 n_examples = 3
 curr_examples = 0
 for idx, example in df.iterrows():
@@ -1466,7 +1547,7 @@ for idx, example in df.iterrows():
         instruction += " " + f"This question is about: {','.join([x.replace('>', '').replace('<', '').replace('-', ' ').strip() for x in example['tags'].split('>') if x.replace('>', '').replace('<', '').strip() != ''])}."
 
     datapoint = f"{instruction}\n\nQuestion: {question}\nAnswer: {answer}"
-    write_json_line(train_f, datapoint, "en", source, task_type)
+    write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 print("############################")
 print("##########  LegalQA ZHO ###########")
@@ -1481,9 +1562,11 @@ instruction_bank = [
     "Answer the question as a lawyer according to Chinese law, be informal."]
 source = "https://github.com/siatnlp/LegalQA"
 task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.CHINA
+
 for q, a in zip(df['question: body'], df['answer']):
     datapoint = f"{random.choice(instruction_bank)}\n\nQ:{q}\nA:{a}"
-    write_json_line(train_f, datapoint, "zh", source, task_type)
+    write_json_line(train_f, datapoint, "zh", source, task_type, jurisdiction)
 
 print("############################")
 print("########## Privacy QA ###########")
@@ -1491,10 +1574,11 @@ print("############################")
 df = pd.read_csv("./raw_data/policy_train_data.csv", sep="\t")
 source = "https://github.com/AbhilashaRavichander/PrivacyQA_EMNLP"
 task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.UNKOWN
 
 for index, example in df.iterrows():
     datapoint = f"Determine if the term mentioned from the privacy policy is relevant or irrelevant to the given question.\n\nQ: {example['Query']}\nTerm: {example['Segment']}\nA: {example['Label']}"
-    write_json_line(train_f, datapoint, "en", source, task_type)
+    write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 # Thai supreme court case law
 print("############################")
@@ -1519,6 +1603,8 @@ instructions_bank = [
 
 source = "https://github.com/KevinMercury/tscc-dataset-alqac2021/blob/main/tscc_alqac2021_law.json"
 task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.THAILAND
+
 for case in cases:
     text = case["text"]
     relevant_articles = []
@@ -1533,34 +1619,35 @@ for case in cases:
         outcome = f"The court would rule {'against' if case['label'] == 1 else 'for'} the defendant."
     laws = '\n'.join(relevant_articles)
     datapoint = f"{random.choice(instructions_bank)}\n\nFacts: {text}\nLaw(s): {laws}\nConclusion: {outcome}"
-    write_json_line(train_f, datapoint, "th", source, task_type)
+    write_json_line(train_f, datapoint, "th", source, task_type, jurisdiction)
 
     # Provide a non-MC version
     outcome_mc1 = ["(a)", "(b)"][case["label"]]
     datapoint = f"{random.choice(instructions_bank)}\n\nQuestion: {text} How would the court find?\n(a) For the defendant.\n(b) Against the defendant.\nLaw(s): {laws}\nAnswer: {outcome_mc1}."
-    write_json_line(train_f, datapoint, "th", source, task_type)
+    write_json_line(train_f, datapoint, "th", source, task_type, jurisdiction)
 
     outcome_mc1 = ["(b)", "(a)"][case["label"]]
     datapoint = f"{random.choice(instructions_bank)}\n\nQuestion: {text} How would the court find?\n(a) Against the defendant.\n(b) For the defendant.\nLaw(s): {laws}\nAnswer: {outcome_mc1}."
-    write_json_line(train_f, datapoint, "th", source, task_type)
+    write_json_line(train_f, datapoint, "th", source, task_type, jurisdiction)
 
 # Case briefs take the form of a question and an answer.
 print("############################")
 print("########## CaseBriefs ###########")
 print("############################")
 case_brief_instructions = [
-    "Given the key facts of a case, provide the core question the court should answer, then provide an analysis for how the a court might decide the case.",
-    "Given the facts, describe how the court should think about the key issue?"]
+    "Given the key facts of a case, provide the core question the court should answer, then provide an analysis for how the an American court might decide the case.",
+    "Given the facts, describe how an American court should think about the key issue?"]
 
 df = load_dataset("socratic-machines/case-briefs", "combined", use_auth_token=True)
 source = "https://www.oyez.org"
 task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.US
 
 for example in df["train"]["text"]:
     example = example.split("Key Facts:")[0].split("Year:")[0]
     example = example.replace("Answer:", "Analysis:")
     example = f"{random.choice(case_brief_instructions)}\n\n{example}"
-    write_json_line(train_f, example, "en", source, task_type)
+    write_json_line(train_f, example, "en", source, task_type, jurisdiction)
 
 print("############################")
 print("########## EOIR PRIVACY ###########")
@@ -1568,17 +1655,19 @@ print("############################")
 
 df = load_dataset("pile-of-law/eoir_privacy", "eoir_privacy", split="train")
 
+# TODO do we need the jurisdiction in each example of the instruction bank?
 instruction_bank = [
     "For each masked paragraph, determine if we should use a pseudonym for this case related to immigration law in the United States.",
     "Consider this paragraph from a precedential EOIR case. Should the IJ use a a pseudonym.",
     "Should the judge pseudonymize the person's name in this paragraph?"]
 source = "https://huggingface.co/datasets/pile-of-law/eoir_privacy"
 task_type = TASK_TYPE.TEXT_CLASSIFICATION
+jurisdiction = JURISDICTION.US
 
 for example in df:
     lookup = ["Don't use pseudonym.", "Use pseudonym."]
     datapoint = f"{random.choice(instruction_bank)}\n\n{example['text']}\n{lookup[example['label']]}"
-    write_json_line(train_f, datapoint, "en", source, task_type)
+    write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 # OLC memos start off with a short form summary and then write the memo
 print("############################")
@@ -1592,12 +1681,13 @@ instruction_bank = ["Write a legal research memo on the following topic.",
                     "Consider the question below, write a formal legal research memo."]
 source = "pile-of-law/pile-of-law/olc_memos"
 task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.US
 
 for example in df["text"]:
     if example.startswith("b'"):
         example = example.encode().decode('unicode-escape').encode('latin1').decode('utf-8')[2:-2].strip()
     datapoint = f"{random.choice(instruction_bank)}\n\n{example}"
-    write_json_line(train_f, datapoint, "en", source, task_type)
+    write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 print("############################")
 print("########## Reddit Legal QA ###########")
@@ -1609,6 +1699,7 @@ reddit_instructions = [
 df = load_dataset("pile-of-law/pile-of-law", "r_legaladvice", split="train")
 source = "pile-of-law/pile-of-law/r_legaladvice"
 task_type = TASK_TYPE.QUESTION_ANSWERING
+jurisdiction = JURISDICTION.UNKNOWN
 
 for example in df["text"]:
     question = example.split("Question:")[-1]
@@ -1619,6 +1710,6 @@ for example in df["text"]:
     answers = [a.split(":")[-1] for a in answers]
     for a in answers:
         datapoint = f"Question: {q}\n\nAnalysis: {a}"
-        write_json_line(train_f, datapoint, "en", source, task_type)
+        write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 train_f.close()
