@@ -89,63 +89,7 @@ train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
 
 # TODO put the openly available datasets on huggingface and then use the datasets library to load them
 
-### Reclor has logical reasoning.
-print("############################")
-print("########## Reclor ###########")
-print("############################")
-instruction_bank = ["Given the context answer the reasoning question.",
-                    "Answer the logical reasoning multiple choice questions.",
-                    "State the answer in the following format, \"Final Answer: The final answer is ([ANSWER]). I hope it is correct.\"",
-                    "Read the passage any any relevant rules describing the world. Apply the rules to the facts to answer the question."]
-source = "https://github.com/yuweihao/reclor"
-task_type = TASK_TYPE.QUESTION_ANSWERING
-jurisdiction = JURISDICTION.N_A
 
-with open("./raw_data/reclor_train.json", "r") as f:
-    df = json.loads(f.read())
-for data in df:
-    options = ""
-    options_labels = ["(a)", "(b)", "(c)", "(d)", "(e)"]
-    for x, lab in zip(data["answers"], options_labels):
-        options += f"{lab} {x}\n"
-    correct_option = options_labels[data['label']]
-    datapoint = f"{random.choice(instruction_bank)}\n\nQuestion: {data['context']} {data['question']}\n{options}\nFinal Answer: The final answer is: {correct_option}. I hope it is correct."
-    write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
-
-# Add math-type reasoning b/c tax has that flavor
-print("############################")
-print("########## gsm8k ###########")
-print("############################")
-source = "https://huggingface.co/datasets/gsm8k"
-x = load_dataset("gsm8k", "main", split="train")
-task_type = TASK_TYPE.QUESTION_ANSWERING
-jurisdiction = JURISDICTION.N_A
-
-instruction_bank = ["Answer the question, make sure to show your work.",
-                    "Answer the math question step by step. Show your work.",
-                    "Answer the following question in logical steps.",
-                    "Answer the following questions."]
-for example in x:
-    datapoint = f"{random.choice(instruction_bank)}\n\nQ: {example['question']}\nA: {example['answer']}"
-    if os.path.getsize(get_output_file_name(category, output_file_idx)) > MAX_FILE_SIZE:
-        train_f.close()
-        output_file_idx += 1
-        train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
-    write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
-
-x = load_dataset("gsm8k", "socratic", split="train")
-
-instruction_bank = ["Answer the question, make sure to ask yourself follow up questions.",
-                    "Answer the math question using the socratic method. Show your work.",
-                    "Answer the following question in logical steps.",
-                    "Answer the following questions. Make sure to ask any follow up questions as needed."]
-for example in x:
-    datapoint = f"{random.choice(instruction_bank)}\n\nQ: {example['question']}\nA: {example['answer']}"
-    if os.path.getsize(get_output_file_name(category, output_file_idx)) > MAX_FILE_SIZE:
-        train_f.close()
-        output_file_idx += 1
-        train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
-    write_json_line(train_f, datapoint, "en", source, task_type, jurisdiction)
 
 print("############################")
 print("########## Lila ###########")
