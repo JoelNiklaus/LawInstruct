@@ -1,56 +1,10 @@
-import os
-from datasets import load_dataset
-from tqdm import tqdm
+from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
 
-from utils import write_json_line, get_output_file_name, MAX_FILE_SIZE
-
-try:
-    import lzma as xz
-except ImportError:
-    import pylzma as xz
-
-import logging
 import string
 from transformers.data.data_collator import *
 
 from iso639 import languages
 
-
-def get_lang_codes(langs):
-    lang_codes = []
-    for lang in langs:
-        try:
-            lang_code = languages.get(name=lang).alpha2
-        except KeyError:
-            lang_code = "unknown"
-        lang_codes.append(lang_code)
-        return lang_codes
-
-
-logger = logging.getLogger(__name__)
-
-# search by "Law", "Legal", "Jurisprudence": https://github.com/allenai/natural-instructions/tree/master/tasks
-legal_tasks = [
-    'task268_casehold_legal_answer_generation',
-    'task274_overruling_legal_classification',
-    'task287_casehold_legal_incorrect_answer_generation',
-    'task597_cuad_answer_generation',
-    'task598_cuad_answer_generation',
-    'task599_cuad_question_generation',
-    'task683_online_privacy_policy_text_purpose_answer_generation',
-    'task684_online_privacy_policy_text_information_type_generation',
-    'task715_mmmlu_answer_generation_international_law',
-    'task716_mmmlu_answer_generation_jurisprudence',
-    'task729_mmmlu_answer_generation_professional_law',
-    'task743_eurlex_summarization',
-    'task744_eurlex_classification',
-    'task1658_billsum_summarization',
-    'task1666_cail2018_answer_generation',
-    'task1667_cail2018_answer_generation',
-]
-
-
-# TODO use task_name to hold out mmmlu from here
 
 @dataclass
 class DataCollatorForNI:
@@ -232,71 +186,77 @@ class DataCollatorForNI:
         return model_inputs
 
 
-print("############################")
-print("########## natural instructions ###########")
-print("############################")
-raw_datasets = load_dataset('./raw_data/Tk-Instruct/src/ni_dataset.py', data_dir="raw_data/ni_task_configs",
-                            task_dir="./raw_data/ni_instructions_data/tasks")["train"]
+class AbstractNaturalInstructions(AbstractDataset):
+    all_valid_encodings = [
+        # instruction only
+        {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 0, "num_neg_examples": 0,
+         "add_explanation": False},
+        # instruction + explanation
+        {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 0, "num_neg_examples": 0,
+         "add_explanation": True},
+        # example only
+        {"add_task_name": False, "add_task_definition": False, "num_pos_examples": 2, "num_neg_examples": 0,
+         "add_explanation": False},
+        # instruction + pos examples
+        {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 2, "num_neg_examples": 0,
+         "add_explanation": False},
+        # instruction + pos examples + neg examples
+        {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 2, "num_neg_examples": 2,
+         "add_explanation": False},
+        # instruction + pos (w. explanation)
+        {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 2, "num_neg_examples": 0,
+         "add_explanation": True},
+    ]
 
-# tasks = set(x["train"]["Task"])
-# block_list = ["mmlu"]
-# for task in tasks:
-#     for block in block_list:
-#         if block in task:
-#             continue
-all_valid_encodings = [
-    # instruction only
-    {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 0, "num_neg_examples": 0,
-     "add_explanation": False},
-    # instruction + explanation
-    {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 0, "num_neg_examples": 0,
-     "add_explanation": True},
-    # example only
-    {"add_task_name": False, "add_task_definition": False, "num_pos_examples": 2, "num_neg_examples": 0,
-     "add_explanation": False},
-    # instruction + pos examples
-    {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 2, "num_neg_examples": 0,
-     "add_explanation": False},
-    # instruction + pos examples + neg examples
-    {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 2, "num_neg_examples": 2,
-     "add_explanation": False},
-    # instruction + pos (w. explanation)
-    {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 2, "num_neg_examples": 0,
-     "add_explanation": True},
-]
-collators = []
-for encoding in all_valid_encodings:
-    collators.append(DataCollatorForNI(
-        tokenizer=None,
-        model=None,
-        **encoding,
-        text_only=True
-    ))
+    # searched by "Law", "Legal", "Jurisprudence": https://github.com/allenai/natural-instructions/tree/master/tasks
+    legal_tasks = {
+        'task268_casehold_legal_answer_generation': {"jurisdiction": JURISDICTION.US,
+                                                     "task_type": TASK_TYPE.ANSWER_GENERATION},
+        'task274_overruling_legal_classification': {"jurisdiction": JURISDICTION.US,
+                                                    "task_type": TASK_TYPE.TEXT_CLASSIFICATION},
+        'task287_casehold_legal_incorrect_answer_generation': {"jurisdiction": JURISDICTION.US,
+                                                               "task_type": TASK_TYPE.ANSWER_GENERATION},
+        'task597_cuad_answer_generation': {"jurisdiction": JURISDICTION.US, "task_type": TASK_TYPE.ANSWER_GENERATION},
+        'task598_cuad_answer_generation': {"jurisdiction": JURISDICTION.US, "task_type": TASK_TYPE.ANSWER_GENERATION},
+        'task599_cuad_question_generation': {"jurisdiction": JURISDICTION.US,
+                                             "task_type": TASK_TYPE.QUESTION_GENERATION},
+        'task683_online_privacy_policy_text_purpose_answer_generation': {"jurisdiction": JURISDICTION.UNKWNOWN,
+                                                                         "task_type": TASK_TYPE.ANSWER_GENERATION},
+        'task684_online_privacy_policy_text_information_type_generation': {"jurisdiction": JURISDICTION.UNKOWN,
+                                                                           "task_type": TASK_TYPE.ANSWER_GENERATION},
+        'task715_mmmlu_answer_generation_international_law': {"jurisdiction": JURISDICTION.INTERNATIONAL,
+                                                              "task_type": TASK_TYPE.ANSWER_GENERATION},
+        'task716_mmmlu_answer_generation_jurisprudence': {"jurisdiction": JURISDICTION.US,
+                                                          "task_type": TASK_TYPE.ANSWER_GENERATION},
+        'task729_mmmlu_answer_generation_professional_law': {"jurisdiction": JURISDICTION.US,
+                                                             "task_type": TASK_TYPE.ANSWER_GENERATION},
+        'task743_eurlex_summarization': {"jurisdiction": JURISDICTION.EU, "task_type": TASK_TYPE.SUMMARIZATION},
+        'task744_eurlex_classification': {"jurisdiction": JURISDICTION.EU, "task_type": TASK_TYPE.TEXT_CLASSIFICATION},
+        'task1658_billsum_summarization': {"jurisdiction": JURISDICTION.US, "task_type": TASK_TYPE.SUMMARIZATION},
+        'task1666_cail2018_answer_generation': {"jurisdiction": JURISDICTION.CHINA,
+                                                "task_type": TASK_TYPE.ANSWER_GENERATION},
+        'task1667_cail2018_answer_generation': {"jurisdiction": JURISDICTION.CHINA,
+                                                "task_type": TASK_TYPE.ANSWER_GENERATION},
+    }
 
+    def __init__(self, name, source):
+        super().__init__(name, source)
+        self.collators = []
+        for encoding in self.all_valid_encodings:
+            self.collators.append(DataCollatorForNI(
+                tokenizer=None,
+                model=None,
+                **encoding,
+                text_only=True
+            ))
+        self.filter_out_mmmlu = True
 
-def write_for_dataset(category, dataset):
-    output_file_idx = 0
-    train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
-    for example in tqdm(dataset):
-        lang_codes = get_lang_codes(example["Input_language"])
-
-        for collator in collators:
-            encoded_example = collator([example])
-            # TODO additionally save prompt and label separately for the legal datasets so we can do machine translation only on prompt
-            datapoint = encoded_example["inputs"][0] + " " + encoded_example["labels"][0].strip()
-            if os.path.getsize(get_output_file_name(category, output_file_idx)) > MAX_FILE_SIZE:
-                train_f.close()
-                output_file_idx += 1
-                train_f = xz.open(get_output_file_name(category, output_file_idx), "wt")
-            write_json_line(train_f, datapoint, lang_codes, example["URL"])
-    train_f.close()
-
-# comment this to keep in of mmmlu
-raw_datasets = raw_datasets.filter(lambda x: "mmmlu" not in x["Name"])
-
-# separate legal tasks from other tasks
-legal_datasets = raw_datasets.filter(lambda x: x["Name"] in legal_tasks)
-other_datasets = raw_datasets.filter(lambda x: x["Name"] not in legal_tasks)
-
-write_for_dataset("natural_instructions", other_datasets)
-write_for_dataset("law_instruct", legal_datasets)
+    def get_lang_codes(self, langs):
+        lang_codes = []
+        for lang in langs:
+            try:
+                lang_code = languages.get(name=lang).alpha2
+            except KeyError:
+                lang_code = "unknown"
+            lang_codes.append(lang_code)
+            return lang_codes
