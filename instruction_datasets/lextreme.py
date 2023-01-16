@@ -17,7 +17,7 @@ ner_class_mapping = {
         'B-PERSON', 'I-PERSON', 'B-FACILITY', 'I-FACILITY', 'B-LOCATION-UNK', 'I-LOCATION-UNK', 'B-LOCATION-NAT',
         'I-LOCATION-NAT'
     ],
-    "mapa_course": [
+    "mapa_coarse": [
         'O', 'B-ORGANISATION', 'I-ORGANISATION', 'B-ADDRESS', 'I-ADDRESS', 'B-DATE', 'I-DATE', 'B-PERSON',
         'I-PERSON',
         'B-AMOUNT', 'I-AMOUNT', 'B-TIME', 'I-TIME'
@@ -48,11 +48,11 @@ instructions_for_subsets = {
                               "definition: Abstract legal facts and consequences, "
                               "subsumption: Determination sentence / Concrete facts, "
                               "other: Anything else)",
-    "greek_legal_code_chapter_level": "In this task, you are given a Greek legislative document. "
+    "greek_legal_code_chapter": "In this task, you are given a Greek legislative document. "
                                       "Predict the chapter level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
-    "greek_legal_code_subject_level": "In this task, you are given a Greek legislative document. "
+    "greek_legal_code_subject": "In this task, you are given a Greek legislative document. "
                                       "Predict the subject level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
-    "greek_legal_code_volume_level": "In this task, you are given a Greek legislative document. "
+    "greek_legal_code_volume": "In this task, you are given a Greek legislative document. "
                                      "Predict the volume level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
     "online_terms_of_service_unfairness_levels": "In this task, you are given a sentence from a Terms of Service (ToS) document. "
                                                  "Predict the unfairness level of the sentence (potentially_unfair, clearly_unfair, clearly_fair, untagged)",
@@ -89,9 +89,9 @@ instructions_for_subsets = {
                  "Predict the named entity type for each token.",
     "lener_br": "In this task, you are given a sentence from Brazilian legal documents (court decisions and legislation). "
                 "Predict the named entity type for each token.",
-    "mapa_ner_coarse_grained": "In this task, you are given a sentence from the EUR-Lex database. "
+    "mapa_coarse": "In this task, you are given a sentence from the EUR-Lex database. "
                                "Predict the coarse grained named entity type for each token.",
-    "mapa_ner_fine_grained": "In this task, you are given a sentence from the EUR-Lex database. "
+    "mapa_fine": "In this task, you are given a sentence from the EUR-Lex database. "
                              "Predict the fine grained named entity type for each token.",
 }
 
@@ -99,9 +99,9 @@ TASK_CODE_MAPPING = {
     'brazilian_court_decisions_judgment': 'SLTC',
     'brazilian_court_decisions_unanimity': 'SLTC',
     'german_argument_mining': 'SLTC',
-    'greek_legal_code_chapter_level': 'SLTC',
-    'greek_legal_code_subject_level': 'SLTC',
-    'greek_legal_code_volume_level': 'SLTC',
+    'greek_legal_code_chapter': 'SLTC',
+    'greek_legal_code_subject': 'SLTC',
+    'greek_legal_code_volume': 'SLTC',
     'online_terms_of_service_unfairness_levels': 'SLTC',
     'online_terms_of_service_clause_topics': 'MLTC',
     'covid19_emergency_event': 'MLTC',
@@ -111,17 +111,17 @@ TASK_CODE_MAPPING = {
     'greek_legal_ner': 'NER',
     'legalnero': 'NER',
     'lener_br': 'NER',
-    'mapa_ner_coarse_grained': 'NER',
-    'mapa_ner_fine_grained': 'NER',
+    'mapa_coarse': 'NER',
+    'mapa_fine': 'NER',
 }
 
 JURISDICTION_MAPPING = {
     'brazilian_court_decisions_judgment': JURISDICTION.BRAZIL,
     'brazilian_court_decisions_unanimity': JURISDICTION.BRAZIL,
     'german_argument_mining': JURISDICTION.GERMANY,
-    'greek_legal_code_chapter_level': JURISDICTION.GREECE,
-    'greek_legal_code_subject_level': JURISDICTION.GREECE,
-    'greek_legal_code_volume_level': JURISDICTION.GREECE,
+    'greek_legal_code_chapter': JURISDICTION.GREECE,
+    'greek_legal_code_subject': JURISDICTION.GREECE,
+    'greek_legal_code_volume': JURISDICTION.GREECE,
     'online_terms_of_service_unfairness_levels': JURISDICTION.UNKNOWN,
     'online_terms_of_service_clause_topics': JURISDICTION.UNKNOWN,
     'covid19_emergency_event': JURISDICTION.UNKNOWN,
@@ -131,8 +131,8 @@ JURISDICTION_MAPPING = {
     'greek_legal_ner': JURISDICTION.GREECE,
     'legalnero': JURISDICTION.ROMANIA,
     'lener_br': JURISDICTION.BRAZIL,
-    'mapa_ner_coarse_grained': JURISDICTION.EU,
-    'mapa_ner_fine_grained': JURISDICTION.EU,
+    'mapa_coarse': JURISDICTION.EU,
+    'mapa_fine': JURISDICTION.EU,
 }
 
 NER_DELIMITER = "|"
