@@ -12,7 +12,6 @@ try:
 except ImportError:
     import pylzma as xz
 
-
 MAX_FILE_SIZE = 6.25e8
 
 TASK_TYPE = enum.Enum('TASK_TYPE', [
@@ -109,4 +108,4 @@ class AbstractDataset():
     def open_new_file(self, output_file_idx):
         filename = self.get_output_file_name(output_file_idx)
         print(f"Writing to {filename}")
-        return xz.open(filename, "wt") # do we need append mode here?
+        return xz.open(filename, "wt")  # do we need append mode here?
