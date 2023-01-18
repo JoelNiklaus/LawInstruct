@@ -63,10 +63,10 @@ Arya:
 
 - put local data on huggingface hub (find them if they use the raw_data folder)
 - add urls to the source in the init call (MBE, civipro, mc_ecams, professional_law, sara_prolog)
-- add more datasets
+- add more datasets from the list above
 - add additional datasets (Arya)
 - refactor code, so that all the instruction banks live in a json file that we can easily translate in the other languages
-- translate instruction banks into the 24 EU languages
+- translate instruction banks (from json file) into the 24 EU languages (Joel)
 - use the same instruction banks for the same tasks if applicable
 - test the dataset generation thoroughly
 - run the script on a big machine to generate the datasets and upload to lawinstruct organisation on huggingface hub
