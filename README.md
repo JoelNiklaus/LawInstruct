@@ -1,6 +1,6 @@
 # LawInstruct
 
-This repository is a collection of legal instruction datasets
+This repository has code used to generate legal instruction datasets
 
 ## How to add a new dataset
 
@@ -28,6 +28,7 @@ This repository is a collection of legal instruction datasets
 - MAUD (https://github.com/TheAtticusProject/maud, https://huggingface.co/datasets/theatticusproject/maud)
 - LegalCaseReports Summ (https://archive.ics.uci.edu/ml/machine-learning-databases/00239
   , https://aclanthology.org/W12-0515.pdf) ==> no re-destribution allowed ==> upload to private hf repo
+- EurLexSum (https://huggingface.co/datasets/dennlinger/eur-lex-sum) ==> very long texts and summaries
 
 Arya:
 
@@ -49,7 +50,6 @@ Arya:
 
 ## Tasks to be reconsidered later
 
-- EurLexSum (https://huggingface.co/datasets/dennlinger/eur-lex-sum) ==> very long texts and summaries
 - LegalSum (https://github.com/sebimo/LegalSum) ==> complicated to read because of norms and would require large
   preprocessing. Additionally, contains very long sequences
 - Indian/Australian Summarization (https://github.com/manavkapadnis/LegalEvaluation_LREC2022) ==> too long and for
@@ -58,20 +58,23 @@ Arya:
 - BSARD (https://github.com/maastrichtlawtech/bsard) ==> legal articles are not available directly
 - Cornell eRulemaking Corpus (https://facultystaff.richmond.edu/~jpark/data/jpark_lrec18.zip
   , https://facultystaff.richmond.edu/~jpark/papers/jpark_lrec18.pdf) ==> the full text of the comments is not available
+
 ## TODOs
 
 - put local data on huggingface hub (find them if they use the raw_data folder)
+- add urls to the source in the init call (MBE, civipro, mc_ecams, professional_law, sara_prolog)
+- add more datasets
 - add additional datasets (Arya)
-- diversify instruction banks more
 - refactor code, so that all the instruction banks live in a json file that we can easily translate in the other languages
 - translate instruction banks into the 24 EU languages
 - use the same instruction banks for the same tasks if applicable
-- add more datasets (Joel)
-- test the datasets thoroughly
-- run the script to generate the datasets
-- upload the final datasets to the huggingface hub
-- (maybe translate some answers into the 24 EU languages) ==> save instructions and answers into different columns 
-- maybe do not use xP3 and natural instructions but only code and legal instructions becuase of figure
+- test the dataset generation thoroughly
+- run the script on a big machine to generate the datasets and upload to lawinstruct organisation on huggingface hub
+- add more examples to the instruction banks
+
+## Maybe later 
+- translate some answers into the 24 EU languages ==> save instructions and answers into different columns 
+- do not use xP3 and natural instructions but only code and legal instructions becuase of figure
   4: https://arxiv.org/pdf/2210.11416v5.pdf
 
 ## Done
@@ -79,3 +82,4 @@ Arya:
 - add initial datasets (Peter)
 - code refactoring (Joel)
 - add additional datasets (Joel)
+- search for additional datasets (Joel)
