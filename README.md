@@ -16,16 +16,21 @@ This repository is a collection of legal instruction datasets
 3. Add the dataset to the list in `build_instruction_datasets.py` a run the script to generate the dataset.
 
 ## Tasks still to add:
-- Contract extraction dataset (http://nlp.cs.aueb.gr/software_and_datasets/CONTRACTS_ICAIL2017/index.html, http://nlp.cs.aueb.gr/pubs/icail2017.pdf)
-- Cornell eRulemaking Corpus (https://facultystaff.richmond.edu/~jpark/data/jpark_lrec18.zip, https://facultystaff.richmond.edu/~jpark/papers/jpark_lrec18.pdf)
-- German Rental Agreements (https://github.com/sebischair/Legal-Sentence-Classification-Datasets-and-Models, https://www.researchgate.net/publication/332171940_Classifying_Semantic_Types_of_Legal_Sentences_Portability_of_Machine_Learning_Models)
-- US Caselaw Segmentation (https://github.com/jsavelka/us-dec-func-iss-sgm/blob/master/trade_secret_cases.json, http://ebooks.iospress.nl/volumearticle/50840)
-- Cookie Policy Summarization (https://github.com/senjed/Summarization-of-Privacy-Policies, http://ceur-ws.org/Vol-2645/paper3.pdf)
+
+- Contract extraction dataset (http://nlp.cs.aueb.gr/software_and_datasets/CONTRACTS_ICAIL2017/index.html
+  , http://nlp.cs.aueb.gr/pubs/icail2017.pdf)
+- US Caselaw Segmentation (https://github.com/jsavelka/us-dec-func-iss-sgm/blob/master/trade_secret_cases.json
+  , http://ebooks.iospress.nl/volumearticle/50840)
+- Cookie Policy Summarization (https://github.com/senjed/Summarization-of-Privacy-Policies
+  , http://ceur-ws.org/Vol-2645/paper3.pdf)
 - BVA Summarization (https://github.com/luimagroup/bva-summarization, https://dl.acm.org/doi/10.1145/3322640.3326728)
 - Australian Case Citation Summarization (https://archive.ics.uci.edu/ml/datasets/Legal+Case+Reports)
-- MAUD (https://github.com/TheAtticusProject/maud)
+- MAUD (https://github.com/TheAtticusProject/maud, https://huggingface.co/datasets/theatticusproject/maud)
+- LegalCaseReports Summ (https://archive.ics.uci.edu/ml/machine-learning-databases/00239
+  , https://aclanthology.org/W12-0515.pdf) ==> no re-destribution allowed ==> upload to private hf repo
 
-Arya: 
+Arya:
+
 - LegalLinking (https://github.com/mayhewsw/legal-linking)
 - Privacy Policies Summarization (https://github.com/senjed/Summarization-of-Privacy-Policies
 - E-NER (https://github.com/terenceau2/E-NER-Dataset)
@@ -36,36 +41,41 @@ Arya:
 - CASS (https://github.com/euranova/CASS-dataset)
 - ECHR Argument Mining (http://www.di.uevora.pt/~pq/echr/)
 - Greek NER (https://github.com/nmpartzio/elNER)
-- Indian NER (https://arxiv.org/pdf/2211.03442.pdf, https://github.com/Legal-NLP-EkStep/legal_NER/tree/main/representative_judgments_sample)
+- Indian NER (https://arxiv.org/pdf/2211.03442.pdf
+  , https://github.com/Legal-NLP-EkStep/legal_NER/tree/main/representative_judgments_sample)
 - LawngNLI (https://arxiv.org/pdf/2212.03222.pdf)
 - Privacy Policies (https://usableprivacy.org/data) (excluding OPP-115 Corpus: already present in natural instructions)
 - MakeThisYourLastTime (https://www.makethisyourlasttime.com/essay-bank/)
 
 ## Tasks to be reconsidered later
-- LegalSum (https://github.com/sebimo/LegalSum) ==> complicated to read because of norms and would require large preprocessing. Additionally, contains very long sequences. leave out for the moment
-- LegalCaseReports Summ (https://archive.ics.uci.edu/ml/machine-learning-databases/00239, https://aclanthology.org/W12-0515.pdf) ==> no re-destribution allowed
-- Indian/Australian Summarization (https://github.com/manavkapadnis/LegalEvaluation_LREC2022) ==> too long and for australian data, annotation done automatically
+
+- EurLexSum (https://huggingface.co/datasets/dennlinger/eur-lex-sum) ==> very long texts and summaries
+- LegalSum (https://github.com/sebimo/LegalSum) ==> complicated to read because of norms and would require large
+  preprocessing. Additionally, contains very long sequences
+- Indian/Australian Summarization (https://github.com/manavkapadnis/LegalEvaluation_LREC2022) ==> too long and for
+  australian data, annotation done automatically
 - BVACItationPrediction (https://github.com/TUMLegalTech/bva-citation-prediction) ==> no dataset downloadable directly
 - BSARD (https://github.com/maastrichtlawtech/bsard) ==> legal articles are not available directly
-- EurLexSum (https://huggingface.co/datasets/dennlinger/eur-lex-sum) ==> very long texts and summaries
-
-
+- Cornell eRulemaking Corpus (https://facultystaff.richmond.edu/~jpark/data/jpark_lrec18.zip
+  , https://facultystaff.richmond.edu/~jpark/papers/jpark_lrec18.pdf) ==> the full text of the comments is not available
 ## TODOs
+
 - put local data on huggingface hub (find them if they use the raw_data folder)
 - add additional datasets (Arya)
+- diversify instruction banks more
+- refactor code, so that all the instruction banks live in a json file that we can easily translate in the other languages
 - translate instruction banks into the 24 EU languages
-- diversify instructions more
 - use the same instruction banks for the same tasks if applicable
 - add more datasets (Joel)
 - test the datasets thoroughly
 - run the script to generate the datasets
-- upload the datasets to the huggingface hub
-- (maybe translate some answers into the 24 EU languages) ==> save instructions and answers into different columns for MT
-- maybe do not use xP3 and natural instructions but only code and legal instructions becuase of figure 4: https://arxiv.org/pdf/2210.11416v5.pdf
-
+- upload the final datasets to the huggingface hub
+- (maybe translate some answers into the 24 EU languages) ==> save instructions and answers into different columns 
+- maybe do not use xP3 and natural instructions but only code and legal instructions becuase of figure
+  4: https://arxiv.org/pdf/2210.11416v5.pdf
 
 ## Done
+
 - add initial datasets (Peter)
 - code refactoring (Joel)
 - add additional datasets (Joel)
-- 
