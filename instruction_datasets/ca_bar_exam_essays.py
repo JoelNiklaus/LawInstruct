@@ -5,9 +5,9 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
 
 
-class EOIRPrivacy(AbstractDataset):
+class CABarExamEssays(AbstractDataset):
     def __init__(self):
-        super().__init__("EOIRPrivacy", "https://www.calbar.ca.gov/Admissions/Examinations/California-Bar-Examination/Past-Exams")
+        super().__init__("CABarExamEssays", "https://www.calbar.ca.gov/Admissions/Examinations/California-Bar-Examination/Past-Exams")
 
     def get_data(self):
         # Scraped bar exam essays

@@ -11,9 +11,6 @@ class Lila(AbstractDataset):
         super().__init__("Lila", "https://github.com/allenai/Lila")
 
     def get_data(self):
-        print("############################")
-        print("########## Lila ###########")
-        print("############################")
         json_files = [pos_json for pos_json in os.listdir("raw_data/all_lila/") if pos_json.endswith('.json')]
         instruction_bank = ["Consider the following question. Write a Python program to solve it.",
                             "Write a Python program to solve the following question, denote it as \"Program:\". Provide the output as \"Answer:\"."]

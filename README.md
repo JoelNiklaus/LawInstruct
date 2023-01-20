@@ -19,11 +19,6 @@ This repository has code used to generate legal instruction datasets
 
 - Contract extraction dataset (http://nlp.cs.aueb.gr/software_and_datasets/CONTRACTS_ICAIL2017/index.html
   , http://nlp.cs.aueb.gr/pubs/icail2017.pdf)
-- US Caselaw Segmentation (https://github.com/jsavelka/us-dec-func-iss-sgm/blob/master/trade_secret_cases.json
-  , http://ebooks.iospress.nl/volumearticle/50840)
-- Cookie Policy Summarization (https://github.com/senjed/Summarization-of-Privacy-Policies
-  , http://ceur-ws.org/Vol-2645/paper3.pdf)
-- BVA Summarization (https://github.com/luimagroup/bva-summarization, https://dl.acm.org/doi/10.1145/3322640.3326728)
 - Australian Case Citation Summarization (https://archive.ics.uci.edu/ml/datasets/Legal+Case+Reports)
 - MAUD (https://github.com/TheAtticusProject/maud, https://huggingface.co/datasets/theatticusproject/maud)
 - LegalCaseReports Summ (https://archive.ics.uci.edu/ml/machine-learning-databases/00239
@@ -58,6 +53,11 @@ Arya:
 - BSARD (https://github.com/maastrichtlawtech/bsard) ==> legal articles are not available directly
 - Cornell eRulemaking Corpus (https://facultystaff.richmond.edu/~jpark/data/jpark_lrec18.zip
   , https://facultystaff.richmond.edu/~jpark/papers/jpark_lrec18.pdf) ==> the full text of the comments is not available
+- Cookie Policy Summarization (https://github.com/senjed/Summarization-of-Privacy-Policies
+  , http://ceur-ws.org/Vol-2645/paper3.pdf) ==> automatic annotation, no summarization data available
+- BVA Summarization (https://github.com/luimagroup/bva-summarization, https://dl.acm.org/doi/10.1145/3322640.3326728) ==> repo very badly documented, it is not clear which dataset to use
+- US Caselaw Segmentation (https://github.com/jsavelka/us-dec-func-iss-sgm/blob/master/trade_secret_cases.json
+  , http://ebooks.iospress.nl/volumearticle/50840) ==> sentence boundary detection is probably not the most useful task
 
 ## TODOs
 
@@ -65,15 +65,17 @@ Arya:
 - add urls to the source in the init call (MBE, civipro, mc_ecams, professional_law, sara_prolog)
 - add more datasets from the list above
 - add additional datasets (Arya)
-- refactor code, so that all the instruction banks live in a json file that we can easily translate in the other languages
+- refactor code, so that all the instruction banks live in a json file that we can easily translate in the other
+  languages
 - translate instruction banks (from json file) into the 24 EU languages (Joel)
 - use the same instruction banks for the same tasks if applicable
 - test the dataset generation thoroughly
 - run the script on a big machine to generate the datasets and upload to lawinstruct organisation on huggingface hub
 - add more examples to the instruction banks
 
-## Maybe later 
-- translate some answers into the 24 EU languages ==> save instructions and answers into different columns 
+## Maybe later
+
+- translate some answers into the 24 EU languages ==> save instructions and answers into different columns
 - do not use xP3 and natural instructions but only code and legal instructions becuase of figure
   4: https://arxiv.org/pdf/2210.11416v5.pdf
 
