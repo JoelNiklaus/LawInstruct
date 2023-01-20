@@ -13,11 +13,7 @@ class BrCAD5(AbstractDataset):
         super().__init__("BrCAD5", "https://huggingface.co/datasets/joelito/BrCAD-5")
 
     def get_data(self):
-        # TODO debug why this is still not working.
-        df = load_dataset("json", data_files="raw_data/brcad_5/data/train.jsonl", nrows=10)["train"]
-        #df = load_dataset("parquet", data_files="raw_data/brcad_5/original_data/train_en.parquet")["train"]
-        print(df.features)
-        #df = load_dataset('joelito/BrCAD-5', split='test')
+        df = load_dataset('joelito/BrCAD-5', split='train')
         task_type = TASK_TYPE.TEXT_CLASSIFICATION
         jurisdiction = JURISDICTION.BRAZIL
         prompt_language = "en"
