@@ -22,7 +22,6 @@ class COLIEE(AbstractDataset):
 					text = example['text']
 					yield self.build_data_point(prompt_language, answer_language, text, task_type, jurisdiction)
 
-
 		# Given a legal passage, generate an entailed question
 		task_type = TASK_TYPE.QUESTION_GENERATION
 		for answer_language in answer_languages:

@@ -10,7 +10,7 @@ class MBE(AbstractDataset):
 
     def get_data(self):
         df = pd.read_csv("raw_data/mbe_train.csv")
-        task_type = TASK_TYPE.MULTIPE_CHOICE
+        task_type = TASK_TYPE.MULTIPLE_CHOICE
         jurisdiction = JURISDICTION.US
         prompt_language = "en"
 

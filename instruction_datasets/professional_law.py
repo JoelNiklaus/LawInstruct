@@ -18,7 +18,7 @@ class ProfessionalLaw(AbstractDataset):
                                   "Answer these U.S. Multistate Bar Exam questions. Provide the choice as \"Answer:\"",
                                   "Pick the most correct option considering U.S. Law. Output the choice as \"Answer:\""]
         df = load_dataset("hendrycks_test", "professional_law", split="auxiliary_train").select(range(1200))
-        task_type = TASK_TYPE.MULTIPE_CHOICE
+        task_type = TASK_TYPE.MULTIPLE_CHOICE
         jurisdiction = JURISDICTION.US
         prompt_language = "en"
 
