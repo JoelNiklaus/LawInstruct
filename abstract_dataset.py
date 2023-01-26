@@ -1,9 +1,10 @@
+import datetime
+import enum
+import json
 import logging
 import os
 import random
-import enum
-import json
-import datetime
+from typing import TextIO
 
 from tqdm import tqdm
 
@@ -47,8 +48,8 @@ JURISDICTION = enum.Enum('JURISDICTION', [
 ])
 
 
-class AbstractDataset():
-    def __init__(self, name, source, data_dir="data"):
+class AbstractDataset:
+    def __init__(self, name: str, source: str, data_dir: os.PathLike = "data"):
         self.name = name
         self.source = source
         self.data_dir = data_dir
@@ -76,7 +77,7 @@ class AbstractDataset():
             "subset": subset,
         }
 
-    def write_json_line(self, file, datapoint: dict):
+    def write_json_line(self, file: TextIO, datapoint: dict) -> None:
         assert datapoint['text'], "datapoint['text'] must not be empty"
         file.write(json.dumps({
             "dataset_name": self.name,
@@ -90,11 +91,11 @@ class AbstractDataset():
             "text": datapoint['text'],  # text is last so we can easily read the metadata on servers for example
         }) + "\n")
 
-    def get_output_file_name(self, file_idx=0, split='train'):
+    def get_output_file_name(self, file_idx: int = 0, split: str = 'train') -> str:
         # we save each dataset to a separate file, so we only need to generate new datasets
         return f"{self.data_dir}/{self.name}.{split}.{file_idx}.jsonl.xz"
 
-    def build_instruction_dataset(self):
+    def build_instruction_dataset(self) -> None:
         output_file_idx = 0
         file = self.open_new_file(output_file_idx)
         for datapoint in tqdm(self.get_data()):
@@ -105,7 +106,7 @@ class AbstractDataset():
             self.write_json_line(file, datapoint)
         file.close()
 
-    def open_new_file(self, output_file_idx):
+    def open_new_file(self, output_file_idx: int) -> TextIO:
         filename = self.get_output_file_name(output_file_idx)
-        print(f"Writing to {filename}")
+        self.logger.info(f"Writing to {filename}")
         return xz.open(filename, "wt")  # do we need append mode here?
