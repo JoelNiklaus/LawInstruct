@@ -1,6 +1,10 @@
+BeautifulSoup4
 datasets
 fasttext-langdetect
+iso-639
 toml
 tqdm
 lxml
-beatifulsoup4
+pyyaml
+transformers
+pandas

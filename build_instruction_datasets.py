@@ -11,6 +11,7 @@ from instruction_datasets.contract_nli import ContractNLI
 from instruction_datasets.eoir_privacy import EOIRPrivacy
 from instruction_datasets.german_ler import GermanLER
 from instruction_datasets.german_rental_agreements import GermanRentalAgreements
+from instruction_datasets.greek_ner import Ell4Dataset, Ell18Dataset
 from instruction_datasets.gsm8k import GSM8K
 from instruction_datasets.ildc import ILDC
 from instruction_datasets.international_citizenship_law_questions import InternationalCitizenshipLawQuestions
@@ -49,7 +50,7 @@ from instruction_datasets.xp3mt import XP3MT
 
 legal_datasets = [
     BrazilianBarExam, BVADecisions, BrCAD5, CABarExamEssays, CAIL2019, CAIL2022, CaseBriefs, ChangeMyView,
-    CiviproQuestions, ContractNLI, EOIRPrivacy, GermanLER, GermanRentalAgreements, GSM8K, ILDC,
+    CiviproQuestions, ContractNLI, Ell4Dataset, Ell18Dataset, EOIRPrivacy, GermanLER, GermanRentalAgreements, GSM8K, ILDC,
     InternationalCitizenshipLawQuestions, JECQA, KoreanLegalQA, LboxOpen, LegalCaseDocumentSummarization, LegalQA,
     LexGLUE, LEXTREME, Lila, Littleton, LogiQA, MBE, MCExamsLaw, MiningLegalArguments, MultiLexSum,
     OLCMemos, PlainEnglishContractsSummarization, PrivacyQA, ProfessionalLaw, ReClor, RedditLegalQA, Sara, SaraProlog,
@@ -60,7 +61,7 @@ natural_instructions = [NaturalInstructionsLegal, NaturalInstructionsOther]
 xp3mt = [XP3MT]
 datasets_to_build = legal_datasets + natural_instructions + xp3mt
 
-datasets_to_build = [BrCAD5] # TODO to debug
+datasets_to_build = [Ell4Dataset, Ell18Dataset]  # TODO to debug
 
 
 def build_instruction_datasets():
