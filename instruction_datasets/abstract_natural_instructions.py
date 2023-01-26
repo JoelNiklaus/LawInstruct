@@ -1,9 +1,10 @@
-from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
-
 import string
-from transformers.data.data_collator import *
+from typing import Iterable
 
 from iso639 import languages
+from transformers.data.data_collator import *
+
+from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
 
 
 @dataclass
@@ -186,6 +187,17 @@ class DataCollatorForNI:
         return model_inputs
 
 
+def get_lang_codes(langs: Iterable[str]) -> list[str]:
+    lang_codes = []
+    for lang in langs:
+        try:
+            lang_code = languages.get(name=lang).alpha2
+        except KeyError:
+            lang_code = "unknown"
+        lang_codes.append(lang_code)
+        return lang_codes  # TODO: is this a bug? Should it go outside the loop?
+
+
 class AbstractNaturalInstructions(AbstractDataset):
     all_valid_encodings = [
         # instruction only
@@ -250,13 +262,3 @@ class AbstractNaturalInstructions(AbstractDataset):
                 text_only=True
             ))
         self.filter_out_mmmlu = True
-
-    def get_lang_codes(self, langs):
-        lang_codes = []
-        for lang in langs:
-            try:
-                lang_code = languages.get(name=lang).alpha2
-            except KeyError:
-                lang_code = "unknown"
-            lang_codes.append(lang_code)
-            return lang_codes

@@ -2,7 +2,9 @@ from datasets import load_dataset
 from tqdm import tqdm
 
 from abstract_dataset import TASK_TYPE, JURISDICTION
-from instruction_datasets.abstract_natural_instructions import AbstractNaturalInstructions
+from instruction_datasets.abstract_natural_instructions import \
+    AbstractNaturalInstructions
+from instruction_datasets.abstract_natural_instructions import get_lang_codes
 
 
 class NaturalInstructionsOther(AbstractNaturalInstructions):
@@ -21,7 +23,7 @@ class NaturalInstructionsOther(AbstractNaturalInstructions):
         other_datasets = raw_datasets.filter(lambda x: x["Name"] not in self.legal_tasks.keys())
 
         for example in tqdm(other_datasets):
-            lang_codes = self.get_lang_codes(example["Input_language"])
+            lang_codes = get_lang_codes(example["Input_language"])
             task_type = TASK_TYPE.UNKNOWN
             jurisdiction = JURISDICTION.N_A
 

@@ -1,7 +1,9 @@
 from datasets import load_dataset
 from tqdm import tqdm
 
-from instruction_datasets.abstract_natural_instructions import AbstractNaturalInstructions
+from instruction_datasets.abstract_natural_instructions import \
+    AbstractNaturalInstructions
+from instruction_datasets.abstract_natural_instructions import get_lang_codes
 
 
 class NaturalInstructionsLegal(AbstractNaturalInstructions):
@@ -20,7 +22,7 @@ class NaturalInstructionsLegal(AbstractNaturalInstructions):
         legal_datasets = raw_datasets.filter(lambda x: x["Name"] in self.legal_tasks.keys())
 
         for example in tqdm(legal_datasets):
-            lang_codes = self.get_lang_codes(example["Input_language"])
+            lang_codes = get_lang_codes(example["Input_language"])
             task_type = self.legal_tasks[example["Name"]]["task_type"]
             jurisdiction = self.legal_tasks[example["Name"]]["jurisdiction"]
 

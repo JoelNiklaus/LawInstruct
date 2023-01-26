@@ -1,7 +1,5 @@
 import json
 
-from datasets import load_dataset
-
 from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
 
 
