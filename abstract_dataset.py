@@ -81,6 +81,7 @@ class AbstractDataset:
                          task_type: TASK_TYPE = TASK_TYPE.UNKNOWN,
                          jurisdiction: JURISDICTION = JURISDICTION.UNKNOWN,
                          subset: str = None) -> dict:
+        del self  # We don't use `self`, but subclasses might.
         return {
             "prompt_language": prompt_language,
             "answer_language": answer_language,
