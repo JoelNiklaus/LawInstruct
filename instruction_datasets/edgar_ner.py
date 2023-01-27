@@ -51,7 +51,7 @@ class EdgarNER(AbstractDataset):
         self._tags = EdgarTags()
         self._path = pathlib.Path("raw_data/all.csv")
 
-    def get_data(self) -> None:
+    def get_data(self) -> Iterator[dict]:
         df = pd.read_csv(self._path, header=None, names=["Word", "Tag"])
         task_type = TASK_TYPE.NAMED_ENTITY_RECOGNITION
         jurisdiction = JURISDICTION.GREECE

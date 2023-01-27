@@ -4,6 +4,7 @@ import json
 import logging
 import os
 import random
+from collections.abc import Iterator
 from typing import TextIO
 
 from tqdm import tqdm
@@ -57,7 +58,7 @@ class AbstractDataset:
         self.random: random.Random = random.Random(42)  # make it reproducible
         self.logger = logging.getLogger(__name__)
 
-    def get_data(self):
+    def get_data(self) -> Iterator[dict]:
         raise NotImplementedError("This method should yield datapoint dicts with the following keys: "
                                   "prompt_language, answer_language, task_type, jurisdiction, text")
 

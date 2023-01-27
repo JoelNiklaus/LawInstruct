@@ -85,7 +85,7 @@ class GreekNER(AbstractDataset):
         self._tags = tags
         self._path = None
 
-    def get_data(self) -> None:
+    def get_data(self) -> Iterator[dict]:
         df = pd.read_csv(
             self._path, header=0, names=["Sent_ID", "Word", "_", "Tag"])
         task_type = TASK_TYPE.NAMED_ENTITY_RECOGNITION
