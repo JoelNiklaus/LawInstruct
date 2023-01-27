@@ -34,7 +34,7 @@ class IndianNER(AbstractDataset):
 
     def get_data(self) -> Iterator[dict]:
         task_type = TASK_TYPE.NAMED_ENTITY_RECOGNITION
-        jurisdiction = JURISDICTION.GREECE
+        jurisdiction = JURISDICTION.INDIA
         prompt_language = "en"
         answer_language = "hi"  # TODO: following GermanLER here; it's actually a structured representation though...
 
