@@ -5,7 +5,7 @@ import logging
 import os
 import random
 from collections.abc import Iterator
-from typing import TextIO
+from typing import TextIO, Any
 
 from tqdm import tqdm
 
@@ -16,19 +16,31 @@ except ImportError:
 
 MAX_FILE_SIZE = 6.25e8
 
-TASK_TYPE = enum.Enum('TASK_TYPE', [
+
+class AutoName(enum.Enum):
+    """Enum that overrides `enum.auto` to make value from name instead of from
+    next int.
+
+    https://docs.python.org/3.10/library/enum.html#using-automatic-values
+    """
+    def _generate_next_value_(name: str, start: int, count: int, last_values: list[Any]) -> Any:
+        return name
+
+
+@enum.unique
+class TASK_TYPE(AutoName):
+    """Enum that represents the different task types available."""
     # TODO is this detailed enough or do we need to distinguish topic classification from judgment prediction or NER from argument mining?
-    'TEXT_CLASSIFICATION',
-    'QUESTION_ANSWERING',
-    'SUMMARIZATION',
-    'NAMED_ENTITY_RECOGNITION',
-    'NATURAL_LANGUAGE_INFERENCE',
-    'MULTIPLE_CHOICE',
-    'ARGUMENTATION',
-    'ANSWER_GENERATION',
-    'QUESTION_GENERATION',
-    'UNKNOWN'
-])
+    TEXT_CLASSIFICATION = enum.auto()
+    QUESTION_ANSWERING = enum.auto()
+    SUMMARIZATION = enum.auto()
+    NAMED_ENTITY_RECOGNITION = enum.auto()
+    NATURAL_LANGUAGE_INFERENCE = enum.auto()
+    MULTIPLE_CHOICE = enum.auto()
+    ARGUMENTATION = enum.auto()
+    ANSWER_GENERATION = enum.auto()
+    QUESTION_GENERATION = enum.auto()
+    UNKNOWN = enum.auto()
 
 JURISDICTION = enum.Enum('JURISDICTION', [
     # EU
