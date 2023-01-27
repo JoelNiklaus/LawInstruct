@@ -62,6 +62,7 @@ class Ell18Tags(NerTags):
         assert "E-FAC" in tags
         return tags
 
+
 def group_by_sentence(rows: Iterable) -> Iterator[tuple[list[str], list[str]]]:
     # Sentence ID is empty except first word of sentence.
     tokens, tags = [], []
@@ -73,7 +74,6 @@ def group_by_sentence(rows: Iterable) -> Iterator[tuple[list[str], list[str]]]:
         tags.append(row["Tag"])
     if tokens and tags:  # Don't yield empty final sentence.
         yield tokens, tags
-
 
 
 class GreekNER(AbstractDataset):
@@ -107,9 +107,6 @@ class GreekNER(AbstractDataset):
                 prompt_language, answer_language, text, task_type, jurisdiction)
 
 
-
-
-
 class Ell18Dataset(GreekNER):
     def __init__(self):
         super().__init__(
@@ -117,6 +114,7 @@ class Ell18Dataset(GreekNER):
             "https://github.com/nmpartzio/elNER/blob/master/dataset/elNER18/elNER18_iobes.csv",
             Ell18Tags())
         self._path = pathlib.Path("raw_data/elNER18_iobes.csv")
+
 
 class Ell4Dataset(GreekNER):
     def __init__(self):

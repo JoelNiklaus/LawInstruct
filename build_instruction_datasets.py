@@ -8,6 +8,7 @@ from instruction_datasets.case_briefs import CaseBriefs
 from instruction_datasets.change_my_view import ChangeMyView
 from instruction_datasets.civipro_questions import CiviproQuestions
 from instruction_datasets.contract_nli import ContractNLI
+from instruction_datasets.edgar_ner import EdgarNER
 from instruction_datasets.eoir_privacy import EOIRPrivacy
 from instruction_datasets.german_ler import GermanLER
 from instruction_datasets.german_rental_agreements import GermanRentalAgreements
@@ -50,9 +51,9 @@ from instruction_datasets.xp3mt import XP3MT
 
 legal_datasets = [
     BrazilianBarExam, BVADecisions, BrCAD5, CABarExamEssays, CAIL2019, CAIL2022, CaseBriefs, ChangeMyView,
-    CiviproQuestions, ContractNLI, Ell4Dataset, Ell18Dataset, EOIRPrivacy, GermanLER, GermanRentalAgreements, GSM8K, ILDC,
-    InternationalCitizenshipLawQuestions, JECQA, KoreanLegalQA, LboxOpen, LegalCaseDocumentSummarization, LegalQA,
-    LexGLUE, LEXTREME, Lila, Littleton, LogiQA, MBE, MCExamsLaw, MiningLegalArguments, MultiLexSum,
+    CiviproQuestions, ContractNLI, EdgarNER, Ell4Dataset, Ell18Dataset, EOIRPrivacy, GermanLER, GermanRentalAgreements,
+    GSM8K, ILDC, InternationalCitizenshipLawQuestions, JECQA, KoreanLegalQA, LboxOpen, LegalCaseDocumentSummarization,
+    LegalQA, LexGLUE, LEXTREME, Lila, Littleton, LogiQA, MBE, MCExamsLaw, MiningLegalArguments, MultiLexSum,
     OLCMemos, PlainEnglishContractsSummarization, PrivacyQA, ProfessionalLaw, ReClor, RedditLegalQA, Sara, SaraProlog,
     ShortAnswerFeedback, SpanishLaborLaw, StackExchangeQuestionsLegal, SwissJudgmentPrediction, TsccAlqac,
     USClassActions, ValidWills,
@@ -61,7 +62,7 @@ natural_instructions = [NaturalInstructionsLegal, NaturalInstructionsOther]
 xp3mt = [XP3MT]
 datasets_to_build = legal_datasets + natural_instructions + xp3mt
 
-datasets_to_build = [Ell4Dataset, Ell18Dataset]  # TODO to debug
+datasets_to_build = [EdgarNER]  # TODO to debug
 
 
 def build_instruction_datasets():
