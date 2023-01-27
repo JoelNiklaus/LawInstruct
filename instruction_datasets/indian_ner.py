@@ -51,7 +51,7 @@ class IndianNER(AbstractDataset):
             for named_entity in sentence["annotations"][0]["result"]:
                 name = named_entity["value"]["text"].strip().split()
                 label = named_entity["value"]["labels"][0]
-                print(name, label)
+
                 start, end = find_sub_list(name, tokens)
                 tags[start:end] = label
 

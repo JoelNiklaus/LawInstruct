@@ -16,6 +16,7 @@ from instruction_datasets.greek_ner import Ell4Dataset, Ell18Dataset
 from instruction_datasets.gsm8k import GSM8K
 from instruction_datasets.ildc import ILDC
 from instruction_datasets.indian_ner import IndianNER
+from instruction_datasets.indian_text_segmentation import IndianTextSegmentation
 from instruction_datasets.international_citizenship_law_questions import InternationalCitizenshipLawQuestions
 from instruction_datasets.jec_qa import JECQA
 from instruction_datasets.korean_legal_qa import KoreanLegalQA
@@ -53,7 +54,7 @@ from instruction_datasets.xp3mt import XP3MT
 legal_datasets = [
     BrazilianBarExam, BVADecisions, BrCAD5, CABarExamEssays, CAIL2019, CAIL2022, CaseBriefs, ChangeMyView,
     CiviproQuestions, ContractNLI, EdgarNER, Ell4Dataset, Ell18Dataset, EOIRPrivacy, GermanLER, GermanRentalAgreements,
-    GSM8K, ILDC, IndianNER, InternationalCitizenshipLawQuestions, JECQA, KoreanLegalQA, LboxOpen, LegalCaseDocumentSummarization,
+    GSM8K, ILDC, IndianNER, IndianTextSegmentation, InternationalCitizenshipLawQuestions, JECQA, KoreanLegalQA, LboxOpen, LegalCaseDocumentSummarization,
     LegalQA, LexGLUE, LEXTREME, Lila, Littleton, LogiQA, MBE, MCExamsLaw, MiningLegalArguments, MultiLexSum,
     OLCMemos, PlainEnglishContractsSummarization, PrivacyQA, ProfessionalLaw, ReClor, RedditLegalQA, Sara, SaraProlog,
     ShortAnswerFeedback, SpanishLaborLaw, StackExchangeQuestionsLegal, SwissJudgmentPrediction, TsccAlqac,
@@ -63,7 +64,7 @@ natural_instructions = [NaturalInstructionsLegal, NaturalInstructionsOther]
 xp3mt = [XP3MT]
 datasets_to_build = legal_datasets + natural_instructions + xp3mt
 
-datasets_to_build = [IndianNER]  # TODO to debug
+datasets_to_build = [IndianTextSegmentation]  # TODO to debug
 
 
 def build_instruction_datasets():
