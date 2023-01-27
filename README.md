@@ -27,22 +27,29 @@ This repository has code used to generate legal instruction datasets
 
 Arya:
 
-- LegalLinking (https://github.com/mayhewsw/legal-linking)
-- Privacy Policies Summarization (https://github.com/senjed/Summarization-of-Privacy-Policies
-- E-NER (https://github.com/terenceau2/E-NER-Dataset)
-- GerDALIR (https://github.com/lavis-nlp/GerDaLIR)
-- Dutch Legal Summarization (https://github.com/prijsdf/dutch-legal-summarization)
-- Covid Law Matching (https://github.com/DFKI-NLP/covid19-law-matching)
-- BUILD (https://legal-nlp-ekstep.github.io/Competitions/Rhetorical-Role/)
-- ~~CASS (https://github.com/euranova/CASS-dataset)~~
+- ~~[ ] LegalLinking (https://github.com/mayhewsw/legal-linking)~~  
+  *Could not recreate necessary Python environment.*
+- [x] Privacy Policies Summarization (https://github.com/senjed/Summarization-of-Privacy-Policies
+- [x] E-NER (https://github.com/terenceau2/E-NER-Dataset)
+- ~~[ ] GerDALIR (https://github.com/lavis-nlp/GerDaLIR)~~  
+  *This is an IR dataset.*
+- ~~[ ] Dutch Legal Summarization (https://github.com/prijsdf/dutch-legal-summarization)~~  
+  *Requires multiple requests per document to retrieve; documentation in Dutch; no actual summarization targets.*
+- ~~[ ] Covid Law Matching (https://github.com/DFKI-NLP/covid19-law-matching)~~
+  * This is an IR dataset.*
+- [x] BUILD (https://legal-nlp-ekstep.github.io/Competitions/Rhetorical-Role/)
+- ~~[ ] CASS (https://github.com/euranova/CASS-dataset)~~  
   *Couldn't download - `wget` failed.*
-- ECHR Argument Mining (http://www.di.uevora.pt/~pq/echr/)
-- Greek NER (https://github.com/nmpartzio/elNER)
-- Indian NER (https://arxiv.org/pdf/2211.03442.pdf
+- ~~[ ] ECHR Argument Mining (http://www.di.uevora.pt/~pq/echr/)~~  
+  *This is an argument mining dataset.*
+- [x] Greek NER (https://github.com/nmpartzio/elNER)
+- [x] Indian NER (https://arxiv.org/pdf/2211.03442.pdf
   , https://github.com/Legal-NLP-EkStep/legal_NER/tree/main/representative_judgments_sample)
-- LawngNLI (https://arxiv.org/pdf/2212.03222.pdf)
+- [-] ~~LawngNLI (https://arxiv.org/pdf/2212.03222.pdf)~~  
+  *24 GB unfiltered; I don't have space locally. -am*
 - Privacy Policies (https://usableprivacy.org/data) (excluding OPP-115 Corpus: already present in natural instructions)
-- MakeThisYourLastTime (https://www.makethisyourlasttime.com/essay-bank/)
+- [-] ~~MakeThisYourLastTime (https://www.makethisyourlasttime.com/essay-bank/)~~  
+  *Requires scraping several PDFs; format not standardized.*
 
 ## Tasks to be reconsidered later
 
