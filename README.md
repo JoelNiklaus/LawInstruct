@@ -34,7 +34,8 @@ Arya:
 - Dutch Legal Summarization (https://github.com/prijsdf/dutch-legal-summarization)
 - Covid Law Matching (https://github.com/DFKI-NLP/covid19-law-matching)
 - BUILD (https://legal-nlp-ekstep.github.io/Competitions/Rhetorical-Role/)
-- CASS (https://github.com/euranova/CASS-dataset)
+- ~~CASS (https://github.com/euranova/CASS-dataset)~~
+  *Couldn't download - `wget` failed.*
 - ECHR Argument Mining (http://www.di.uevora.pt/~pq/echr/)
 - Greek NER (https://github.com/nmpartzio/elNER)
 - Indian NER (https://arxiv.org/pdf/2211.03442.pdf
