@@ -37,6 +37,7 @@ from instruction_datasets.natural_instructions_other import NaturalInstructionsO
 from instruction_datasets.olc_memos import OLCMemos
 from instruction_datasets.plain_english_contracts_summarization import PlainEnglishContractsSummarization
 from instruction_datasets.privacy_qa import PrivacyQA
+from instruction_datasets.privacy_summarization import PrivacySummarization
 from instruction_datasets.professional_law import ProfessionalLaw
 from instruction_datasets.reclor import ReClor
 from instruction_datasets.reddit_legal_qa import RedditLegalQA
@@ -56,7 +57,7 @@ legal_datasets = [
     CiviproQuestions, ContractNLI, EdgarNER, Ell4Dataset, Ell18Dataset, EOIRPrivacy, GermanLER, GermanRentalAgreements,
     GSM8K, ILDC, IndianNER, IndianTextSegmentation, InternationalCitizenshipLawQuestions, JECQA, KoreanLegalQA, LboxOpen, LegalCaseDocumentSummarization,
     LegalQA, LexGLUE, LEXTREME, Lila, Littleton, LogiQA, MBE, MCExamsLaw, MiningLegalArguments, MultiLexSum,
-    OLCMemos, PlainEnglishContractsSummarization, PrivacyQA, ProfessionalLaw, ReClor, RedditLegalQA, Sara, SaraProlog,
+    OLCMemos, PlainEnglishContractsSummarization, PrivacyQA, PrivacySummarization, ProfessionalLaw, ReClor, RedditLegalQA, Sara, SaraProlog,
     ShortAnswerFeedback, SpanishLaborLaw, StackExchangeQuestionsLegal, SwissJudgmentPrediction, TsccAlqac,
     USClassActions, ValidWills,
 ]
@@ -64,7 +65,7 @@ natural_instructions = [NaturalInstructionsLegal, NaturalInstructionsOther]
 xp3mt = [XP3MT]
 datasets_to_build = legal_datasets + natural_instructions + xp3mt
 
-datasets_to_build = [IndianTextSegmentation]  # TODO to debug
+datasets_to_build = [PrivacySummarization]  # TODO to debug
 
 
 def build_instruction_datasets():
