@@ -195,7 +195,12 @@ def get_lang_codes(langs: Iterable[str]) -> list[str]:
         except KeyError:
             lang_code = "unknown"
         lang_codes.append(lang_code)
-        return lang_codes  # TODO: is this a bug? Should it go outside the loop?
+    return lang_codes
+
+
+def get_first_lang_code(langs: Iterable[str]) -> str:
+    lang_codes = get_lang_codes(langs)
+    return lang_codes[0]
 
 
 class AbstractNaturalInstructions(AbstractDataset):

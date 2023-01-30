@@ -3,8 +3,7 @@ from tqdm import tqdm
 
 from abstract_dataset import TASK_TYPE, JURISDICTION
 from instruction_datasets.abstract_natural_instructions import \
-    AbstractNaturalInstructions
-from instruction_datasets.abstract_natural_instructions import get_lang_codes
+    AbstractNaturalInstructions, get_first_lang_code
 
 
 class NaturalInstructionsOther(AbstractNaturalInstructions):
@@ -23,7 +22,7 @@ class NaturalInstructionsOther(AbstractNaturalInstructions):
         other_datasets = raw_datasets.filter(lambda x: x["Name"] not in self.legal_tasks.keys())
 
         for example in tqdm(other_datasets):
-            lang_codes = get_lang_codes(example["Input_language"])
+            answer_language = get_first_lang_code(example["Input_language"])
             task_type = TASK_TYPE.UNKNOWN
             jurisdiction = JURISDICTION.N_A
 
@@ -31,4 +30,4 @@ class NaturalInstructionsOther(AbstractNaturalInstructions):
                 encoded_example = collator([example])
                 # TODO additionally save prompt and label separately for the legal datasets so we can do machine translation only on prompt
                 text = encoded_example["inputs"][0] + " " + encoded_example["labels"][0].strip()
-                yield self.build_data_point(prompt_language, lang_codes, text, task_type, jurisdiction)
+                yield self.build_data_point(prompt_language, answer_language, text, task_type, jurisdiction)
