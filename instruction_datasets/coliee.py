@@ -47,6 +47,6 @@ class COLIEE(AbstractDataset):
                 examples = [json.loads(x) for x in f.readlines()]
                 for example in examples:
                     text = example['text']
-                    yield self.build_data_point(prompt_langauge,
+                    yield self.build_data_point(prompt_language,
                                                 answer_language, text,
                                                 task_type, jurisdiction)
