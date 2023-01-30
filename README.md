@@ -24,35 +24,33 @@ This repository has code used to generate legal instruction datasets
 - LegalCaseReports Summ (https://archive.ics.uci.edu/ml/machine-learning-databases/00239
   , https://aclanthology.org/W12-0515.pdf) ==> no re-destribution allowed ==> upload to private hf repo
 - EurLexSum (https://huggingface.co/datasets/dennlinger/eur-lex-sum) ==> very long texts and summaries
+- https://github.com/Legal-NLP-EkStep/rhetorical-role-baseline 
+- https://github.com/DFKI-NLP/covid19-law-matching
 
 Arya:
 
+- [-] ~~LawngNLI (https://arxiv.org/pdf/2212.03222.pdf)~~  
+  *24 GB unfiltered; I don't have space locally. -am*
+- ~~[ ] ECHR Argument Mining (http://www.di.uevora.pt/~pq/echr/)~~  
+  *This is an argument mining dataset.*
+
+
+## Tasks maybe to be reconsidered later
+Here we hit an obstacle
+
 - ~~[ ] LegalLinking (https://github.com/mayhewsw/legal-linking)~~  
   *Could not recreate necessary Python environment.*
-- [x] Privacy Policies Summarization (https://github.com/senjed/Summarization-of-Privacy-Policies
-- [x] E-NER (https://github.com/terenceau2/E-NER-Dataset)
 - ~~[ ] GerDALIR (https://github.com/lavis-nlp/GerDaLIR)~~  
   *This is an IR dataset.*
 - ~~[ ] Dutch Legal Summarization (https://github.com/prijsdf/dutch-legal-summarization)~~  
   *Requires multiple requests per document to retrieve; documentation in Dutch; no actual summarization targets.*
 - ~~[ ] Covid Law Matching (https://github.com/DFKI-NLP/covid19-law-matching)~~
   * This is an IR dataset.*
-- [x] BUILD (https://legal-nlp-ekstep.github.io/Competitions/Rhetorical-Role/)
 - ~~[ ] CASS (https://github.com/euranova/CASS-dataset)~~  
   *Couldn't download - `wget` failed.*
-- ~~[ ] ECHR Argument Mining (http://www.di.uevora.pt/~pq/echr/)~~  
-  *This is an argument mining dataset.*
-- [x] Greek NER (https://github.com/nmpartzio/elNER)
-- [x] Indian NER (https://arxiv.org/pdf/2211.03442.pdf
-  , https://github.com/Legal-NLP-EkStep/legal_NER/tree/main/representative_judgments_sample)
-- [-] ~~LawngNLI (https://arxiv.org/pdf/2212.03222.pdf)~~  
-  *24 GB unfiltered; I don't have space locally. -am*
 - Privacy Policies (https://usableprivacy.org/data) (excluding OPP-115 Corpus: already present in natural instructions)
 - [-] ~~MakeThisYourLastTime (https://www.makethisyourlasttime.com/essay-bank/)~~  
   *Requires scraping several PDFs; format not standardized.*
-
-## Tasks to be reconsidered later
-
 - LegalSum (https://github.com/sebimo/LegalSum) ==> complicated to read because of norms and would require large
   preprocessing. Additionally, contains very long sequences
 - Indian/Australian Summarization (https://github.com/manavkapadnis/LegalEvaluation_LREC2022) ==> too long and for
@@ -69,22 +67,23 @@ Arya:
 
 ## TODOs
 
-- put local data on huggingface hub (find them if they use the raw_data folder)
+- use the same instruction banks for the same tasks if applicable (Lucia)
+- add more examples to the instruction banks and diversify them by looking at FLAN and Natural Instructions (Lucia)
 - add urls to the source in the init call (MBE, civipro, mc_ecams, professional_law, sara_prolog)
 - add more datasets from the list above
-- add additional datasets (Arya)
+- refactor code, so that we can allow for more finegrained instruction control 
 - refactor code, so that all the instruction banks live in a json file that we can easily translate in the other
-  languages
+  languages (Joel)
 - translate instruction banks (from json file) into the 24 EU languages (Joel)
-- use the same instruction banks for the same tasks if applicable
-- test the dataset generation thoroughly
-- run the script on a big machine to generate the datasets and upload to lawinstruct organisation on huggingface hub
-- add more examples to the instruction banks
+- test the dataset generation thoroughly (Joel)
+- run the script on a big machine to generate the datasets and upload to lawinstruct organisation on huggingface hub (Joel)
+- add CoT data (https://github.com/jasonwei20/flan-2/blob/main/mmlu-cot.json)
 
 ## Maybe later
 
+- put local data on huggingface hub (find them if they use the raw_data folder)
 - translate some answers into the 24 EU languages ==> save instructions and answers into different columns
-- do not use xP3 and natural instructions but only code and legal instructions becuase of figure
+- do not use xP3 and natural instructions but only code and legal instructions because of figure
   4: https://arxiv.org/pdf/2210.11416v5.pdf
 
 ## Done
@@ -93,3 +92,7 @@ Arya:
 - code refactoring (Joel)
 - add additional datasets (Joel)
 - search for additional datasets (Joel)
+- add additional datasets (Arya)
+- add more datasets like coliee (Lucia)
+- replace ANSWER_GENERATION with QUESTION_ANSWERING (Joel)
+- 
