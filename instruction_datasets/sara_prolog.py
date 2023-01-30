@@ -7,8 +7,7 @@ from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
 
 class SaraProlog(AbstractDataset):
     def __init__(self):
-        # TODO do we have an url here?
-        super().__init__("SaraProlog", "sara_prolog")
+        super().__init__("SaraProlog", "https://arxiv.org/abs/2005.05257")
 
     def get_data(self):
         instruction_bank = ["Convert the following statute into prolog code.",

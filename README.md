@@ -24,7 +24,6 @@ This repository has code used to generate legal instruction datasets
 - LegalCaseReports Summ (https://archive.ics.uci.edu/ml/machine-learning-databases/00239
   , https://aclanthology.org/W12-0515.pdf) ==> no re-destribution allowed ==> upload to private hf repo
 - EurLexSum (https://huggingface.co/datasets/dennlinger/eur-lex-sum) ==> very long texts and summaries
-- https://github.com/Legal-NLP-EkStep/rhetorical-role-baseline 
 - https://github.com/DFKI-NLP/covid19-law-matching
 
 Arya:
@@ -69,7 +68,6 @@ Here we hit an obstacle
 
 - use the same instruction banks for the same tasks if applicable (Lucia)
 - add more examples to the instruction banks and diversify them by looking at FLAN and Natural Instructions (Lucia)
-- add urls to the source in the init call (MBE, civipro, mc_ecams, professional_law, sara_prolog)
 - add more datasets from the list above
 - refactor code, so that we can allow for more finegrained instruction control 
 - refactor code, so that all the instruction banks live in a json file that we can easily translate in the other
@@ -95,4 +93,4 @@ Here we hit an obstacle
 - add additional datasets (Arya)
 - add more datasets like coliee (Lucia)
 - replace ANSWER_GENERATION with QUESTION_ANSWERING (Joel)
-- 
+- add urls to the source in the init call (MBE, civipro, mc_ecams, professional_law, sara_prolog)

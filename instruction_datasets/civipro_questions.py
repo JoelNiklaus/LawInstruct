@@ -8,8 +8,7 @@ from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
 
 class CiviproQuestions(AbstractDataset):
     def __init__(self):
-        # TODO do we have an url here?
-        super().__init__("CiviproQuestions", "civpro_questions")
+        super().__init__("CiviproQuestions", "https://arxiv.org/abs/2211.02950")
 
     def get_data(self):
 

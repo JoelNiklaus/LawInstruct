@@ -5,8 +5,7 @@ from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
 
 class ProfessionalLaw(AbstractDataset):
     def __init__(self):
-        # TODO do we have an url here?
-        super().__init__("ProfessionalLaw", "auxiliary_train_hendrycks_test")
+        super().__init__("ProfessionalLaw", "https://arxiv.org/abs/2009.03300")
 
     def get_data(self):
         # The first 1200 are extra bar exam questions, not sure if we want to keep these in
