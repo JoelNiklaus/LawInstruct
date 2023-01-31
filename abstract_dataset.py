@@ -72,9 +72,10 @@ class AbstractDataset:
         os.makedirs(self.data_dir, exist_ok=True)
         self.random: random.Random = random.Random(42)  # make it reproducible
 
+        self.raw_data_dir = "lawinstruct_raw/raw_data"
+
         root = logging.getLogger()
         root.setLevel(logging.INFO)
-
         handler = logging.StreamHandler(sys.stdout)
         handler.setLevel(logging.INFO)
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')

@@ -16,7 +16,7 @@ class LogiQA(AbstractDataset):
         jurisdiction = JURISDICTION.CHINA
         prompt_language = "en"
 
-        with open("./raw_data/zh_train.txt", "r") as f:
+        with open(f"{self.raw_data_dir}/zh_train.txt", "r") as f:
             x = f.readlines()
             i = 0
             while True:

@@ -28,7 +28,7 @@ class IndianTextSegmentation(AbstractDataset):
         super().__init__(
             "BUILD",
             "https://github.com/Legal-NLP-EkStep/rhetorical-role-baseline")
-        self._path = pathlib.Path("raw_data/indian_text_segmentation.json")
+        self._path = pathlib.Path(f"{self.raw_data_dir}/indian_text_segmentation.json")
 
     def get_data(self) -> Iterator[dict]:
         task_type = TASK_TYPE.TEXT_CLASSIFICATION

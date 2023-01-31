@@ -11,7 +11,7 @@ class Lila(AbstractDataset):
         super().__init__("Lila", "https://github.com/allenai/Lila")
 
     def get_data(self):
-        json_files = [pos_json for pos_json in os.listdir("raw_data/all_lila/") if pos_json.endswith('.json')]
+        json_files = [pos_json for pos_json in os.listdir(f"{self.raw_data_dir}/all_lila/") if pos_json.endswith('.json')]
         instruction_bank = ["Consider the following question. Write a Python program to solve it.",
                             "Write a Python program to solve the following question, denote it as \"Program:\". Provide the output as \"Answer:\"."]
         task_type = TASK_TYPE.QUESTION_ANSWERING
@@ -19,7 +19,7 @@ class Lila(AbstractDataset):
         prompt_language = "en"
 
         for json_file in json_files:
-            with open(os.path.join("raw_data/all_lila/", json_file), "r") as f:
+            with open(os.path.join(f"{self.raw_data_dir}/all_lila/", json_file), "r") as f:
                 loaded_file = json.loads(f.read())
                 for example in loaded_file["Instances"]:
                     if example["split"] != "train":

@@ -9,7 +9,7 @@ class LegalQA(AbstractDataset):
         super().__init__("LegalQA", "https://github.com/siatnlp/LegalQA")
 
     def get_data(self):
-        df = pd.read_csv("./raw_data/LegalQA-all-train.csv")
+        df = pd.read_csv(f"{self.raw_data_dir}/LegalQA-all-train.csv")
 
         df = df[df['label'] == 1]
 

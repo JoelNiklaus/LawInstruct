@@ -28,7 +28,7 @@ class CiviproQuestions(AbstractDataset):
             "Given a passage of text about Civil Procedure in the United States, answer the question.",
             "Answer this CivPro question provide an answer as \"Answer\"."]
 
-        df = pd.read_csv("./raw_data/civpro_questions_train.csv")
+        df = pd.read_csv(f"{self.raw_data_dir}/civpro_questions_train.csv")
         task_type = TASK_TYPE.QUESTION_ANSWERING
         jurisdiction = JURISDICTION.US
         prompt_language = "en"

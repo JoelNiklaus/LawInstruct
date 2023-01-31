@@ -16,7 +16,7 @@ class CAIL2019(AbstractDataset):
             "Consider the following passage from a Chinese legal case. Answer the questions about the case. If you cannot answer the question feel free to say as such.",
             "Consider the following situation in Chinese law, answer the questions. If the information is not in the passage, respond with, \"Sorry, this question cannot be answered based on the information available.\"",
             "Consider the following passage from a Chinese legal case. Answer the questions about the case. If the question is impossible to answer, say that it cannot be answered."]
-        with open("./raw_data/big_train_data.json", "r") as f:
+        with open(f"{self.raw_data_dir}/big_train_data.json", "r") as f:
             data = json.loads(f.read())["data"]
             for d in data:
                 for paragraph in d['paragraphs']:

@@ -13,7 +13,7 @@ class CABarExamEssays(AbstractDataset):
         jurisdiction = JURISDICTION.US
         prompt_language = "en"
 
-        with open("raw_data/bar_exam_essays_ca.jsonl") as f:
+        with open(f"{self.raw_data_dir}/bar_exam_essays_ca.jsonl") as f:
             exams = [json.loads(x) for x in f.readlines()]
             for exam in exams:
                 text = exam['text']

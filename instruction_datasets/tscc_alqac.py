@@ -10,10 +10,10 @@ class TsccAlqac(AbstractDataset):
 
     def get_data(self):
         # Thai supreme court case law
-        with open("./raw_data/tscc_alqac2021_question.train.json", "r") as f:
+        with open(f"{self.raw_data_dir}/tscc_alqac2021_question.train.json", "r") as f:
             cases = json.loads(f.read())
 
-        with open("./raw_data/tscc_alqac2021_law.json", "r") as f:
+        with open(f"{self.raw_data_dir}/tscc_alqac2021_law.json", "r") as f:
             laws = json.loads(f.read())
 
         laws_dict = {}

@@ -13,7 +13,7 @@ class BrazilianBarExam(AbstractDataset):
         super().__init__("BrazilianBarExam", "https://arxiv.org/pdf/1712.05128.pdf")
 
     def get_data(self):
-        with open("./raw_data/oab.json", "r") as f:
+        with open(f"{self.raw_data_dir}/oab.json", "r") as f:
             qs = json.loads(f.read())
 
         task_type = TASK_TYPE.QUESTION_ANSWERING
@@ -79,13 +79,13 @@ class BrazilianBarExam(AbstractDataset):
         leis = all_law_articles_in_path('./raw_data/oab_lexml/')
 
         justifications = []
-        with open("./raw_data/oab_ethics.yaml", "r") as stream:
+        with open(f"{self.raw_data_dir}/oab_ethics.yaml", "r") as stream:
             try:
                 justifications.extend(yaml.safe_load(stream))
             except yaml.YAMLError as exc:
                 print(exc)
 
-        with open("./raw_data/oab_const.yaml", "r") as stream:
+        with open(f"{self.raw_data_dir}/oab_const.yaml", "r") as stream:
             try:
                 justifications.extend(yaml.safe_load(stream))
             except yaml.YAMLError as exc:

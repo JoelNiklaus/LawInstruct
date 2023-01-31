@@ -9,9 +9,9 @@ class ILDC(AbstractDataset):
         super().__init__("ILDC", "https://github.com/Exploration-Lab/CJPE")
 
     def get_data(self):
-        df1 = pd.read_csv("raw_data/ILDC_multi.csv")
+        df1 = pd.read_csv(f"{self.raw_data_dir}/ILDC_multi.csv")
         df1 = df1[df1["split"] == "train"]
-        df2 = pd.read_csv("raw_data/ILDC_single.csv")
+        df2 = pd.read_csv(f"{self.raw_data_dir}/ILDC_single.csv")
         df2 = df2[df2["split"] == "train"]
 
         task_type = TASK_TYPE.TEXT_CLASSIFICATION

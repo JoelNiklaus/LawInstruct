@@ -11,8 +11,8 @@ class NaturalInstructionsLegal(AbstractNaturalInstructions):
         super().__init__("NaturalInstructionsLegal", "https://github.com/allenai/natural-instructions")
 
     def get_data(self):
-        raw_datasets = load_dataset('./raw_data/Tk-Instruct/src/ni_dataset.py', data_dir="raw_data/ni_task_configs",
-                                    task_dir="./raw_data/ni_instructions_data/tasks", split="train")
+        raw_datasets = load_dataset('./raw_data/Tk-Instruct/src/ni_dataset.py', data_dir=f"{self.raw_data_dir}/ni_task_configs",
+                                    task_dir=f"{self.raw_data_dir}/ni_instructions_data/tasks", split="train")
 
         if self.filter_out_mmmlu:
             raw_datasets = raw_datasets.filter(lambda x: "mmmlu" not in x["Name"])

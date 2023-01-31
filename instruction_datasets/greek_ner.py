@@ -113,7 +113,7 @@ class Ell18Dataset(GreekNER):
             "Ell18 Greek NER",
             "https://github.com/nmpartzio/elNER/blob/master/dataset/elNER18/elNER18_iobes.csv",
             Ell18Tags())
-        self._path = pathlib.Path("raw_data/elNER18_iobes.csv")
+        self._path = pathlib.Path(f"{self.raw_data_dir}/elNER18_iobes.csv")
 
 
 class Ell4Dataset(GreekNER):
@@ -122,4 +122,4 @@ class Ell4Dataset(GreekNER):
             "Ell4 Greek NER",
             "https://github.com/nmpartzio/elNER/blob/master/dataset/elNER4/elNER4_iobes.csv",
             Ell4Tags())
-        self._path = pathlib.Path("raw_data/elNER4_iobes.csv")
+        self._path = pathlib.Path(f"{self.raw_data_dir}/elNER4_iobes.csv")

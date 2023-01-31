@@ -12,7 +12,7 @@ class CAIL2022(AbstractDataset):
         prompt_language = "en"
         answer_language = "zh"
 
-        with open("raw_data/cail2022_train_entry_lblj.jsonl", "r", encoding="utf8") as f:
+        with open(f"{self.raw_data_dir}/cail2022_train_entry_lblj.jsonl", "r", encoding="utf8") as f:
             questions = [json.loads(x) for x in f.readlines()]
 
         instruction_bank_mc = [

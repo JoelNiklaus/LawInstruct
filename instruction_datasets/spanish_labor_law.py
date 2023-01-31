@@ -9,7 +9,7 @@ class SpanishLaborLaw(AbstractDataset):
         super().__init__("SpanishLaborLaw", "https://zenodo.org/record/4256718#.Y5PoC7LMIlg")
 
     def get_data(self):
-        df = pd.read_csv("raw_data/spanish_legal_qa.csv")
+        df = pd.read_csv(f"{self.raw_data_dir}/spanish_legal_qa.csv")
         task_type = TASK_TYPE.QUESTION_ANSWERING
         jurisdiction = JURISDICTION.SPAIN
         prompt_language = "en"

@@ -17,9 +17,9 @@ class JECQA(AbstractDataset):
         jurisdiction = JURISDICTION.CHINA
         prompt_language = "en"
 
-        with open("./raw_data/jecqa_0_train.json") as f:
+        with open(f"{self.raw_data_dir}/jecqa_0_train.json") as f:
             questions = [json.loads(x) for x in f.readlines()]
-            with open("./raw_data/jecqa_1_train.json") as f:
+            with open(f"{self.raw_data_dir}/jecqa_1_train.json") as f:
                 questions.extend([json.loads(x) for x in f.readlines()])
 
         for q in questions:
