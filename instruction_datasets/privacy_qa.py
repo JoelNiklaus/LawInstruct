@@ -10,7 +10,7 @@ class PrivacyQA(AbstractDataset):
     def get_data(self):
         df = pd.read_csv(f"{self.raw_data_dir}/policy_train_data.csv", sep="\t")
         task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.UNKOWN
+        jurisdiction = JURISDICTION.UNKNOWN
         prompt_language = "en"
 
         for index, example in df.iterrows():
