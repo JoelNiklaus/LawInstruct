@@ -458,30 +458,30 @@ class MAUD(AbstractDataset):
         answer_language = "en"
 
         for example in df:
-            text = example["text"]
             category = example["category"]
             text_type = example["text_type"]
             question = example["question"]
-            subquestion = example[
-                "subquestion"]  # we don't need this because the multilabel one is not really multilabel
+            # we don't need this because the multilabel one is not really multilabel
+            subquestion = example["subquestion"]
             answer = example["answer"]
             answers_lookup = info_dict[category][text_type][question]
 
             task_type = TASK_TYPE.TEXT_CLASSIFICATION
-            text = f"{self.random.choice(instruction_bank)}.\n\n{text}\nWhat is the ABA category?\n{category}"
+            text = f"{self.random.choice(instruction_bank)}.\n\n{example['text']}\nWhat is the ABA category?\n{category}"
             yield self.build_data_point(prompt_language, answer_language, text, task_type, jurisdiction)
 
-            text = f"{self.random.choice(instruction_bank)}.\n\n{text}\nWhat is the ABA text type?\n{text_type}"
+            text = f"{self.random.choice(instruction_bank)}.\n\n{example['text']}\nWhat is the ABA text type?\n{text_type}"
             yield self.build_data_point(prompt_language, answer_language, text, task_type, jurisdiction)
 
-            text = f"{self.random.choice(instruction_bank)}.\n\n{text}\nWhat is the ABA question?\n{text_type}"
+            text = f"{self.random.choice(instruction_bank)}.\n\n{example['text']}\nWhat is the ABA question?\n{question}"
             yield self.build_data_point(prompt_language, answer_language, text, task_type, jurisdiction)
 
             # do not distinguish between multiple choice and multilabel, since the multilabel ones do not seem to be really multilabel
-            task_type = TASK_TYPE.MULTIPLE_CHOICE
-            text = f"{self.random.choice(instruction_bank)}\n\n" \
-                   f"{text}\n\n" \
-                   f"Answer this question: {question}\n\n" \
-                   f"Possible answers: {answers_lookup}" \
-                   f"Correct answer: {answers_lookup[answer]}"
-            yield self.build_data_point(prompt_language, answer_language, text, task_type, jurisdiction)
+            if answer in answers_lookup:
+                task_type = TASK_TYPE.MULTIPLE_CHOICE
+                text = f"{self.random.choice(instruction_bank)}\n\n" \
+                       f"{example['text']}\n\n" \
+                       f"Answer this question: {question}\n\n" \
+                       f"Possible answers: {','.join([f'{idx}: {answer}' for idx, answer in enumerate(answers_lookup)])}\n" \
+                       f"Correct answer: {answers_lookup.index(answer)}: {answer}"
+                yield self.build_data_point(prompt_language, answer_language, text, task_type, jurisdiction)

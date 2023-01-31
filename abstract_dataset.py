@@ -1,11 +1,13 @@
-import datetime
-import enum
-import json
-import logging
 import os
 import random
+import sys
 from collections.abc import Iterator
 from typing import TextIO, Any
+import enum
+import json
+import datetime
+from pathlib import Path
+import logging
 
 from tqdm import tqdm
 
@@ -23,6 +25,7 @@ class AutoName(enum.Enum):
 
     https://docs.python.org/3.10/library/enum.html#using-automatic-values
     """
+
     def _generate_next_value_(name: str, start: int, count: int, last_values: list[Any]) -> Any:
         return name
 
@@ -38,9 +41,9 @@ class TASK_TYPE(AutoName):
     NATURAL_LANGUAGE_INFERENCE = enum.auto()
     MULTIPLE_CHOICE = enum.auto()
     ARGUMENTATION = enum.auto()
-    ANSWER_GENERATION = enum.auto()
     QUESTION_GENERATION = enum.auto()
     UNKNOWN = enum.auto()
+
 
 JURISDICTION = enum.Enum('JURISDICTION', [
     # EU
@@ -68,11 +71,23 @@ class AbstractDataset:
         self.data_dir = data_dir
         os.makedirs(self.data_dir, exist_ok=True)
         self.random: random.Random = random.Random(42)  # make it reproducible
+
+        root = logging.getLogger()
+        root.setLevel(logging.INFO)
+
+        handler = logging.StreamHandler(sys.stdout)
+        handler.setLevel(logging.INFO)
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        handler.setFormatter(formatter)
+        root.addHandler(handler)
         self.logger = logging.getLogger(__name__)
 
     def get_data(self) -> Iterator[dict]:
         raise NotImplementedError("This method should yield datapoint dicts with the following keys: "
                                   "prompt_language, answer_language, task_type, jurisdiction, text")
+
+    def get_instruction_bank(self, language="en"):
+        return json.loads(Path(f"instruction_banks/{language}.json").read_text())[self.name]
 
     def build_data_point(self,
                          prompt_language: str,
@@ -112,6 +127,7 @@ class AbstractDataset:
     def build_instruction_dataset(self) -> None:
         output_file_idx = 0
         file = self.open_new_file(output_file_idx)
+        self.logger.info(f"Building instruction dataset for {self.name}")
         for datapoint in tqdm(self.get_data()):
             if os.path.getsize(self.get_output_file_name(output_file_idx)) > MAX_FILE_SIZE:
                 file.close()

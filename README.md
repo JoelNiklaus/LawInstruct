@@ -21,17 +21,20 @@ Install the requirements from `requirements.txt`. Make sure to have python 3.10 
 
 ## TODOs
 
-- use the same instruction banks for the same tasks if applicable (Lucia)
-- add more examples to the instruction banks and diversify them by looking at FLAN and Natural Instructions (Lucia)
-- make sure the jurisdiction is always in the instruction
-- add more datasets from the list above
-- refactor code, so that we can allow for more finegrained instruction control
-- refactor code, so that all the instruction banks live in a json file that we can easily translate in the other
-  languages (Joel)
-- translate instruction banks (from json file) into the 24 EU languages (Joel)
 - test the dataset generation thoroughly (Joel)
 - run the script on a big machine to generate the datasets and upload to lawinstruct organisation on huggingface hub (
   Joel)
+
+## Another Experiment later
+
+- use the same instruction banks for the same tasks if applicable (Lucia)
+- add more examples to the instruction banks and diversify them by looking at FLAN and Natural Instructions (Lucia)
+- make sure the jurisdiction is always in the instruction
+- refactor code, so that we can allow for more finegrained instruction control
+- refactor code, so that all the instruction banks live in a json file that we can easily paraphrase and translate in
+  the other
+  languages
+- translate instruction banks (from json file) into the 24 EU languages
 
 ## Maybe later
 
@@ -54,8 +57,6 @@ Install the requirements from `requirements.txt`. Make sure to have python 3.10 
 - add urls to the source in the init call (MBE, civipro, mc_ecams, professional_law, sara_prolog)
 
 ## Datasets still to add:
-
-- MAUD (https://github.com/TheAtticusProject/maud, https://huggingface.co/datasets/theatticusproject/maud)
 
 Arya:
 
