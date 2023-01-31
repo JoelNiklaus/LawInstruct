@@ -18,6 +18,12 @@ This repository has code used to generate legal instruction datasets
 ## Setup
 
 Install the requirements from `requirements.txt`. Make sure to have python 3.10 or higher.
+Make sure you have git and git-lfs installed.
+
+Clone the lawinstruct_raw repository locally:
+```bash
+git clone https://huggingface.co/datasets/lawinstruct/lawinstruct_raw
+```
 
 ## TODOs
 

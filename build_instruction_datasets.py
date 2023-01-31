@@ -68,12 +68,10 @@ natural_instructions = [NaturalInstructionsLegal, NaturalInstructionsOther]
 xp3mt = [XP3MT]
 datasets_to_build = legal_datasets + natural_instructions + xp3mt
 
-datasets_to_build = [MAUD]  # TODO to debug
-
 
 def build_instruction_datasets():
     for dataset in datasets_to_build:
-        dataset().build_instruction_dataset()
+        dataset().build_instruction_dataset(debug_size=5)
 
 
 if __name__ == '__main__':
