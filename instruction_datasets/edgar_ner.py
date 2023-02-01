@@ -37,7 +37,8 @@ def group_by_sentence(rows: Iterable) -> Iterator[tuple[list[str], list[str]]]:
             # Ignore document breaks. We just split on sentences.
             continue
         elif not row["Word"]:
-            yield tokens, tags
+            if tokens and tags:
+                yield tokens, tags
             tokens, tags = [], []  # Reset.
         else:
             tokens.append(row["Word"])
@@ -52,7 +53,7 @@ class EdgarNER(AbstractDataset):
         self._path = pathlib.Path("raw_data/all.csv")
 
     def get_data(self) -> Iterator[dict]:
-        df = pd.read_csv(self._path, header=None, names=["Word", "Tag"])
+        df = pd.read_csv(self._path, header=None, names=["Word", "Tag"], na_filter=False)
         task_type = TASK_TYPE.NAMED_ENTITY_RECOGNITION
         jurisdiction = JURISDICTION.GREECE
         prompt_language = "en"
