@@ -5,11 +5,11 @@ from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
 
 class MBE(AbstractDataset):
     def __init__(self):
-        # TODO do we have an url for the source here?
+        # TODO do we have an url for the source here?: Lucia's working paper
         super().__init__("MBE", "MBE")
 
     def get_data(self):
-        df = pd.read_csv("raw_data/mbe_train.csv")
+        df = pd.read_csv(f"{self.raw_data_dir}/mbe_train.csv")
         task_type = TASK_TYPE.MULTIPLE_CHOICE
         jurisdiction = JURISDICTION.US
         prompt_language = "en"

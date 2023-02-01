@@ -14,7 +14,7 @@ _TEXT4LABEL = {
 class PrivacySummarization(AbstractDataset):
     def __init__(self):
         super().__init__("PrivacySummarization", "https://github.com/senjed/Summarization-of-Privacy-Policies/blob/master/TOSDR_full_content_au_labeled_v2.csv")
-        self._path = pathlib.Path("raw_data/TOSDR_full_content_au_labeled_v2.csv")
+        self._path = pathlib.Path(f"{self.raw_data_dir}/TOSDR_full_content_au_labeled_v2.csv")
 
     def get_data(self) -> Iterator[dict]:
         task_type = TASK_TYPE.TEXT_CLASSIFICATION

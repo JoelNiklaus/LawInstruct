@@ -1,4 +1,4 @@
-from datasets import load_dataset
+import json
 
 from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
 
@@ -17,7 +17,8 @@ class ReClor(AbstractDataset):
         jurisdiction = JURISDICTION.N_A
         prompt_language = "en"
 
-        df = load_dataset("reclor", split="train")
+        with open(f"{self.raw_data_dir}/reclor_train.json", "r") as f:
+            df = json.loads(f.read())
         for data in df:
             options = ""
             options_labels = ["(a)", "(b)", "(c)", "(d)", "(e)"]

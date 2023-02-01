@@ -12,10 +12,10 @@ class InternationalCitizenshipLawQuestions(AbstractDataset):
         jurisdiction = JURISDICTION.INTERNATIONAL
         prompt_language = "en"
 
-        df1 = pd.read_csv("raw_data/data_v1.0_country-year-mode_acq.csv")
-        df2 = pd.read_csv("raw_data/data_v1.0_country-year-mode_loss.csv")
-        code_year = pd.read_csv("raw_data/data_v1.0_country-year.csv")
-        code_dictionary = pd.read_csv("raw_data/code_dictionary.csv")
+        df1 = pd.read_csv(f"{self.raw_data_dir}/data_v1.0_country-year-mode_acq.csv")
+        df2 = pd.read_csv(f"{self.raw_data_dir}/data_v1.0_country-year-mode_loss.csv")
+        code_year = pd.read_csv(f"{self.raw_data_dir}/data_v1.0_country-year.csv")
+        code_dictionary = pd.read_csv(f"{self.raw_data_dir}/code_dictionary.csv")
 
         for idx, row in df1.iterrows():
             mode_id = row["mode_id"]

@@ -8,8 +8,7 @@ from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
 
 class CiviproQuestions(AbstractDataset):
     def __init__(self):
-        # TODO do we have an url here?
-        super().__init__("CiviproQuestions", "civpro_questions")
+        super().__init__("CiviproQuestions", "https://arxiv.org/abs/2211.02950")
 
     def get_data(self):
 
@@ -29,7 +28,7 @@ class CiviproQuestions(AbstractDataset):
             "Given a passage of text about Civil Procedure in the United States, answer the question.",
             "Answer this CivPro question provide an answer as \"Answer\"."]
 
-        df = pd.read_csv("./raw_data/civpro_questions_train.csv")
+        df = pd.read_csv(f"{self.raw_data_dir}/civpro_questions_train.csv")
         task_type = TASK_TYPE.QUESTION_ANSWERING
         jurisdiction = JURISDICTION.US
         prompt_language = "en"

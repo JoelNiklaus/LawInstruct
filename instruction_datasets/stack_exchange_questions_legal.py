@@ -11,7 +11,7 @@ class StackExchangeQuestionsLegal(AbstractDataset):
     def get_data(self):
         # Legal Stack Exchange questions are usually high quality
 
-        df = pd.read_csv("./raw_data/stack-exchange.csv")
+        df = pd.read_csv(f"{self.raw_data_dir}/stack-exchange.csv")
         instruction_bank = [
             "Answer the following legal question. Cite relevant evidence when possible.",
             "Answer this online forum question about the law.",

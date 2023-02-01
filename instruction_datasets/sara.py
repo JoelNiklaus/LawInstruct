@@ -9,10 +9,7 @@ class Sara(AbstractDataset):
         super().__init__("Sara", "https://arxiv.org/abs/2005.05257")
 
     def get_data(self):
-        print("############################")
-        print("########## Sara ###########")
-        print("############################")
-        df = pd.read_csv("raw_data/sara.tsv", sep="\t", header=None)
+        df = pd.read_csv(f"{self.raw_data_dir}/sara.tsv", sep="\t", header=None)
         jurisdiction = JURISDICTION.US
         prompt_language = "en"
         entailment_instruction_bank = [

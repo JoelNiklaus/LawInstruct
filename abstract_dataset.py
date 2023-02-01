@@ -1,11 +1,13 @@
-import datetime
-import enum
-import json
-import logging
 import os
 import random
+import sys
 from collections.abc import Iterator
 from typing import TextIO, Any
+import enum
+import json
+import datetime
+from pathlib import Path
+import logging
 
 from tqdm import tqdm
 
@@ -23,6 +25,7 @@ class AutoName(enum.Enum):
 
     https://docs.python.org/3.10/library/enum.html#using-automatic-values
     """
+
     def _generate_next_value_(name: str, start: int, count: int, last_values: list[Any]) -> Any:
         return name
 
@@ -38,9 +41,9 @@ class TASK_TYPE(AutoName):
     NATURAL_LANGUAGE_INFERENCE = enum.auto()
     MULTIPLE_CHOICE = enum.auto()
     ARGUMENTATION = enum.auto()
-    ANSWER_GENERATION = enum.auto()
     QUESTION_GENERATION = enum.auto()
     UNKNOWN = enum.auto()
+
 
 JURISDICTION = enum.Enum('JURISDICTION', [
     # EU
@@ -68,11 +71,24 @@ class AbstractDataset:
         self.data_dir = data_dir
         os.makedirs(self.data_dir, exist_ok=True)
         self.random: random.Random = random.Random(42)  # make it reproducible
+
+        self.raw_data_dir = "lawinstruct_raw/raw_data"
+
+        root = logging.getLogger()
+        root.setLevel(logging.INFO)
+        handler = logging.StreamHandler(sys.stdout)
+        handler.setLevel(logging.INFO)
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        handler.setFormatter(formatter)
+        root.addHandler(handler)
         self.logger = logging.getLogger(__name__)
 
     def get_data(self) -> Iterator[dict]:
         raise NotImplementedError("This method should yield datapoint dicts with the following keys: "
                                   "prompt_language, answer_language, task_type, jurisdiction, text")
+
+    def get_instruction_bank(self, language="en"):
+        return json.loads(Path(f"instruction_banks/{language}.json").read_text())[self.name]
 
     def build_data_point(self,
                          prompt_language: str,
@@ -102,22 +118,30 @@ class AbstractDataset:
             "jurisdiction": datapoint.get("jurisdiction", JURISDICTION.UNKNOWN).name,
             "task_type": datapoint.get("task_type", TASK_TYPE.UNKNOWN).name,
             "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y"),
-            "text": datapoint['text'],  # text is last so we can easily read the metadata on servers for example
+            "text": datapoint['text'],  # text is last, so we can easily read the metadata on servers for example
         }) + "\n")
 
     def get_output_file_name(self, file_idx: int = 0, split: str = 'train') -> str:
         # we save each dataset to a separate file, so we only need to generate new datasets
         return f"{self.data_dir}/{self.name}.{split}.{file_idx}.jsonl.xz"
 
-    def build_instruction_dataset(self) -> None:
+    def build_instruction_dataset(self, debug_size=-1) -> None:
         output_file_idx = 0
         file = self.open_new_file(output_file_idx)
+        self.logger.info(f"Building instruction dataset for {self.name}")
+        count = 0
         for datapoint in tqdm(self.get_data()):
             if os.path.getsize(self.get_output_file_name(output_file_idx)) > MAX_FILE_SIZE:
                 file.close()
                 output_file_idx += 1
                 file = self.open_new_file(output_file_idx)
             self.write_json_line(file, datapoint)
+            count += 1
+            if debug_size > 0 and count >= debug_size:
+                self.logger.info(f"Stopping after {debug_size} datapoints")
+                self.logger.info(f"Example datapoint: {datapoint}")
+                break
+
         file.close()
 
     def open_new_file(self, output_file_idx: int) -> TextIO:

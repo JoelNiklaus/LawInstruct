@@ -19,7 +19,7 @@ class KoreanLegalQA(AbstractDataset):
                             "What is the best South Korean law that can help answer this question.",
                             "What South Korean law best applies."]
 
-        with open("raw_data/legalqa.jsonlines", "r") as f:
+        with open(f"{self.raw_data_dir}/legalqa.jsonlines", "r") as f:
             questions = [json.loads(x) for x in f.readlines()]
 
         for question in questions:

@@ -50,7 +50,7 @@ class EdgarNER(AbstractDataset):
     def __init__(self):
         super().__init__("EDGAR", "https://github.com/terenceau2/E-NER-Dataset/blob/main/all.csv")
         self._tags = EdgarTags()
-        self._path = pathlib.Path("raw_data/all.csv")
+        self._path = pathlib.Path(f"{self.raw_data_dir}/edgar_ner.csv")
 
     def get_data(self) -> Iterator[dict]:
         df = pd.read_csv(self._path, header=None, names=["Word", "Tag"], na_filter=False)

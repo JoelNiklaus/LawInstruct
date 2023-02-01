@@ -1,3 +1,5 @@
+from typing import List
+
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
@@ -5,10 +7,13 @@ from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
 
 class ProfessionalLaw(AbstractDataset):
     def __init__(self):
-        # TODO do we have an url here?
-        super().__init__("ProfessionalLaw", "auxiliary_train_hendrycks_test")
+        super().__init__("ProfessionalLaw", "https://arxiv.org/abs/2009.03300")
+        self.filter_out_mmmlu = True
 
     def get_data(self):
+        if self.filter_out_mmmlu:
+            return  # This dataset is part of mmmlu, just ignore it
+
         # The first 1200 are extra bar exam questions, not sure if we want to keep these in
         instructions_examples = ["Generate some Multistate Bar Exam questions according to U.S. law.",
                                  "Answer these legal questions. Use American Law. A few examples are provided first to give the answer format.",

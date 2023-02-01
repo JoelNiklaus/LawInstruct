@@ -20,7 +20,7 @@ class ChangeMyView(AbstractDataset):
         jurisdiction = JURISDICTION.UNKNOWN
         prompt_language = "en"
 
-        with open("./raw_data/train_pair_data.jsonlist") as f:
+        with open(f"{self.raw_data_dir}/train_pair_data.jsonlist") as f:
             x = [json.loads(s) for s in f.readlines()]
             for d in x:
                 if isinstance(d['positive']['comments'][0]['body'], list):

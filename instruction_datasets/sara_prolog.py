@@ -7,8 +7,7 @@ from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
 
 class SaraProlog(AbstractDataset):
     def __init__(self):
-        # TODO do we have an url here?
-        super().__init__("SaraProlog", "sara_prolog")
+        super().__init__("SaraProlog", "https://arxiv.org/abs/2005.05257")
 
     def get_data(self):
         instruction_bank = ["Convert the following statute into prolog code.",
@@ -17,20 +16,20 @@ class SaraProlog(AbstractDataset):
         jurisdiction = JURISDICTION.US
         prompt_language = "en"
 
-        json_files = [pos_json for pos_json in os.listdir("raw_data/sara_statutes/source")]
+        json_files = [pos_json for pos_json in os.listdir(f"{self.raw_data_dir}/sara_statutes/source")]
         for json_file in json_files:
-            with open(os.path.join("raw_data/sara_statutes/source/", json_file), "r") as f_normal:
-                with open(os.path.join("raw_data/sara_statutes/prolog/", json_file) + ".pl", "r") as f_prolog:
+            with open(os.path.join(f"{self.raw_data_dir}/sara_statutes/source/", json_file), "r") as f_normal:
+                with open(os.path.join(f"{self.raw_data_dir}/sara_statutes/prolog/", json_file) + ".pl", "r") as f_prolog:
                     datapoint = f"{self.random.choice(instruction_bank)}\n\nStatute:\n{f_normal.read()}\n\nProlog Program:\n\n{f_prolog.read()}"
                     yield self.build_data_point(prompt_language, "en", datapoint, task_type, jurisdiction)
 
         instruction_bank = ["Convert the following fact pattern into prolog code. Then answer the question.",
                             "Write a prolog program to mark all the facts, denote it as \"Prolog Program:\". Then answer the question, denote your answer as \"Answer\"."]
-        json_files = [pos_json for pos_json in os.listdir("raw_data/sara_cases/") if pos_json != "train"]
-        with open("raw_data/sara_cases/train", "r") as train_list_f:
+        json_files = [pos_json for pos_json in os.listdir(f"{self.raw_data_dir}/sara_cases/") if pos_json != "train"]
+        with open(f"{self.raw_data_dir}/sara_cases/train", "r") as train_list_f:
             train_list = [x.strip() for x in train_list_f.readlines()]
         for json_file in json_files:
-            with open(os.path.join("raw_data/sara_cases/", json_file), "r") as f_normal:
+            with open(os.path.join(f"{self.raw_data_dir}/sara_cases/", json_file), "r") as f_normal:
                 if json_file.split(".pl")[0] not in train_list:
                     print(f"Skipping {json_file}")
                 text = f_normal.read()

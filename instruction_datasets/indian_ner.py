@@ -30,7 +30,7 @@ class IndianNER(AbstractDataset):
     def __init__(self):
         super().__init__("IndianNER", "https://github.com/Legal-NLP-EkStep/legal_NER")
         self._tags = IndianNerTags()
-        self._path = pathlib.Path("raw_data/NER_TRAIN_JUDGEMENT.json")
+        self._path = pathlib.Path(f"{self.raw_data_dir}/NER_TRAIN_JUDGEMENT.json")
 
     def get_data(self) -> Iterator[dict]:
         task_type = TASK_TYPE.NAMED_ENTITY_RECOGNITION

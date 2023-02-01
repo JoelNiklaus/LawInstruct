@@ -7,9 +7,11 @@ from instruction_datasets.cail_2022 import CAIL2022
 from instruction_datasets.case_briefs import CaseBriefs
 from instruction_datasets.change_my_view import ChangeMyView
 from instruction_datasets.civipro_questions import CiviproQuestions
+from instruction_datasets.coliee import COLIEE
 from instruction_datasets.contract_nli import ContractNLI
 from instruction_datasets.edgar_ner import EdgarNER
 from instruction_datasets.eoir_privacy import EOIRPrivacy
+from instruction_datasets.eur_lex_sum import EurLexSum
 from instruction_datasets.german_ler import GermanLER
 from instruction_datasets.german_rental_agreements import GermanRentalAgreements
 from instruction_datasets.greek_ner import Ell4Dataset, Ell18Dataset
@@ -28,6 +30,7 @@ from instruction_datasets.lextreme import LEXTREME
 from instruction_datasets.lila import Lila
 from instruction_datasets.littleton import Littleton
 from instruction_datasets.logi_qa import LogiQA
+from instruction_datasets.maud import MAUD
 from instruction_datasets.mbe import MBE
 from instruction_datasets.mc_exams_law import MCExamsLaw
 from instruction_datasets.mining_legal_arguments import MiningLegalArguments
@@ -53,24 +56,26 @@ from instruction_datasets.valid_wills import ValidWills
 from instruction_datasets.xp3mt import XP3MT
 
 legal_datasets = [
-    BrazilianBarExam, BVADecisions, BrCAD5, CABarExamEssays, CAIL2019, CAIL2022, CaseBriefs, ChangeMyView,
-    CiviproQuestions, ContractNLI, EdgarNER, Ell4Dataset, Ell18Dataset, EOIRPrivacy, GermanLER, GermanRentalAgreements,
-    GSM8K, ILDC, IndianNER, IndianTextSegmentation, InternationalCitizenshipLawQuestions, JECQA, KoreanLegalQA, LboxOpen, LegalCaseDocumentSummarization,
-    LegalQA, LexGLUE, LEXTREME, Lila, Littleton, LogiQA, MBE, MCExamsLaw, MiningLegalArguments, MultiLexSum,
-    OLCMemos, PlainEnglishContractsSummarization, PrivacyQA, PrivacySummarization, ProfessionalLaw, ReClor, RedditLegalQA, Sara, SaraProlog,
-    ShortAnswerFeedback, SpanishLaborLaw, StackExchangeQuestionsLegal, SwissJudgmentPrediction, TsccAlqac,
-    USClassActions, ValidWills,
+    BrazilianBarExam, BrCAD5, BVADecisions, CABarExamEssays, CAIL2019, CAIL2022, CaseBriefs, ChangeMyView,
+    CiviproQuestions, COLIEE, ContractNLI, EdgarNER, Ell4Dataset, Ell18Dataset, EOIRPrivacy, EurLexSum, GermanLER,
+    GermanRentalAgreements, GSM8K, ILDC, IndianNER, IndianTextSegmentation, InternationalCitizenshipLawQuestions, JECQA,
+    KoreanLegalQA, LboxOpen, LegalCaseDocumentSummarization, LegalQA, LexGLUE, LEXTREME, Lila, Littleton, LogiQA, MAUD,
+    MBE, MCExamsLaw, MiningLegalArguments, MultiLexSum, OLCMemos, PlainEnglishContractsSummarization, PrivacyQA,
+    PrivacySummarization, ProfessionalLaw, ReClor, RedditLegalQA, Sara, SaraProlog, ShortAnswerFeedback,
+    SpanishLaborLaw, StackExchangeQuestionsLegal, SwissJudgmentPrediction, TsccAlqac, USClassActions, ValidWills,
 ]
+erroneous_datasets = [BVADecisions, CaseBriefs, CiviproQuestions, EdgarNER, GermanLER,
+                      LegalCaseDocumentSummarization, Littleton]
+
 natural_instructions = [NaturalInstructionsLegal, NaturalInstructionsOther]
 xp3mt = [XP3MT]
 datasets_to_build = legal_datasets + natural_instructions + xp3mt
-
-datasets_to_build = [PrivacySummarization]  # TODO to debug
+datasets_to_build = erroneous_datasets + natural_instructions + xp3mt
 
 
 def build_instruction_datasets():
     for dataset in datasets_to_build:
-        dataset().build_instruction_dataset()
+        dataset().build_instruction_dataset(debug_size=5)
 
 
 if __name__ == '__main__':

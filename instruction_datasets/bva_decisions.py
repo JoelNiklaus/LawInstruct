@@ -10,10 +10,10 @@ class BVADecisions(AbstractDataset):
 
     def get_data(self):
 
-        json_files = [f"./raw_data/VetClaims-JSON/BVA Decisions JSON Format/{pos_json}" for pos_json in
-                      os.listdir("./raw_data/VetClaims-JSON/BVA Decisions JSON Format") if pos_json.endswith('.json')]
-        json_files.extend([f"./raw_data/VetClaims-JSON/BVA Decisions JSON Format +25/{pos_json}" for pos_json in
-                           os.listdir("./raw_data/VetClaims-JSON/BVA Decisions JSON Format +25") if
+        json_files = [f"{self.raw_data_dir}/VetClaims-JSON/BVA Decisions JSON Format/{pos_json}" for pos_json in
+                      os.listdir(f"{self.raw_data_dir}/VetClaims-JSON/BVA Decisions JSON Format") if pos_json.endswith('.json')]
+        json_files.extend([f"{self.raw_data_dir}/VetClaims-JSON/BVA Decisions JSON Format +25/{pos_json}" for pos_json in
+                           os.listdir(f"{self.raw_data_dir}/VetClaims-JSON/BVA Decisions JSON Format +25") if
                            pos_json.endswith('.json')])
         sentences = []
         rule_trees = []

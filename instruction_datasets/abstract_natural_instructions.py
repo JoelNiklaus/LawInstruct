@@ -195,10 +195,20 @@ def get_lang_codes(langs: Iterable[str]) -> list[str]:
         except KeyError:
             lang_code = "unknown"
         lang_codes.append(lang_code)
-        return lang_codes  # TODO: is this a bug? Should it go outside the loop?
+    return lang_codes
+
+
+def get_first_lang_code(langs: Iterable[str]) -> str:
+    lang_codes = get_lang_codes(langs)
+    return lang_codes[0]
 
 
 class AbstractNaturalInstructions(AbstractDataset):
+    """
+    Abstract class for Natural Instructions datasets.
+    Took code from here: https://github.com/yizhongw/Tk-Instruct/blob/main/src/ni_dataset.py
+    """
+
     all_valid_encodings = [
         # instruction only
         {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 0, "num_neg_examples": 0,
@@ -223,32 +233,32 @@ class AbstractNaturalInstructions(AbstractDataset):
     # searched by "Law", "Legal", "Jurisprudence": https://github.com/allenai/natural-instructions/tree/master/tasks
     legal_tasks = {
         'task268_casehold_legal_answer_generation': {"jurisdiction": JURISDICTION.US,
-                                                     "task_type": TASK_TYPE.ANSWER_GENERATION},
+                                                     "task_type": TASK_TYPE.QUESTION_ANSWERING},
         'task274_overruling_legal_classification': {"jurisdiction": JURISDICTION.US,
                                                     "task_type": TASK_TYPE.TEXT_CLASSIFICATION},
         'task287_casehold_legal_incorrect_answer_generation': {"jurisdiction": JURISDICTION.US,
-                                                               "task_type": TASK_TYPE.ANSWER_GENERATION},
-        'task597_cuad_answer_generation': {"jurisdiction": JURISDICTION.US, "task_type": TASK_TYPE.ANSWER_GENERATION},
-        'task598_cuad_answer_generation': {"jurisdiction": JURISDICTION.US, "task_type": TASK_TYPE.ANSWER_GENERATION},
+                                                               "task_type": TASK_TYPE.QUESTION_ANSWERING},
+        'task597_cuad_answer_generation': {"jurisdiction": JURISDICTION.US, "task_type": TASK_TYPE.QUESTION_ANSWERING},
+        'task598_cuad_answer_generation': {"jurisdiction": JURISDICTION.US, "task_type": TASK_TYPE.QUESTION_ANSWERING},
         'task599_cuad_question_generation': {"jurisdiction": JURISDICTION.US,
                                              "task_type": TASK_TYPE.QUESTION_GENERATION},
         'task683_online_privacy_policy_text_purpose_answer_generation': {"jurisdiction": JURISDICTION.UNKNOWN,
-                                                                         "task_type": TASK_TYPE.ANSWER_GENERATION},
+                                                                         "task_type": TASK_TYPE.QUESTION_ANSWERING},
         'task684_online_privacy_policy_text_information_type_generation': {"jurisdiction": JURISDICTION.UNKNOWN,
-                                                                           "task_type": TASK_TYPE.ANSWER_GENERATION},
+                                                                           "task_type": TASK_TYPE.QUESTION_ANSWERING},
         'task715_mmmlu_answer_generation_international_law': {"jurisdiction": JURISDICTION.INTERNATIONAL,
-                                                              "task_type": TASK_TYPE.ANSWER_GENERATION},
+                                                              "task_type": TASK_TYPE.QUESTION_ANSWERING},
         'task716_mmmlu_answer_generation_jurisprudence': {"jurisdiction": JURISDICTION.US,
-                                                          "task_type": TASK_TYPE.ANSWER_GENERATION},
+                                                          "task_type": TASK_TYPE.QUESTION_ANSWERING},
         'task729_mmmlu_answer_generation_professional_law': {"jurisdiction": JURISDICTION.US,
-                                                             "task_type": TASK_TYPE.ANSWER_GENERATION},
+                                                             "task_type": TASK_TYPE.QUESTION_ANSWERING},
         'task743_eurlex_summarization': {"jurisdiction": JURISDICTION.EU, "task_type": TASK_TYPE.SUMMARIZATION},
         'task744_eurlex_classification': {"jurisdiction": JURISDICTION.EU, "task_type": TASK_TYPE.TEXT_CLASSIFICATION},
         'task1658_billsum_summarization': {"jurisdiction": JURISDICTION.US, "task_type": TASK_TYPE.SUMMARIZATION},
         'task1666_cail2018_answer_generation': {"jurisdiction": JURISDICTION.CHINA,
-                                                "task_type": TASK_TYPE.ANSWER_GENERATION},
+                                                "task_type": TASK_TYPE.QUESTION_ANSWERING},
         'task1667_cail2018_answer_generation': {"jurisdiction": JURISDICTION.CHINA,
-                                                "task_type": TASK_TYPE.ANSWER_GENERATION},
+                                                "task_type": TASK_TYPE.QUESTION_ANSWERING},
     }
 
     def __init__(self, name, source):

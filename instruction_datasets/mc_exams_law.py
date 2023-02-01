@@ -6,11 +6,11 @@ from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
 
 class MCExamsLaw(AbstractDataset):
     def __init__(self):
-        # TODO do we have an urle here?
+        # TODO do we have an url here: hand built by peter
         super().__init__("MCExamsLaw", "mc_exams_law")
 
     def get_data(self):
-        df = pd.read_csv("raw_data/raw_legal_mc_with_explanations.csv")
+        df = pd.read_csv(f"{self.raw_data_dir}/raw_legal_mc_with_explanations.csv")
         task_type = TASK_TYPE.MULTIPLE_CHOICE
         jurisdiction = JURISDICTION.US
         prompt_language = "en"
