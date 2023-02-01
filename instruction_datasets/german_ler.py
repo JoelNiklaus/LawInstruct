@@ -37,8 +37,7 @@ def build_ner_answer(tokens: list[str], tags: list[str]) -> str:
 
 class GermanLER(AbstractDataset):
     def __init__(self):
-        super().__init__("GermanLER",
-                         "https://huggingface.co/datasets/elenanereiss/german-ler")
+        super().__init__("GermanLER", "https://huggingface.co/datasets/elenanereiss/german-ler")
 
     def get_data(self):
         df = load_dataset("elenanereiss/german-ler", split="train")
@@ -53,10 +52,12 @@ class GermanLER(AbstractDataset):
         instruction_bank_coarse = [
             f"{introduction_sentence} {get_ner_instruction(ner_coarse_tags)}"]
         for example in df:
-            text = f"{self.random.choice(instruction_bank_fine)}\n\n{build_ner_answer(example['tokens'], example['ner_tags'])}"
+            tags = [ner_fine_tags[tag] for tag in example["ner_tags"]]
+            text = f"{self.random.choice(instruction_bank_fine)}\n\n{build_ner_answer(example['tokens'], tags)}"
             yield self.build_data_point(prompt_language, answer_language, text,
                                         task_type, jurisdiction)
 
-            text = f"{self.random.choice(instruction_bank_coarse)}\n\n{build_ner_answer(example['tokens'], example['ner_coarse_tags'])}"
+            tags = [ner_coarse_tags[tag] for tag in example["ner_coarse_tags"]]
+            text = f"{self.random.choice(instruction_bank_coarse)}\n\n{build_ner_answer(example['tokens'], tags)}"
             yield self.build_data_point(prompt_language, answer_language, text,
                                         task_type, jurisdiction)
