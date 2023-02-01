@@ -9,7 +9,7 @@ class ValidWills(AbstractDataset):
 
     def get_data(self):
         # Will Validity
-        train = pd.read_csv('./raw_data/wills_train.csv', encoding='utf-8')  # replace with real path and dataset names
+        train = pd.read_csv(f'{self.raw_data_dir}/wills_train.csv', encoding='utf-8')  # replace with real path and dataset names
         instruction_bank = [
             "Given a statement in a will, the relevant U.S. law, is the condition supported, refuted, or unrelated.",
             "Is the statement in the will valid given the law and conditions? Answer with one of unrelated, supported, refuted."]

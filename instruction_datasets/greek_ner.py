@@ -110,7 +110,7 @@ class GreekNER(AbstractDataset):
 class Ell18Dataset(GreekNER):
     def __init__(self):
         super().__init__(
-            "Ell18 Greek NER",
+            "Ell18GreekNER",
             "https://github.com/nmpartzio/elNER/blob/master/dataset/elNER18/elNER18_iobes.csv",
             Ell18Tags())
         self._path = pathlib.Path(f"{self.raw_data_dir}/elNER18_iobes.csv")
@@ -119,7 +119,7 @@ class Ell18Dataset(GreekNER):
 class Ell4Dataset(GreekNER):
     def __init__(self):
         super().__init__(
-            "Ell4 Greek NER",
+            "Ell4GreekNER",
             "https://github.com/nmpartzio/elNER/blob/master/dataset/elNER4/elNER4_iobes.csv",
             Ell4Tags())
         self._path = pathlib.Path(f"{self.raw_data_dir}/elNER4_iobes.csv")

@@ -64,12 +64,13 @@ legal_datasets = [
     PrivacySummarization, ProfessionalLaw, ReClor, RedditLegalQA, Sara, SaraProlog, ShortAnswerFeedback,
     SpanishLaborLaw, StackExchangeQuestionsLegal, SwissJudgmentPrediction, TsccAlqac, USClassActions, ValidWills,
 ]
-erroneous_datasets = [BVADecisions, CaseBriefs, CiviproQuestions, Ell4Dataset, Ell18Dataset, GermanLER,
+erroneous_datasets = [BVADecisions, CaseBriefs, CiviproQuestions, EdgarNER, GermanLER,
                       LegalCaseDocumentSummarization, Littleton]
 
 natural_instructions = [NaturalInstructionsLegal, NaturalInstructionsOther]
 xp3mt = [XP3MT]
 datasets_to_build = legal_datasets + natural_instructions + xp3mt
+datasets_to_build = erroneous_datasets + natural_instructions + xp3mt
 
 
 def build_instruction_datasets():

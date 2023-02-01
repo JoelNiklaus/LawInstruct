@@ -204,6 +204,11 @@ def get_first_lang_code(langs: Iterable[str]) -> str:
 
 
 class AbstractNaturalInstructions(AbstractDataset):
+    """
+    Abstract class for Natural Instructions datasets.
+    Took code from here: https://github.com/yizhongw/Tk-Instruct/blob/main/src/ni_dataset.py
+    """
+
     all_valid_encodings = [
         # instruction only
         {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 0, "num_neg_examples": 0,

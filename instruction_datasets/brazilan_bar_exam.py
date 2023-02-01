@@ -76,7 +76,7 @@ class BrazilianBarExam(AbstractDataset):
                                                                                              'Identificacao'))
             return id_element.get('URN')
 
-        leis = all_law_articles_in_path('./raw_data/oab_lexml/')
+        leis = all_law_articles_in_path(f'{self.raw_data_dir}/oab_lexml/')
 
         justifications = []
         with open(f"{self.raw_data_dir}/oab_ethics.yaml", "r") as stream:

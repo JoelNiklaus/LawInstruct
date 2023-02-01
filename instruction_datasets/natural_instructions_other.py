@@ -12,7 +12,7 @@ class NaturalInstructionsOther(AbstractNaturalInstructions):
         super().__init__("NaturalInstructionsOther", "https://github.com/allenai/natural-instructions")
 
     def get_data(self):
-        raw_datasets = load_dataset('./raw_data/Tk-Instruct/src/ni_dataset.py', data_dir=f"{self.raw_data_dir}/ni_task_configs",
+        raw_datasets = load_dataset(f'{self.raw_data_dir}/ni_dataset.py', data_dir=f"{self.raw_data_dir}/ni_task_configs",
                                     task_dir=f"{self.raw_data_dir}/ni_instructions_data/tasks", split="train")
 
         if self.filter_out_mmmlu:
