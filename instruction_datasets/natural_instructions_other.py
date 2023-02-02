@@ -16,10 +16,10 @@ class NaturalInstructionsOther(AbstractNaturalInstructions):
                                     task_dir=f"{self.raw_data_dir}/ni_instructions_data/tasks", split="train")
 
         if self.filter_out_mmmlu:
-            raw_datasets = raw_datasets.filter(lambda x: "mmmlu" not in x["Name"])
+            raw_datasets = raw_datasets.filter(lambda x: "mmmlu" not in x["Task"])
         prompt_language = "en"
 
-        other_datasets = raw_datasets.filter(lambda x: x["Name"] not in self.legal_tasks.keys())
+        other_datasets = raw_datasets.filter(lambda x: x["Task"] not in self.legal_tasks.keys())
 
         for example in tqdm(other_datasets):
             answer_language = get_first_lang_code(example["Input_language"])

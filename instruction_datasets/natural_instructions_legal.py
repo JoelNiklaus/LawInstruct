@@ -15,15 +15,15 @@ class NaturalInstructionsLegal(AbstractNaturalInstructions):
                                     task_dir=f"{self.raw_data_dir}/ni_instructions_data/tasks", split="train")
 
         if self.filter_out_mmmlu:
-            raw_datasets = raw_datasets.filter(lambda x: "mmmlu" not in x["Name"])
+            raw_datasets = raw_datasets.filter(lambda x: "mmmlu" not in x["Task"])
         prompt_language = "en"
 
-        legal_datasets = raw_datasets.filter(lambda x: x["Name"] in self.legal_tasks.keys())
+        legal_datasets = raw_datasets.filter(lambda x: x["Task"] in self.legal_tasks.keys())
 
         for example in tqdm(legal_datasets):
             answer_language = get_first_lang_code(example["Input_language"])
-            task_type = self.legal_tasks[example["Name"]]["task_type"]
-            jurisdiction = self.legal_tasks[example["Name"]]["jurisdiction"]
+            task_type = self.legal_tasks[example["Task"]]["task_type"]
+            jurisdiction = self.legal_tasks[example["Task"]]["jurisdiction"]
 
             for collator in self.collators:
                 encoded_example = collator([example])
