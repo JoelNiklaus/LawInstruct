@@ -64,7 +64,7 @@ legal_datasets = [
     PrivacySummarization, ProfessionalLaw, ReClor, RedditLegalQA, Sara, SaraProlog, ShortAnswerFeedback,
     SpanishLaborLaw, StackExchangeQuestionsLegal, SwissJudgmentPrediction, TsccAlqac, USClassActions, ValidWills,
 ]
-erroneous_datasets = [CaseBriefs, CiviproQuestions, LegalCaseDocumentSummarization]
+erroneous_datasets = [CaseBriefs, CiviproQuestions, ]
 
 natural_instructions = [NaturalInstructionsLegal, NaturalInstructionsOther]
 xp3mt = [XP3MT]

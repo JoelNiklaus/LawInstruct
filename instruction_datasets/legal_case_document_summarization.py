@@ -34,6 +34,6 @@ class LegalCaseDocumentSummarization(AbstractDataset):
             else:
                 continue
             input = example["judgement"]
-            summary = example["summary/full"]
+            summary = example["summary"]
             text = f"{self.random.choice(instruction_bank)}\n\n{build_summarization_answer(input, summary)}"
             yield self.build_data_point(prompt_language, "en", text, task_type, jurisdiction)
