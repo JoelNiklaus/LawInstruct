@@ -20,19 +20,23 @@ This repository has code used to generate legal instruction datasets
 Install the requirements from `requirements.txt`. Make sure to have python 3.10 or higher.
 Make sure you have git and git-lfs installed.
 
+On a slurm system, load the module with `module load git-lfs/2.4.2`
+Run `git lfs install` to install git-lfs.
+
 Clone the lawinstruct_raw repository locally:
+
 ```bash
 git clone https://huggingface.co/datasets/lawinstruct/lawinstruct_raw
 ```
 
 Clone the natural instructions data there too
+
 ```bash
 git clone https://github.com/allenai/natural-instructions lawinstruct_raw/raw_data/ni_instructions_data
 ```
 
 ## TODOs
 
-- test the dataset generation thoroughly (Joel)
 - run the script on a big machine to generate the datasets and upload to lawinstruct organisation on huggingface hub (
   Joel)
 
@@ -66,6 +70,7 @@ git clone https://github.com/allenai/natural-instructions lawinstruct_raw/raw_da
 - add more datasets like coliee (Lucia)
 - replace ANSWER_GENERATION with QUESTION_ANSWERING (Joel)
 - add urls to the source in the init call (MBE, civipro, mc_ecams, professional_law, sara_prolog)
+- test the dataset generation thoroughly (Joel)
 
 ## Datasets still to add:
 
