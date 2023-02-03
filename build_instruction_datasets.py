@@ -84,4 +84,4 @@ def build_instruction_datasets(debug=False):
 
 
 if __name__ == '__main__':
-    build_instruction_datasets()
+    build_instruction_datasets(debug=False)

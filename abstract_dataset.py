@@ -96,7 +96,7 @@ class AbstractDataset:
                          text: str,
                          task_type: TASK_TYPE = TASK_TYPE.UNKNOWN,
                          jurisdiction: JURISDICTION = JURISDICTION.UNKNOWN,
-                         subset: str = None) -> dict:
+                         subset: str = "") -> dict:
         del self  # We don't use `self`, but subclasses might.
         return {
             "prompt_language": prompt_language,
@@ -111,10 +111,10 @@ class AbstractDataset:
         assert datapoint['text'], "datapoint['text'] must not be empty"
         file.write(json.dumps({
             "dataset_name": self.name,
-            "subset_name": datapoint.get("subset", None),
+            "subset_name": datapoint.get("subset", ""),
             "source": self.source,
-            "prompt_language": datapoint.get("prompt_language", None),
-            "answer_language": datapoint.get("answer_language", None),
+            "prompt_language": datapoint.get("prompt_language", ""),
+            "answer_language": datapoint.get("answer_language", ""),
             "jurisdiction": datapoint.get("jurisdiction", JURISDICTION.UNKNOWN).name,
             "task_type": datapoint.get("task_type", TASK_TYPE.UNKNOWN).name,
             "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y"),

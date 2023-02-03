@@ -20,7 +20,7 @@ This repository has code used to generate legal instruction datasets
 Install the requirements from `requirements.txt`. Make sure to have python 3.10 or higher.
 Make sure you have git and git-lfs installed.
 
-On a slurm system, load the module with `module load git-lfs/2.4.2`
+On the ubelix slurm system, load the module with `module load git-lfs/2.4.2`
 Run `git lfs install` to install git-lfs.
 
 Clone the lawinstruct_raw repository locally:
