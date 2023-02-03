@@ -25,6 +25,11 @@ Clone the lawinstruct_raw repository locally:
 git clone https://huggingface.co/datasets/lawinstruct/lawinstruct_raw
 ```
 
+Clone the natural instructions data there too
+```bash
+git clone https://github.com/allenai/natural-instructions lawinstruct_raw/raw_data/ni_instructions_data
+```
+
 ## TODOs
 
 - test the dataset generation thoroughly (Joel)

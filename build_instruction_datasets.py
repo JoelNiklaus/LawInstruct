@@ -64,17 +64,23 @@ legal_datasets = [
     PrivacySummarization, ProfessionalLaw, ReClor, RedditLegalQA, Sara, SaraProlog, ShortAnswerFeedback,
     SpanishLaborLaw, StackExchangeQuestionsLegal, SwissJudgmentPrediction, TsccAlqac, USClassActions, ValidWills,
 ]
-erroneous_datasets = [CaseBriefs, CiviproQuestions, ]
-
 natural_instructions = [NaturalInstructionsLegal, NaturalInstructionsOther]
 xp3mt = [XP3MT]
-datasets_to_build = legal_datasets + natural_instructions + xp3mt
-datasets_to_build = erroneous_datasets
+
+erroneous_datasets = [CaseBriefs, CiviproQuestions]
 
 
-def build_instruction_datasets():
+def build_instruction_datasets(debug=False):
+    if debug:
+        datasets_to_build = erroneous_datasets
+        debug_size = 5
+    else:
+        datasets_to_build = legal_datasets + natural_instructions + xp3mt
+        datasets_to_build = [dataset for dataset in datasets_to_build if dataset not in erroneous_datasets]
+        debug_size = -1
+
     for dataset in datasets_to_build:
-        dataset().build_instruction_dataset(debug_size=5)
+        dataset().build_instruction_dataset(debug_size=debug_size)
 
 
 if __name__ == '__main__':
