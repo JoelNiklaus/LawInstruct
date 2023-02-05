@@ -68,9 +68,15 @@ natural_instructions = [NaturalInstructionsLegal, NaturalInstructionsOther]
 xp3mt = [XP3MT]
 
 erroneous_datasets = [CaseBriefs, CiviproQuestions]
+datasets_already_built = [
+    BrazilianBarExam, BrCAD5, BVADecisions, CABarExamEssays, CAIL2019, CAIL2022, CaseBriefs, ChangeMyView,
+    CiviproQuestions, COLIEE, ContractNLI, EdgarNER, Ell4Dataset, Ell18Dataset, EOIRPrivacy, EurLexSum, GermanLER,
+    GermanRentalAgreements, GSM8K, ILDC, IndianNER, IndianTextSegmentation, InternationalCitizenshipLawQuestions, JECQA,
+    KoreanLegalQA, LboxOpen, LegalCaseDocumentSummarization, LegalQA, LexGLUE, LEXTREME, Lila, Littleton, LogiQA
+]
 
 
-def build_instruction_datasets(debug=False):
+def build_instruction_datasets(debug=False, build_from_scratch=False):
     if debug:
         datasets_to_build = erroneous_datasets
         debug_size = 5
@@ -78,6 +84,9 @@ def build_instruction_datasets(debug=False):
         datasets_to_build = legal_datasets + natural_instructions + xp3mt
         datasets_to_build = [dataset for dataset in datasets_to_build if dataset not in erroneous_datasets]
         debug_size = -1
+
+    if not build_from_scratch:
+        datasets_to_build = [dataset for dataset in datasets_to_build if dataset not in datasets_already_built]
 
     for dataset in datasets_to_build:
         dataset().build_instruction_dataset(debug_size=debug_size)
