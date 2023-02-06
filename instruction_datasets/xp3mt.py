@@ -25,7 +25,7 @@ class XP3MT(AbstractDataset):
             df = load_dataset("bigscience/xP3mt", lang, split="train")
             for example in tqdm(df):
                 text = example["inputs"] + " " + example["targets"]
-                task_type = TASK_TYPE.CODE if lang == "code" else TASK_TYPE.UNKOWN
+                task_type = TASK_TYPE.CODE if lang == "code" else TASK_TYPE.UNKNOWN
                 prompt_language = detect(text=example["inputs"], low_memory=True)['lang']
                 answer_language = lang if lang != "code" else "en"
                 yield self.build_data_point(prompt_language, answer_language, text, task_type, jurisdiction)

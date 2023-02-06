@@ -478,7 +478,7 @@ class MAUD(AbstractDataset):
             try:
                 answers_lookup = info_dict[category][text_type][question]
             except KeyError:
-                continue # if it errors, just skip this example
+                continue  # if it errors, just skip this example
             # do not distinguish between multiple choice and multilabel, since the multilabel ones do not seem to be really multilabel
             if answer in answers_lookup:
                 task_type = TASK_TYPE.MULTIPLE_CHOICE
