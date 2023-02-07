@@ -42,6 +42,7 @@ class TASK_TYPE(AutoName):
     MULTIPLE_CHOICE = enum.auto()
     ARGUMENTATION = enum.auto()
     QUESTION_GENERATION = enum.auto()
+    CODE = enum.auto()
     UNKNOWN = enum.auto()
 
 

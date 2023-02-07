@@ -72,8 +72,11 @@ datasets_already_built = [
     BrazilianBarExam, BrCAD5, BVADecisions, CABarExamEssays, CAIL2019, CAIL2022, CaseBriefs, ChangeMyView,
     CiviproQuestions, COLIEE, ContractNLI, EdgarNER, Ell4Dataset, Ell18Dataset, EOIRPrivacy, EurLexSum, GermanLER,
     GermanRentalAgreements, GSM8K, ILDC, IndianNER, IndianTextSegmentation, InternationalCitizenshipLawQuestions, JECQA,
-    KoreanLegalQA, LboxOpen, LegalCaseDocumentSummarization, LegalQA, LexGLUE, LEXTREME, Lila, Littleton, LogiQA
-]
+    KoreanLegalQA, LboxOpen, LegalCaseDocumentSummarization, LegalQA, LexGLUE, LEXTREME, Lila, Littleton, LogiQA, MAUD,
+    MBE, MCExamsLaw, MiningLegalArguments, MultiLexSum, OLCMemos, PlainEnglishContractsSummarization, PrivacyQA,
+    PrivacySummarization, ProfessionalLaw, ReClor, RedditLegalQA, Sara, SaraProlog, ShortAnswerFeedback,
+    SpanishLaborLaw, StackExchangeQuestionsLegal, SwissJudgmentPrediction, TsccAlqac, USClassActions, ValidWills,
+] + natural_instructions
 
 
 def build_instruction_datasets(debug=False, build_from_scratch=False):
