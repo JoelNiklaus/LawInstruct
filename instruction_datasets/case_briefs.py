@@ -13,7 +13,7 @@ class CaseBriefs(AbstractDataset):
             "Given the key facts of a case, provide the core question the court should answer, then provide an analysis for how the an American court might decide the case.",
             "Given the facts, describe how an American court should think about the key issue?"]
 
-        df = load_dataset("socratic-machines/case-briefs", "combined", use_auth_token=True)
+        df = load_dataset("lawinstruct/case-briefs", "combined", use_auth_token=True)
         task_type = TASK_TYPE.QUESTION_ANSWERING
         jurisdiction = JURISDICTION.US
         prompt_language = "en"

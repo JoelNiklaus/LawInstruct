@@ -67,7 +67,7 @@ legal_datasets = [
 natural_instructions = [NaturalInstructionsLegal, NaturalInstructionsOther]
 xp3mt = [XP3MT]
 
-erroneous_datasets = [CaseBriefs, CiviproQuestions]
+erroneous_datasets = []
 datasets_already_built = [
     BrazilianBarExam, BrCAD5, BVADecisions, CABarExamEssays, CAIL2019, CAIL2022, CaseBriefs, ChangeMyView,
     CiviproQuestions, COLIEE, ContractNLI, EdgarNER, Ell4Dataset, Ell18Dataset, EOIRPrivacy, EurLexSum, GermanLER,
@@ -76,7 +76,9 @@ datasets_already_built = [
     MBE, MCExamsLaw, MiningLegalArguments, MultiLexSum, OLCMemos, PlainEnglishContractsSummarization, PrivacyQA,
     PrivacySummarization, ProfessionalLaw, ReClor, RedditLegalQA, Sara, SaraProlog, ShortAnswerFeedback,
     SpanishLaborLaw, StackExchangeQuestionsLegal, SwissJudgmentPrediction, TsccAlqac, USClassActions, ValidWills,
-] + natural_instructions
+]
+datasets_already_built += natural_instructions
+datasets_already_built += xp3mt
 
 
 def build_instruction_datasets(debug=False, build_from_scratch=False):
