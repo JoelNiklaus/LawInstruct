@@ -90,8 +90,8 @@ def build_instruction_datasets(debug=False, build_from_scratch=False):
         datasets_to_build = [dataset for dataset in datasets_to_build if dataset not in erroneous_datasets]
         debug_size = -1
 
-    if not build_from_scratch:
-        datasets_to_build = [dataset for dataset in datasets_to_build if dataset not in datasets_already_built]
+        if not build_from_scratch:
+            datasets_to_build = [dataset for dataset in datasets_to_build if dataset not in datasets_already_built]
 
     for dataset in datasets_to_build:
         dataset().build_instruction_dataset(debug_size=debug_size)

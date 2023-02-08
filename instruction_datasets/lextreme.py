@@ -182,7 +182,7 @@ class LEXTREME(AbstractDataset):
                     if 'multi_eurlex' in subset:
                         input_text = ast.literal_eval(input_text)
                         assert isinstance(input_text, dict)
-                        answers = [(f"Passage {input_text} Labels: {','.join(correct_labels)}", lang) for lang, text in
+                        answers = [(f"Passage {input_text[lang]} Labels: {','.join(correct_labels)}", lang) for lang, text in
                                    input_text.items()]
                     else:
                         answers = [(f"Passage {input_text} Labels: {','.join(correct_labels)}", example['language'])]
