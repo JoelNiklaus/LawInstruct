@@ -1,10 +1,12 @@
 import json
 
-
-from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
+from abstract_dataset import AbstractDataset
+from abstract_dataset import JURISDICTION
+from abstract_dataset import TASK_TYPE
 
 
 class JECQA(AbstractDataset):
+
     def __init__(self):
         super().__init__("JECQA", "https://jecqa.thunlp.org/")
 
@@ -12,7 +14,8 @@ class JECQA(AbstractDataset):
 
         instruction_bank = [
             "Answer these multiple choice reasoning questions about Chinese Law. Select all answers that apply, you may have multiple correct answers.",
-            "Answer these Chinese Law multiple choice questions, you might have multiple correct answers. Denote your answer(s) as \"Answer: [answer(s)].\""]
+            "Answer these Chinese Law multiple choice questions, you might have multiple correct answers. Denote your answer(s) as \"Answer: [answer(s)].\""
+        ]
         task_type = TASK_TYPE.QUESTION_ANSWERING
         jurisdiction = JURISDICTION.CHINA
         prompt_language = "en"
@@ -27,4 +30,5 @@ class JECQA(AbstractDataset):
             for k, v in q["option_list"].items():
                 prompt += f"{k}. {v}\n"
             prompt += "\n\nFinal Answer(s): {','.join(q['answer'])}"
-            yield self.build_data_point(prompt_language, "zh", prompt, task_type, jurisdiction)
+            yield self.build_data_point(prompt_language, "zh", prompt,
+                                        task_type, jurisdiction)

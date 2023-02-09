@@ -1,14 +1,20 @@
 import pandas as pd
 
-from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
+from abstract_dataset import AbstractDataset
+from abstract_dataset import JURISDICTION
+from abstract_dataset import TASK_TYPE
 
 
 class PrivacyQA(AbstractDataset):
+
     def __init__(self):
-        super().__init__("PrivacyQA", "https://github.com/AbhilashaRavichander/PrivacyQA_EMNLP")
+        super().__init__(
+            "PrivacyQA",
+            "https://github.com/AbhilashaRavichander/PrivacyQA_EMNLP")
 
     def get_data(self):
-        df = pd.read_csv(f"{self.raw_data_dir}/policy_train_data.csv", sep="\t")
+        df = pd.read_csv(f"{self.raw_data_dir}/policy_train_data.csv",
+                         sep="\t")
         task_type = TASK_TYPE.QUESTION_ANSWERING
         jurisdiction = JURISDICTION.UNKNOWN
         prompt_language = "en"
@@ -18,4 +24,5 @@ class PrivacyQA(AbstractDataset):
                    f"Q: {example['Query']}\n" \
                    f"Term: {example['Segment']}\n" \
                    f"A: {example['Label']}"
-            yield self.build_data_point(prompt_language, "en", text, task_type, jurisdiction)
+            yield self.build_data_point(prompt_language, "en", text, task_type,
+                                        jurisdiction)

@@ -1,11 +1,16 @@
 from datasets import load_dataset
 
-from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
+from abstract_dataset import AbstractDataset
+from abstract_dataset import JURISDICTION
+from abstract_dataset import TASK_TYPE
 
 
 class GermanRentalAgreements(AbstractDataset):
+
     def __init__(self):
-        super().__init__("GermanRentalAgreements", "https://huggingface.co/datasets/joelito/german_rental_agreements")
+        super().__init__(
+            "GermanRentalAgreements",
+            "https://huggingface.co/datasets/joelito/german_rental_agreements")
 
     def get_data(self):
         df = load_dataset("joelito/german_rental_agreements", split="train")
@@ -24,4 +29,5 @@ class GermanRentalAgreements(AbstractDataset):
                 sentence = example[f"text_{num_classes}_classes"]
                 if sentence and label:
                     text = f"{self.random.choice(instruction_bank)}\n\n{sentence}\n{label}"
-                    yield self.build_data_point(prompt_language, "de", text, task_type, jurisdiction)
+                    yield self.build_data_point(prompt_language, "de", text,
+                                                task_type, jurisdiction)

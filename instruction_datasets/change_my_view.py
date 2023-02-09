@@ -1,11 +1,15 @@
 import json
 
-from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
+from abstract_dataset import AbstractDataset
+from abstract_dataset import JURISDICTION
+from abstract_dataset import TASK_TYPE
 
 
 class ChangeMyView(AbstractDataset):
+
     def __init__(self):
-        super().__init__("ChangeMyView", "https://chenhaot.com/pages/changemyview.html")
+        super().__init__("ChangeMyView",
+                         "https://chenhaot.com/pages/changemyview.html")
 
     def get_data(self):
         # ChangeMyView Argumentation
@@ -14,8 +18,10 @@ class ChangeMyView(AbstractDataset):
         print("############################")
         instruction_bank = [
             "You are given a position, create an argument that would change the original poster's mind.",
-            "Write a counter argument to the proposal.", "Write a counter argument to the r/changemyview post.",
-            "Write a counterargument to this reddit post."]
+            "Write a counter argument to the proposal.",
+            "Write a counter argument to the r/changemyview post.",
+            "Write a counterargument to this reddit post."
+        ]
         task_type = TASK_TYPE.ARGUMENTATION
         jurisdiction = JURISDICTION.UNKNOWN
         prompt_language = "en"
@@ -29,4 +35,5 @@ class ChangeMyView(AbstractDataset):
                     body = d['positive']['comments'][0]['body'].strip()
                 op = d['op_text'].split("EDIT:")[0].strip()
                 text = f"{self.random.choice(instruction_bank)}\n\nArgument: {op}\n\nCounter-argument: {body}"
-                yield self.build_data_point(prompt_language, "en", text, task_type, jurisdiction)
+                yield self.build_data_point(prompt_language, "en", text,
+                                            task_type, jurisdiction)

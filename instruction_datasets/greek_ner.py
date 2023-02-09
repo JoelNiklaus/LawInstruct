@@ -1,14 +1,20 @@
 import pathlib
-from abc import ABC, abstractmethod
-from collections.abc import Iterable, Iterator, Sequence
+from abc import ABC
+from abc import abstractmethod
+from collections.abc import Iterable
+from collections.abc import Iterator
+from collections.abc import Sequence
 
 import pandas as pd
 from tqdm.auto import tqdm
 
-from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
+from abstract_dataset import AbstractDataset
+from abstract_dataset import JURISDICTION
+from abstract_dataset import TASK_TYPE
 
 
 class NerTags(ABC):
+
     @property
     @abstractmethod
     def _tags(self) -> list[str]:
@@ -20,20 +26,17 @@ class NerTags(ABC):
 
     @property
     def instruction(self) -> str:
-        return (
-            f"Predict the named entity types for each token"
-            f" (delimited by '{self._delimiter}')."
-            f" The possible types are: {' '.join(self._tags)}."
-        )
+        return (f"Predict the named entity types for each token"
+                f" (delimited by '{self._delimiter}')."
+                f" The possible types are: {' '.join(self._tags)}.")
 
     def build_answer(self, tokens: Sequence[str], tags: Sequence[str]) -> str:
-        return (
-            f"Sentence: {self._delimiter.join(tokens)}\n\n"
-            f"Named Entity Types: {self._delimiter.join(tags)}\n\n"
-        )
+        return (f"Sentence: {self._delimiter.join(tokens)}\n\n"
+                f"Named Entity Types: {self._delimiter.join(tags)}\n\n")
 
 
 class Ell4Tags(NerTags):
+
     @property
     def _tags(self) -> list[str]:
         tags = ["O"]  # outside
@@ -48,14 +51,16 @@ class Ell4Tags(NerTags):
 
 
 class Ell18Tags(NerTags):
+
     @property
     def _tags(self) -> list[str]:
         tags = ["O"]  # outside
         for position in ["B", "E", "I", "S"]:
-            for type_ in ["CARDINAL", "DATE", "EVENT", "FAC", "GPE", "LANGUAGE",
-                          "LAW", "LOC", "MONEY", "NORP", "ORDINAL", "ORG",
-                          "PERCENT", "PERSON", "PRODUCT", "QUANTITY", "TIME",
-                          "WORK_OF_ART"]:
+            for type_ in [
+                    "CARDINAL", "DATE", "EVENT", "FAC", "GPE", "LANGUAGE",
+                    "LAW", "LOC", "MONEY", "NORP", "ORDINAL", "ORG", "PERCENT",
+                    "PERSON", "PRODUCT", "QUANTITY", "TIME", "WORK_OF_ART"
+            ]:
                 tags.append(f"{position}-{type_}")  # E.g. E-FAC
         # Sanity checks
         assert "O" in tags
@@ -86,8 +91,9 @@ class GreekNER(AbstractDataset):
         self._path = None
 
     def get_data(self) -> Iterator[dict]:
-        df = pd.read_csv(
-            self._path, header=0, names=["Sent_ID", "Word", "_", "Tag"])
+        df = pd.read_csv(self._path,
+                         header=0,
+                         names=["Sent_ID", "Word", "_", "Tag"])
         task_type = TASK_TYPE.NAMED_ENTITY_RECOGNITION
         jurisdiction = JURISDICTION.GREECE
         prompt_language = "en"
@@ -98,16 +104,16 @@ class GreekNER(AbstractDataset):
             introduction_sentence + " " + self._tags.instruction
         ]
 
-        for tokens, tags in group_by_sentence(tqdm(df.iterrows(), total=len(df))):
-            text = (
-                f"{self.random.choice(instruction_bank)}\n\n"
-                f"{self._tags.build_answer(tokens, tags)}"
-            )
-            yield self.build_data_point(
-                prompt_language, answer_language, text, task_type, jurisdiction)
+        for tokens, tags in group_by_sentence(
+                tqdm(df.iterrows(), total=len(df))):
+            text = (f"{self.random.choice(instruction_bank)}\n\n"
+                    f"{self._tags.build_answer(tokens, tags)}")
+            yield self.build_data_point(prompt_language, answer_language, text,
+                                        task_type, jurisdiction)
 
 
 class Ell18Dataset(GreekNER):
+
     def __init__(self):
         super().__init__(
             "Ell18GreekNER",
@@ -117,6 +123,7 @@ class Ell18Dataset(GreekNER):
 
 
 class Ell4Dataset(GreekNER):
+
     def __init__(self):
         super().__init__(
             "Ell4GreekNER",

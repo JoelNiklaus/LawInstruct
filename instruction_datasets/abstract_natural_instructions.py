@@ -4,7 +4,9 @@ from typing import Iterable
 from iso639 import languages
 from transformers.data.data_collator import *
 
-from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
+from abstract_dataset import AbstractDataset
+from abstract_dataset import JURISDICTION
+from abstract_dataset import TASK_TYPE
 
 
 @dataclass
@@ -35,20 +37,45 @@ class DataCollatorForNI:
             if self.tk_instruct:
                 all_valid_encodings = [
                     # instruction only
-                    {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 0, "num_neg_examples": 0,
-                     "add_explanation": False},
+                    {
+                        "add_task_name": False,
+                        "add_task_definition": True,
+                        "num_pos_examples": 0,
+                        "num_neg_examples": 0,
+                        "add_explanation": False
+                    },
                     # example only
-                    {"add_task_name": False, "add_task_definition": False, "num_pos_examples": 2, "num_neg_examples": 0,
-                     "add_explanation": False},
+                    {
+                        "add_task_name": False,
+                        "add_task_definition": False,
+                        "num_pos_examples": 2,
+                        "num_neg_examples": 0,
+                        "add_explanation": False
+                    },
                     # instruction + pos examples
-                    {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 2, "num_neg_examples": 0,
-                     "add_explanation": False},
+                    {
+                        "add_task_name": False,
+                        "add_task_definition": True,
+                        "num_pos_examples": 2,
+                        "num_neg_examples": 0,
+                        "add_explanation": False
+                    },
                     # instruction + pos examples + neg examples
-                    {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 2, "num_neg_examples": 2,
-                     "add_explanation": False},
+                    {
+                        "add_task_name": False,
+                        "add_task_definition": True,
+                        "num_pos_examples": 2,
+                        "num_neg_examples": 2,
+                        "add_explanation": False
+                    },
                     # instruction + pos (w. explanation)
-                    {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 2, "num_neg_examples": 0,
-                     "add_explanation": True},
+                    {
+                        "add_task_name": False,
+                        "add_task_definition": True,
+                        "num_pos_examples": 2,
+                        "num_neg_examples": 0,
+                        "add_explanation": True
+                    },
                 ]
                 encoding_schema = random.choice(all_valid_encodings)
                 add_task_name = encoding_schema["add_task_name"]
@@ -79,30 +106,37 @@ class DataCollatorForNI:
             definition = ""
             if add_task_definition:
                 if isinstance(instance["Definition"], list):
-                    definition = "Definition: " + instance["Definition"][0].strip()  # TODO: should we use <Definition>?
+                    definition = "Definition: " + instance["Definition"][
+                        0].strip()  # TODO: should we use <Definition>?
                 else:
-                    definition = "Definition: " + instance["Definition"].strip()
+                    definition = "Definition: " + instance["Definition"].strip(
+                    )
                 if not definition[-1] in string.punctuation:
                     definition += "."
                 if add_explanation:
-                    random.choice(["If you can, please add an explanation *before* you output your answer.",
-                                   "Please output an explanation first and then come to your conclusion and create an output.",
-                                   "Explain your answer first.",
-                                   "Think step by step before outputting an answer.",
-                                   "Explain yourself."])
+                    random.choice([
+                        "If you can, please add an explanation *before* you output your answer.",
+                        "Please output an explanation first and then come to your conclusion and create an output.",
+                        "Explain your answer first.",
+                        "Think step by step before outputting an answer.",
+                        "Explain yourself."
+                    ])
                 definition += "\n\n"
 
             # try to add positive examples.
             pos_examples = []
-            for idx, pos_example in enumerate(instance["Positive Examples"][:num_pos_examples]):
+            for idx, pos_example in enumerate(
+                    instance["Positive Examples"][:num_pos_examples]):
                 pos_example_str = f" Positive Example {idx + 1} -\n"
                 pos_example_str += f"Input: {pos_example['input'].strip()}"
                 if not pos_example_str[-1] in string.punctuation:
                     pos_example_str += "."
                 pos_example_str += "\n"
                 if add_explanation and "explanation" in pos_example:
-                    pos_example_str += random.choice([f" Explanation: {pos_example['explanation'].strip()}",
-                                                      f" Let's think step by step. {pos_example['explanation'].strip()}"])
+                    pos_example_str += random.choice([
+                        f" Explanation: {pos_example['explanation'].strip()}",
+                        f" Let's think step by step. {pos_example['explanation'].strip()}"
+                    ])
                     if not pos_example_str[-1] in string.punctuation:
                         pos_example_str += "."
                     pos_example_str += "\n"
@@ -118,15 +152,18 @@ class DataCollatorForNI:
 
             # try to add negative examples.
             neg_examples = []
-            for idx, neg_example in enumerate(instance["Negative Examples"][:num_neg_examples]):
+            for idx, neg_example in enumerate(
+                    instance["Negative Examples"][:num_neg_examples]):
                 neg_example_str = f" Negative Example {idx + 1} -\n"
                 neg_example_str += f"Input: {neg_example['input'].strip()}"
                 if not neg_example_str[-1] in string.punctuation:
                     neg_example_str += "."
                 neg_example_str += "\n"
                 if add_explanation and "explanation" in neg_example:
-                    neg_example_str += random.choice([f" Explanation: {neg_example['explanation'].strip()}",
-                                                      f" Let's think step by step. {neg_example['explanation'].strip()}"])
+                    neg_example_str += random.choice([
+                        f" Explanation: {neg_example['explanation'].strip()}",
+                        f" Let's think step by step. {neg_example['explanation'].strip()}"
+                    ])
                     if not neg_example_str[-1] in string.punctuation:
                         neg_example_str += "."
                     neg_example_str += "\n"
@@ -140,7 +177,8 @@ class DataCollatorForNI:
                 # else:
                 #     break
 
-            source = task_name + definition + "".join(pos_examples) + "".join(neg_examples) + task_input
+            source = task_name + definition + "".join(pos_examples) + "".join(
+                neg_examples) + task_input
             # tokenized_source = self.tokenizer(source)["input_ids"]
             # if len(tokenized_source) <= self.max_source_length:
             sources.append(source)
@@ -171,17 +209,19 @@ class DataCollatorForNI:
                         padding=self.padding,
                         return_tensors=self.return_tensors,
                         truncation=True,
-                        pad_to_multiple_of=self.pad_to_multiple_of
-                    )
+                        pad_to_multiple_of=self.pad_to_multiple_of)
                 label_mask = labels["attention_mask"].bool()
-                model_inputs["labels"] = labels["input_ids"].masked_fill(~label_mask, self.label_pad_token_id)
+                model_inputs["labels"] = labels["input_ids"].masked_fill(
+                    ~label_mask, self.label_pad_token_id)
         else:
             model_inputs["labels"] = None
 
         # prepare decoder_input_ids
-        if self.model is not None and hasattr(self.model,
-                                              "prepare_decoder_input_ids_from_labels") and not self.text_only:
-            decoder_input_ids = self.model.prepare_decoder_input_ids_from_labels(labels=model_inputs["labels"])
+        if self.model is not None and hasattr(
+                self.model, "prepare_decoder_input_ids_from_labels"
+        ) and not self.text_only:
+            decoder_input_ids = self.model.prepare_decoder_input_ids_from_labels(
+                labels=model_inputs["labels"])
             model_inputs["decoder_input_ids"] = decoder_input_ids
 
         return model_inputs
@@ -211,64 +251,130 @@ class AbstractNaturalInstructions(AbstractDataset):
 
     all_valid_encodings = [
         # instruction only
-        {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 0, "num_neg_examples": 0,
-         "add_explanation": False},
+        {
+            "add_task_name": False,
+            "add_task_definition": True,
+            "num_pos_examples": 0,
+            "num_neg_examples": 0,
+            "add_explanation": False
+        },
         # instruction + explanation
-        {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 0, "num_neg_examples": 0,
-         "add_explanation": True},
+        {
+            "add_task_name": False,
+            "add_task_definition": True,
+            "num_pos_examples": 0,
+            "num_neg_examples": 0,
+            "add_explanation": True
+        },
         # example only
-        {"add_task_name": False, "add_task_definition": False, "num_pos_examples": 2, "num_neg_examples": 0,
-         "add_explanation": False},
+        {
+            "add_task_name": False,
+            "add_task_definition": False,
+            "num_pos_examples": 2,
+            "num_neg_examples": 0,
+            "add_explanation": False
+        },
         # instruction + pos examples
-        {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 2, "num_neg_examples": 0,
-         "add_explanation": False},
+        {
+            "add_task_name": False,
+            "add_task_definition": True,
+            "num_pos_examples": 2,
+            "num_neg_examples": 0,
+            "add_explanation": False
+        },
         # instruction + pos examples + neg examples
-        {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 2, "num_neg_examples": 2,
-         "add_explanation": False},
+        {
+            "add_task_name": False,
+            "add_task_definition": True,
+            "num_pos_examples": 2,
+            "num_neg_examples": 2,
+            "add_explanation": False
+        },
         # instruction + pos (w. explanation)
-        {"add_task_name": False, "add_task_definition": True, "num_pos_examples": 2, "num_neg_examples": 0,
-         "add_explanation": True},
+        {
+            "add_task_name": False,
+            "add_task_definition": True,
+            "num_pos_examples": 2,
+            "num_neg_examples": 0,
+            "add_explanation": True
+        },
     ]
 
     # searched by "Law", "Legal", "Jurisprudence": https://github.com/allenai/natural-instructions/tree/master/tasks
     legal_tasks = {
-        'task268_casehold_legal_answer_generation': {"jurisdiction": JURISDICTION.US,
-                                                     "task_type": TASK_TYPE.QUESTION_ANSWERING},
-        'task274_overruling_legal_classification': {"jurisdiction": JURISDICTION.US,
-                                                    "task_type": TASK_TYPE.TEXT_CLASSIFICATION},
-        'task287_casehold_legal_incorrect_answer_generation': {"jurisdiction": JURISDICTION.US,
-                                                               "task_type": TASK_TYPE.QUESTION_ANSWERING},
-        'task597_cuad_answer_generation': {"jurisdiction": JURISDICTION.US, "task_type": TASK_TYPE.QUESTION_ANSWERING},
-        'task598_cuad_answer_generation': {"jurisdiction": JURISDICTION.US, "task_type": TASK_TYPE.QUESTION_ANSWERING},
-        'task599_cuad_question_generation': {"jurisdiction": JURISDICTION.US,
-                                             "task_type": TASK_TYPE.QUESTION_GENERATION},
-        'task683_online_privacy_policy_text_purpose_answer_generation': {"jurisdiction": JURISDICTION.UNKNOWN,
-                                                                         "task_type": TASK_TYPE.QUESTION_ANSWERING},
-        'task684_online_privacy_policy_text_information_type_generation': {"jurisdiction": JURISDICTION.UNKNOWN,
-                                                                           "task_type": TASK_TYPE.QUESTION_ANSWERING},
-        'task715_mmmlu_answer_generation_international_law': {"jurisdiction": JURISDICTION.INTERNATIONAL,
-                                                              "task_type": TASK_TYPE.QUESTION_ANSWERING},
-        'task716_mmmlu_answer_generation_jurisprudence': {"jurisdiction": JURISDICTION.US,
-                                                          "task_type": TASK_TYPE.QUESTION_ANSWERING},
-        'task729_mmmlu_answer_generation_professional_law': {"jurisdiction": JURISDICTION.US,
-                                                             "task_type": TASK_TYPE.QUESTION_ANSWERING},
-        'task743_eurlex_summarization': {"jurisdiction": JURISDICTION.EU, "task_type": TASK_TYPE.SUMMARIZATION},
-        'task744_eurlex_classification': {"jurisdiction": JURISDICTION.EU, "task_type": TASK_TYPE.TEXT_CLASSIFICATION},
-        'task1658_billsum_summarization': {"jurisdiction": JURISDICTION.US, "task_type": TASK_TYPE.SUMMARIZATION},
-        'task1666_cail2018_answer_generation': {"jurisdiction": JURISDICTION.CHINA,
-                                                "task_type": TASK_TYPE.QUESTION_ANSWERING},
-        'task1667_cail2018_answer_generation': {"jurisdiction": JURISDICTION.CHINA,
-                                                "task_type": TASK_TYPE.QUESTION_ANSWERING},
+        'task268_casehold_legal_answer_generation': {
+            "jurisdiction": JURISDICTION.US,
+            "task_type": TASK_TYPE.QUESTION_ANSWERING
+        },
+        'task274_overruling_legal_classification': {
+            "jurisdiction": JURISDICTION.US,
+            "task_type": TASK_TYPE.TEXT_CLASSIFICATION
+        },
+        'task287_casehold_legal_incorrect_answer_generation': {
+            "jurisdiction": JURISDICTION.US,
+            "task_type": TASK_TYPE.QUESTION_ANSWERING
+        },
+        'task597_cuad_answer_generation': {
+            "jurisdiction": JURISDICTION.US,
+            "task_type": TASK_TYPE.QUESTION_ANSWERING
+        },
+        'task598_cuad_answer_generation': {
+            "jurisdiction": JURISDICTION.US,
+            "task_type": TASK_TYPE.QUESTION_ANSWERING
+        },
+        'task599_cuad_question_generation': {
+            "jurisdiction": JURISDICTION.US,
+            "task_type": TASK_TYPE.QUESTION_GENERATION
+        },
+        'task683_online_privacy_policy_text_purpose_answer_generation': {
+            "jurisdiction": JURISDICTION.UNKNOWN,
+            "task_type": TASK_TYPE.QUESTION_ANSWERING
+        },
+        'task684_online_privacy_policy_text_information_type_generation': {
+            "jurisdiction": JURISDICTION.UNKNOWN,
+            "task_type": TASK_TYPE.QUESTION_ANSWERING
+        },
+        'task715_mmmlu_answer_generation_international_law': {
+            "jurisdiction": JURISDICTION.INTERNATIONAL,
+            "task_type": TASK_TYPE.QUESTION_ANSWERING
+        },
+        'task716_mmmlu_answer_generation_jurisprudence': {
+            "jurisdiction": JURISDICTION.US,
+            "task_type": TASK_TYPE.QUESTION_ANSWERING
+        },
+        'task729_mmmlu_answer_generation_professional_law': {
+            "jurisdiction": JURISDICTION.US,
+            "task_type": TASK_TYPE.QUESTION_ANSWERING
+        },
+        'task743_eurlex_summarization': {
+            "jurisdiction": JURISDICTION.EU,
+            "task_type": TASK_TYPE.SUMMARIZATION
+        },
+        'task744_eurlex_classification': {
+            "jurisdiction": JURISDICTION.EU,
+            "task_type": TASK_TYPE.TEXT_CLASSIFICATION
+        },
+        'task1658_billsum_summarization': {
+            "jurisdiction": JURISDICTION.US,
+            "task_type": TASK_TYPE.SUMMARIZATION
+        },
+        'task1666_cail2018_answer_generation': {
+            "jurisdiction": JURISDICTION.CHINA,
+            "task_type": TASK_TYPE.QUESTION_ANSWERING
+        },
+        'task1667_cail2018_answer_generation': {
+            "jurisdiction": JURISDICTION.CHINA,
+            "task_type": TASK_TYPE.QUESTION_ANSWERING
+        },
     }
 
     def __init__(self, name, source):
         super().__init__(name, source)
         self.collators = []
         for encoding in self.all_valid_encodings:
-            self.collators.append(DataCollatorForNI(
-                tokenizer=None,
-                model=None,
-                **encoding,
-                text_only=True
-            ))
+            self.collators.append(
+                DataCollatorForNI(tokenizer=None,
+                                  model=None,
+                                  **encoding,
+                                  text_only=True))
         self.filter_out_mmmlu = True

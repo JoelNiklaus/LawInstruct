@@ -1,6 +1,8 @@
 from datasets import load_dataset
 
-from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
+from abstract_dataset import AbstractDataset
+from abstract_dataset import JURISDICTION
+from abstract_dataset import TASK_TYPE
 
 
 def build_summarization_answer(input, summary):
@@ -15,12 +17,16 @@ def get_instruction_bank(court):
 
 
 class PlainEnglishContractsSummarization(AbstractDataset):
+
     def __init__(self):
-        super().__init__("PlainEnglishContractsSummarization",
-                         "https://huggingface.co/datasets/joelito/plain_english_contracts_summarization")
+        super().__init__(
+            "PlainEnglishContractsSummarization",
+            "https://huggingface.co/datasets/joelito/plain_english_contracts_summarization"
+        )
 
     def get_data(self):
-        df = load_dataset("joelito/plain_english_contracts_summarization", split="train")
+        df = load_dataset("joelito/plain_english_contracts_summarization",
+                          split="train")
         task_type = TASK_TYPE.SUMMARIZATION
         jurisdiction = JURISDICTION.UNKNOWN
         prompt_language = "en"
@@ -36,4 +42,5 @@ class PlainEnglishContractsSummarization(AbstractDataset):
             input = example["original_text"]
             summary = example["reference_summary"]
             text = f"{self.random.choice(instruction_bank)}\n\n{build_summarization_answer(input, summary)}"
-            yield self.build_data_point(prompt_language, "en", text, task_type, jurisdiction)
+            yield self.build_data_point(prompt_language, "en", text, task_type,
+                                        jurisdiction)

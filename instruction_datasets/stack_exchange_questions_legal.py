@@ -1,12 +1,16 @@
 import pandas as pd
-
-from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
 from bs4 import BeautifulSoup
+
+from abstract_dataset import AbstractDataset
+from abstract_dataset import JURISDICTION
+from abstract_dataset import TASK_TYPE
 
 
 class StackExchangeQuestionsLegal(AbstractDataset):
+
     def __init__(self):
-        super().__init__("StackExchangeQuestionsLegal", "https://law.stackexchange.com/")
+        super().__init__("StackExchangeQuestionsLegal",
+                         "https://law.stackexchange.com/")
 
     def get_data(self):
         # Legal Stack Exchange questions are usually high quality
@@ -33,4 +37,5 @@ class StackExchangeQuestionsLegal(AbstractDataset):
                 instruction += " " + f"This question is about: {','.join([x.replace('>', '').replace('<', '').replace('-', ' ').strip() for x in example['tags'].split('>') if x.replace('>', '').replace('<', '').strip() != ''])}."
 
             text = f"{instruction}\n\nQuestion: {question}\nAnswer: {answer}"
-            yield self.build_data_point(prompt_language, "en", text, task_type, jurisdiction)
+            yield self.build_data_point(prompt_language, "en", text, task_type,
+                                        jurisdiction)

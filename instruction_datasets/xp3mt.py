@@ -1,14 +1,17 @@
 from datasets import load_dataset
+from ftlangdetect import detect
 from tqdm import tqdm
 
-from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
-
-from ftlangdetect import detect
+from abstract_dataset import AbstractDataset
+from abstract_dataset import JURISDICTION
+from abstract_dataset import TASK_TYPE
 
 
 class XP3MT(AbstractDataset):
+
     def __init__(self):
-        super().__init__("XP3MT", "https://huggingface.co/datasets/bigscience/xP3mt")
+        super().__init__("XP3MT",
+                         "https://huggingface.co/datasets/bigscience/xP3mt")
 
     def get_data(self):
         jurisdiction = JURISDICTION.N_A
@@ -26,6 +29,8 @@ class XP3MT(AbstractDataset):
             for example in tqdm(df):
                 text = example["inputs"] + " " + example["targets"]
                 task_type = TASK_TYPE.CODE if lang == "code" else TASK_TYPE.UNKOWN
-                prompt_language = detect(text=example["inputs"], low_memory=True)['lang']
+                prompt_language = detect(text=example["inputs"],
+                                         low_memory=True)['lang']
                 answer_language = lang if lang != "code" else "en"
-                yield self.build_data_point(prompt_language, answer_language, text, task_type, jurisdiction)
+                yield self.build_data_point(prompt_language, answer_language,
+                                            text, task_type, jurisdiction)

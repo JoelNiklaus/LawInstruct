@@ -1,22 +1,28 @@
 from datasets import load_dataset
 
-from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
-
-
+from abstract_dataset import AbstractDataset
+from abstract_dataset import JURISDICTION
+from abstract_dataset import TASK_TYPE
 
 instructions_for_subsets = {
-    "ecthr_a": "In this task, you are given the facts from a case heard at the European Court of Human Rights (ECtHR). "
-               "Predict the articles of the ECtHR that were violated (if any).",
-    "ecthr_b": "In this task, you are given the facts from a case heard at the European Court of Human Rights (ECtHR). "
-               "Predict the articles of ECtHR that were allegedly violated (considered by the court).",
-    "scotus": "In this task, you are given a case heard at the Supreme Court of the United States (SCOTUS). "
-              "Predict the relevant issue area.",
-    "eurlex": "In this task, you are given an EU law document published in the EUR-Lex portal. "
-              "Predict the relevant EuroVoc concepts.",
-    "ledgar": "In this task, you are given a contract provision from contracts obtained from US Securities and Exchange Commission (SEC) filings."
-              "Predict the main topic.",
-    "unfair_tos": "In this task, you are given a sentence from a Terms of Service (ToS) document from on-line platforms. "
-                  "Predict the types of unfair contractual terms",
+    "ecthr_a":
+    "In this task, you are given the facts from a case heard at the European Court of Human Rights (ECtHR). "
+    "Predict the articles of the ECtHR that were violated (if any).",
+    "ecthr_b":
+    "In this task, you are given the facts from a case heard at the European Court of Human Rights (ECtHR). "
+    "Predict the articles of ECtHR that were allegedly violated (considered by the court).",
+    "scotus":
+    "In this task, you are given a case heard at the Supreme Court of the United States (SCOTUS). "
+    "Predict the relevant issue area.",
+    "eurlex":
+    "In this task, you are given an EU law document published in the EUR-Lex portal. "
+    "Predict the relevant EuroVoc concepts.",
+    "ledgar":
+    "In this task, you are given a contract provision from contracts obtained from US Securities and Exchange Commission (SEC) filings."
+    "Predict the main topic.",
+    "unfair_tos":
+    "In this task, you are given a sentence from a Terms of Service (ToS) document from on-line platforms. "
+    "Predict the types of unfair contractual terms",
 }
 
 TASK_CODE_MAPPING = {
@@ -41,7 +47,6 @@ JURISDICTION_MAPPING = {
 class LexGLUE(AbstractDataset):
     # case_hold is already in natural instructions
 
-
     def __init__(self):
         super().__init__("LexGLUE", "https://huggingface.co/datasets/lex_glue")
 
@@ -58,10 +63,14 @@ class LexGLUE(AbstractDataset):
             for example in dataset:
                 # get correct labels
                 if task_code == 'SLTC':
-                    correct_label = class_label.int2str(example['label'])  # get label name for correct label
-                    correct_labels = correct_label if isinstance(correct_label, list) else [correct_label]
+                    correct_label = class_label.int2str(
+                        example['label'])  # get label name for correct label
+                    correct_labels = correct_label if isinstance(
+                        correct_label, list) else [correct_label]
                 elif task_code == 'MLTC':
-                    correct_labels = list(map(str, example['labels']))  # here we don't have any mapping to label names
+                    correct_labels = list(
+                        map(str, example['labels']
+                            ))  # here we don't have any mapping to label names
 
                 input_text = example['text']
                 if 'ecthr' in subset:
@@ -70,4 +79,5 @@ class LexGLUE(AbstractDataset):
 
                 text = f"{instructions}\n\n{answer}"
                 prompt_language = "en"
-                yield self.build_data_point(prompt_language, "en", text, task_type, jurisdiction, subset)
+                yield self.build_data_point(prompt_language, "en", text,
+                                            task_type, jurisdiction, subset)

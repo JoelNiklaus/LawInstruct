@@ -3,8 +3,9 @@ import pathlib
 import re
 from collections.abc import Iterator
 
-from abstract_dataset import AbstractDataset, TASK_TYPE, JURISDICTION
-
+from abstract_dataset import AbstractDataset
+from abstract_dataset import JURISDICTION
+from abstract_dataset import TASK_TYPE
 
 _CATEGORIES: dict[str, str] = {
     "PREAMBLE": "Preamble",
@@ -24,11 +25,13 @@ _CATEGORIES: dict[str, str] = {
 
 
 class IndianTextSegmentation(AbstractDataset):
+
     def __init__(self):
         super().__init__(
             "BUILD",
             "https://github.com/Legal-NLP-EkStep/rhetorical-role-baseline")
-        self._path = pathlib.Path(f"{self.raw_data_dir}/indian_text_segmentation.json")
+        self._path = pathlib.Path(
+            f"{self.raw_data_dir}/indian_text_segmentation.json")
 
     def get_data(self) -> Iterator[dict]:
         task_type = TASK_TYPE.TEXT_CLASSIFICATION
@@ -42,17 +45,15 @@ class IndianTextSegmentation(AbstractDataset):
             spans = passage["annotations"][0]["result"]
             for span in spans:
                 raw_passage = span["value"]["text"]
-                passage = re.sub(
-                    r'\W+', ' ', raw_passage)  # Collapse whitespace.
+                passage = re.sub(r'\W+', ' ',
+                                 raw_passage)  # Collapse whitespace.
                 label = span["value"]["labels"][0]
 
                 text = (
                     "In Indian case law, what is the rhetorical role of this part of a court judgment?"
                     f" The options are {', '.join(list(_CATEGORIES.values()))}."
                     f"\n\nPassage: {passage}"
-                    f"\n\nRole: {_CATEGORIES[label]}"
-                )
+                    f"\n\nRole: {_CATEGORIES[label]}")
 
-                yield self.build_data_point(
-                    prompt_language, answer_language, text, task_type, jurisdiction
-                )
+                yield self.build_data_point(prompt_language, answer_language,
+                                            text, task_type, jurisdiction)

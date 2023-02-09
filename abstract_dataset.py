@@ -1,13 +1,13 @@
+import datetime
+import enum
+import json
+import logging
 import os
 import random
 import sys
 from collections.abc import Iterator
-from typing import TextIO, Any
-import enum
-import json
-import datetime
 from pathlib import Path
-import logging
+from typing import Any, TextIO
 
 from tqdm import tqdm
 
@@ -26,7 +26,8 @@ class AutoName(enum.Enum):
     https://docs.python.org/3.10/library/enum.html#using-automatic-values
     """
 
-    def _generate_next_value_(name: str, start: int, count: int, last_values: list[Any]) -> Any:
+    def _generate_next_value_(name: str, start: int, count: int,
+                              last_values: list[Any]) -> Any:
         return name
 
 
@@ -45,26 +46,59 @@ class TASK_TYPE(AutoName):
     UNKNOWN = enum.auto()
 
 
-JURISDICTION = enum.Enum('JURISDICTION', [
-    # EU
-    'AUSTRIA', 'BELGIUM', 'BULGARIA', 'CROATIA', 'CZECHIA', 'DENMARK', 'ESTONIA', 'FINLAND',
-    'FRANCE', 'GERMANY', 'GREECE', 'HUNGARY', 'IRELAND', 'ITALY', 'LATVIA', 'LITHUANIA', 'LUXEMBOURG',
-    'MALTA', 'NETHERLANDS', 'POLAND', 'PORTUGAL', 'ROMANIA', 'SLOVAKIA', 'SLOVENIA', 'SPAIN', 'SWEDEN',
-    # Europa
-    'EU', 'SWITZERLAND', 'UK',
-    # Asia
-    'CHINA', 'INDIA', 'JAPAN', 'SOUTH_KOREA', 'THAILAND',
-    # North America
-    'US', 'CANADA',
-    # South America
-    'BRAZIL',
-    'INTERNATIONAL',  # international law
-    'UNKNOWN',  # we don't know the jurisdiction
-    'N_A'  # Not a legal task
-])
+JURISDICTION = enum.Enum(
+    'JURISDICTION',
+    [
+        # EU
+        'AUSTRIA',
+        'BELGIUM',
+        'BULGARIA',
+        'CROATIA',
+        'CZECHIA',
+        'DENMARK',
+        'ESTONIA',
+        'FINLAND',
+        'FRANCE',
+        'GERMANY',
+        'GREECE',
+        'HUNGARY',
+        'IRELAND',
+        'ITALY',
+        'LATVIA',
+        'LITHUANIA',
+        'LUXEMBOURG',
+        'MALTA',
+        'NETHERLANDS',
+        'POLAND',
+        'PORTUGAL',
+        'ROMANIA',
+        'SLOVAKIA',
+        'SLOVENIA',
+        'SPAIN',
+        'SWEDEN',
+        # Europa
+        'EU',
+        'SWITZERLAND',
+        'UK',
+        # Asia
+        'CHINA',
+        'INDIA',
+        'JAPAN',
+        'SOUTH_KOREA',
+        'THAILAND',
+        # North America
+        'US',
+        'CANADA',
+        # South America
+        'BRAZIL',
+        'INTERNATIONAL',  # international law
+        'UNKNOWN',  # we don't know the jurisdiction
+        'N_A'  # Not a legal task
+    ])
 
 
 class AbstractDataset:
+
     def __init__(self, name: str, source: str, data_dir: os.PathLike = "data"):
         self.name = name
         self.source = source
@@ -78,17 +112,20 @@ class AbstractDataset:
         root.setLevel(logging.INFO)
         handler = logging.StreamHandler(sys.stdout)
         handler.setLevel(logging.INFO)
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         handler.setFormatter(formatter)
         root.addHandler(handler)
         self.logger = logging.getLogger(__name__)
 
     def get_data(self) -> Iterator[dict]:
-        raise NotImplementedError("This method should yield datapoint dicts with the following keys: "
-                                  "prompt_language, answer_language, task_type, jurisdiction, text")
+        raise NotImplementedError(
+            "This method should yield datapoint dicts with the following keys: "
+            "prompt_language, answer_language, task_type, jurisdiction, text")
 
     def get_instruction_bank(self, language="en"):
-        return json.loads(Path(f"instruction_banks/{language}.json").read_text())[self.name]
+        return json.loads(
+            Path(f"instruction_banks/{language}.json").read_text())[self.name]
 
     def build_data_point(self,
                          prompt_language: str,
@@ -109,19 +146,32 @@ class AbstractDataset:
 
     def write_json_line(self, file: TextIO, datapoint: dict) -> None:
         assert datapoint['text'], "datapoint['text'] must not be empty"
-        file.write(json.dumps({
-            "dataset_name": self.name,
-            "subset_name": datapoint.get("subset", ""),
-            "source": self.source,
-            "prompt_language": datapoint.get("prompt_language", ""),
-            "answer_language": datapoint.get("answer_language", ""),
-            "jurisdiction": datapoint.get("jurisdiction", JURISDICTION.UNKNOWN).name,
-            "task_type": datapoint.get("task_type", TASK_TYPE.UNKNOWN).name,
-            "downloaded_timestamp": datetime.date.today().strftime("%m-%d-%Y"),
-            "text": datapoint['text'],  # text is last, so we can easily read the metadata on servers for example
-        }) + "\n")
+        file.write(
+            json.dumps({
+                "dataset_name":
+                self.name,
+                "subset_name":
+                datapoint.get("subset", ""),
+                "source":
+                self.source,
+                "prompt_language":
+                datapoint.get("prompt_language", ""),
+                "answer_language":
+                datapoint.get("answer_language", ""),
+                "jurisdiction":
+                datapoint.get("jurisdiction", JURISDICTION.UNKNOWN).name,
+                "task_type":
+                datapoint.get("task_type", TASK_TYPE.UNKNOWN).name,
+                "downloaded_timestamp":
+                datetime.date.today().strftime("%m-%d-%Y"),
+                "text":
+                datapoint[
+                    'text'],  # text is last, so we can easily read the metadata on servers for example
+            }) + "\n")
 
-    def get_output_file_name(self, file_idx: int = 0, split: str = 'train') -> str:
+    def get_output_file_name(self,
+                             file_idx: int = 0,
+                             split: str = 'train') -> str:
         # we save each dataset to a separate file, so we only need to generate new datasets
         return f"{self.data_dir}/{self.name}.{split}.{file_idx}.jsonl.xz"
 
@@ -131,7 +181,8 @@ class AbstractDataset:
         self.logger.info(f"Building instruction dataset for {self.name}")
         count = 0
         for datapoint in tqdm(self.get_data()):
-            if os.path.getsize(self.get_output_file_name(output_file_idx)) > MAX_FILE_SIZE:
+            if os.path.getsize(self.get_output_file_name(
+                    output_file_idx)) > MAX_FILE_SIZE:
                 file.close()
                 output_file_idx += 1
                 file = self.open_new_file(output_file_idx)
