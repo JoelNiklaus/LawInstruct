@@ -18,6 +18,7 @@ except ImportError:
     import pylzma as xz
 
 MAX_FILE_SIZE = 6.25e8
+_FILE_SIZE_CHECK_FREQUENCY = 1000
 
 
 class _AutoName(enum.Enum):
@@ -243,24 +244,21 @@ class AbstractDataset:
         """Writes a dataset to files.
 
         Args:
-            debug_size: If > 0, only write this many datapoints.
+            debug_size: If > 0, only write this many datapoints, and log the
+              last one for debugging.
         """
         output_file_idx = 0
         file = self.open_new_file(output_file_idx)
         self.logger.info(f"Building instruction dataset for {self.name}")
-        count = 0
-        for datapoint in tqdm(self.get_data()):
-            # TODO(arya): This checks the file size for every datapoint. We
-            #   should check the file size only after a certain number of
-            #   datapoints.
-            if os.path.getsize(self.get_output_file_name(
-                    output_file_idx)) > MAX_FILE_SIZE:
-                file.close()
-                output_file_idx += 1
-                file = self.open_new_file(output_file_idx)
+        for i, datapoint in enumerate(tqdm(self.get_data())):
+            if i % _FILE_SIZE_CHECK_FREQUENCY == 0:
+                if os.path.getsize(self.get_output_file_name(
+                        output_file_idx)) > MAX_FILE_SIZE:
+                    file.close()
+                    output_file_idx += 1
+                    file = self.open_new_file(output_file_idx)
             self.write_json_line(file, datapoint)
-            count += 1
-            if 0 < debug_size <= count:
+            if 0 < debug_size <= i:
                 self.logger.info(f"Stopping after {debug_size} datapoints")
                 self.logger.info(f"Example datapoint: {datapoint}")
                 break
