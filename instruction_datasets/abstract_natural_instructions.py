@@ -1,15 +1,19 @@
+from collections.abc import Iterable
+import dataclasses
+import random
 import string
-from typing import Iterable
+from typing import Any, Optional, Union
 
 from iso639 import languages
-from transformers.data.data_collator import *
+from transformers import PreTrainedTokenizerBase
+from transformers.tokenization_utils_base import PaddingStrategy
 
 from abstract_dataset import AbstractDataset
 from abstract_dataset import JURISDICTION
 from abstract_dataset import TASK_TYPE
 
 
-@dataclass
+@dataclasses.dataclass
 class DataCollatorForNI:
     tokenizer: PreTrainedTokenizerBase
     model: Optional[Any] = None

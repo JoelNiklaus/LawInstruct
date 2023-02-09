@@ -45,7 +45,7 @@ class BrazilianBarExam(AbstractDataset):
 
         def namespace_it(namespace, key, element):
             # namespaced element in {namespace}element syntax
-            return "{{{}}}{}".format(namespace[key], element)
+            return f"{{{namespace[key]}}}{element}"
 
         def lazy_articles_in_tree(tree):
             for artigo in elements_in_tree(
