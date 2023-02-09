@@ -1,3 +1,14 @@
+"""Main script to build all instruction datasets.
+
+Usage:
+    python build_instruction_datasets.py --datasets BrazilianBarExam BrCAD5
+"""
+import argparse
+import functools
+import multiprocessing
+from typing import Optional, Type, Sequence
+
+from abstract_dataset import AbstractDataset
 from instruction_datasets.brazilan_bar_exam import BrazilianBarExam
 from instruction_datasets.brcad_5 import BrCAD5
 from instruction_datasets.bva_decisions import BVADecisions
@@ -65,6 +76,7 @@ from instruction_datasets.us_class_actions import USClassActions
 from instruction_datasets.valid_wills import ValidWills
 from instruction_datasets.xp3mt import XP3MT
 
+
 legal_datasets = [
     BrazilianBarExam,
     BrCAD5,
@@ -127,21 +139,70 @@ xp3mt = [XP3MT]
 erroneous_datasets = [CaseBriefs, CiviproQuestions]
 
 
-def build_instruction_datasets(debug=False):
+def parse_args(args: Optional[list[str]] = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description='Builds the instruction datasets', )
+    parser.add_argument(
+        '--debug',
+        action='store_true',
+        help='Builds a small version of the dataset for debugging',
+    )
+    parser.add_argument("--processes",
+                        type=int,
+                        default=1,
+                        help="Number of processes to use")
+    parser.add_argument("--datasets",
+                        type=str,
+                        nargs="+",
+                        default=[],
+                        help="Datasets to build")
+    args = parser.parse_args(args)
+
+    # If no datasets are specified, build all of them
+    if not args.datasets:
+        args.datasets = [
+            dataset.__name__
+            for dataset in (legal_datasets + natural_instructions + xp3mt)
+        ]
+    # Get the actual classes for each named dataset.
+    # This is a bit hacky, but it works.
+    # TODO(arya): Create a dict of dataset names to classes and use that instead
+    args.datasets = [globals()[dataset] for dataset in args.datasets]
+
+    return args
+
+
+def _build_dataset(dataset: Type[AbstractDataset], debug_size: int) -> None:
+    # TODO(arya): We have a Liskov substitution principle violation here.
+    #   AbstractDataset's __init__ takes two arguments, but the
+    #  __init__s of the subclasses take none. Should rectify, perhaps by
+    #  composition instead of inheritance.
+    dataset().build_instruction_dataset(debug_size=debug_size)
+
+
+def build_instruction_datasets(datasets: Sequence[Type[AbstractDataset]],
+                               *,
+                               processes: int,
+                               debug: bool = False):
     if debug:
         datasets_to_build = erroneous_datasets
         debug_size = 5
+        processes = 1  # Parallelism would only introduce more confusion.
     else:
-        datasets_to_build = legal_datasets + natural_instructions + xp3mt
         datasets_to_build = [
-            dataset for dataset in datasets_to_build
+            dataset for dataset in datasets
             if dataset not in erroneous_datasets
         ]
         debug_size = -1
 
-    for dataset in datasets_to_build:
-        dataset().build_instruction_dataset(debug_size=debug_size)
+    build_one = functools.partial(_build_dataset, debug_size=debug_size)
+
+    with multiprocessing.Pool(processes=processes) as pool:
+        pool.map(build_one, datasets_to_build)
 
 
 if __name__ == '__main__':
-    build_instruction_datasets(debug=False)
+    args = parse_args()
+    build_instruction_datasets(args.datasets,
+                               processes=args.processes,
+                               debug=args.debug)
