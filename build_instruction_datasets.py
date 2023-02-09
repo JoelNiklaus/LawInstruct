@@ -77,8 +77,7 @@ from instruction_datasets.us_class_actions import USClassActions
 from instruction_datasets.valid_wills import ValidWills
 from instruction_datasets.xp3mt import XP3MT
 
-
-legal_datasets = [
+_LEGAL_DATASETS = frozenset({
     BrazilianBarExam,
     BrCAD5,
     BVADecisions,
@@ -133,22 +132,68 @@ legal_datasets = [
     TsccAlqac,
     USClassActions,
     ValidWills,
-]
-natural_instructions = [NaturalInstructionsLegal, NaturalInstructionsOther]
-xp3mt = [XP3MT]
+})
+_NATURAL_INSTRUCTIONS = frozenset(
+    {NaturalInstructionsLegal, NaturalInstructionsOther})
+_XP3MT = frozenset({XP3MT})
 
-erroneous_datasets = []
-datasets_already_built = [
-    BrazilianBarExam, BrCAD5, BVADecisions, CABarExamEssays, CAIL2019, CAIL2022, CaseBriefs, ChangeMyView,
-    CiviproQuestions, COLIEE, ContractNLI, EdgarNER, Ell4Dataset, Ell18Dataset, EOIRPrivacy, EurLexSum, GermanLER,
-    GermanRentalAgreements, GSM8K, ILDC, IndianNER, IndianTextSegmentation, InternationalCitizenshipLawQuestions, JECQA,
-    KoreanLegalQA, LboxOpen, LegalCaseDocumentSummarization, LegalQA, LexGLUE, LEXTREME, Lila, Littleton, LogiQA, MAUD,
-    MBE, MCExamsLaw, MiningLegalArguments, MultiLexSum, OLCMemos, PlainEnglishContractsSummarization, PrivacyQA,
-    PrivacySummarization, ProfessionalLaw, ReClor, RedditLegalQA, Sara, SaraProlog, ShortAnswerFeedback,
-    SpanishLaborLaw, StackExchangeQuestionsLegal, SwissJudgmentPrediction, TsccAlqac, USClassActions, ValidWills,
-]
-datasets_already_built += natural_instructions
-datasets_already_built += xp3mt
+_ERRONEOUS_DATASETS = frozenset()
+_DATASETS_ALREADY_BUILT = _NATURAL_INSTRUCTIONS | _XP3MT | frozenset({
+    BrazilianBarExam,
+    BrCAD5,
+    BVADecisions,
+    CABarExamEssays,
+    CAIL2019,
+    CAIL2022,
+    CaseBriefs,
+    ChangeMyView,
+    CiviproQuestions,
+    COLIEE,
+    ContractNLI,
+    EdgarNER,
+    Ell4Dataset,
+    Ell18Dataset,
+    EOIRPrivacy,
+    EurLexSum,
+    GermanLER,
+    GermanRentalAgreements,
+    GSM8K,
+    ILDC,
+    IndianNER,
+    IndianTextSegmentation,
+    InternationalCitizenshipLawQuestions,
+    JECQA,
+    KoreanLegalQA,
+    LboxOpen,
+    LegalCaseDocumentSummarization,
+    LegalQA,
+    LexGLUE,
+    LEXTREME,
+    Lila,
+    Littleton,
+    LogiQA,
+    MAUD,
+    MBE,
+    MCExamsLaw,
+    MiningLegalArguments,
+    MultiLexSum,
+    OLCMemos,
+    PlainEnglishContractsSummarization,
+    PrivacyQA,
+    PrivacySummarization,
+    ProfessionalLaw,
+    ReClor,
+    RedditLegalQA,
+    Sara,
+    SaraProlog,
+    ShortAnswerFeedback,
+    SpanishLaborLaw,
+    StackExchangeQuestionsLegal,
+    SwissJudgmentPrediction,
+    TsccAlqac,
+    USClassActions,
+    ValidWills,
+})
 
 
 def parse_args(args: Optional[list[str]] = None) -> argparse.Namespace:
@@ -172,15 +217,13 @@ def parse_args(args: Optional[list[str]] = None) -> argparse.Namespace:
                         type=str,
                         nargs="+",
                         default=[],
-                        help="Datasets to build")
+                        help="Datasets to build (default: all)")
     args = parser.parse_args(args)
 
     # If no datasets are specified, build all of them
     if not args.datasets:
-        args.datasets = [
-            dataset.__name__
-            for dataset in (legal_datasets + natural_instructions + xp3mt)
-        ]
+        args.datasets = sorted(dataset.__name__ for dataset in _LEGAL_DATASETS
+                               | _NATURAL_INSTRUCTIONS | _XP3MT)
     # Get the actual classes for each named dataset.
     # This is a bit hacky, but it works.
     # TODO(arya): Create a dict of dataset names to classes and use that instead
@@ -203,18 +246,15 @@ def build_instruction_datasets(datasets: Sequence[Type[AbstractDataset]],
                                debug: bool = False,
                                build_from_scratch: bool = False) -> None:
     if debug:
-        datasets_to_build = erroneous_datasets
+        datasets_to_build = _ERRONEOUS_DATASETS
         debug_size = 5
         processes = 1  # Parallelism would only introduce more confusion.
     else:
-        datasets_to_build = [
-            dataset for dataset in datasets
-            if dataset not in erroneous_datasets
-        ]
+        datasets_to_build = set(datasets) - _ERRONEOUS_DATASETS
         debug_size = -1
 
         if not build_from_scratch:
-            datasets_to_build = [dataset for dataset in datasets_to_build if dataset not in datasets_already_built]
+            datasets_to_build = datasets_to_build - _DATASETS_ALREADY_BUILT
 
     logging.info("Building datasets: %s", datasets_to_build)
 

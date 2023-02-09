@@ -152,7 +152,7 @@ class AbstractDataset:
         handler.setFormatter(formatter)
         root.addHandler(handler)
 
-    def get_data(self) -> Iterator[dict]:
+    def get_data(self) -> Iterator[DataPoint]:
         raise NotImplementedError(
             "This method should yield DataPoint dicts with the following keys: "
             f"{', '.join(DataPoint.__annotations__.keys())}.")
