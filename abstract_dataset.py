@@ -19,7 +19,7 @@ except ImportError:
 MAX_FILE_SIZE = 6.25e8
 
 
-class AutoName(enum.Enum):
+class _AutoName(enum.Enum):
     """Enum that overrides `enum.auto` to make value from name instead of from
     next int.
 
@@ -32,8 +32,8 @@ class AutoName(enum.Enum):
 
 
 @enum.unique
-class TASK_TYPE(AutoName):
-    """Enum that represents the different task types available."""
+class TASK_TYPE(_AutoName):
+    """The different task types available."""
     # TODO is this detailed enough or do we need to distinguish topic classification from judgment prediction or NER from argument mining?
     TEXT_CLASSIFICATION = enum.auto()
     QUESTION_ANSWERING = enum.auto()
@@ -46,55 +46,55 @@ class TASK_TYPE(AutoName):
     UNKNOWN = enum.auto()
 
 
-JURISDICTION = enum.Enum(
-    'JURISDICTION',
-    [
-        # EU
-        'AUSTRIA',
-        'BELGIUM',
-        'BULGARIA',
-        'CROATIA',
-        'CZECHIA',
-        'DENMARK',
-        'ESTONIA',
-        'FINLAND',
-        'FRANCE',
-        'GERMANY',
-        'GREECE',
-        'HUNGARY',
-        'IRELAND',
-        'ITALY',
-        'LATVIA',
-        'LITHUANIA',
-        'LUXEMBOURG',
-        'MALTA',
-        'NETHERLANDS',
-        'POLAND',
-        'PORTUGAL',
-        'ROMANIA',
-        'SLOVAKIA',
-        'SLOVENIA',
-        'SPAIN',
-        'SWEDEN',
-        # Europa
-        'EU',
-        'SWITZERLAND',
-        'UK',
-        # Asia
-        'CHINA',
-        'INDIA',
-        'JAPAN',
-        'SOUTH_KOREA',
-        'THAILAND',
-        # North America
-        'US',
-        'CANADA',
-        # South America
-        'BRAZIL',
-        'INTERNATIONAL',  # international law
-        'UNKNOWN',  # we don't know the jurisdiction
-        'N_A'  # Not a legal task
-    ])
+@enum.unique
+class JURISDICTION(_AutoName):
+    """The jurisdiction where cases are from."""
+    # EU
+    AUSTRIA = enum.auto()
+    BELGIUM = enum.auto()
+    BULGARIA = enum.auto()
+    CROATIA = enum.auto()
+    CZECHIA = enum.auto()
+    DENMARK = enum.auto()
+    ESTONIA = enum.auto()
+    FINLAND = enum.auto()
+    FRANCE = enum.auto()
+    GERMANY = enum.auto()
+    GREECE = enum.auto()
+    HUNGARY = enum.auto()
+    IRELAND = enum.auto()
+    ITALY = enum.auto()
+    LATVIA = enum.auto()
+    LITHUANIA = enum.auto()
+    LUXEMBOURG = enum.auto()
+    MALTA = enum.auto()
+    NETHERLANDS = enum.auto()
+    POLAND = enum.auto()
+    PORTUGAL = enum.auto()
+    ROMANIA = enum.auto()
+    SLOVAKIA = enum.auto()
+    SLOVENIA = enum.auto()
+    SPAIN = enum.auto()
+    SWEDEN = enum.auto()
+    # Europa
+    EU = enum.auto()
+    SWITZERLAND = enum.auto()
+    UK = enum.auto()
+    # Asia
+    CHINA = enum.auto()
+    INDIA = enum.auto()
+    JAPAN = enum.auto()
+    SOUTH_KOREA = enum.auto()
+    THAILAND = enum.auto()
+    # North America
+    US = enum.auto()
+    CANADA = enum.auto()
+    # South America
+    BRAZIL = enum.auto()
+    # Other
+    INTERNATIONAL = enum.auto()  # international law
+    UNKNOWN = enum.auto()  # we don't know the jurisdiction
+    N_A = enum.auto()  # Not a legal task
 
 
 class AbstractDataset:
