@@ -5,6 +5,7 @@ Usage:
 """
 import argparse
 import functools
+import logging
 import multiprocessing
 from typing import Optional, Type, Sequence
 
@@ -215,6 +216,8 @@ def build_instruction_datasets(datasets: Sequence[Type[AbstractDataset]],
         if not build_from_scratch:
             datasets_to_build = [dataset for dataset in datasets_to_build if dataset not in datasets_already_built]
 
+    logging.info("Building datasets: %s", datasets_to_build)
+
     build_one = functools.partial(_build_dataset, debug_size=debug_size)
 
     with multiprocessing.Pool(processes=processes) as pool:
@@ -223,6 +226,7 @@ def build_instruction_datasets(datasets: Sequence[Type[AbstractDataset]],
 
 if __name__ == '__main__':
     args = parse_args()
+    logging.basicConfig(level=logging.INFO)
     build_instruction_datasets(args.datasets,
                                processes=args.processes,
                                debug=args.debug,
