@@ -17,7 +17,7 @@ class CaseBriefs(AbstractDataset):
             "Given the facts, describe how an American court should think about the key issue?"
         ]
 
-        df = load_dataset("socratic-machines/case-briefs",
+        df = load_dataset("lawinstruct/case-briefs",
                           "combined",
                           use_auth_token=True)
         task_type = TASK_TYPE.QUESTION_ANSWERING

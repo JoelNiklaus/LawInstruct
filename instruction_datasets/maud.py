@@ -469,7 +469,6 @@ class MAUD(AbstractDataset):
             # we don't need this because the multilabel one is not really multilabel
             subquestion = example["subquestion"]
             answer = example["answer"]
-            answers_lookup = info_dict[category][text_type][question]
 
             task_type = TASK_TYPE.TEXT_CLASSIFICATION
             text = f"{self.random.choice(instruction_bank)}.\n\n{example['text']}\nWhat is the ABA category?\n{category}"
@@ -484,6 +483,10 @@ class MAUD(AbstractDataset):
             yield self.build_data_point(prompt_language, answer_language, text,
                                         task_type, jurisdiction)
 
+            try:
+                answers_lookup = info_dict[category][text_type][question]
+            except KeyError:
+                continue  # if it errors, just skip this example
             # do not distinguish between multiple choice and multilabel, since the multilabel ones do not seem to be really multilabel
             if answer in answers_lookup:
                 task_type = TASK_TYPE.MULTIPLE_CHOICE

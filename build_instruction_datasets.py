@@ -136,7 +136,18 @@ legal_datasets = [
 natural_instructions = [NaturalInstructionsLegal, NaturalInstructionsOther]
 xp3mt = [XP3MT]
 
-erroneous_datasets = [CaseBriefs, CiviproQuestions]
+erroneous_datasets = []
+datasets_already_built = [
+    BrazilianBarExam, BrCAD5, BVADecisions, CABarExamEssays, CAIL2019, CAIL2022, CaseBriefs, ChangeMyView,
+    CiviproQuestions, COLIEE, ContractNLI, EdgarNER, Ell4Dataset, Ell18Dataset, EOIRPrivacy, EurLexSum, GermanLER,
+    GermanRentalAgreements, GSM8K, ILDC, IndianNER, IndianTextSegmentation, InternationalCitizenshipLawQuestions, JECQA,
+    KoreanLegalQA, LboxOpen, LegalCaseDocumentSummarization, LegalQA, LexGLUE, LEXTREME, Lila, Littleton, LogiQA, MAUD,
+    MBE, MCExamsLaw, MiningLegalArguments, MultiLexSum, OLCMemos, PlainEnglishContractsSummarization, PrivacyQA,
+    PrivacySummarization, ProfessionalLaw, ReClor, RedditLegalQA, Sara, SaraProlog, ShortAnswerFeedback,
+    SpanishLaborLaw, StackExchangeQuestionsLegal, SwissJudgmentPrediction, TsccAlqac, USClassActions, ValidWills,
+]
+datasets_already_built += natural_instructions
+datasets_already_built += xp3mt
 
 
 def parse_args(args: Optional[list[str]] = None) -> argparse.Namespace:
@@ -146,6 +157,11 @@ def parse_args(args: Optional[list[str]] = None) -> argparse.Namespace:
         '--debug',
         action='store_true',
         help='Builds a small version of the dataset for debugging',
+    )
+    parser.add_argument(
+        '--build_from_scratch',
+        action='store_true',
+        help='Builds the dataset from scratch, even if it already exists',
     )
     parser.add_argument("--processes",
                         type=int,
@@ -183,7 +199,8 @@ def _build_dataset(dataset: Type[AbstractDataset], debug_size: int) -> None:
 def build_instruction_datasets(datasets: Sequence[Type[AbstractDataset]],
                                *,
                                processes: int,
-                               debug: bool = False):
+                               debug: bool = False,
+                               build_from_scratch: bool = False) -> None:
     if debug:
         datasets_to_build = erroneous_datasets
         debug_size = 5
@@ -195,6 +212,9 @@ def build_instruction_datasets(datasets: Sequence[Type[AbstractDataset]],
         ]
         debug_size = -1
 
+        if not build_from_scratch:
+            datasets_to_build = [dataset for dataset in datasets_to_build if dataset not in datasets_already_built]
+
     build_one = functools.partial(_build_dataset, debug_size=debug_size)
 
     with multiprocessing.Pool(processes=processes) as pool:
@@ -205,4 +225,5 @@ if __name__ == '__main__':
     args = parse_args()
     build_instruction_datasets(args.datasets,
                                processes=args.processes,
-                               debug=args.debug)
+                               debug=args.debug,
+                               build_from_scratch=args.build_from_scratch)
