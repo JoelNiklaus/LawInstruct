@@ -1,21 +1,29 @@
 import pandas as pd
 
-from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
+from abstract_dataset import AbstractDataset
+from abstract_dataset import JURISDICTION
+from abstract_dataset import TASK_TYPE
 
 
 class InternationalCitizenshipLawQuestions(AbstractDataset):
+
     def __init__(self):
-        super().__init__("InternationalCitizenshipLawQuestions", "https://cadmus.eui.eu/handle/1814/73190")
+        super().__init__("InternationalCitizenshipLawQuestions",
+                         "https://cadmus.eui.eu/handle/1814/73190")
 
     def get_data(self):
         task_type = TASK_TYPE.QUESTION_ANSWERING
         jurisdiction = JURISDICTION.INTERNATIONAL
         prompt_language = "en"
 
-        df1 = pd.read_csv(f"{self.raw_data_dir}/data_v1.0_country-year-mode_acq.csv")
-        df2 = pd.read_csv(f"{self.raw_data_dir}/data_v1.0_country-year-mode_loss.csv")
-        code_year = pd.read_csv(f"{self.raw_data_dir}/data_v1.0_country-year.csv")
-        code_dictionary = pd.read_csv(f"{self.raw_data_dir}/code_dictionary.csv")
+        df1 = pd.read_csv(
+            f"{self.raw_data_dir}/data_v1.0_country-year-mode_acq.csv")
+        df2 = pd.read_csv(
+            f"{self.raw_data_dir}/data_v1.0_country-year-mode_loss.csv")
+        code_year = pd.read_csv(
+            f"{self.raw_data_dir}/data_v1.0_country-year.csv")
+        code_dictionary = pd.read_csv(
+            f"{self.raw_data_dir}/code_dictionary.csv")
 
         for idx, row in df1.iterrows():
             mode_id = row["mode_id"]
@@ -33,13 +41,16 @@ class InternationalCitizenshipLawQuestions(AbstractDataset):
             if code_year_spec == 99:
                 code_year_spec = 0
             code_year_spec_answer = ["No.", "Yes."][code_year_spec]
-            q = code_dictionary[code_dictionary["Mode ID"] == mode_id.strip()]["Focus"].values[0]
+            q = code_dictionary[code_dictionary["Mode ID"] ==
+                                mode_id.strip()]["Focus"].values[0]
             if "No provision" in law_article:
                 datapoint = f"Q: Consider the country of {country.strip()}. {q.strip()}\nA: {code_year_spec_answer} This is not covered in any provision."
             else:
-                datapoint = f"Q: Consider the country of {country.strip()}. {q.strip()}\nA: {code_year_spec_answer} This is covered in: {law_article}. {specification}".strip()
+                datapoint = f"Q: Consider the country of {country.strip()}. {q.strip()}\nA: {code_year_spec_answer} This is covered in: {law_article}. {specification}".strip(
+                )
 
-            yield self.build_data_point(prompt_language, "en", datapoint, task_type, jurisdiction)
+            yield self.build_data_point(prompt_language, "en", datapoint,
+                                        task_type, jurisdiction)
 
         for idx, row in df2.iterrows():
             mode_id = row["mode_id"]
@@ -59,9 +70,12 @@ class InternationalCitizenshipLawQuestions(AbstractDataset):
             if code_year_spec == 99:
                 code_year_spec = 0
             code_year_spec_answer = ["No.", "Yes."][code_year_spec]
-            q = code_dictionary[code_dictionary["Mode ID"] == mode_id.strip()]["Focus"].values[0]
+            q = code_dictionary[code_dictionary["Mode ID"] ==
+                                mode_id.strip()]["Focus"].values[0]
             if "No provision" in law_article:
                 datapoint = f"Q: Consider the country of {country.strip()}. {q}\nA: {code_year_spec_answer} This is not covered in any provision."
             else:
-                datapoint = f"Q: Consider the country of {country.strip()}. {q}\nA: {code_year_spec_answer} This is covered in: {law_article}. {specification}".strip()
-            yield self.build_data_point(prompt_language, "en", datapoint, task_type, jurisdiction)
+                datapoint = f"Q: Consider the country of {country.strip()}. {q}\nA: {code_year_spec_answer} This is covered in: {law_article}. {specification}".strip(
+                )
+            yield self.build_data_point(prompt_language, "en", datapoint,
+                                        task_type, jurisdiction)

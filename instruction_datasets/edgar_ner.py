@@ -1,25 +1,30 @@
 import pathlib
-from collections.abc import Iterable, Iterator
+from collections.abc import Iterable
+from collections.abc import Iterator
 
 import pandas as pd
 from tqdm.auto import tqdm
 
-from abstract_dataset import AbstractDataset, TASK_TYPE, JURISDICTION
+from abstract_dataset import AbstractDataset
+from abstract_dataset import JURISDICTION
+from abstract_dataset import TASK_TYPE
 from .greek_ner import NerTags
 
 
 class EdgarTags(NerTags):
+
     @property
     def _tags(self) -> list[str]:
         tags = ["O"]  # outside
         for position in ["B", "I"]:
-            for type_ in ["BUSINESS",
-                          "GOVERNMENT",
-                          "LEGISLATION/ACT",
-                          "LOCATION",
-                          "MISCELLANEOUS",
-                          "PERSON",
-                          ]:
+            for type_ in [
+                    "BUSINESS",
+                    "GOVERNMENT",
+                    "LEGISLATION/ACT",
+                    "LOCATION",
+                    "MISCELLANEOUS",
+                    "PERSON",
+            ]:
                 tags.append(f"{position}-{type_}")
         # Sanity checks
         assert "O" in tags
@@ -46,14 +51,21 @@ def group_by_sentence(rows: Iterable) -> Iterator[tuple[list[str], list[str]]]:
     if tokens and tags:  # Don't yield empty final sentence.
         yield tokens, tags
 
+
 class EdgarNER(AbstractDataset):
+
     def __init__(self):
-        super().__init__("EDGAR", "https://github.com/terenceau2/E-NER-Dataset/blob/main/all.csv")
+        super().__init__(
+            "EDGAR",
+            "https://github.com/terenceau2/E-NER-Dataset/blob/main/all.csv")
         self._tags = EdgarTags()
         self._path = pathlib.Path(f"{self.raw_data_dir}/edgar_ner.csv")
 
     def get_data(self) -> Iterator[dict]:
-        df = pd.read_csv(self._path, header=None, names=["Word", "Tag"], na_filter=False)
+        df = pd.read_csv(self._path,
+                         header=None,
+                         names=["Word", "Tag"],
+                         na_filter=False)
         task_type = TASK_TYPE.NAMED_ENTITY_RECOGNITION
         jurisdiction = JURISDICTION.GREECE
         prompt_language = "en"
@@ -64,11 +76,9 @@ class EdgarNER(AbstractDataset):
             introduction_sentence + " " + self._tags.instruction
         ]
 
-        for tokens, tags in group_by_sentence(tqdm(df.iterrows(), total=len(df))):
-            text = (
-                f"{self.random.choice(instruction_bank)}\n\n"
-                f"{self._tags.build_answer(tokens, tags)}"
-            )
-            yield self.build_data_point(
-                prompt_language, answer_language, text, task_type, jurisdiction)
-
+        for tokens, tags in group_by_sentence(
+                tqdm(df.iterrows(), total=len(df))):
+            text = (f"{self.random.choice(instruction_bank)}\n\n"
+                    f"{self._tags.build_answer(tokens, tags)}")
+            yield self.build_data_point(prompt_language, answer_language, text,
+                                        task_type, jurisdiction)

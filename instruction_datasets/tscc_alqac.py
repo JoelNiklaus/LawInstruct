@@ -1,16 +1,22 @@
 import json
 
-from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
+from abstract_dataset import AbstractDataset
+from abstract_dataset import JURISDICTION
+from abstract_dataset import TASK_TYPE
 
 
 class TsccAlqac(AbstractDataset):
+
     def __init__(self):
-        super().__init__("TsccAlqac",
-                         "https://github.com/KevinMercury/tscc-dataset-alqac2021/blob/main/tscc_alqac2021_law.json")
+        super().__init__(
+            "TsccAlqac",
+            "https://github.com/KevinMercury/tscc-dataset-alqac2021/blob/main/tscc_alqac2021_law.json"
+        )
 
     def get_data(self):
         # Thai supreme court case law
-        with open(f"{self.raw_data_dir}/tscc_alqac2021_question.train.json", "r") as f:
+        with open(f"{self.raw_data_dir}/tscc_alqac2021_question.train.json",
+                  "r") as f:
             cases = json.loads(f.read())
 
         with open(f"{self.raw_data_dir}/tscc_alqac2021_law.json", "r") as f:
@@ -47,13 +53,16 @@ class TsccAlqac(AbstractDataset):
                 outcome = f"The court would rule {'against' if case['label'] == 1 else 'for'} the defendant."
             laws = '\n'.join(relevant_articles)
             text = f"{self.random.choice(instructions_bank)}\n\nFacts: {text}\nLaw(s): {laws}\nConclusion: {outcome}"
-            yield self.build_data_point(prompt_language, answer_language, text, task_type, jurisdiction)
+            yield self.build_data_point(prompt_language, answer_language, text,
+                                        task_type, jurisdiction)
 
             # Provide a non-MC version
             outcome_mc1 = ["(a)", "(b)"][case["label"]]
             text = f"{self.random.choice(instructions_bank)}\n\nQuestion: {text} How would the court find?\n(a) For the defendant.\n(b) Against the defendant.\nLaw(s): {laws}\nAnswer: {outcome_mc1}."
-            yield self.build_data_point(prompt_language, answer_language, text, task_type, jurisdiction)
+            yield self.build_data_point(prompt_language, answer_language, text,
+                                        task_type, jurisdiction)
 
             outcome_mc1 = ["(b)", "(a)"][case["label"]]
             text = f"{self.random.choice(instructions_bank)}\n\nQuestion: {text} How would the court find?\n(a) Against the defendant.\n(b) For the defendant.\nLaw(s): {laws}\nAnswer: {outcome_mc1}."
-            yield self.build_data_point(prompt_language, answer_language, text, task_type, jurisdiction)
+            yield self.build_data_point(prompt_language, answer_language, text,
+                                        task_type, jurisdiction)

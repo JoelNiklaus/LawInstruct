@@ -1,9 +1,12 @@
 import json
 
-from abstract_dataset import AbstractDataset, JURISDICTION, TASK_TYPE
+from abstract_dataset import AbstractDataset
+from abstract_dataset import JURISDICTION
+from abstract_dataset import TASK_TYPE
 
 
 class COLIEE(AbstractDataset):
+
     def __init__(self):
         super().__init__("COLIEE",
                          "https://sites.ualberta.ca/~rabelo/COLIEE2022/")
@@ -19,7 +22,8 @@ class COLIEE(AbstractDataset):
 
         for answer_language in answer_languages:
             with open(
-                    f"{self.raw_data_dir}/coliee/task3/passage_entailment/train_{answer_language}.jsonl") as f:
+                    f"{self.raw_data_dir}/coliee/task3/passage_entailment/train_{answer_language}.jsonl"
+            ) as f:
                 examples = [json.loads(x) for x in f.readlines()]
                 for example in examples:
                     text = example['text']
@@ -31,7 +35,8 @@ class COLIEE(AbstractDataset):
         task_type = TASK_TYPE.QUESTION_GENERATION
         for answer_language in answer_languages:
             with open(
-                    f"{self.raw_data_dir}/coliee/task3/generate_entailed_question/train_{answer_language}.jsonl") as f:
+                    f"{self.raw_data_dir}/coliee/task3/generate_entailed_question/train_{answer_language}.jsonl"
+            ) as f:
                 examples = [json.loads(x) for x in f.readlines()]
                 for example in examples:
                     text = example['text']
@@ -43,7 +48,8 @@ class COLIEE(AbstractDataset):
         task_type = TASK_TYPE.QUESTION_ANSWERING
         for answer_language in answer_languages:
             with open(
-                    f"{self.raw_data_dir}/coliee/task4/train_{answer_language}.jsonl") as f:
+                    f"{self.raw_data_dir}/coliee/task4/train_{answer_language}.jsonl"
+            ) as f:
                 examples = [json.loads(x) for x in f.readlines()]
                 for example in examples:
                     text = example['text']
