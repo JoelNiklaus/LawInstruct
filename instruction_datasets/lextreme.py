@@ -49,11 +49,11 @@ instructions_for_subsets = {
                               "subsumption: Determination sentence / Concrete facts, "
                               "other: Anything else)",
     "greek_legal_code_chapter": "In this task, you are given a Greek legislative document. "
-                                      "Predict the chapter level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
+                                "Predict the chapter level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
     "greek_legal_code_subject": "In this task, you are given a Greek legislative document. "
-                                      "Predict the subject level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
+                                "Predict the subject level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
     "greek_legal_code_volume": "In this task, you are given a Greek legislative document. "
-                                     "Predict the volume level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
+                               "Predict the volume level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
     "online_terms_of_service_unfairness_levels": "In this task, you are given a sentence from a Terms of Service (ToS) document. "
                                                  "Predict the unfairness level of the sentence (potentially_unfair, clearly_unfair, clearly_fair, untagged)",
     "online_terms_of_service_clause_topics": "In this task, you are given a sentence from a Terms of Service (ToS) document. "
@@ -90,9 +90,9 @@ instructions_for_subsets = {
     "lener_br": "In this task, you are given a sentence from Brazilian legal documents (court decisions and legislation). "
                 "Predict the named entity type for each token.",
     "mapa_coarse": "In this task, you are given a sentence from the EUR-Lex database. "
-                               "Predict the coarse grained named entity type for each token.",
+                   "Predict the coarse grained named entity type for each token.",
     "mapa_fine": "In this task, you are given a sentence from the EUR-Lex database. "
-                             "Predict the fine grained named entity type for each token.",
+                 "Predict the fine grained named entity type for each token.",
 }
 
 TASK_CODE_MAPPING = {
@@ -182,8 +182,8 @@ class LEXTREME(AbstractDataset):
                     if 'multi_eurlex' in subset:
                         input_text = ast.literal_eval(input_text)
                         assert isinstance(input_text, dict)
-                        answers = [(f"Passage {input_text[lang]} Labels: {','.join(correct_labels)}", lang) for lang, text in
-                                   input_text.items()]
+                        answers = [(f"Passage {input_text[lang]} Labels: {','.join(correct_labels)}", lang) for
+                                   lang, text in input_text.items()]
                     else:
                         answers = [(f"Passage {input_text} Labels: {','.join(correct_labels)}", example['language'])]
 
