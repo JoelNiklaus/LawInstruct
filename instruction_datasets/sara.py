@@ -19,7 +19,7 @@ class Sara(AbstractDataset):
         entailment_instruction_bank = [
             "Consider the following US Tax scenario. Does the first fact entail the second fact?",
             "Are these two sentences entailed or contradicting?",
-            "Respond entailement or contradiction to these two sentences."
+            "Respond entailment or contradiction to these two sentences."
         ]
         tax_liability_instruction_bank = [
             "Consider the following US Tax scenario and answer the question.",
