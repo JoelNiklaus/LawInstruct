@@ -4,9 +4,9 @@ from tqdm import tqdm
 from abstract_dataset import JURISDICTION
 from abstract_dataset import TASK_TYPE
 from instruction_datasets.abstract_natural_instructions import \
-  AbstractNaturalInstructions
+    AbstractNaturalInstructions
 from instruction_datasets.abstract_natural_instructions import \
-  get_first_lang_code
+    get_first_lang_code
 
 
 class NaturalInstructionsOther(AbstractNaturalInstructions):

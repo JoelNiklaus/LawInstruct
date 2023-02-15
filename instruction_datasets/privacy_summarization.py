@@ -1,5 +1,5 @@
-import pathlib
 from collections.abc import Iterator
+import pathlib
 
 import pandas as pd
 

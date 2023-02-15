@@ -1,13 +1,13 @@
 """Types that are used for all datasets."""
+from collections.abc import Iterator
 import datetime
 import enum
 import json
 import logging
 import os
+from pathlib import Path
 import random
 import sys
-from collections.abc import Iterator
-from pathlib import Path
 from typing import Any, TextIO, TypedDict
 
 from tqdm import tqdm

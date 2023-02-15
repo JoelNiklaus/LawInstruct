@@ -1,10 +1,10 @@
+from collections import defaultdict
 import glob
 import json
 import os
-from collections import defaultdict
 
-import yaml
 from lxml import etree
+import yaml
 
 from abstract_dataset import AbstractDataset
 from abstract_dataset import JURISDICTION

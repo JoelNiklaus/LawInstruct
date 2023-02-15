@@ -1,5 +1,5 @@
-import pandas as pd
 from bs4 import BeautifulSoup
+import pandas as pd
 
 from abstract_dataset import AbstractDataset
 from abstract_dataset import JURISDICTION

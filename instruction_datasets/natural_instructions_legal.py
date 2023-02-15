@@ -2,9 +2,9 @@ from datasets import load_dataset
 from tqdm import tqdm
 
 from instruction_datasets.abstract_natural_instructions import \
-  AbstractNaturalInstructions
+    AbstractNaturalInstructions
 from instruction_datasets.abstract_natural_instructions import \
-  get_first_lang_code
+    get_first_lang_code
 
 
 class NaturalInstructionsLegal(AbstractNaturalInstructions):

@@ -1,7 +1,7 @@
+from collections.abc import Iterator
 import json
 import pathlib
 import re
-from collections.abc import Iterator
 
 from abstract_dataset import AbstractDataset
 from abstract_dataset import JURISDICTION

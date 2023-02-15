@@ -1,9 +1,9 @@
-import pathlib
 from abc import ABC
 from abc import abstractmethod
 from collections.abc import Iterable
 from collections.abc import Iterator
 from collections.abc import Sequence
+import pathlib
 
 import pandas as pd
 from tqdm.auto import tqdm

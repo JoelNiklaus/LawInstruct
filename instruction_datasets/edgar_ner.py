@@ -1,6 +1,6 @@
-import pathlib
 from collections.abc import Iterable
 from collections.abc import Iterator
+import pathlib
 
 import pandas as pd
 from tqdm.auto import tqdm
@@ -8,6 +8,7 @@ from tqdm.auto import tqdm
 from abstract_dataset import AbstractDataset
 from abstract_dataset import JURISDICTION
 from abstract_dataset import TASK_TYPE
+
 from .greek_ner import NerTags
 
 

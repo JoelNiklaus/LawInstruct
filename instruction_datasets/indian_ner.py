@@ -1,12 +1,13 @@
+from collections.abc import Iterator
 import json
 import pathlib
-from collections.abc import Iterator
 
 from tqdm.auto import tqdm
 
 from abstract_dataset import AbstractDataset
 from abstract_dataset import JURISDICTION
 from abstract_dataset import TASK_TYPE
+
 from .greek_ner import NerTags
 
 
