@@ -7,7 +7,7 @@ import argparse
 import functools
 import logging
 import multiprocessing
-from typing import Optional, Type, Sequence
+from typing import Optional, Sequence, Type
 
 from abstract_dataset import AbstractDataset
 from instruction_datasets.brazilan_bar_exam import BrazilianBarExam
@@ -27,8 +27,8 @@ from instruction_datasets.eur_lex_sum import EurLexSum
 from instruction_datasets.german_ler import GermanLER
 from instruction_datasets.german_rental_agreements import \
     GermanRentalAgreements
-from instruction_datasets.greek_ner import Ell18Dataset
 from instruction_datasets.greek_ner import Ell4Dataset
+from instruction_datasets.greek_ner import Ell18Dataset
 from instruction_datasets.gsm8k import GSM8K
 from instruction_datasets.ildc import ILDC
 from instruction_datasets.indian_ner import IndianNER
@@ -38,6 +38,7 @@ from instruction_datasets.international_citizenship_law_questions import \
     InternationalCitizenshipLawQuestions
 from instruction_datasets.jec_qa import JECQA
 from instruction_datasets.korean_legal_qa import KoreanLegalQA
+from instruction_datasets.lawng_nli import LawngNli
 from instruction_datasets.lbox_open import LboxOpen
 from instruction_datasets.legal_case_document_summarization import \
     LegalCaseDocumentSummarization
@@ -103,6 +104,7 @@ _LEGAL_DATASETS = frozenset({
     InternationalCitizenshipLawQuestions,
     JECQA,
     KoreanLegalQA,
+    LawngNli,
     LboxOpen,
     LegalCaseDocumentSummarization,
     LegalQA,
@@ -137,7 +139,7 @@ _NATURAL_INSTRUCTIONS = frozenset(
     {NaturalInstructionsLegal, NaturalInstructionsOther})
 _XP3MT = frozenset({XP3MT})
 
-_ERRONEOUS_DATASETS = frozenset()
+_ERRONEOUS_DATASETS = frozenset([LawngNli])
 _DATASETS_ALREADY_BUILT = _NATURAL_INSTRUCTIONS | _XP3MT | frozenset({
     BrazilianBarExam,
     BrCAD5,
@@ -256,7 +258,8 @@ def build_instruction_datasets(datasets: Sequence[Type[AbstractDataset]],
         if not build_from_scratch:
             datasets_to_build = datasets_to_build - _DATASETS_ALREADY_BUILT
 
-    logging.info("Building datasets: %s", datasets_to_build)
+    logging.info("Building datasets: %s",
+                 [d.__name__ for d in datasets_to_build])
 
     build_one = functools.partial(_build_dataset, debug_size=debug_size)
 
