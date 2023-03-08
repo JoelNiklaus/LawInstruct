@@ -24,20 +24,16 @@ class LawngNli(AbstractDataset):
     def __init__(self):
         super().__init__("LawngNli", "https://github.com/wbrun0/LawngNLI")
 
-        self.raw_data_dir = "./raw_data"
-
     def get_data(self) -> Iterable[DataPoint]:
         """Returns the data points in the dataset.
 
     Returns:
       An iterable of data points.
     """
-        # TODO(arya): Before commit, change `file` to `LawngNLI.xz` and
-        #  switch the data loading to `df = pd.read_pickle(file)`
-        file = f"{self.raw_data_dir}/lawngnli_head.tsv"
+        file = f"{self.raw_data_dir}/LawngNLI.xz"
         # They decided to use a pickle file instead of a csv file.
         # Now we're forced to read a pickled pandas dataframe.
-        df = pd.read_csv(file, sep="\t")
+        df = pd.read_pickle(file)
         jurisdiction = JURISDICTION.US
         prompt_language = "en"
         task_type = TASK_TYPE.NATURAL_LANGUAGE_INFERENCE
@@ -60,10 +56,16 @@ class LawngNli(AbstractDataset):
         for i, row in df.iterrows():
             for premise_col in _PREMISE_COLS:
                 # Add the datapoint.
-                datapoint = f"{self.random.choice(instruction_bank)}\n\nPassage 1: {row[premise_col]}\nSentence 2: {row['hypothesis']}\nAnswer: {word4label[row['label']]}"
+                datapoint = f"{self.random.choice(instruction_bank)}\n\n" \
+                            f"Passage 1: {row[premise_col]}\n" \
+                            f"Sentence 2: {row['hypothesis']}\n" \
+                            f"Answer: {word4label[row['label']]}"
                 yield self.build_data_point(
                     prompt_language, "en", datapoint, task_type, jurisdiction)
                 # Add the contradicting datapoint.
-                datapoint = f"{self.random.choice(instruction_bank)}\n\nPassage 1: {row[premise_col]}\nSentence 2: {row['contradicted_parenthetical']}\nAnswer: {label_reversal[word4label[row['label']]]}"
+                datapoint = f"{self.random.choice(instruction_bank)}\n\n" \
+                            f"Passage 1: {row[premise_col]}\n" \
+                            f"Sentence 2: {row['contradicted_parenthetical']}\n" \
+                            f"Answer: {label_reversal[word4label[row['label']]]}"
                 yield self.build_data_point(
                     prompt_language, "en", datapoint, task_type, jurisdiction)

@@ -139,7 +139,7 @@ _NATURAL_INSTRUCTIONS = frozenset(
     {NaturalInstructionsLegal, NaturalInstructionsOther})
 _XP3MT = frozenset({XP3MT})
 
-_ERRONEOUS_DATASETS = frozenset([LawngNli])
+_ERRONEOUS_DATASETS = frozenset([])
 _DATASETS_ALREADY_BUILT = _NATURAL_INSTRUCTIONS | _XP3MT | frozenset({
     BrazilianBarExam,
     BrCAD5,

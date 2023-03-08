@@ -37,8 +37,6 @@ git clone https://github.com/allenai/natural-instructions lawinstruct_raw/raw_da
 
 ## TODOs
 
-- run the script on a big machine to generate the datasets and upload to lawinstruct organisation on huggingface hub (
-  Joel)
 - use the same instruction banks for the same tasks if applicable (Lucia)
 - add more examples to the instruction banks and diversify them by looking at FLAN and Natural Instructions (Lucia)
 - make sure the jurisdiction is always in the instruction
@@ -69,6 +67,8 @@ git clone https://github.com/allenai/natural-instructions lawinstruct_raw/raw_da
 - replace ANSWER_GENERATION with QUESTION_ANSWERING (Joel)
 - add urls to the source in the init call (MBE, civipro, mc_ecams, professional_law, sara_prolog)
 - test the dataset generation thoroughly (Joel)
+- run the script on a big machine to generate the datasets and upload to lawinstruct organisation on huggingface hub (
+  Joel)
 
 ## Datasets still to add:
 
