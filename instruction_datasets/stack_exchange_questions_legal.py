@@ -36,6 +36,6 @@ class StackExchangeQuestionsLegal(AbstractDataset):
             if self.random.random() > .7:
                 instruction += " " + f"This question is about: {','.join([x.replace('>', '').replace('<', '').replace('-', ' ').strip() for x in example['tags'].split('>') if x.replace('>', '').replace('<', '').strip() != ''])}."
 
-            text = f"{instruction}\n\nQuestion: {question}\nAnswer: {answer}"
-            yield self.build_data_point(prompt_language, "en", text, task_type,
+            text = f"Question: {question}\nAnswer: {answer}"
+            yield self.build_data_point(prompt_language, "en", instruction, text, task_type,
                                         jurisdiction)
