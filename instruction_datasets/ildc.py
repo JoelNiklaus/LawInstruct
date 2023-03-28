@@ -28,13 +28,17 @@ class ILDC(AbstractDataset):
         for idx, row in df1.iterrows():
             decision = "Court Decision: Reject" if row[
                 "label"] == 0 else "Court Decision: Accept"
-            datapoint = f"{self.random.choice(instruction_bank)}\n\n{row['text']}\n\n{decision}"
-            yield self.build_data_point(prompt_language, "en", datapoint,
+            instruction = self.random.choice(instruction_bank)
+            datapoint = f"{row['text']}\n\n{decision}"
+            yield self.build_data_point(prompt_language, "en",
+                                        instruction, datapoint,
                                         task_type, jurisdiction)
 
         for idx, row in df2.iterrows():
             decision = "Court Decision: Reject" if row[
                 "label"] == 0 else "Court Decision: Accept"
-            datapoint = f"{self.random.choice(instruction_bank)}\n\n{row['text']}\n\n{decision}"
-            yield self.build_data_point(prompt_language, "en", datapoint,
+            instruction = self.random.choice(instruction_bank)
+            datapoint = f"{row['text']}\n\n{decision}"
+            yield self.build_data_point(prompt_language, "en",
+                                        instruction, datapoint,
                                         task_type, jurisdiction)
