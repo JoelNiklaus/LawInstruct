@@ -57,6 +57,8 @@ class EurLexSum(AbstractDataset):
             for example in df:
                 input = example["reference"]
                 summary = example["summary"]
-                text = f"{self.random.choice(instruction_bank)}\n\n{build_summarization_answer(input, summary)}"
+                instruction = self.random.choice(instruction_bank)
+                text = build_summarization_answer(input, summary)
                 yield self.build_data_point(prompt_language, answer_language,
+                                            instruction,
                                             text, task_type, jurisdiction)
