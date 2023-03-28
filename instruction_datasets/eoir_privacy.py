@@ -29,6 +29,8 @@ class EOIRPrivacy(AbstractDataset):
 
         for example in df:
             lookup = ["Don't use pseudonym.", "Use pseudonym."]
-            text = f"{self.random.choice(instruction_bank)}\n\n{example['text']}\n{lookup[example['label']]}"
-            yield self.build_data_point(prompt_language, "en", text, task_type,
+            instruction = self.random.choice(instruction_bank)
+            text = f"{example['text']}\n{lookup[example['label']]}"
+            yield self.build_data_point(prompt_language, "en",
+                                        instruction, text, task_type,
                                         jurisdiction)
