@@ -1,5 +1,6 @@
 """Types that are used for all datasets."""
 from collections.abc import Iterator
+import dataclasses
 import datetime
 import json
 import logging
@@ -7,7 +8,6 @@ import os
 import pathlib
 import random
 import sys
-from typing import TypedDict
 
 from tqdm import tqdm
 from enums import Jurisdiction
@@ -19,14 +19,13 @@ try:
 except ImportError:
     import pylzma as xz
 
-MAX_FILE_SIZE = 6.25e8
-_FILE_SIZE_CHECK_FREQUENCY = 1000
 
-
-class DataPoint(TypedDict):
+@dataclasses.dataclass(frozen=True)
+class DataPoint:
     """A data point in the dataset for training an LLM."""
     prompt_language: str
     answer_language: str
+    instructions: str
     text: str
     task_type: TaskType
     jurisdiction: Jurisdiction
@@ -88,6 +87,7 @@ class AbstractDataset:
     def build_data_point(self,
                          prompt_language: str,
                          answer_language: str,
+                         instructions: str,
                          text: str,
                          task_type: TaskType = TaskType.UNKNOWN,
                          jurisdiction: Jurisdiction = Jurisdiction.UNKNOWN,
@@ -106,14 +106,15 @@ class AbstractDataset:
             A data point with the given attributes.
         """
         del self  # We don't use `self`, but subclasses might.
-        return {
-            "prompt_language": prompt_language,
-            "answer_language": answer_language,
-            "text": text,
-            "task_type": task_type,
-            "jurisdiction": jurisdiction,
-            "subset": subset,
-        }
+        return DataPoint(
+            prompt_language=prompt_language,
+            answer_language=answer_language,
+            instructions=instructions,
+            text=text,
+            task_type=task_type,
+            jurisdiction=jurisdiction,
+            subset=subset,
+        )
 
     def write_json_line(
         self,
@@ -126,15 +127,12 @@ class AbstractDataset:
             file: The file to write to.
             datapoint: The datapoint to write.
         """
-        if not datapoint.instruction:
+        if not datapoint.instructions:
             raise ValueError(
-                f"datapoint['instruction'] must not be empty in {datapoint}")
-        if not datapoint.prompt:
+                f"datapoint.instruction must not be empty in {datapoint}")
+        if not datapoint.text:
             raise ValueError(
-                f"datapoint['prompt'] must not be empty in {datapoint}")
-        if not datapoint.answer:
-            raise ValueError(
-                f"datapoint['answer'] must not be empty in {datapoint}")
+                f"datapoint.text must not be empty in {datapoint}")
         # text fields are last, so we can easily read the metadata (on servers,
         # for example)
         file.write(
@@ -146,8 +144,6 @@ class AbstractDataset:
                 'source':
                     self.source,
                 'instruction_language':
-                    datapoint.instruction_language,
-                'prompt_language':
                     datapoint.prompt_language,
                 'answer_language':
                     datapoint.answer_language,
@@ -158,11 +154,9 @@ class AbstractDataset:
                 'downloaded_timestamp':
                     datetime.date.today().strftime('%m-%d-%Y'),
                 'instruction':
-                    datapoint.instruction,
-                'prompt':
-                    datapoint.prompt,
-                'answer':
-                    datapoint.answer,
+                    datapoint.instructions,
+                'text':
+                    datapoint.text,
             }) + '\n')
 
     def _get_output_file_name(self, file_index: int,
