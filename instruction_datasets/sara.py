@@ -26,13 +26,16 @@ class Sara(AbstractDataset):
         for i, row in df.iterrows():
             if "tail" in row[2] or "Contra" in row[2]:
                 task_type = TaskType.NATURAL_LANGUAGE_INFERENCE
-                datapoint = f"{self.random.choice(entailment_instruction_bank)}\n\nSentence 1: {row[0]}\nSentence 2: {row[1]}\nAnswer: {row[2]}"
-                yield self.build_data_point(prompt_language, "en", datapoint,
+                instruction = self.random.choice(entailment_instruction_bank)
+                datapoint = f"Sentence 1: {row[0]}\nSentence 2: {row[1]}\nAnswer: {row[2]}"
+                yield self.build_data_point(prompt_language, "en", instruction, datapoint,
                                             task_type, jurisdiction)
             else:
                 task_type = TaskType.QUESTION_ANSWERING
-                datapoint = f"{self.random.choice(tax_liability_instruction_bank)}\n\nQuestion: {row[0]} {row[1]}\nAnswer: {row[2]}"
-                yield self.build_data_point(prompt_language, "en", datapoint,
+                instruction = self.random.choice(tax_liability_instruction_bank)
+                datapoint = f"Question: {row[0]} {row[1]}\nAnswer: {row[2]}"
+                yield self.build_data_point(prompt_language, "en",
+                                            instruction, datapoint,
                                             task_type, jurisdiction)
 
                 value = int(row[2].replace("$", ""))
@@ -46,6 +49,7 @@ class Sara(AbstractDataset):
                                                 options):
                     choices += f"{choice_value} ${option}\n"
                 correct = ["(a)", "(b)", "(c)", "(d)"][options.index(value)]
-                datapoint = f"{self.random.choice(tax_liability_instruction_bank)} Denote your final answer with the \"Final Answer: The final answer is [CORRECT ANSWER]. I hope it is correct\".\n\nQuestion: {row[0]} {row[1]}\n{choices}\n\nFinal Answer: The final answer is {correct}. I hope it is correct."
-                yield self.build_data_point(prompt_language, "en", datapoint,
+                instruction = self.random.choice(tax_liability_instruction_bank) + ' Denote your final answer with the "Final Answer: The final answer is [CORRECT ANSWER]. I hope it is correct".'
+                datapoint = f"Question: {row[0]} {row[1]}\n{choices}\n\nFinal Answer: The final answer is {correct}. I hope it is correct."
+                yield self.build_data_point(prompt_language, "en", instruction, datapoint,
                                             task_type, jurisdiction)
