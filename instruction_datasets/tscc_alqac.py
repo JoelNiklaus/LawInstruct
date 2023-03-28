@@ -52,17 +52,23 @@ class TsccAlqac(AbstractDataset):
             else:
                 outcome = f"The court would rule {'against' if case['label'] == 1 else 'for'} the defendant."
             laws = '\n'.join(relevant_articles)
-            text = f"{self.random.choice(instructions_bank)}\n\nFacts: {text}\nLaw(s): {laws}\nConclusion: {outcome}"
-            yield self.build_data_point(prompt_language, answer_language, text,
+            instruction = self.random.choice(instructions_bank)
+            text = f"Facts: {text}\nLaw(s): {laws}\nConclusion: {outcome}"
+            yield self.build_data_point(prompt_language, answer_language,
+                                        instruction, text,
                                         task_type, jurisdiction)
 
             # Provide a non-MC version
             outcome_mc1 = ["(a)", "(b)"][case["label"]]
-            text = f"{self.random.choice(instructions_bank)}\n\nQuestion: {text} How would the court find?\n(a) For the defendant.\n(b) Against the defendant.\nLaw(s): {laws}\nAnswer: {outcome_mc1}."
-            yield self.build_data_point(prompt_language, answer_language, text,
+            instruction = self.random.choice(instructions_bank)
+            text = f"Question: {text} How would the court find?\n(a) For the defendant.\n(b) Against the defendant.\nLaw(s): {laws}\nAnswer: {outcome_mc1}."
+            yield self.build_data_point(prompt_language, answer_language,
+                                        instruction, text,
                                         task_type, jurisdiction)
 
             outcome_mc1 = ["(b)", "(a)"][case["label"]]
-            text = f"{self.random.choice(instructions_bank)}\n\nQuestion: {text} How would the court find?\n(a) Against the defendant.\n(b) For the defendant.\nLaw(s): {laws}\nAnswer: {outcome_mc1}."
-            yield self.build_data_point(prompt_language, answer_language, text,
+            instruction = self.random.choice(instructions_bank)
+            text = f"Question: {text} How would the court find?\n(a) Against the defendant.\n(b) For the defendant.\nLaw(s): {laws}\nAnswer: {outcome_mc1}."
+            yield self.build_data_point(prompt_language, answer_language,
+                                        instruction, text,
                                         task_type, jurisdiction)
