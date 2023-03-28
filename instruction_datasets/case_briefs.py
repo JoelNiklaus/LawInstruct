@@ -27,6 +27,7 @@ class CaseBriefs(AbstractDataset):
         for example in df["train"]["text"]:
             example = example.split("Key Facts:")[0].split("Year:")[0]
             example = example.replace("Answer:", "Analysis:")
-            text = f"{self.random.choice(case_brief_instructions)}\n\n{example}"
-            yield self.build_data_point(prompt_language, "en", text, task_type,
+            instruction = self.random.choice(case_brief_instructions)
+            yield self.build_data_point(prompt_language, "en",
+                                        instruction, example, task_type,
                                         jurisdiction)
