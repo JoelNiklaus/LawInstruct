@@ -56,16 +56,17 @@ class LawngNli(AbstractDataset):
         for i, row in df.iterrows():
             for premise_col in _PREMISE_COLS:
                 # Add the datapoint.
-                datapoint = f"{self.random.choice(instruction_bank)}\n\n" \
-                            f"Passage 1: {row[premise_col]}\n" \
+                instruction = self.random.choice(instruction_bank)
+                datapoint = f"Passage 1: {row[premise_col]}\n" \
                             f"Sentence 2: {row['hypothesis']}\n" \
                             f"Answer: {word4label[row['label']]}"
-                yield self.build_data_point(prompt_language, "en", datapoint,
+                yield self.build_data_point(prompt_language, "en",
+                                            instruction, datapoint,
                                             task_type, jurisdiction)
                 # Add the contradicting datapoint.
-                datapoint = f"{self.random.choice(instruction_bank)}\n\n" \
-                            f"Passage 1: {row[premise_col]}\n" \
+                instruction = self.random.choice(instruction_bank)
+                datapoint = f"Passage 1: {row[premise_col]}\n" \
                             f"Sentence 2: {row['contradicted_parenthetical']}\n" \
                             f"Answer: {label_reversal[word4label[row['label']]]}"
-                yield self.build_data_point(prompt_language, "en", datapoint,
+                yield self.build_data_point(prompt_language, "en", instruction, datapoint,
                                             task_type, jurisdiction)
