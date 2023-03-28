@@ -30,10 +30,11 @@ class OLCMemos(AbstractDataset):
             if example.startswith("b'"):
                 example = example.encode().decode('unicode-escape').encode(
                     'latin1').decode('utf-8')[2:-2].strip()
-            text = f"{self.random.choice(instruction_bank)}\n\n{example}"
+            instruction = self.random.choice(instruction_bank)
             yield self.build_data_point(prompt_language,
                                         "en",
-                                        text,
+                                        instruction,
+                                        example,
                                         task_type,
                                         jurisdiction,
                                         subset="olc_memos")
