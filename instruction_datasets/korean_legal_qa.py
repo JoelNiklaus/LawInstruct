@@ -28,6 +28,7 @@ class KoreanLegalQA(AbstractDataset):
             questions = [json.loads(x) for x in f.readlines()]
 
         for question in questions:
-            text = f"{self.random.choice(instruction_bank)}\n\nQ: {question['question']}\nA: {question['answer']}"
-            yield self.build_data_point(prompt_language, "ko", text, task_type,
+            instruction = self.random.choice(instruction_bank)
+            text = f"Q: {question['question']}\nA: {question['answer']}"
+            yield self.build_data_point(prompt_language, "ko", instruction, text, task_type,
                                         jurisdiction)
