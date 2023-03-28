@@ -53,11 +53,15 @@ class GermanLER(AbstractDataset):
         ]
         for example in df:
             tags = [ner_fine_tags[tag] for tag in example["ner_tags"]]
-            text = f"{self.random.choice(instruction_bank_fine)}\n\n{build_ner_answer(example['tokens'], tags)}"
-            yield self.build_data_point(prompt_language, answer_language, text,
+            instruction = self.random.choice(instruction_bank_fine)
+            text = build_ner_answer(example['tokens'], tags)
+            yield self.build_data_point(prompt_language, answer_language,
+                                        instruction, text,
                                         task_type, jurisdiction)
 
             tags = [ner_coarse_tags[tag] for tag in example["ner_coarse_tags"]]
-            text = f"{self.random.choice(instruction_bank_coarse)}\n\n{build_ner_answer(example['tokens'], tags)}"
-            yield self.build_data_point(prompt_language, answer_language, text,
+            instruction = self.random.choice(instruction_bank_coarse)
+            text = build_ner_answer(example['tokens'], tags)
+            yield self.build_data_point(prompt_language, answer_language,
+                                        instruction, text,
                                         task_type, jurisdiction)
