@@ -37,22 +37,30 @@ class CAIL2022(AbstractDataset):
         lookup = ["(a)", "(b)", "(c)", "(d)", "(e)"]
         for question in questions:
             task_type = TaskType.MULTIPLE_CHOICE
-            datapoint = f"{self.random.choice(instruction_bank_mc)}\n\nPlaintiff's Argument:{question['sc']}\n\n(a) {question['bc_1']}\n(b) {question['bc_2']}\n(c) {question['bc_3']}\n(d) {question['bc_4']}\n(e) {question['bc_5']}"
+            instruction = self.random.choice(instruction_bank_mc)
+            datapoint = f"Plaintiff's Argument:{question['sc']}\n\n(a) {question['bc_1']}\n(b) {question['bc_2']}\n(c) {question['bc_3']}\n(d) {question['bc_4']}\n(e) {question['bc_5']}"
             datapoint += "Best counter-argument: {lookup[question['answer'] - 1]}"
             yield self.build_data_point(prompt_language, answer_language,
+                                        instruction,
                                         datapoint, task_type, jurisdiction)
 
             task_type = TaskType.QUESTION_ANSWERING
             response = question[f"bc_{question['answer']}"]
-            datapoint = f"{self.random.choice(instruction_bank)}\n\nPlaintiff's Argument:{question['sc']}\nDefendant's Response: {response}"
+            instruction = self.random.choice(instruction_bank)
+            datapoint = f"Plaintiff's Argument:{question['sc']}\nDefendant's Response: {response}"
             yield self.build_data_point(prompt_language, answer_language,
+                                        instruction,
                                         datapoint, task_type, jurisdiction)
 
             task_type = TaskType.TEXT_CLASSIFICATION
-            datapoint = f"{self.random.choice(instruction_bank_crime)}\n\nPlaintiff's Argument:{question['sc']}\nDefendant's Response: {response}\nCrime: {question['crime']}"
+            instruction = self.random.choice(instruction_bank_crime)
+            datapoint = f"Plaintiff's Argument:{question['sc']}\nDefendant's Response: {response}\nCrime: {question['crime']}"
             yield self.build_data_point(prompt_language, answer_language,
+                                        instruction,
                                         datapoint, task_type, jurisdiction)
 
-            datapoint = f"{self.random.choice(instruction_bank_crime)}\n\n{question['sc']}\nCrime: {question['crime']}"
+            instruction = self.random.choice(instruction_bank_crime)
+            datapoint = f"{question['sc']}\nCrime: {question['crime']}"
             yield self.build_data_point(prompt_language, answer_language,
+                                        instruction, 
                                         datapoint, task_type, jurisdiction)
