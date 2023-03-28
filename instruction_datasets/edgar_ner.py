@@ -79,7 +79,8 @@ class EdgarNER(AbstractDataset):
 
         for tokens, tags in group_by_sentence(tqdm(df.iterrows(),
                                                    total=len(df))):
-            text = (f"{self.random.choice(instruction_bank)}\n\n"
-                    f"{self._tags.build_answer(tokens, tags)}")
-            yield self.build_data_point(prompt_language, answer_language, text,
+            instruction = self.random.choice(instruction_bank)
+            text = self._tags.build_answer(tokens, tags)
+            yield self.build_data_point(prompt_language, answer_language,
+                                        instruction, text,
                                         task_type, jurisdiction)
