@@ -44,9 +44,11 @@ class MiningLegalArguments(AbstractDataset):
                 f"{introduction_sentence} {get_ner_instruction(all_labels)}",
             ]
             for example in df:
-                text = f"{self.random.choice(instruction_bank)}\n\n{build_ner_answer(example['tokens'], example['labels'])}"
+                instruction = self.random.choice(instruction_bank)
+                text = build_ner_answer(example['tokens'], example['labels'])
                 yield self.build_data_point(prompt_language,
                                             "en",
+                                            instruction,
                                             text,
                                             task_type,
                                             jurisdiction,
