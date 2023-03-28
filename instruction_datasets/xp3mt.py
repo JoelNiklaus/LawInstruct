@@ -20,6 +20,7 @@ class XP3MT(AbstractDataset):
         # Maybe also add 'zh', 'vi', because we have legal instruction datasets there
         _LANG = ['en', 'es', 'fr', 'pt', 'code']
         # TODO maybe treat code as a separate category so we can filter easily
+        _BLANK_INSTRUCTIONS = ""
 
         # prompts translated into other languages
         # rather use this one instead of xP3all because we compile multi_eurlex ourselves and xP3all only has two datasets more.
@@ -35,4 +36,5 @@ class XP3MT(AbstractDataset):
                                          low_memory=True)['lang']
                 answer_language = lang if lang != "code" else "en"
                 yield self.build_data_point(prompt_language, answer_language,
+                                            _BLANK_INSTRUCTIONS,
                                             text, task_type, jurisdiction)
