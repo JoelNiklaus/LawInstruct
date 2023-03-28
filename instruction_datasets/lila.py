@@ -34,10 +34,11 @@ class Lila(AbstractDataset):
                         continue
                     for program, answer in zip(example['Output Program'],
                                                example['Output Answer']):
-                        datapoint = f"{self.random.choice(instruction_bank)}\n\n" \
-                                    f"Question: {example['Input']}\n" \
+                        instruction = self.random.choice(instruction_bank)
+                        datapoint = f"Question: {example['Input']}\n" \
                                     f"Program:\n```python\n{program}\n```\n" \
                                     f"Answer: {answer}"
                         yield self.build_data_point(prompt_language, "en",
+                                                    instruction,
                                                     datapoint, task_type,
                                                     jurisdiction)
