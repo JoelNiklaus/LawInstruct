@@ -26,9 +26,11 @@ class JECQA(AbstractDataset):
                 questions.extend([json.loads(x) for x in f.readlines()])
 
         for q in questions:
-            prompt = f"{self.random.choice(instruction_bank)}\n\n{q['statement']}\n\n"
+            instruction = self.random.choice(instruction_bank)
+            prompt = f"{q['statement']}\n\n"
             for k, v in q["option_list"].items():
                 prompt += f"{k}. {v}\n"
             prompt += "\n\nFinal Answer(s): {','.join(q['answer'])}"
-            yield self.build_data_point(prompt_language, "zh", prompt,
+            yield self.build_data_point(prompt_language, "zh",
+                                        instruction, prompt,
                                         task_type, jurisdiction)
