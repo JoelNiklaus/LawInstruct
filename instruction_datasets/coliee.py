@@ -5,6 +5,9 @@ from enums import Jurisdiction
 from enums import TaskType
 
 
+_BLANK_INSTRUCTION = ''
+
+
 class COLIEE(AbstractDataset):
 
     def __init__(self):
@@ -28,7 +31,8 @@ class COLIEE(AbstractDataset):
                 for example in examples:
                     text = example['text']
                     yield self.build_data_point(prompt_language,
-                                                answer_language, text,
+                                                answer_language,
+                                                _BLANK_INSTRUCTION, text,
                                                 task_type, jurisdiction)
 
         # Given a legal passage, generate an entailed question
@@ -41,7 +45,8 @@ class COLIEE(AbstractDataset):
                 for example in examples:
                     text = example['text']
                     yield self.build_data_point(prompt_language,
-                                                answer_language, text,
+                                                answer_language,
+                                                _BLANK_INSTRUCTION, text,
                                                 task_type, jurisdiction)
 
         # Given a question, provide the relevant legal rule for answering the question and the answer
@@ -54,5 +59,6 @@ class COLIEE(AbstractDataset):
                 for example in examples:
                     text = example['text']
                     yield self.build_data_point(prompt_language,
-                                                answer_language, text,
+                                                answer_language,
+                                                _BLANK_INSTRUCTION, text,
                                                 task_type, jurisdiction)
