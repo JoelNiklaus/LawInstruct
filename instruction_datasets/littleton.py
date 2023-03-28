@@ -35,8 +35,10 @@ class Littleton(AbstractDataset):
                 if isinstance(loaded_file, str):
                     continue
                 for example in loaded_file["examples"]:
-                    text = f"{self.random.choice(instruction_bank)}\n\nEvents: {example['program']}\nAnswer: {example['result']}"
-                    yield self.build_data_point(prompt_language, "en", text,
+                    instruction = self.random.choice(instruction_bank)
+                    text = f"Events: {example['program']}\nAnswer: {example['result']}"
+                    yield self.build_data_point(prompt_language, "en",
+                                                instruction, text,
                                                 task_type, jurisdiction)
 
         json_files = [
@@ -57,6 +59,8 @@ class Littleton(AbstractDataset):
                 for example in loaded_file["tests"]:
                     if "expected" not in example:
                         continue
-                    text = f"{self.random.choice(instruction_bank)}\n\nEvents: {example['program']}\nAnswer: {example['expected']}"
-                    yield self.build_data_point(prompt_language, "en", text,
+                    instruction = self.random.choice(instruction_bank)
+                    text = f"Events: {example['program']}\nAnswer: {example['expected']}"
+                    yield self.build_data_point(prompt_language, "en",
+                                                instruction, text,
                                                 task_type, jurisdiction)
