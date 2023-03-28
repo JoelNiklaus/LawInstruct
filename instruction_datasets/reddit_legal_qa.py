@@ -33,9 +33,11 @@ class RedditLegalQA(AbstractDataset):
             answers = question.split("Answer #")[1:]
             answers = [a.split(":")[-1] for a in answers]
             for a in answers:
-                text = f"{self.random.choice(instruction_bank)}\n\nQuestion: {q}\n\nAnalysis: {a}"
+                instruction = self.random.choice(instruction_bank)
+                text = f"Question: {q}\n\nAnalysis: {a}"
                 yield self.build_data_point(prompt_language,
                                             "en",
+                                            instruction,
                                             text,
                                             task_type,
                                             jurisdiction,
