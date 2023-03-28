@@ -24,8 +24,10 @@ class GSM8K(AbstractDataset):
             "Answer the following questions."
         ]
         for example in x:
-            text = f"{self.random.choice(instruction_bank)}\n\nQ: {example['question']}\nA: {example['answer']}"
-            yield self.build_data_point(prompt_language, "en", text, task_type,
+            instruction = self.random.choice(instruction_bank)
+            text = f"Q: {example['question']}\nA: {example['answer']}"
+            yield self.build_data_point(prompt_language, "en",
+                                        instruction, text, task_type,
                                         jurisdiction)
 
         x = load_dataset("gsm8k", "socratic", split="train")
@@ -37,6 +39,8 @@ class GSM8K(AbstractDataset):
             "Answer the following questions. Make sure to ask any follow up questions as needed."
         ]
         for example in x:
-            text = f"{self.random.choice(instruction_bank)}\n\nQ: {example['question']}\nA: {example['answer']}"
-            yield self.build_data_point(prompt_language, "en", text, task_type,
+            instruction = self.random.choice(instruction_bank)
+            text = f"Q: {example['question']}\nA: {example['answer']}"
+            yield self.build_data_point(prompt_language, "en",
+                                        instruction, text, task_type,
                                         jurisdiction)
