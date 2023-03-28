@@ -117,7 +117,8 @@ class BrazilianBarExam(AbstractDataset):
                 if c["correct"]:
                     correct_answer = f"({c['letter'].lower()})"
             if correct_answer is not None:
-                datapoint = f"{self.random.choice(instruction_bank)}\n\nQuestion: {q['enum']}\n{choices}"
+                instruction = self.random.choice(instruction_bank)
+                datapoint = f"Question: {q['enum']}\n{choices}"
 
                 legal_text = None
                 if q["filename"].split(".txt")[0] in just_dict and q[
@@ -146,5 +147,6 @@ class BrazilianBarExam(AbstractDataset):
                             q["number"]]["comment"].replace("\n", "")
                         datapoint += f'\n\nAnalysis: {analysis}'
                 datapoint += f"\nAnswer: {correct_answer}."
-                yield self.build_data_point(prompt_language, "pt", datapoint,
+                yield self.build_data_point(prompt_language, "pt",
+                                            instruction, datapoint,
                                             task_type, jurisdiction)
