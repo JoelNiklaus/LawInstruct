@@ -33,11 +33,15 @@ class MCExamsLaw(AbstractDataset):
                 "Explanation"], row["Source"]
 
             # No chain of thought
-            text = f"{self.random.choice(instruction_bank)}\n\nQ:{q}\nA:{a}"
-            yield self.build_data_point(prompt_language, "en", text, task_type,
+            instruction = self.random.choice(instruction_bank)
+            text = f"Q:{q}\nA:{a}"
+            yield self.build_data_point(prompt_language, "en",
+                                        instruction, text, task_type,
                                         jurisdiction)
 
             # Chain of thought
-            text = f"{self.random.choice(instruction_bank_expl)}\n\nQ:{q}\nExplanation: {explanation}\nA:{a}"
-            yield self.build_data_point(prompt_language, "en", text, task_type,
+            instruction_expl = self.random.choice(instruction_bank_expl)
+            text = f"Q:{q}\nExplanation: {explanation}\nA:{a}"
+            yield self.build_data_point(prompt_language, "en", instruction_expl,
+                                        text, task_type,
                                         jurisdiction)
