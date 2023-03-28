@@ -5,6 +5,9 @@ from enums import Jurisdiction
 from enums import TaskType
 
 
+_BLANK_INSTRUCTION = ''
+
+
 class CABarExamEssays(AbstractDataset):
 
     def __init__(self):
@@ -23,5 +26,6 @@ class CABarExamEssays(AbstractDataset):
             exams = [json.loads(x) for x in f.readlines()]
             for exam in exams:
                 text = exam['text']
-                yield self.build_data_point(prompt_language, "en", text,
+                yield self.build_data_point(prompt_language, "en",
+                                            _BLANK_INSTRUCTION, text,
                                             task_type, jurisdiction)
