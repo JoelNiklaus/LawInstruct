@@ -36,8 +36,10 @@ class PrivacySummarization(AbstractDataset):
         for _, record in df.iterrows():
             # `QuoteText` is a typo in the original dataset.
             passage, label = record["QouteText"], record["Point"]
-            text = (f"{introduction_sentence}\n\n"
-                    f"{passage}\n\n"
+            # TODO: Should this really count as the instruction?
+            instruction = introduction_sentence
+            text = (f"{passage}\n\n"
                     f"{_TEXT4LABEL[label]}")
-            yield self.build_data_point(prompt_language, answer_language, text,
+            yield self.build_data_point(prompt_language, answer_language,
+                                        instruction, text,
                                         task_type, jurisdiction)
