@@ -52,6 +52,7 @@ class SwissJudgmentPrediction(AbstractDataset):
                                         text, task_type, jurisdiction)
 
             outcome_mc1 = ["(b)", "(a)"][example["label"]]
+            text = example['text']
             text = f"{self.random.choice(get_multiple_choice_instruction_bank())}\n\n" \
                    f"Question: {text} How would the court find?\n(a) The court should approve the case.\n(b) The court should dismiss the case.\n" \
                    f"Answer: {outcome_mc1}."
