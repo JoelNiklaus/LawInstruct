@@ -24,8 +24,10 @@ class LboxOpen(AbstractDataset):
         ]
 
         for x in data_st_plus["train"]:
-            text = f"{self.random.choice(instruction_bank)}\n\nFacts: {x['facts']}\nStatute(s):{','.join(x['statutes'])}"
-            yield self.build_data_point(prompt_language, answer_language, text,
+            instruction = self.random.choice(instruction_bank)
+            text = f"Facts: {x['facts']}\nStatute(s):{','.join(x['statutes'])}"
+            yield self.build_data_point(prompt_language, answer_language,
+                                        instruction, text,
                                         task_type, jurisdiction)
 
         # Legal judgement prediction tasks
@@ -37,12 +39,16 @@ class LboxOpen(AbstractDataset):
             reason = ""
             if x["reason"] != "" and x["reason"] != -1:
                 reason = f"Reason: {x['reason']}"
-            text = f"{self.random.choice(instruction_bank)}\n\nFacts: {x['facts']}\n{reason}\nRuling: {x['ruling']['text']}"
-            yield self.build_data_point(prompt_language, answer_language, text,
+            instruction = self.random.choice(instruction_bank)
+            text = f"Facts: {x['facts']}\n{reason}\nRuling: {x['ruling']['text']}"
+            yield self.build_data_point(prompt_language, answer_language,
+                                        instruction, text,
                                         task_type, jurisdiction)
 
         data_ljp_civil = load_dataset("lbox/lbox_open", "ljp_civil")
         for x in data_ljp_civil["train"]:
-            text = f"{self.random.choice(instruction_bank)}\n\nFacts: {x['facts'].strip()}\n\nClaims: {x['gist_of_claim']['text'].strip()}\n\nRuling: {x['ruling']['text']}"
-            yield self.build_data_point(prompt_language, answer_language, text,
+            instruction = self.random.choice(instruction_bank)
+            text = f"Facts: {x['facts'].strip()}\n\nClaims: {x['gist_of_claim']['text'].strip()}\n\nRuling: {x['ruling']['text']}"
+            yield self.build_data_point(prompt_language, answer_language,
+                                        instruction, text,
                                         task_type, jurisdiction)
