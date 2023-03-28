@@ -147,6 +147,5 @@ class BrazilianBarExam(AbstractDataset):
                             q["number"]]["comment"].replace("\n", "")
                         datapoint += f'\n\nAnalysis: {analysis}'
                 datapoint += f"\nAnswer: {correct_answer}."
-                yield self.build_data_point(prompt_language, "pt",
-                                            instruction, datapoint,
-                                            task_type, jurisdiction)
+                yield self.build_data_point(prompt_language, "pt", instruction,
+                                            datapoint, task_type, jurisdiction)

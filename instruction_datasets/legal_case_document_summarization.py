@@ -45,6 +45,5 @@ class LegalCaseDocumentSummarization(AbstractDataset):
             summary = example["summary"]
             instruction = self.random.choice(instruction_bank)
             text = build_summarization_answer(input, summary)
-            yield self.build_data_point(prompt_language, "en",
-                                        instruction, text, task_type,
-                                        jurisdiction)
+            yield self.build_data_point(prompt_language, "en", instruction,
+                                        text, task_type, jurisdiction)

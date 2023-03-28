@@ -4,7 +4,6 @@ from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
 
-
 _BLANK_INSTRUCTION = ''
 
 

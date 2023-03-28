@@ -32,5 +32,5 @@ class ReClor(AbstractDataset):
             correct_option = options_labels[data['label']]
             instruction = self.random.choice(instruction_bank)
             text = f"Question: {data['context']} {data['question']}\n{options}\nFinal Answer: The final answer is: {correct_option}. I hope it is correct."
-            yield self.build_data_point(prompt_language, "en", instruction, text, task_type,
-                                        jurisdiction)
+            yield self.build_data_point(prompt_language, "en", instruction,
+                                        text, task_type, jurisdiction)

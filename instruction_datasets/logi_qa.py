@@ -36,7 +36,7 @@ class LogiQA(AbstractDataset):
                     i += 1
                 instruction = self.random.choice(instruction_bank)
                 text = f"Question: {context.strip()} {question}{''.join(choices)}\n\nAnswer: ({correct.strip()})."
-                yield self.build_data_point(prompt_language, "zh", instruction, text,
-                                            task_type, jurisdiction)
+                yield self.build_data_point(prompt_language, "zh", instruction,
+                                            text, task_type, jurisdiction)
                 if i >= len(x):
                     break

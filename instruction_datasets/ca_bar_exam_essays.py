@@ -4,7 +4,6 @@ from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
 
-
 _BLANK_INSTRUCTION = ''
 
 
@@ -27,5 +26,5 @@ class CABarExamEssays(AbstractDataset):
             for exam in exams:
                 text = exam['text']
                 yield self.build_data_point(prompt_language, "en",
-                                            _BLANK_INSTRUCTION, text,
-                                            task_type, jurisdiction)
+                                            _BLANK_INSTRUCTION, text, task_type,
+                                            jurisdiction)

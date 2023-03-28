@@ -56,12 +56,12 @@ class GermanLER(AbstractDataset):
             instruction = self.random.choice(instruction_bank_fine)
             text = build_ner_answer(example['tokens'], tags)
             yield self.build_data_point(prompt_language, answer_language,
-                                        instruction, text,
-                                        task_type, jurisdiction)
+                                        instruction, text, task_type,
+                                        jurisdiction)
 
             tags = [ner_coarse_tags[tag] for tag in example["ner_coarse_tags"]]
             instruction = self.random.choice(instruction_bank_coarse)
             text = build_ner_answer(example['tokens'], tags)
             yield self.build_data_point(prompt_language, answer_language,
-                                        instruction, text,
-                                        task_type, jurisdiction)
+                                        instruction, text, task_type,
+                                        jurisdiction)

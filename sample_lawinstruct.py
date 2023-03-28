@@ -1,5 +1,7 @@
-from datasets import load_dataset, get_dataset_config_names
 import json
+
+from datasets import get_dataset_config_names
+from datasets import load_dataset
 
 num_samples = 100
 max_seq_len = 1024  # TODO test how much we can train LLaMA for on 4 80GB A100 GPUs

@@ -30,38 +30,40 @@ class BrCAD5(AbstractDataset):
             instruction = 'Determine what you think the Brazilian appeals court will rule for the case.'
             text = f"Case:{case}\nJudgement: {example['label']}"
             yield self.build_data_point(prompt_language, answer_language,
-                                        instruction, text,
-                                        task_type, jurisdiction)
+                                        instruction, text, task_type,
+                                        jurisdiction)
 
             # TODO: this isn't _really_ an instruction, just a question...
             instruction = 'What area of law is this case related to?'
             text = f"Case:{case}\nArea of Law: {example['current_case_class']}"
             yield self.build_data_point(prompt_language, answer_language,
-                                        instruction, text,
-                                        task_type, jurisdiction)
+                                        instruction, text, task_type,
+                                        jurisdiction)
 
             for level in ["1st", "2nd", "3rd"]:
-                 # TODO: this isn't _really_ an instruction, just a question...
+                # TODO: this isn't _really_ an instruction, just a question...
                 instruction = f"What {level}-level topic is this case related to?"
                 text = f"Case:{case}\nTopic: {example[f'case_topic_{level}_level']}"
                 yield self.build_data_point(prompt_language, answer_language,
-                                            instruction,
-                                            text, task_type, jurisdiction)
+                                            instruction, text, task_type,
+                                            jurisdiction)
 
             outcome_mc1 = ["(a)", "(b)"][['NÃO PROVIMENTO',
                                           'PROVIMENTO'].index(example["label"])]
-            instruction = self.random.choice(get_multiple_choice_instruction_bank())
+            instruction = self.random.choice(
+                get_multiple_choice_instruction_bank())
             text = f"Question: {case} How would the court find?\n(a) The court should dismiss the case.\n(b) The court should affirm the case.\n" \
                    f"Answer: {outcome_mc1}."
             yield self.build_data_point(prompt_language, answer_language,
-                                        instruction, text,
-                                        task_type, jurisdiction)
+                                        instruction, text, task_type,
+                                        jurisdiction)
 
             outcome_mc1 = ["(b)", "(a)"][['NÃO PROVIMENTO',
                                           'PROVIMENTO'].index(example["label"])]
-            instruction = self.random.choice(get_multiple_choice_instruction_bank())
+            instruction = self.random.choice(
+                get_multiple_choice_instruction_bank())
             text = f"Question: {case} How would the court find?\n(a) The court should approve the case.\n(b) The court should dismiss the case.\n" \
                    f"Answer: {outcome_mc1}."
             yield self.build_data_point(prompt_language, answer_language,
-                                        instruction, text,
-                                        task_type, jurisdiction)
+                                        instruction, text, task_type,
+                                        jurisdiction)

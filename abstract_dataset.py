@@ -10,6 +10,7 @@ import random
 import sys
 
 from tqdm import tqdm
+
 from enums import Jurisdiction
 from enums import TaskType
 import files
@@ -131,8 +132,7 @@ class AbstractDataset:
             raise ValueError(
                 f"datapoint.instruction must not be empty in {datapoint}")
         if not datapoint.text:
-            raise ValueError(
-                f"datapoint.text must not be empty in {datapoint}")
+            raise ValueError(f"datapoint.text must not be empty in {datapoint}")
         # text fields are last, so we can easily read the metadata (on servers,
         # for example)
         file.write(

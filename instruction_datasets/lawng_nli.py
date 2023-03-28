@@ -60,13 +60,12 @@ class LawngNli(AbstractDataset):
                 datapoint = f"Passage 1: {row[premise_col]}\n" \
                             f"Sentence 2: {row['hypothesis']}\n" \
                             f"Answer: {word4label[row['label']]}"
-                yield self.build_data_point(prompt_language, "en",
-                                            instruction, datapoint,
-                                            task_type, jurisdiction)
+                yield self.build_data_point(prompt_language, "en", instruction,
+                                            datapoint, task_type, jurisdiction)
                 # Add the contradicting datapoint.
                 instruction = self.random.choice(instruction_bank)
                 datapoint = f"Passage 1: {row[premise_col]}\n" \
                             f"Sentence 2: {row['contradicted_parenthetical']}\n" \
                             f"Answer: {label_reversal[word4label[row['label']]]}"
-                yield self.build_data_point(prompt_language, "en", instruction, datapoint,
-                                            task_type, jurisdiction)
+                yield self.build_data_point(prompt_language, "en", instruction,
+                                            datapoint, task_type, jurisdiction)

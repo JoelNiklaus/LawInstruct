@@ -60,5 +60,5 @@ class EurLexSum(AbstractDataset):
                 instruction = self.random.choice(instruction_bank)
                 text = build_summarization_answer(input, summary)
                 yield self.build_data_point(prompt_language, answer_language,
-                                            instruction,
-                                            text, task_type, jurisdiction)
+                                            instruction, text, task_type,
+                                            jurisdiction)

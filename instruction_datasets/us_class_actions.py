@@ -25,5 +25,5 @@ class USClassActions(AbstractDataset):
             instruction = self.random.choice(instruction_bank)
             text = f"{example['target_text']}\n\nLikely Verdict: {example['verdict']}"
             prompt_language = "en"
-            yield self.build_data_point(prompt_language, "en", instruction, text, task_type,
-                                        jurisdiction)
+            yield self.build_data_point(prompt_language, "en", instruction,
+                                        text, task_type, jurisdiction)

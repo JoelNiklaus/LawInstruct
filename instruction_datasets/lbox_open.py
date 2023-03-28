@@ -27,8 +27,8 @@ class LboxOpen(AbstractDataset):
             instruction = self.random.choice(instruction_bank)
             text = f"Facts: {x['facts']}\nStatute(s):{','.join(x['statutes'])}"
             yield self.build_data_point(prompt_language, answer_language,
-                                        instruction, text,
-                                        task_type, jurisdiction)
+                                        instruction, text, task_type,
+                                        jurisdiction)
 
         # Legal judgement prediction tasks
         data_ljp_criminal = load_dataset("lbox/lbox_open", "ljp_criminal")
@@ -42,13 +42,13 @@ class LboxOpen(AbstractDataset):
             instruction = self.random.choice(instruction_bank)
             text = f"Facts: {x['facts']}\n{reason}\nRuling: {x['ruling']['text']}"
             yield self.build_data_point(prompt_language, answer_language,
-                                        instruction, text,
-                                        task_type, jurisdiction)
+                                        instruction, text, task_type,
+                                        jurisdiction)
 
         data_ljp_civil = load_dataset("lbox/lbox_open", "ljp_civil")
         for x in data_ljp_civil["train"]:
             instruction = self.random.choice(instruction_bank)
             text = f"Facts: {x['facts'].strip()}\n\nClaims: {x['gist_of_claim']['text'].strip()}\n\nRuling: {x['ruling']['text']}"
             yield self.build_data_point(prompt_language, answer_language,
-                                        instruction, text,
-                                        task_type, jurisdiction)
+                                        instruction, text, task_type,
+                                        jurisdiction)

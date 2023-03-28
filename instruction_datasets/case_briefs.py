@@ -28,6 +28,5 @@ class CaseBriefs(AbstractDataset):
             example = example.split("Key Facts:")[0].split("Year:")[0]
             example = example.replace("Answer:", "Analysis:")
             instruction = self.random.choice(case_brief_instructions)
-            yield self.build_data_point(prompt_language, "en",
-                                        instruction, example, task_type,
-                                        jurisdiction)
+            yield self.build_data_point(prompt_language, "en", instruction,
+                                        example, task_type, jurisdiction)

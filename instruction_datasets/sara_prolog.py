@@ -34,9 +34,8 @@ class SaraProlog(AbstractDataset):
                     instruction = self.random.choice(instruction_bank)
                     datapoint = f"Statute:\n{f_normal.read()}\n\nProlog Program:\n\n{f_prolog.read()}"
                     yield self.build_data_point(prompt_language, "en",
-                                                instruction,
-                                                datapoint, task_type,
-                                                jurisdiction)
+                                                instruction, datapoint,
+                                                task_type, jurisdiction)
 
         instruction_bank = [
             "Convert the following fact pattern into prolog code. Then answer the question.",
@@ -81,6 +80,5 @@ class SaraProlog(AbstractDataset):
 
                 instruction = self.random.choice(instruction_bank)
                 datapoint = f"{facts_and_question}\n\nProlog Program:\n{program.strip()}\nAnswer: {answer}"
-                yield self.build_data_point(prompt_language, "en",
-                                            instruction, datapoint,
-                                            task_type, jurisdiction)
+                yield self.build_data_point(prompt_language, "en", instruction,
+                                            datapoint, task_type, jurisdiction)

@@ -31,5 +31,5 @@ class GermanRentalAgreements(AbstractDataset):
                     instruction = self.random.choice(instruction_bank)
                     text = f"{sentence}\n{label}"
                     yield self.build_data_point(prompt_language, "de",
-                                                instruction, text,
-                                                task_type, jurisdiction)
+                                                instruction, text, task_type,
+                                                jurisdiction)

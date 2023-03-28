@@ -39,6 +39,5 @@ class Lila(AbstractDataset):
                                     f"Program:\n```python\n{program}\n```\n" \
                                     f"Answer: {answer}"
                         yield self.build_data_point(prompt_language, "en",
-                                                    instruction,
-                                                    datapoint, task_type,
-                                                    jurisdiction)
+                                                    instruction, datapoint,
+                                                    task_type, jurisdiction)

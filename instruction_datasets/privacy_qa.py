@@ -23,6 +23,5 @@ class PrivacyQA(AbstractDataset):
             text = f"Q: {example['Query']}\n" \
                    f"Term: {example['Segment']}\n" \
                    f"A: {example['Label']}"
-            yield self.build_data_point(prompt_language, "en",
-                                        instruction, text, task_type,
-                                        jurisdiction)
+            yield self.build_data_point(prompt_language, "en", instruction,
+                                        text, task_type, jurisdiction)

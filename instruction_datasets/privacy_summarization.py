@@ -38,8 +38,7 @@ class PrivacySummarization(AbstractDataset):
             passage, label = record["QouteText"], record["Point"]
             # TODO: Should this really count as the instruction?
             instruction = introduction_sentence
-            text = (f"{passage}\n\n"
-                    f"{_TEXT4LABEL[label]}")
+            text = (f"{passage}\n\n" f"{_TEXT4LABEL[label]}")
             yield self.build_data_point(prompt_language, answer_language,
-                                        instruction, text,
-                                        task_type, jurisdiction)
+                                        instruction, text, task_type,
+                                        jurisdiction)

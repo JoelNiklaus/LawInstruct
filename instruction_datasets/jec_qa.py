@@ -31,6 +31,5 @@ class JECQA(AbstractDataset):
             for k, v in q["option_list"].items():
                 prompt += f"{k}. {v}\n"
             prompt += "\n\nFinal Answer(s): {','.join(q['answer'])}"
-            yield self.build_data_point(prompt_language, "zh",
-                                        instruction, prompt,
-                                        task_type, jurisdiction)
+            yield self.build_data_point(prompt_language, "zh", instruction,
+                                        prompt, task_type, jurisdiction)

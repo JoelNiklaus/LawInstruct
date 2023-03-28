@@ -25,10 +25,9 @@ class ContractNLI(AbstractDataset):
                 "Does the following Contract Passage entail/contradict/stand neutral to the Hypothesis?"
             ]
             for example in df:
-                instruction =  self.random.choice(instruction_bank)
+                instruction = self.random.choice(instruction_bank)
                 text = f"Contract Passage: {example['premise']}\n\n" \
                        f"Hypothesis: {example['hypothesis']}\n\n" \
                        f"Entailment: {class_label.int2str(example['label'])}"
-                yield self.build_data_point(prompt_language, "en",
-                                            instruction, text,
-                                            task_type, jurisdiction)
+                yield self.build_data_point(prompt_language, "en", instruction,
+                                            text, task_type, jurisdiction)

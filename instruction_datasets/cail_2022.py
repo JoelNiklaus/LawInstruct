@@ -41,26 +41,26 @@ class CAIL2022(AbstractDataset):
             datapoint = f"Plaintiff's Argument:{question['sc']}\n\n(a) {question['bc_1']}\n(b) {question['bc_2']}\n(c) {question['bc_3']}\n(d) {question['bc_4']}\n(e) {question['bc_5']}"
             datapoint += "Best counter-argument: {lookup[question['answer'] - 1]}"
             yield self.build_data_point(prompt_language, answer_language,
-                                        instruction,
-                                        datapoint, task_type, jurisdiction)
+                                        instruction, datapoint, task_type,
+                                        jurisdiction)
 
             task_type = TaskType.QUESTION_ANSWERING
             response = question[f"bc_{question['answer']}"]
             instruction = self.random.choice(instruction_bank)
             datapoint = f"Plaintiff's Argument:{question['sc']}\nDefendant's Response: {response}"
             yield self.build_data_point(prompt_language, answer_language,
-                                        instruction,
-                                        datapoint, task_type, jurisdiction)
+                                        instruction, datapoint, task_type,
+                                        jurisdiction)
 
             task_type = TaskType.TEXT_CLASSIFICATION
             instruction = self.random.choice(instruction_bank_crime)
             datapoint = f"Plaintiff's Argument:{question['sc']}\nDefendant's Response: {response}\nCrime: {question['crime']}"
             yield self.build_data_point(prompt_language, answer_language,
-                                        instruction,
-                                        datapoint, task_type, jurisdiction)
+                                        instruction, datapoint, task_type,
+                                        jurisdiction)
 
             instruction = self.random.choice(instruction_bank_crime)
             datapoint = f"{question['sc']}\nCrime: {question['crime']}"
             yield self.build_data_point(prompt_language, answer_language,
-                                        instruction,
-                                        datapoint, task_type, jurisdiction)
+                                        instruction, datapoint, task_type,
+                                        jurisdiction)

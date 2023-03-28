@@ -74,8 +74,8 @@ class ProfessionalLaw(AbstractDataset):
             datapoint = cur_question
 
             instruction = self.random.choice(instructions_examples)
-            yield self.build_data_point(prompt_language, "en", instruction, datapoint,
-                                        task_type, jurisdiction)
+            yield self.build_data_point(prompt_language, "en", instruction,
+                                        datapoint, task_type, jurisdiction)
 
             datapoint_zero_shot = datapoint.replace(
                 "The Final Answer: ", "Answer: ").split("###")[-1].strip()

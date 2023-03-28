@@ -474,18 +474,20 @@ class MAUD(AbstractDataset):
             instruction = self.random.choice(instruction_bank)
             text = f"{example['text']}\nWhat is the ABA category?\n{category}"
             yield self.build_data_point(prompt_language, answer_language,
-                                        instruction, text,
-                                        task_type, jurisdiction)
+                                        instruction, text, task_type,
+                                        jurisdiction)
 
             instruction = self.random.choice(instruction_bank)
             text = f"{example['text']}\nWhat is the ABA text type?\n{text_type}"
-            yield self.build_data_point(prompt_language, answer_language, instruction, text,
-                                        task_type, jurisdiction)
+            yield self.build_data_point(prompt_language, answer_language,
+                                        instruction, text, task_type,
+                                        jurisdiction)
 
             instruction = self.random.choice(instruction_bank)
             text = f"{example['text']}\nWhat is the ABA question?\n{question}"
-            yield self.build_data_point(prompt_language, answer_language, instruction, text,
-                                        task_type, jurisdiction)
+            yield self.build_data_point(prompt_language, answer_language,
+                                        instruction, text, task_type,
+                                        jurisdiction)
 
             try:
                 answers_lookup = info_dict[category][text_type][question]
@@ -500,5 +502,5 @@ class MAUD(AbstractDataset):
                        f"Possible answers: {','.join([f'{idx}: {answer}' for idx, answer in enumerate(answers_lookup)])}\n" \
                        f"Correct answer: {answers_lookup.index(answer)}: {answer}"
                 yield self.build_data_point(prompt_language, answer_language,
-                                            instruction,
-                                            text, task_type, jurisdiction)
+                                            instruction, text, task_type,
+                                            jurisdiction)

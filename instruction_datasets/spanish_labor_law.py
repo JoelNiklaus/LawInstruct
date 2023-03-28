@@ -27,5 +27,5 @@ class SpanishLaborLaw(AbstractDataset):
                 "Answer text"]
             instruction = self.random.choice(instruction_bank)
             text = f"Context: {context}\nQ: {question}\nA: {answer}"
-            yield self.build_data_point(prompt_language, "es", instruction, text, task_type,
-                                        jurisdiction)
+            yield self.build_data_point(prompt_language, "es", instruction,
+                                        text, task_type, jurisdiction)

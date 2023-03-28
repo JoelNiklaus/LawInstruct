@@ -32,18 +32,18 @@ class MultiLexSum(AbstractDataset):
                 summary = example["summary/short"]
                 instruction = self.random.choice(instruction_bank)
                 text = build_summarization_answer(input, summary)
-                yield self.build_data_point(prompt_language, "en", instruction, text,
-                                            task_type, jurisdiction)
+                yield self.build_data_point(prompt_language, "en", instruction,
+                                            text, task_type, jurisdiction)
             if example["summary/tiny"]:
                 summary = example["summary/tiny"]
                 instruction = self.random.choice(instruction_bank)
                 text = build_summarization_answer(input, summary)
-                yield self.build_data_point(prompt_language, "en", instruction, text,
-                                            task_type, jurisdiction)
+                yield self.build_data_point(prompt_language, "en", instruction,
+                                            text, task_type, jurisdiction)
             if example["summary/short"] and example["summary/tiny"]:
                 input = example["summary/short"]
                 summary = example["summary/tiny"]
                 instruction = self.random.choice(instruction_bank)
                 text = build_summarization_answer(input, summary)
-                yield self.build_data_point(prompt_language, "en", instruction, text,
-                                            task_type, jurisdiction)
+                yield self.build_data_point(prompt_language, "en", instruction,
+                                            text, task_type, jurisdiction)

@@ -44,9 +44,11 @@ class ValidWills(AbstractDataset):
                     correct_option = choice_letter
                 option_mc_string += f"{choice_letter} {option}\n"
             prompt_mc = f"Statement: {statement}\n\nLaw: {law}\n\nCondition: {conditions}\n\n{option_mc_string}\n\nAnswer: {correct_option}"
-            yield self.build_data_point(prompt_language, "en", instruction, prompt,
-                                        task_type, jurisdiction)
-            yield self.build_data_point(prompt_language, "en", _BLANK_INSTRUCTION, prompt2,
-                                        task_type, jurisdiction)
-            yield self.build_data_point(prompt_language, "en", _BLANK_INSTRUCTION, prompt_mc,
+            yield self.build_data_point(prompt_language, "en", instruction,
+                                        prompt, task_type, jurisdiction)
+            yield self.build_data_point(prompt_language, "en",
+                                        _BLANK_INSTRUCTION, prompt2, task_type,
+                                        jurisdiction)
+            yield self.build_data_point(prompt_language, "en",
+                                        _BLANK_INSTRUCTION, prompt_mc,
                                         task_type, jurisdiction)

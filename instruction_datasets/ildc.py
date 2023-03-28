@@ -30,15 +30,13 @@ class ILDC(AbstractDataset):
                 "label"] == 0 else "Court Decision: Accept"
             instruction = self.random.choice(instruction_bank)
             datapoint = f"{row['text']}\n\n{decision}"
-            yield self.build_data_point(prompt_language, "en",
-                                        instruction, datapoint,
-                                        task_type, jurisdiction)
+            yield self.build_data_point(prompt_language, "en", instruction,
+                                        datapoint, task_type, jurisdiction)
 
         for idx, row in df2.iterrows():
             decision = "Court Decision: Reject" if row[
                 "label"] == 0 else "Court Decision: Accept"
             instruction = self.random.choice(instruction_bank)
             datapoint = f"{row['text']}\n\n{decision}"
-            yield self.build_data_point(prompt_language, "en",
-                                        instruction, datapoint,
-                                        task_type, jurisdiction)
+            yield self.build_data_point(prompt_language, "en", instruction,
+                                        datapoint, task_type, jurisdiction)

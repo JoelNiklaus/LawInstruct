@@ -57,21 +57,19 @@ class MBE(AbstractDataset):
             # else:
             #     source_year_string = ""
             instruction = self.random.choice(instructions_examples)
-            yield self.build_data_point(prompt_language, "en", instruction, datapoint,
-                                        task_type, jurisdiction)
+            yield self.build_data_point(prompt_language, "en", instruction,
+                                        datapoint, task_type, jurisdiction)
 
             if isinstance(subject, str) and subject.strip() != "":
                 # Datapoint with subject.
                 instruction = self.random.choice(instruction_bank_subject)
                 datapoint = f"{data_no_answer}\nSubject: {subject}"
                 yield self.build_data_point(prompt_language, "en", instruction,
-                                            datapoint,
-                                            task_type, jurisdiction)
+                                            datapoint, task_type, jurisdiction)
 
                 # Datapoint for generation with subject.
                 instruction = self.random.choice(
-                    instruction_bank_subject_generation
-                ) + subject
+                    instruction_bank_subject_generation) + subject
                 yield self.build_data_point(prompt_language, "en", instruction,
-                                            data_with_answer,
-                                            task_type, jurisdiction)
+                                            data_with_answer, task_type,
+                                            jurisdiction)

@@ -36,5 +36,5 @@ class XP3MT(AbstractDataset):
                                          low_memory=True)['lang']
                 answer_language = lang if lang != "code" else "en"
                 yield self.build_data_point(prompt_language, answer_language,
-                                            _BLANK_INSTRUCTIONS,
-                                            text, task_type, jurisdiction)
+                                            _BLANK_INSTRUCTIONS, text,
+                                            task_type, jurisdiction)

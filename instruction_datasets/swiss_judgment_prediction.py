@@ -4,7 +4,6 @@ from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
 
-
 _BLANK_INSTRUCTION = ''
 
 
@@ -34,37 +33,39 @@ class SwissJudgmentPrediction(AbstractDataset):
             instruction = f"Determine if you think the Swiss court will dismiss or approve the case. {court_location}"
             text = f"Facts:{example['text']}\nJudgement: {judgement}"
             yield self.build_data_point(prompt_language, example["language"],
-                                        instruction,
-                                        text, task_type, jurisdiction)
+                                        instruction, text, task_type,
+                                        jurisdiction)
 
             instruction = "What area of law is this case related to?"
             text = f"Case:{example['text']}\nArea of Law: {example['legal area']}"
             yield self.build_data_point(prompt_language, example["language"],
-                                        instruction,
-                                        text, task_type, jurisdiction)
+                                        instruction, text, task_type,
+                                        jurisdiction)
 
             if court_location != "":
                 instruction = "Where do you think this case was adjudicated?"
                 text = f"Case:{example['text']}\nRegion: {example['region']}"
                 yield self.build_data_point(prompt_language,
-                                            example["language"], instruction, text,
-                                            task_type, jurisdiction)
+                                            example["language"], instruction,
+                                            text, task_type, jurisdiction)
 
             task_type = TaskType.MULTIPLE_CHOICE
             outcome_mc1 = ["(a)", "(b)"][example["label"]]
             text = example['text']
-            instruction = self.random.choice(get_multiple_choice_instruction_bank())
+            instruction = self.random.choice(
+                get_multiple_choice_instruction_bank())
             text = f"Question: {text} How would the court find?\n(a) The court should dismiss the case.\n(b) The court should affirm the case.\n" \
                    f"Answer: {outcome_mc1}."
             yield self.build_data_point(prompt_language, example["language"],
-                                        instruction,
-                                        text, task_type, jurisdiction)
+                                        instruction, text, task_type,
+                                        jurisdiction)
 
             outcome_mc1 = ["(b)", "(a)"][example["label"]]
             text = example['text']
-            instruction = self.random.choice(get_multiple_choice_instruction_bank())
+            instruction = self.random.choice(
+                get_multiple_choice_instruction_bank())
             text = f"Question: {text} How would the court find?\n(a) The court should approve the case.\n(b) The court should dismiss the case.\n" \
                    f"Answer: {outcome_mc1}."
             yield self.build_data_point(prompt_language, example["language"],
-                                        instruction,
-                                        text, task_type, jurisdiction)
+                                        instruction, text, task_type,
+                                        jurisdiction)

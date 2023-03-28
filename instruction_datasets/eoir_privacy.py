@@ -31,6 +31,5 @@ class EOIRPrivacy(AbstractDataset):
             lookup = ["Don't use pseudonym.", "Use pseudonym."]
             instruction = self.random.choice(instruction_bank)
             text = f"{example['text']}\n{lookup[example['label']]}"
-            yield self.build_data_point(prompt_language, "en",
-                                        instruction, text, task_type,
-                                        jurisdiction)
+            yield self.build_data_point(prompt_language, "en", instruction,
+                                        text, task_type, jurisdiction)

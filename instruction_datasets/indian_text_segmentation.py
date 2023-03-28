@@ -58,5 +58,5 @@ class IndianTextSegmentation(AbstractDataset):
                     f"\n\nRole: {_CATEGORIES[label]}")
 
                 yield self.build_data_point(prompt_language, answer_language,
-                                            _BLANK_INSTRUCTION,
-                                            text, task_type, jurisdiction)
+                                            _BLANK_INSTRUCTION, text, task_type,
+                                            jurisdiction)

@@ -27,6 +27,5 @@ class LegalQA(AbstractDataset):
         for q, a in zip(df['question: body'], df['answer']):
             instruction = self.random.choice(instruction_bank)
             text = f"Q:{q}\nA:{a}"
-            yield self.build_data_point(prompt_language, "zh",
-                                        instruction, text, task_type,
-                                        jurisdiction)
+            yield self.build_data_point(prompt_language, "zh", instruction,
+                                        text, task_type, jurisdiction)

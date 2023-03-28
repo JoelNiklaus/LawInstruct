@@ -43,6 +43,5 @@ class PlainEnglishContractsSummarization(AbstractDataset):
             summary = example["reference_summary"]
             instruction = self.random.choice(instruction_bank)
             text = f"{build_summarization_answer(input, summary)}"
-            yield self.build_data_point(prompt_language, "en",
-                                        instruction, text, task_type,
-                                        jurisdiction)
+            yield self.build_data_point(prompt_language, "en", instruction,
+                                        text, task_type, jurisdiction)

@@ -79,8 +79,8 @@ class BVADecisions(AbstractDataset):
                 role = ",".join(sentence['rhetRole'])
             instruction = self.random.choice(instruction_bank)
             datapoint = f"Sentence: {sentence['text'].strip()}\nRhetorical Role: {role.strip()}"
-            yield self.build_data_point(prompt_language, "en", instruction, datapoint,
-                                        task_type, jurisdiction)
+            yield self.build_data_point(prompt_language, "en", instruction,
+                                        datapoint, task_type, jurisdiction)
 
         task_type = TaskType.QUESTION_ANSWERING
         instruction_bank = [
@@ -94,6 +94,5 @@ class BVADecisions(AbstractDataset):
             datapoint = f"Claim: {tree_rule.strip()}"
             if datapoint not in known_data:
                 yield self.build_data_point(prompt_language, "en", instruction,
-                                            datapoint,
-                                            task_type, jurisdiction)
+                                            datapoint, task_type, jurisdiction)
                 known_data.append(datapoint)
