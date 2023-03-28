@@ -34,6 +34,8 @@ class ChangeMyView(AbstractDataset):
                 else:
                     body = d['positive']['comments'][0]['body'].strip()
                 op = d['op_text'].split("EDIT:")[0].strip()
-                text = f"{self.random.choice(instruction_bank)}\n\nArgument: {op}\n\nCounter-argument: {body}"
-                yield self.build_data_point(prompt_language, "en", text,
+                instruction = self.random.choice(instruction_bank)
+                text = f"Argument: {op}\n\nCounter-argument: {body}"
+                yield self.build_data_point(prompt_language, "en",
+                                            instruction, text,
                                             task_type, jurisdiction)
