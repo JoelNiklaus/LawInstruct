@@ -471,16 +471,20 @@ class MAUD(AbstractDataset):
             answer = example["answer"]
 
             task_type = TaskType.TEXT_CLASSIFICATION
-            text = f"{self.random.choice(instruction_bank)}.\n\n{example['text']}\nWhat is the ABA category?\n{category}"
-            yield self.build_data_point(prompt_language, answer_language, text,
+            instruction = self.random.choice(instruction_bank)
+            text = f"{example['text']}\nWhat is the ABA category?\n{category}"
+            yield self.build_data_point(prompt_language, answer_language,
+                                        instruction, text,
                                         task_type, jurisdiction)
 
-            text = f"{self.random.choice(instruction_bank)}.\n\n{example['text']}\nWhat is the ABA text type?\n{text_type}"
-            yield self.build_data_point(prompt_language, answer_language, text,
+            instruction = self.random.choice(instruction_bank)
+            text = f"{example['text']}\nWhat is the ABA text type?\n{text_type}"
+            yield self.build_data_point(prompt_language, answer_language, instruction, text,
                                         task_type, jurisdiction)
 
-            text = f"{self.random.choice(instruction_bank)}.\n\n{example['text']}\nWhat is the ABA question?\n{question}"
-            yield self.build_data_point(prompt_language, answer_language, text,
+            instruction = self.random.choice(instruction_bank)
+            text = f"{example['text']}\nWhat is the ABA question?\n{question}"
+            yield self.build_data_point(prompt_language, answer_language, instruction, text,
                                         task_type, jurisdiction)
 
             try:
@@ -490,10 +494,11 @@ class MAUD(AbstractDataset):
             # do not distinguish between multiple choice and multilabel, since the multilabel ones do not seem to be really multilabel
             if answer in answers_lookup:
                 task_type = TaskType.MULTIPLE_CHOICE
-                text = f"{self.random.choice(instruction_bank)}\n\n" \
-                       f"{example['text']}\n\n" \
+                instruction = self.random.choice(instruction_bank)
+                text = f"{example['text']}\n\n" \
                        f"Answer this question: {question}\n\n" \
                        f"Possible answers: {','.join([f'{idx}: {answer}' for idx, answer in enumerate(answers_lookup)])}\n" \
                        f"Correct answer: {answers_lookup.index(answer)}: {answer}"
                 yield self.build_data_point(prompt_language, answer_language,
+                                            instruction,
                                             text, task_type, jurisdiction)
