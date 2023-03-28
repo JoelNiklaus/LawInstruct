@@ -4,6 +4,8 @@ from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
 
+_BLANK_INSTRUCTION = ""
+
 
 class ValidWills(AbstractDataset):
 
@@ -28,7 +30,8 @@ class ValidWills(AbstractDataset):
                 "conditions"], row["law"], row["classification"]
             CLASSIFICATION_MAP = ['refuted', 'supported', 'unrelated']
             classification = CLASSIFICATION_MAP[classification]
-            prompt = f"{self.random.choice(instruction_bank)}\n\nStatement: {statement}\n\nLaw: {law}\n\nCondition: {conditions}\n\nAnswer: {classification}"
+            instruction = self.random.choice(instruction_bank)
+            prompt = f"Statement: {statement}\n\nLaw: {law}\n\nCondition: {conditions}\n\nAnswer: {classification}"
             prompt2 = f"Statement: {statement}\n\nLaw: {law}\n\nCondition: {conditions}\n\nIs the statement supported by the law and condition?\n\nAnswer: {classification}"
 
             options_mc = ["supported", "refuted", "unrelated"]
@@ -41,9 +44,9 @@ class ValidWills(AbstractDataset):
                     correct_option = choice_letter
                 option_mc_string += f"{choice_letter} {option}\n"
             prompt_mc = f"Statement: {statement}\n\nLaw: {law}\n\nCondition: {conditions}\n\n{option_mc_string}\n\nAnswer: {correct_option}"
-            yield self.build_data_point(prompt_language, "en", prompt,
+            yield self.build_data_point(prompt_language, "en", instruction, prompt,
                                         task_type, jurisdiction)
-            yield self.build_data_point(prompt_language, "en", prompt2,
+            yield self.build_data_point(prompt_language, "en", _BLANK_INSTRUCTION, prompt2,
                                         task_type, jurisdiction)
-            yield self.build_data_point(prompt_language, "en", prompt_mc,
+            yield self.build_data_point(prompt_language, "en", _BLANK_INSTRUCTION, prompt_mc,
                                         task_type, jurisdiction)
