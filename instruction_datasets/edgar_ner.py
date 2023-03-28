@@ -68,7 +68,7 @@ class EdgarNER(AbstractDataset):
                          names=["Word", "Tag"],
                          na_filter=False)
         task_type = TaskType.NAMED_ENTITY_RECOGNITION
-        jurisdiction = Jurisdiction.GREECE
+        jurisdiction = Jurisdiction.US
         prompt_language = "en"
         answer_language = "en"  # TODO: following GermanLER here; it's actually a structured representation though...
 
