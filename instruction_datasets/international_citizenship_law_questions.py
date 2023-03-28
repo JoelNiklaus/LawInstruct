@@ -5,6 +5,9 @@ from enums import Jurisdiction
 from enums import TaskType
 
 
+_BLANK_INSTRUCTION = ''
+
+
 class InternationalCitizenshipLawQuestions(AbstractDataset):
 
     def __init__(self):
@@ -43,13 +46,15 @@ class InternationalCitizenshipLawQuestions(AbstractDataset):
             code_year_spec_answer = ["No.", "Yes."][code_year_spec]
             q = code_dictionary[code_dictionary["Mode ID"] ==
                                 mode_id.strip()]["Focus"].values[0]
+
             if "No provision" in law_article:
                 datapoint = f"Q: Consider the country of {country.strip()}. {q.strip()}\nA: {code_year_spec_answer} This is not covered in any provision."
             else:
                 datapoint = f"Q: Consider the country of {country.strip()}. {q.strip()}\nA: {code_year_spec_answer} This is covered in: {law_article}. {specification}".strip(
                 )
 
-            yield self.build_data_point(prompt_language, "en", datapoint,
+            yield self.build_data_point(prompt_language, "en",
+                                        _BLANK_INSTRUCTION, datapoint,
                                         task_type, jurisdiction)
 
         for idx, row in df2.iterrows():
