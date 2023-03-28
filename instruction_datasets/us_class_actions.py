@@ -22,7 +22,8 @@ class USClassActions(AbstractDataset):
             "Will this class action complaint be successful in U.S. Court?"
         ]
         for example in df:
-            text = f"{self.random.choice(instruction_bank)}\n\n{example['target_text']}\n\nLikely Verdict: {example['verdict']}"
+            instruction = self.random.choice(instruction_bank)
+            text = f"{example['target_text']}\n\nLikely Verdict: {example['verdict']}"
             prompt_language = "en"
-            yield self.build_data_point(prompt_language, "en", text, task_type,
+            yield self.build_data_point(prompt_language, "en", instruction, text, task_type,
                                         jurisdiction)
