@@ -28,6 +28,8 @@ class GermanRentalAgreements(AbstractDataset):
                 label = example[f"label_{num_classes}_classes"]
                 sentence = example[f"text_{num_classes}_classes"]
                 if sentence and label:
-                    text = f"{self.random.choice(instruction_bank)}\n\n{sentence}\n{label}"
-                    yield self.build_data_point(prompt_language, "de", text,
+                    instruction = self.random.choice(instruction_bank)
+                    text = f"{sentence}\n{label}"
+                    yield self.build_data_point(prompt_language, "de",
+                                                instruction, text,
                                                 task_type, jurisdiction)
