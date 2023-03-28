@@ -72,13 +72,18 @@ class CiviproQuestions(AbstractDataset):
             except:
                 print(f"Skipping {question} because of some problem.")
                 continue
-            datapoint_with_passage = f"{self.random.choice(instruction_bank_generate_questions_from_passage)}\n\n{values['explanation_passage']}\n\nQuestion: {question}\n{choice_string}\nAnswer: {correct_answer}"
-            datapoint_no_passage = f"{self.random.choice(instruction_bank_generate_questions_no_passage)}\n\nQuestion: {question}\n{choice_string}\nExplanation: {analysis_string}\nAnswer: {correct_answer}"
-            datapoint_no_explanation = f"{self.random.choice(instruction_bank_generate_questions_no_explanation)}\n\nQuestion: {question}\n{choice_string}\nAnswer: {correct_answer}"
+            # TODO: should the 'explanation_passage' be part of the instructions?
+            instruction_with_passage = self.random.choice(instruction_bank_generate_questions_from_passage)
+            datapoint_with_passage = f"{values['explanation_passage']}\n\nQuestion: {question}\n{choice_string}\nAnswer: {correct_answer}"
+            instruction_no_passage = self.random.choice(instruction_bank_generate_questions_no_passage)
+            datapoint_no_passage = f"Question: {question}\n{choice_string}\nExplanation: {analysis_string}\nAnswer: {correct_answer}"
+            instruction_no_explanation = self.random.choice(instruction_bank_generate_questions_no_explanation)
+            datapoint_no_explanation = f"Question: {question}\n{choice_string}\nAnswer: {correct_answer}"
 
-            for datapoint in [
-                    datapoint_no_passage, datapoint_no_explanation,
-                    datapoint_with_passage
-            ]:
-                yield self.build_data_point(prompt_language, "en", datapoint,
+            for instruction, datapoint in zip(
+                    [instruction_with_passage, instruction_no_passage, instruction_no_explanation],
+                    [datapoint_no_passage, datapoint_no_explanation, datapoint_with_passage]
+            ):
+                yield self.build_data_point(prompt_language, "en",
+                                            instruction, datapoint,
                                             task_type, jurisdiction)
