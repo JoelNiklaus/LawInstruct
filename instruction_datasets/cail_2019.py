@@ -31,6 +31,8 @@ class CAIL2019(AbstractDataset):
                         else:
                             answer = ", ".join(
                                 [a['text'] for a in question['answers']])
-                        text = f"{self.random.choice(instruction_bank)}\n\n{paragraph['context']}\n\nQuestion:{question['question']}\nAnswer:{answer}"
-                        yield self.build_data_point(prompt_language, "zh", text,
+                        instruction = self.random.choice(instruction_bank)
+                        text = f"{paragraph['context']}\n\nQuestion:{question['question']}\nAnswer:{answer}"
+                        yield self.build_data_point(prompt_language, "zh",
+                                                    instruction, text,
                                                     task_type, jurisdiction)

@@ -62,5 +62,5 @@ class CAIL2022(AbstractDataset):
             instruction = self.random.choice(instruction_bank_crime)
             datapoint = f"{question['sc']}\nCrime: {question['crime']}"
             yield self.build_data_point(prompt_language, answer_language,
-                                        instruction, 
+                                        instruction,
                                         datapoint, task_type, jurisdiction)
