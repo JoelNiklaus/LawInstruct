@@ -31,8 +31,10 @@ class SaraProlog(AbstractDataset):
                         os.path.join(
                             f"{self.raw_data_dir}/sara_statutes/prolog/",
                             json_file) + ".pl", "r") as f_prolog:
-                    datapoint = f"{self.random.choice(instruction_bank)}\n\nStatute:\n{f_normal.read()}\n\nProlog Program:\n\n{f_prolog.read()}"
+                    instruction = self.random.choice(instruction_bank)
+                    datapoint = f"Statute:\n{f_normal.read()}\n\nProlog Program:\n\n{f_prolog.read()}"
                     yield self.build_data_point(prompt_language, "en",
+                                                instruction,
                                                 datapoint, task_type,
                                                 jurisdiction)
 
@@ -77,6 +79,8 @@ class SaraProlog(AbstractDataset):
                     "% Question", "\nQuestion:")
                 facts_and_question = facts_and_question.replace("%", "").strip()
 
-                datapoint = f"{self.random.choice(instruction_bank)}\n\n{facts_and_question}\n\nProlog Program:\n{program.strip()}\nAnswer: {answer}"
-                yield self.build_data_point(prompt_language, "en", datapoint,
+                instruction = self.random.choice(instruction_bank)
+                datapoint = f"{facts_and_question}\n\nProlog Program:\n{program.strip()}\nAnswer: {answer}"
+                yield self.build_data_point(prompt_language, "en",
+                                            instruction, datapoint,
                                             task_type, jurisdiction)
