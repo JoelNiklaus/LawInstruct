@@ -1,8 +1,8 @@
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 INFO_STR = """
 CATEGORY: General Information
@@ -458,7 +458,7 @@ class MAUD(AbstractDataset):
             "Consider the following deal point text from a US merger agreement.",
             "Look at the following deal point text from a US merger agreement.",
         ]
-        jurisdiction = JURISDICTION.US
+        jurisdiction = Jurisdiction.US
         prompt_language = "en"
         answer_language = "en"
 
@@ -470,7 +470,7 @@ class MAUD(AbstractDataset):
             subquestion = example["subquestion"]
             answer = example["answer"]
 
-            task_type = TASK_TYPE.TEXT_CLASSIFICATION
+            task_type = TaskType.TEXT_CLASSIFICATION
             text = f"{self.random.choice(instruction_bank)}.\n\n{example['text']}\nWhat is the ABA category?\n{category}"
             yield self.build_data_point(prompt_language, answer_language, text,
                                         task_type, jurisdiction)
@@ -489,7 +489,7 @@ class MAUD(AbstractDataset):
                 continue  # if it errors, just skip this example
             # do not distinguish between multiple choice and multilabel, since the multilabel ones do not seem to be really multilabel
             if answer in answers_lookup:
-                task_type = TASK_TYPE.MULTIPLE_CHOICE
+                task_type = TaskType.MULTIPLE_CHOICE
                 text = f"{self.random.choice(instruction_bank)}\n\n" \
                        f"{example['text']}\n\n" \
                        f"Answer this question: {question}\n\n" \

@@ -5,8 +5,8 @@ import pathlib
 from tqdm.auto import tqdm
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 from .greek_ner import NerTags
 
@@ -17,9 +17,9 @@ class IndianNerTags(NerTags):
     def _tags(self) -> list[str]:
         # O wasn't in the original dataset, but we need for our representation.
         return [
-            'O', 'COURT', 'PETITIONER', 'RESPONDENT', 'JUDGE', 'LAWYER',
-            'DATE', 'ORG', 'GPE', 'STATUTE', 'PROVISION', 'PRECEDENT',
-            'CASE_NUMBER', 'WITNESS', 'OTHER_PERSON'
+            'O', 'COURT', 'PETITIONER', 'RESPONDENT', 'JUDGE', 'LAWYER', 'DATE',
+            'ORG', 'GPE', 'STATUTE', 'PROVISION', 'PRECEDENT', 'CASE_NUMBER',
+            'WITNESS', 'OTHER_PERSON'
         ]
 
 
@@ -41,8 +41,8 @@ class IndianNER(AbstractDataset):
             f"{self.raw_data_dir}/NER_TRAIN_JUDGEMENT.json")
 
     def get_data(self) -> Iterator[dict]:
-        task_type = TASK_TYPE.NAMED_ENTITY_RECOGNITION
-        jurisdiction = JURISDICTION.INDIA
+        task_type = TaskType.NAMED_ENTITY_RECOGNITION
+        jurisdiction = Jurisdiction.INDIA
         prompt_language = "en"
         answer_language = "hi"  # TODO: following GermanLER here; it's actually a structured representation though...
 

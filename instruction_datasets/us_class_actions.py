@@ -1,8 +1,8 @@
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class USClassActions(AbstractDataset):
@@ -15,8 +15,8 @@ class USClassActions(AbstractDataset):
 
     def get_data(self):
         df = load_dataset("darrow-ai/USClassActions", split="train")
-        task_type = TASK_TYPE.TEXT_CLASSIFICATION
-        jurisdiction = JURISDICTION.US
+        task_type = TaskType.TEXT_CLASSIFICATION
+        jurisdiction = Jurisdiction.US
         instruction_bank = [
             "Read the following United States class action complaint. Predict whether the complaint will be won or not. Output \"win\" or \"lose\".",
             "Will this class action complaint be successful in U.S. Court?"

@@ -1,8 +1,8 @@
 import json
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class TsccAlqac(AbstractDataset):
@@ -34,8 +34,8 @@ class TsccAlqac(AbstractDataset):
             f"{given_facts_output_rules} and provide the legal conclusion of whether the court is likely to find the defendant guilty or not guilty.",
         ]
 
-        task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.THAILAND
+        task_type = TaskType.QUESTION_ANSWERING
+        jurisdiction = Jurisdiction.THAILAND
         prompt_language = "en"
         answer_language = "th"
 

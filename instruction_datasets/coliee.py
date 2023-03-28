@@ -1,8 +1,8 @@
 import json
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class COLIEE(AbstractDataset):
@@ -12,13 +12,13 @@ class COLIEE(AbstractDataset):
                          "https://sites.ualberta.ca/~rabelo/COLIEE2022/")
 
     def get_data(self):
-        jurisdiction = JURISDICTION.JAPAN
+        jurisdiction = Jurisdiction.JAPAN
         prompt_language = "en"
 
         answer_languages = ["en", "jp"]
 
         # Given two passages, determine entailment
-        task_type = TASK_TYPE.NATURAL_LANGUAGE_INFERENCE
+        task_type = TaskType.NATURAL_LANGUAGE_INFERENCE
 
         for answer_language in answer_languages:
             with open(
@@ -32,7 +32,7 @@ class COLIEE(AbstractDataset):
                                                 task_type, jurisdiction)
 
         # Given a legal passage, generate an entailed question
-        task_type = TASK_TYPE.QUESTION_GENERATION
+        task_type = TaskType.QUESTION_GENERATION
         for answer_language in answer_languages:
             with open(
                     f"{self.raw_data_dir}/coliee/task3/generate_entailed_question/train_{answer_language}.jsonl"
@@ -45,7 +45,7 @@ class COLIEE(AbstractDataset):
                                                 task_type, jurisdiction)
 
         # Given a question, provide the relevant legal rule for answering the question and the answer
-        task_type = TASK_TYPE.QUESTION_ANSWERING
+        task_type = TaskType.QUESTION_ANSWERING
         for answer_language in answer_languages:
             with open(
                     f"{self.raw_data_dir}/coliee/task4/train_{answer_language}.jsonl"

@@ -4,8 +4,8 @@ import os
 import toml
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class Littleton(AbstractDataset):
@@ -23,8 +23,8 @@ class Littleton(AbstractDataset):
             "Consider the law of future interests and conveyances in American property law. Consider the chain of events and then state the interests.",
             "According to American law, consider the chain of events and future interests."
         ]
-        task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.US
+        task_type = TaskType.QUESTION_ANSWERING
+        jurisdiction = Jurisdiction.US
         prompt_language = "en"
 
         for json_file in json_files:

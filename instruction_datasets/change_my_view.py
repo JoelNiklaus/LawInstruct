@@ -1,8 +1,8 @@
 import json
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class ChangeMyView(AbstractDataset):
@@ -22,8 +22,8 @@ class ChangeMyView(AbstractDataset):
             "Write a counter argument to the r/changemyview post.",
             "Write a counterargument to this reddit post."
         ]
-        task_type = TASK_TYPE.ARGUMENTATION
-        jurisdiction = JURISDICTION.UNKNOWN
+        task_type = TaskType.ARGUMENTATION
+        jurisdiction = Jurisdiction.UNKNOWN
         prompt_language = "en"
 
         with open(f"{self.raw_data_dir}/train_pair_data.jsonlist") as f:

@@ -1,8 +1,8 @@
 from datasets import load_dataset
 from tqdm import tqdm
 
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 from instruction_datasets.abstract_natural_instructions import \
     AbstractNaturalInstructions
 from instruction_datasets.abstract_natural_instructions import \
@@ -32,8 +32,8 @@ class NaturalInstructionsOther(AbstractNaturalInstructions):
 
         for example in tqdm(other_datasets):
             answer_language = get_first_lang_code(example["Input_language"])
-            task_type = TASK_TYPE.UNKNOWN
-            jurisdiction = JURISDICTION.N_A
+            task_type = TaskType.UNKNOWN
+            jurisdiction = Jurisdiction.N_A
 
             for collator in self.collators:
                 encoded_example = collator([example])

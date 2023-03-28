@@ -1,8 +1,8 @@
 import os
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class SaraProlog(AbstractDataset):
@@ -15,8 +15,8 @@ class SaraProlog(AbstractDataset):
             "Convert the following statute into prolog code.",
             "Write a prolog program to convert the statute into code, denote it as \"Prolog Program:\"."
         ]
-        task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.US
+        task_type = TaskType.QUESTION_ANSWERING
+        jurisdiction = Jurisdiction.US
         prompt_language = "en"
 
         json_files = [
@@ -45,13 +45,12 @@ class SaraProlog(AbstractDataset):
             for pos_json in os.listdir(f"{self.raw_data_dir}/sara_cases/")
             if pos_json != "train"
         ]
-        with open(f"{self.raw_data_dir}/sara_cases/train",
-                  "r") as train_list_f:
+        with open(f"{self.raw_data_dir}/sara_cases/train", "r") as train_list_f:
             train_list = [x.strip() for x in train_list_f.readlines()]
         for json_file in json_files:
             with open(
-                    os.path.join(f"{self.raw_data_dir}/sara_cases/",
-                                 json_file), "r") as f_normal:
+                    os.path.join(f"{self.raw_data_dir}/sara_cases/", json_file),
+                    "r") as f_normal:
                 if json_file.split(".pl")[0] not in train_list:
                     print(f"Skipping {json_file}")
                 text = f_normal.read()
@@ -76,8 +75,7 @@ class SaraProlog(AbstractDataset):
                     "% Text", "Facts:")
                 facts_and_question = facts_and_question.replace(
                     "% Question", "\nQuestion:")
-                facts_and_question = facts_and_question.replace("%",
-                                                                "").strip()
+                facts_and_question = facts_and_question.replace("%", "").strip()
 
                 datapoint = f"{self.random.choice(instruction_bank)}\n\n{facts_and_question}\n\nProlog Program:\n{program.strip()}\nAnswer: {answer}"
                 yield self.build_data_point(prompt_language, "en", datapoint,

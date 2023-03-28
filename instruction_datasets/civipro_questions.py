@@ -4,15 +4,14 @@ import pandas as pd
 from tqdm import tqdm
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class CiviproQuestions(AbstractDataset):
 
     def __init__(self):
-        super().__init__("CiviproQuestions",
-                         "https://arxiv.org/abs/2211.02950")
+        super().__init__("CiviproQuestions", "https://arxiv.org/abs/2211.02950")
 
     def get_data(self):
 
@@ -36,8 +35,8 @@ class CiviproQuestions(AbstractDataset):
         ]
 
         df = pd.read_csv(f"{self.raw_data_dir}/civpro_questions_train.csv")
-        task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.US
+        task_type = TaskType.QUESTION_ANSWERING
+        jurisdiction = Jurisdiction.US
         prompt_language = "en"
 
         questions_dict = defaultdict(dict)
@@ -56,8 +55,7 @@ class CiviproQuestions(AbstractDataset):
             choices = values["choices"]
             question = ".".join(question.split(".")[1:])
             if len(choices) < 4:
-                print(
-                    f"Skipping {question} because it has less than 2 choices")
+                print(f"Skipping {question} because it has less than 2 choices")
                 continue
             # self.random.shuffle(choices)
             lookup = ["A", "B", "C", "D", "E", "F", "G"]

@@ -1,28 +1,28 @@
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 instructions_for_subsets = {
     "ecthr_a":
-    "In this task, you are given the facts from a case heard at the European Court of Human Rights (ECtHR). "
-    "Predict the articles of the ECtHR that were violated (if any).",
+        "In this task, you are given the facts from a case heard at the European Court of Human Rights (ECtHR). "
+        "Predict the articles of the ECtHR that were violated (if any).",
     "ecthr_b":
-    "In this task, you are given the facts from a case heard at the European Court of Human Rights (ECtHR). "
-    "Predict the articles of ECtHR that were allegedly violated (considered by the court).",
+        "In this task, you are given the facts from a case heard at the European Court of Human Rights (ECtHR). "
+        "Predict the articles of ECtHR that were allegedly violated (considered by the court).",
     "scotus":
-    "In this task, you are given a case heard at the Supreme Court of the United States (SCOTUS). "
-    "Predict the relevant issue area.",
+        "In this task, you are given a case heard at the Supreme Court of the United States (SCOTUS). "
+        "Predict the relevant issue area.",
     "eurlex":
-    "In this task, you are given an EU law document published in the EUR-Lex portal. "
-    "Predict the relevant EuroVoc concepts.",
+        "In this task, you are given an EU law document published in the EUR-Lex portal. "
+        "Predict the relevant EuroVoc concepts.",
     "ledgar":
-    "In this task, you are given a contract provision from contracts obtained from US Securities and Exchange Commission (SEC) filings."
-    "Predict the main topic.",
+        "In this task, you are given a contract provision from contracts obtained from US Securities and Exchange Commission (SEC) filings."
+        "Predict the main topic.",
     "unfair_tos":
-    "In this task, you are given a sentence from a Terms of Service (ToS) document from on-line platforms. "
-    "Predict the types of unfair contractual terms",
+        "In this task, you are given a sentence from a Terms of Service (ToS) document from on-line platforms. "
+        "Predict the types of unfair contractual terms",
 }
 
 TASK_CODE_MAPPING = {
@@ -35,12 +35,12 @@ TASK_CODE_MAPPING = {
 }
 
 JURISDICTION_MAPPING = {
-    'ecthr_a': JURISDICTION.EU,
-    'ecthr_b': JURISDICTION.EU,
-    'scotus': JURISDICTION.US,
-    'eurlex': JURISDICTION.EU,
-    'ledgar': JURISDICTION.US,
-    'unfair_tos': JURISDICTION.UNKNOWN,
+    'ecthr_a': Jurisdiction.EU,
+    'ecthr_b': Jurisdiction.EU,
+    'scotus': Jurisdiction.US,
+    'eurlex': Jurisdiction.EU,
+    'ledgar': Jurisdiction.US,
+    'unfair_tos': Jurisdiction.UNKNOWN,
 }
 
 
@@ -51,7 +51,7 @@ class LexGLUE(AbstractDataset):
         super().__init__("LexGLUE", "https://huggingface.co/datasets/lex_glue")
 
     def get_data(self):
-        task_type = TASK_TYPE.TEXT_CLASSIFICATION
+        task_type = TaskType.TEXT_CLASSIFICATION
         for subset, instructions in instructions_for_subsets.items():
             dataset = load_dataset("lex_glue", subset, split="train")
             task_code = TASK_CODE_MAPPING[subset]
@@ -70,7 +70,7 @@ class LexGLUE(AbstractDataset):
                 elif task_code == 'MLTC':
                     correct_labels = list(
                         map(str, example['labels']
-                            ))  # here we don't have any mapping to label names
+                           ))  # here we don't have any mapping to label names
 
                 input_text = example['text']
                 if 'ecthr' in subset:

@@ -1,8 +1,8 @@
 import pandas as pd
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class ILDC(AbstractDataset):
@@ -16,8 +16,8 @@ class ILDC(AbstractDataset):
         df2 = pd.read_csv(f"{self.raw_data_dir}/ILDC_single.csv")
         df2 = df2[df2["split"] == "train"]
 
-        task_type = TASK_TYPE.TEXT_CLASSIFICATION
-        jurisdiction = JURISDICTION.INDIA
+        task_type = TaskType.TEXT_CLASSIFICATION
+        jurisdiction = Jurisdiction.INDIA
         prompt_language = "en"
 
         instruction_bank = [

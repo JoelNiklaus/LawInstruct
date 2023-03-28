@@ -1,8 +1,8 @@
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class CaseBriefs(AbstractDataset):
@@ -20,8 +20,8 @@ class CaseBriefs(AbstractDataset):
         df = load_dataset("lawinstruct/case-briefs",
                           "combined",
                           use_auth_token=True)
-        task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.US
+        task_type = TaskType.QUESTION_ANSWERING
+        jurisdiction = Jurisdiction.US
         prompt_language = "en"
 
         for example in df["train"]["text"]:

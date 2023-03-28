@@ -1,8 +1,8 @@
 import json
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class CAIL2019(AbstractDataset):
@@ -12,8 +12,8 @@ class CAIL2019(AbstractDataset):
                          "https://github.com/china-ai-law-challenge/CAIL2019")
 
     def get_data(self):
-        task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.CHINA
+        task_type = TaskType.QUESTION_ANSWERING
+        jurisdiction = Jurisdiction.CHINA
         prompt_language = "en"
 
         instruction_bank = [
@@ -32,6 +32,5 @@ class CAIL2019(AbstractDataset):
                             answer = ", ".join(
                                 [a['text'] for a in question['answers']])
                         text = f"{self.random.choice(instruction_bank)}\n\n{paragraph['context']}\n\nQuestion:{question['question']}\nAnswer:{answer}"
-                        yield self.build_data_point(prompt_language, "zh",
-                                                    text, task_type,
-                                                    jurisdiction)
+                        yield self.build_data_point(prompt_language, "zh", text,
+                                                    task_type, jurisdiction)

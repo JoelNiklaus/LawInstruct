@@ -1,8 +1,8 @@
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 def get_multiple_choice_instruction_bank():
@@ -20,14 +20,13 @@ class BrCAD5(AbstractDataset):
 
     def get_data(self):
         df = load_dataset('joelito/BrCAD-5', split='train')
-        task_type = TASK_TYPE.TEXT_CLASSIFICATION
-        jurisdiction = JURISDICTION.BRAZIL
+        task_type = TaskType.TEXT_CLASSIFICATION
+        jurisdiction = Jurisdiction.BRAZIL
         prompt_language = "en"
         answer_language = "pt"
 
         for example in df:
-            case = example[
-                'preprocessed_full_text_first_instance_court_ruling']
+            case = example['preprocessed_full_text_first_instance_court_ruling']
             text = f"Determine what you think the Brazilian appeals court will rule for the case.\n\nCase:{case}\nJudgement: {example['label']}"
             yield self.build_data_point(prompt_language, answer_language, text,
                                         task_type, jurisdiction)
@@ -41,18 +40,16 @@ class BrCAD5(AbstractDataset):
                 yield self.build_data_point(prompt_language, answer_language,
                                             text, task_type, jurisdiction)
 
-            outcome_mc1 = ["(a)",
-                           "(b)"][['NÃO PROVIMENTO',
-                                   'PROVIMENTO'].index(example["label"])]
+            outcome_mc1 = ["(a)", "(b)"][['NÃO PROVIMENTO',
+                                          'PROVIMENTO'].index(example["label"])]
             text = f"{self.random.choice(get_multiple_choice_instruction_bank())}\n\n" \
                    f"Question: {case} How would the court find?\n(a) The court should dismiss the case.\n(b) The court should affirm the case.\n" \
                    f"Answer: {outcome_mc1}."
             yield self.build_data_point(prompt_language, answer_language, text,
                                         task_type, jurisdiction)
 
-            outcome_mc1 = ["(b)",
-                           "(a)"][['NÃO PROVIMENTO',
-                                   'PROVIMENTO'].index(example["label"])]
+            outcome_mc1 = ["(b)", "(a)"][['NÃO PROVIMENTO',
+                                          'PROVIMENTO'].index(example["label"])]
             text = f"{self.random.choice(get_multiple_choice_instruction_bank())}\n\n" \
                    f"Question: {case} How would the court find?\n(a) The court should approve the case.\n(b) The court should dismiss the case.\n" \
                    f"Answer: {outcome_mc1}."

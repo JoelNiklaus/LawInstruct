@@ -1,8 +1,8 @@
 import pandas as pd
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class ValidWills(AbstractDataset):
@@ -19,8 +19,8 @@ class ValidWills(AbstractDataset):
             "Given a statement in a will, the relevant U.S. law, is the condition supported, refuted, or unrelated.",
             "Is the statement in the will valid given the law and conditions? Answer with one of unrelated, supported, refuted."
         ]
-        task_type = TASK_TYPE.TEXT_CLASSIFICATION
-        jurisdiction = JURISDICTION.US
+        task_type = TaskType.TEXT_CLASSIFICATION
+        jurisdiction = Jurisdiction.US
         prompt_language = "en"
 
         for idx, row in train.iterrows():

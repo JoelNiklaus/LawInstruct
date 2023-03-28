@@ -1,8 +1,8 @@
 import json
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class JECQA(AbstractDataset):
@@ -16,8 +16,8 @@ class JECQA(AbstractDataset):
             "Answer these multiple choice reasoning questions about Chinese Law. Select all answers that apply, you may have multiple correct answers.",
             "Answer these Chinese Law multiple choice questions, you might have multiple correct answers. Denote your answer(s) as \"Answer: [answer(s)].\""
         ]
-        task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.CHINA
+        task_type = TaskType.QUESTION_ANSWERING
+        jurisdiction = Jurisdiction.CHINA
         prompt_language = "en"
 
         with open(f"{self.raw_data_dir}/jecqa_0_train.json") as f:

@@ -3,8 +3,8 @@ from typing import List
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class ProfessionalLaw(AbstractDataset):
@@ -32,8 +32,8 @@ class ProfessionalLaw(AbstractDataset):
         df = load_dataset("hendrycks_test",
                           "professional_law",
                           split="auxiliary_train").select(range(1200))
-        task_type = TASK_TYPE.MULTIPLE_CHOICE
-        jurisdiction = JURISDICTION.US
+        task_type = TaskType.MULTIPLE_CHOICE
+        jurisdiction = Jurisdiction.US
         prompt_language = "en"
 
         def shuffle_choices(choices: List[str], answer: int):

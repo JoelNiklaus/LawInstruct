@@ -1,8 +1,8 @@
 import json
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class CABarExamEssays(AbstractDataset):
@@ -15,8 +15,8 @@ class CABarExamEssays(AbstractDataset):
 
     def get_data(self):
         # Scraped bar exam essays
-        task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.US
+        task_type = TaskType.QUESTION_ANSWERING
+        jurisdiction = Jurisdiction.US
         prompt_language = "en"
 
         with open(f"{self.raw_data_dir}/bar_exam_essays_ca.jsonl") as f:

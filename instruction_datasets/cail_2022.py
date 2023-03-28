@@ -1,8 +1,8 @@
 import json
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class CAIL2022(AbstractDataset):
@@ -14,7 +14,7 @@ class CAIL2022(AbstractDataset):
         )
 
     def get_data(self):
-        jurisdiction = JURISDICTION.CHINA
+        jurisdiction = Jurisdiction.CHINA
         prompt_language = "en"
         answer_language = "zh"
 
@@ -36,19 +36,19 @@ class CAIL2022(AbstractDataset):
         ]
         lookup = ["(a)", "(b)", "(c)", "(d)", "(e)"]
         for question in questions:
-            task_type = TASK_TYPE.MULTIPLE_CHOICE
+            task_type = TaskType.MULTIPLE_CHOICE
             datapoint = f"{self.random.choice(instruction_bank_mc)}\n\nPlaintiff's Argument:{question['sc']}\n\n(a) {question['bc_1']}\n(b) {question['bc_2']}\n(c) {question['bc_3']}\n(d) {question['bc_4']}\n(e) {question['bc_5']}"
             datapoint += "Best counter-argument: {lookup[question['answer'] - 1]}"
             yield self.build_data_point(prompt_language, answer_language,
                                         datapoint, task_type, jurisdiction)
 
-            task_type = TASK_TYPE.QUESTION_ANSWERING
+            task_type = TaskType.QUESTION_ANSWERING
             response = question[f"bc_{question['answer']}"]
             datapoint = f"{self.random.choice(instruction_bank)}\n\nPlaintiff's Argument:{question['sc']}\nDefendant's Response: {response}"
             yield self.build_data_point(prompt_language, answer_language,
                                         datapoint, task_type, jurisdiction)
 
-            task_type = TASK_TYPE.TEXT_CLASSIFICATION
+            task_type = TaskType.TEXT_CLASSIFICATION
             datapoint = f"{self.random.choice(instruction_bank_crime)}\n\nPlaintiff's Argument:{question['sc']}\nDefendant's Response: {response}\nCrime: {question['crime']}"
             yield self.build_data_point(prompt_language, answer_language,
                                         datapoint, task_type, jurisdiction)

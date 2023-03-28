@@ -1,8 +1,8 @@
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class EOIRPrivacy(AbstractDataset):
@@ -23,8 +23,8 @@ class EOIRPrivacy(AbstractDataset):
             "Consider this paragraph from a precedential EOIR case. Should the IJ use a a pseudonym.",
             "Should the judge pseudonymize the person's name in this paragraph?"
         ]
-        task_type = TASK_TYPE.TEXT_CLASSIFICATION
-        jurisdiction = JURISDICTION.US
+        task_type = TaskType.TEXT_CLASSIFICATION
+        jurisdiction = Jurisdiction.US
         prompt_language = "en"
 
         for example in df:

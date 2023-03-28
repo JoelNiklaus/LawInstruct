@@ -1,8 +1,8 @@
 import pandas as pd
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class InternationalCitizenshipLawQuestions(AbstractDataset):
@@ -12,8 +12,8 @@ class InternationalCitizenshipLawQuestions(AbstractDataset):
                          "https://cadmus.eui.eu/handle/1814/73190")
 
     def get_data(self):
-        task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.INTERNATIONAL
+        task_type = TaskType.QUESTION_ANSWERING
+        jurisdiction = Jurisdiction.INTERNATIONAL
         prompt_language = "en"
 
         df1 = pd.read_csv(

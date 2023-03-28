@@ -1,8 +1,8 @@
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 NER_DELIMITER = "|"
 
@@ -31,8 +31,8 @@ class MiningLegalArguments(AbstractDataset):
                          "https://github.com/trusthlt/mining-legal-arguments")
 
     def get_data(self):
-        task_type = TASK_TYPE.NAMED_ENTITY_RECOGNITION
-        jurisdiction = JURISDICTION.EU
+        task_type = TaskType.NAMED_ENTITY_RECOGNITION
+        jurisdiction = Jurisdiction.EU
         prompt_language = "en"
         for type in ["agent", "argType"]:
             source = f"https://huggingface.co/datasets/joelito/mining_legal_arguments_{type}"

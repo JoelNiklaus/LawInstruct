@@ -1,8 +1,8 @@
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class RedditLegalQA(AbstractDataset):
@@ -21,8 +21,8 @@ class RedditLegalQA(AbstractDataset):
         df = load_dataset("pile-of-law/pile-of-law",
                           "r_legaladvice",
                           split="train")
-        task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.UNKNOWN
+        task_type = TaskType.QUESTION_ANSWERING
+        jurisdiction = Jurisdiction.UNKNOWN
         prompt_language = "en"
 
         for example in df["text"]:

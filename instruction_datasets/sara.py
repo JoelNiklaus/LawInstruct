@@ -1,8 +1,8 @@
 import pandas as pd
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class Sara(AbstractDataset):
@@ -11,10 +11,8 @@ class Sara(AbstractDataset):
         super().__init__("Sara", "https://arxiv.org/abs/2005.05257")
 
     def get_data(self):
-        df = pd.read_csv(f"{self.raw_data_dir}/sara.tsv",
-                         sep="\t",
-                         header=None)
-        jurisdiction = JURISDICTION.US
+        df = pd.read_csv(f"{self.raw_data_dir}/sara.tsv", sep="\t", header=None)
+        jurisdiction = Jurisdiction.US
         prompt_language = "en"
         entailment_instruction_bank = [
             "Consider the following US Tax scenario. Does the first fact entail the second fact?",
@@ -27,12 +25,12 @@ class Sara(AbstractDataset):
         ]
         for i, row in df.iterrows():
             if "tail" in row[2] or "Contra" in row[2]:
-                task_type = TASK_TYPE.NATURAL_LANGUAGE_INFERENCE
+                task_type = TaskType.NATURAL_LANGUAGE_INFERENCE
                 datapoint = f"{self.random.choice(entailment_instruction_bank)}\n\nSentence 1: {row[0]}\nSentence 2: {row[1]}\nAnswer: {row[2]}"
                 yield self.build_data_point(prompt_language, "en", datapoint,
                                             task_type, jurisdiction)
             else:
-                task_type = TASK_TYPE.QUESTION_ANSWERING
+                task_type = TaskType.QUESTION_ANSWERING
                 datapoint = f"{self.random.choice(tax_liability_instruction_bank)}\n\nQuestion: {row[0]} {row[1]}\nAnswer: {row[2]}"
                 yield self.build_data_point(prompt_language, "en", datapoint,
                                             task_type, jurisdiction)

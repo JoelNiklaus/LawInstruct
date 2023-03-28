@@ -1,8 +1,8 @@
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class LboxOpen(AbstractDataset):
@@ -14,8 +14,8 @@ class LboxOpen(AbstractDataset):
         # statutes classification task
         data_st_plus = load_dataset("lbox/lbox_open",
                                     "statute_classification_plus")
-        task_type = TASK_TYPE.TEXT_CLASSIFICATION
-        jurisdiction = JURISDICTION.SOUTH_KOREA
+        task_type = TaskType.TEXT_CLASSIFICATION
+        jurisdiction = Jurisdiction.SOUTH_KOREA
         prompt_language = "en"
         answer_language = "ko"
         instruction_bank = [

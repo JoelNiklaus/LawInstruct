@@ -1,8 +1,8 @@
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 def build_summarization_answer(input, summary):
@@ -27,18 +27,18 @@ class LegalCaseDocumentSummarization(AbstractDataset):
     def get_data(self):
         df = load_dataset("joelito/legal_case_document_summarization",
                           split="train")
-        task_type = TASK_TYPE.SUMMARIZATION
+        task_type = TaskType.SUMMARIZATION
         prompt_language = "en"
 
         for example in df:
             if "IN" in example["dataset_name"]:
                 instruction_bank = get_instruction_bank(
                     "Indian Supreme Court case")
-                jurisdiction = JURISDICTION.INDIA
+                jurisdiction = Jurisdiction.INDIA
             elif "UK" in example["dataset_name"]:
                 instruction_bank = get_instruction_bank(
                     "U.K. Supreme Court case")
-                jurisdiction = JURISDICTION.UK
+                jurisdiction = Jurisdiction.UK
             else:
                 continue
             input = example["judgement"]

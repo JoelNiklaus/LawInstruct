@@ -152,6 +152,7 @@ DATASETS_ALREADY_BUILT = NATURAL_INSTRUCTIONS | XP3MT | frozenset({
     InternationalCitizenshipLawQuestions,
     JECQA,
     KoreanLegalQA,
+    LawngNli,
     LboxOpen,
     LegalCaseDocumentSummarization,
     LegalQA,

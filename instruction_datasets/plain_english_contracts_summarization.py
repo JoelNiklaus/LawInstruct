@@ -1,8 +1,8 @@
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 def build_summarization_answer(input, summary):
@@ -27,8 +27,8 @@ class PlainEnglishContractsSummarization(AbstractDataset):
     def get_data(self):
         df = load_dataset("joelito/plain_english_contracts_summarization",
                           split="train")
-        task_type = TASK_TYPE.SUMMARIZATION
-        jurisdiction = JURISDICTION.UNKNOWN
+        task_type = TaskType.SUMMARIZATION
+        jurisdiction = Jurisdiction.UNKNOWN
         prompt_language = "en"
 
         def get_instruction_bank(document):

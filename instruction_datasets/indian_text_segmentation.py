@@ -4,8 +4,8 @@ import pathlib
 import re
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 _CATEGORIES: dict[str, str] = {
     "PREAMBLE": "Preamble",
@@ -34,8 +34,8 @@ class IndianTextSegmentation(AbstractDataset):
             f"{self.raw_data_dir}/indian_text_segmentation.json")
 
     def get_data(self) -> Iterator[dict]:
-        task_type = TASK_TYPE.TEXT_CLASSIFICATION
-        jurisdiction = JURISDICTION.INDIA
+        task_type = TaskType.TEXT_CLASSIFICATION
+        jurisdiction = Jurisdiction.INDIA
         prompt_language = "en"
         answer_language = "hi"
 

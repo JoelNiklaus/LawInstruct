@@ -1,8 +1,8 @@
 import json
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class KoreanLegalQA(AbstractDataset):
@@ -14,8 +14,8 @@ class KoreanLegalQA(AbstractDataset):
         )
 
     def get_data(self):
-        task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.SOUTH_KOREA
+        task_type = TaskType.QUESTION_ANSWERING
+        jurisdiction = Jurisdiction.SOUTH_KOREA
         prompt_language = "en"
 
         instruction_bank = [

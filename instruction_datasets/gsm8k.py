@@ -1,8 +1,8 @@
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class GSM8K(AbstractDataset):
@@ -13,8 +13,8 @@ class GSM8K(AbstractDataset):
     def get_data(self):
         # Add math-type reasoning b/c tax has that flavor
         x = load_dataset("gsm8k", "main", split="train")
-        task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.N_A
+        task_type = TaskType.QUESTION_ANSWERING
+        jurisdiction = Jurisdiction.N_A
         prompt_language = "en"
 
         instruction_bank = [

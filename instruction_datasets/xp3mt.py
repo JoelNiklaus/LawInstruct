@@ -3,8 +3,8 @@ from ftlangdetect import detect
 from tqdm import tqdm
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class XP3MT(AbstractDataset):
@@ -14,7 +14,7 @@ class XP3MT(AbstractDataset):
                          "https://huggingface.co/datasets/bigscience/xP3mt")
 
     def get_data(self):
-        jurisdiction = JURISDICTION.N_A
+        jurisdiction = Jurisdiction.N_A
 
         # Include only code and languages where we have legal data for
         # Maybe also add 'zh', 'vi', because we have legal instruction datasets there
@@ -28,8 +28,8 @@ class XP3MT(AbstractDataset):
             df = load_dataset("bigscience/xP3mt", lang, split="train")
             for example in tqdm(df):
                 text = example["inputs"] + " " + example["targets"]
-                task_type = (TASK_TYPE.CODE
-                             if lang == "code" else TASK_TYPE.UNKNOWN)
+                task_type = (TaskType.CODE
+                             if lang == "code" else TaskType.UNKNOWN)
                 prompt_language = detect(text=example["inputs"].replace(
                     "\n", " "),
                                          low_memory=True)['lang']

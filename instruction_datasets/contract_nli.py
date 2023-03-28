@@ -1,8 +1,8 @@
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class ContractNLI(AbstractDataset):
@@ -13,8 +13,8 @@ class ContractNLI(AbstractDataset):
             "https://huggingface.co/datasets/kiddothe2b/contract-nli")
 
     def get_data(self):
-        task_type = TASK_TYPE.NATURAL_LANGUAGE_INFERENCE
-        jurisdiction = JURISDICTION.US
+        task_type = TaskType.NATURAL_LANGUAGE_INFERENCE
+        jurisdiction = Jurisdiction.US
         prompt_language = "en"
 
         for subset in ["contractnli_a", "contractnli_b"]:

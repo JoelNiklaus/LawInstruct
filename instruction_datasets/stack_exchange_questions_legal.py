@@ -2,8 +2,8 @@ from bs4 import BeautifulSoup
 import pandas as pd
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class StackExchangeQuestionsLegal(AbstractDataset):
@@ -21,8 +21,8 @@ class StackExchangeQuestionsLegal(AbstractDataset):
             "Answer this online forum question about the law.",
             "Provide an explanation for this short form legal question."
         ]
-        task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.UNKNOWN
+        task_type = TaskType.QUESTION_ANSWERING
+        jurisdiction = Jurisdiction.UNKNOWN
         prompt_language = "en"
 
         for idx, example in df.iterrows():

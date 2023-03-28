@@ -7,8 +7,8 @@ from lxml import etree
 import yaml
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class BrazilianBarExam(AbstractDataset):
@@ -21,8 +21,8 @@ class BrazilianBarExam(AbstractDataset):
         with open(f"{self.raw_data_dir}/oab.json", "r") as f:
             qs = json.loads(f.read())
 
-        task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.BRAZIL
+        task_type = TaskType.QUESTION_ANSWERING
+        jurisdiction = Jurisdiction.BRAZIL
         prompt_language = "en"
         instruction_bank = [
             "Answer the questions from the Brazilian bar exam.",

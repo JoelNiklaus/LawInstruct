@@ -18,15 +18,21 @@ def should_be_sampled(text):
 
 
 non_legal_configs = ['NaturalInstructionsOther', 'XP3MT']
-faulty_configs = ['IndianTextSegmentation', 'Ell18Dataset', 'Ell4Dataset', 'EdgarNER']
-configs = [config for config in configs
-           if config not in non_legal_configs and config not in faulty_configs and config != 'all']
+faulty_configs = [
+    'IndianTextSegmentation', 'Ell18Dataset', 'Ell4Dataset', 'EdgarNER'
+]
+configs = [
+    config for config in configs if config not in non_legal_configs and
+    config not in faulty_configs and config != 'all'
+]
 
 for config in configs:
     print(f"Loading {dataset_name}:{config}...")
     dataset = load_dataset(dataset_name, config, split="train", streaming=True)
 
-    print(f"Filtering out examples with more than {max_seq_len} tokens and sampling {num_samples} examples...")
+    print(
+        f"Filtering out examples with more than {max_seq_len} tokens and sampling {num_samples} examples..."
+    )
     if use_fast_way:
         num_samples_taken = 0
         for example in dataset:
@@ -38,9 +44,11 @@ for config in configs:
     else:
         # this slows it down considerably for large datasets,
         # but could be more easily parallelized when using non-streaming datasets
-        dataset = dataset.filter(lambda example: should_be_sampled(example['text']))
+        dataset = dataset.filter(
+            lambda example: should_be_sampled(example['text']))
         dataset = dataset.shuffle(seed=42)
-        instruction_data.extend(list(dataset.take(num_samples)))  # sample 100 examples
+        instruction_data.extend(list(
+            dataset.take(num_samples)))  # sample 100 examples
 
 print(f"Writing {len(instruction_data)} examples to {filename}...")
 with open(filename, "w") as file:

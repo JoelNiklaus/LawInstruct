@@ -1,8 +1,8 @@
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class OLCMemos(AbstractDataset):
@@ -14,9 +14,7 @@ class OLCMemos(AbstractDataset):
 
     def get_data(self):
         # OLC memos start off with a short form summary and then write the memo
-        df = load_dataset("pile-of-law/pile-of-law",
-                          "olc_memos",
-                          split="train")
+        df = load_dataset("pile-of-law/pile-of-law", "olc_memos", split="train")
 
         instruction_bank = [
             "Write a legal research memo on the following topic.",
@@ -24,8 +22,8 @@ class OLCMemos(AbstractDataset):
             "Write a memo in the form of U.S. Office of Legal Counsel.",
             "Consider the question below, write a formal legal research memo."
         ]
-        task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.US
+        task_type = TaskType.QUESTION_ANSWERING
+        jurisdiction = Jurisdiction.US
         prompt_language = "en"
 
         for example in df["text"]:

@@ -1,8 +1,8 @@
 import pandas as pd
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class SpanishLaborLaw(AbstractDataset):
@@ -13,8 +13,8 @@ class SpanishLaborLaw(AbstractDataset):
 
     def get_data(self):
         df = pd.read_csv(f"{self.raw_data_dir}/spanish_legal_qa.csv")
-        task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.SPAIN
+        task_type = TaskType.QUESTION_ANSWERING
+        jurisdiction = Jurisdiction.SPAIN
         prompt_language = "en"
 
         instruction_bank = [

@@ -3,8 +3,8 @@ import ast
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 ner_class_mapping = {
     "lener_br": [
@@ -97,80 +97,80 @@ ner_class_mapping = {
 
 instructions_for_subsets = {
     "brazilian_court_decisions_judgment":
-    "In this task, you are given the case description from a decision heard at the State Supreme Court of Alagoas (Brazil). "
-    "Predict the judgment of the case "
-    "(no: The appeal was denied, "
-    "partial: For partially favourable decisions, "
-    "yes: For fully favourable decisions)",
+        "In this task, you are given the case description from a decision heard at the State Supreme Court of Alagoas (Brazil). "
+        "Predict the judgment of the case "
+        "(no: The appeal was denied, "
+        "partial: For partially favourable decisions, "
+        "yes: For fully favourable decisions)",
     "brazilian_court_decisions_unanimity":
-    "In this task, you are given the case description from a decision heard at the State Supreme Court of Alagoas (Brazil). "
-    "Predict the unanimity of the case (unanimity, not-unanimity, not_determined)",
+        "In this task, you are given the case description from a decision heard at the State Supreme Court of Alagoas (Brazil). "
+        "Predict the unanimity of the case (unanimity, not-unanimity, not_determined)",
     "german_argument_mining":
-    "In this task, you are given sentences from German court decisions. "
-    "Predict the major component of German Urteilsstil "
-    "(conclusion: Overall result, "
-    "definition: Abstract legal facts and consequences, "
-    "subsumption: Determination sentence / Concrete facts, "
-    "other: Anything else)",
+        "In this task, you are given sentences from German court decisions. "
+        "Predict the major component of German Urteilsstil "
+        "(conclusion: Overall result, "
+        "definition: Abstract legal facts and consequences, "
+        "subsumption: Determination sentence / Concrete facts, "
+        "other: Anything else)",
     "greek_legal_code_chapter":
-    "In this task, you are given a Greek legislative document. "
-    "Predict the chapter level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
+        "In this task, you are given a Greek legislative document. "
+        "Predict the chapter level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
     "greek_legal_code_subject":
-    "In this task, you are given a Greek legislative document. "
-    "Predict the subject level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
+        "In this task, you are given a Greek legislative document. "
+        "Predict the subject level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
     "greek_legal_code_volume":
-    "In this task, you are given a Greek legislative document. "
-    "Predict the volume level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
+        "In this task, you are given a Greek legislative document. "
+        "Predict the volume level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
     "online_terms_of_service_unfairness_levels":
-    "In this task, you are given a sentence from a Terms of Service (ToS) document. "
-    "Predict the unfairness level of the sentence (potentially_unfair, clearly_unfair, clearly_fair, untagged)",
+        "In this task, you are given a sentence from a Terms of Service (ToS) document. "
+        "Predict the unfairness level of the sentence (potentially_unfair, clearly_unfair, clearly_fair, untagged)",
     "online_terms_of_service_clause_topics":
-    "In this task, you are given a sentence from a Terms of Service (ToS) document. "
-    "Predict the clause topics of the sentence "
-    "(0: Arbitration, "
-    "1: Unilateral change, "
-    "2: Content removal, "
-    "3: Jurisdiction, "
-    "4: Choice of law, "
-    "5: Limitation of liability, "
-    "6: Unilateral termination, "
-    "7: Contract by using, "
-    "8: Privacy included)",
+        "In this task, you are given a sentence from a Terms of Service (ToS) document. "
+        "Predict the clause topics of the sentence "
+        "(0: Arbitration, "
+        "1: Unilateral change, "
+        "2: Content removal, "
+        "3: Jurisdiction, "
+        "4: Choice of law, "
+        "5: Limitation of liability, "
+        "6: Unilateral termination, "
+        "7: Contract by using, "
+        "8: Privacy included)",
     "covid19_emergency_event":
-    "In this task, you are given a sentence from a European legislative document. "
-    "Predict the applicable measurements against COVID-19 "
-    "(0: State of Emergency, "
-    "1: Restrictions of fundamental rights and civil liberties, "
-    "2: Restrictions of daily liberties, "
-    "3: Closures / lockdown, "
-    "4: Suspension of international cooperation and commitments, "
-    "5: Police mobilization, "
-    "6: Army mobilization, "
-    "7: Government oversight)",
+        "In this task, you are given a sentence from a European legislative document. "
+        "Predict the applicable measurements against COVID-19 "
+        "(0: State of Emergency, "
+        "1: Restrictions of fundamental rights and civil liberties, "
+        "2: Restrictions of daily liberties, "
+        "3: Closures / lockdown, "
+        "4: Suspension of international cooperation and commitments, "
+        "5: Police mobilization, "
+        "6: Army mobilization, "
+        "7: Government oversight)",
     "multi_eurlex_level_1":
-    "In this task, you are given a document from an EU law. "
-    "Predict the level 1 concept in the EUROVOC taxonomy.",
+        "In this task, you are given a document from an EU law. "
+        "Predict the level 1 concept in the EUROVOC taxonomy.",
     "multi_eurlex_level_2":
-    "In this task, you are given a document from an EU law. "
-    "Predict the level 2 concept in the EUROVOC taxonomy.",
+        "In this task, you are given a document from an EU law. "
+        "Predict the level 2 concept in the EUROVOC taxonomy.",
     "multi_eurlex_level_3":
-    "In this task, you are given a document from an EU law. "
-    "Predict the level 3 concept in the EUROVOC taxonomy.",
+        "In this task, you are given a document from an EU law. "
+        "Predict the level 3 concept in the EUROVOC taxonomy.",
     "greek_legal_ner":
-    "In this task, you are given a sentence from Greek legislation. "
-    "Predict the named entity type for each token.",
+        "In this task, you are given a sentence from Greek legislation. "
+        "Predict the named entity type for each token.",
     "legalnero":
-    "In this task, you are given a sentence from Romanian legislation. "
-    "Predict the named entity type for each token.",
+        "In this task, you are given a sentence from Romanian legislation. "
+        "Predict the named entity type for each token.",
     "lener_br":
-    "In this task, you are given a sentence from Brazilian legal documents (court decisions and legislation). "
-    "Predict the named entity type for each token.",
+        "In this task, you are given a sentence from Brazilian legal documents (court decisions and legislation). "
+        "Predict the named entity type for each token.",
     "mapa_coarse":
-    "In this task, you are given a sentence from the EUR-Lex database. "
-    "Predict the coarse grained named entity type for each token.",
+        "In this task, you are given a sentence from the EUR-Lex database. "
+        "Predict the coarse grained named entity type for each token.",
     "mapa_fine":
-    "In this task, you are given a sentence from the EUR-Lex database. "
-    "Predict the fine grained named entity type for each token.",
+        "In this task, you are given a sentence from the EUR-Lex database. "
+        "Predict the fine grained named entity type for each token.",
 }
 
 TASK_CODE_MAPPING = {
@@ -194,23 +194,23 @@ TASK_CODE_MAPPING = {
 }
 
 JURISDICTION_MAPPING = {
-    'brazilian_court_decisions_judgment': JURISDICTION.BRAZIL,
-    'brazilian_court_decisions_unanimity': JURISDICTION.BRAZIL,
-    'german_argument_mining': JURISDICTION.GERMANY,
-    'greek_legal_code_chapter': JURISDICTION.GREECE,
-    'greek_legal_code_subject': JURISDICTION.GREECE,
-    'greek_legal_code_volume': JURISDICTION.GREECE,
-    'online_terms_of_service_unfairness_levels': JURISDICTION.UNKNOWN,
-    'online_terms_of_service_clause_topics': JURISDICTION.UNKNOWN,
-    'covid19_emergency_event': JURISDICTION.UNKNOWN,
-    'multi_eurlex_level_1': JURISDICTION.EU,
-    'multi_eurlex_level_2': JURISDICTION.EU,
-    'multi_eurlex_level_3': JURISDICTION.EU,
-    'greek_legal_ner': JURISDICTION.GREECE,
-    'legalnero': JURISDICTION.ROMANIA,
-    'lener_br': JURISDICTION.BRAZIL,
-    'mapa_coarse': JURISDICTION.EU,
-    'mapa_fine': JURISDICTION.EU,
+    'brazilian_court_decisions_judgment': Jurisdiction.BRAZIL,
+    'brazilian_court_decisions_unanimity': Jurisdiction.BRAZIL,
+    'german_argument_mining': Jurisdiction.GERMANY,
+    'greek_legal_code_chapter': Jurisdiction.GREECE,
+    'greek_legal_code_subject': Jurisdiction.GREECE,
+    'greek_legal_code_volume': Jurisdiction.GREECE,
+    'online_terms_of_service_unfairness_levels': Jurisdiction.UNKNOWN,
+    'online_terms_of_service_clause_topics': Jurisdiction.UNKNOWN,
+    'covid19_emergency_event': Jurisdiction.UNKNOWN,
+    'multi_eurlex_level_1': Jurisdiction.EU,
+    'multi_eurlex_level_2': Jurisdiction.EU,
+    'multi_eurlex_level_3': Jurisdiction.EU,
+    'greek_legal_ner': Jurisdiction.GREECE,
+    'legalnero': Jurisdiction.ROMANIA,
+    'lener_br': Jurisdiction.BRAZIL,
+    'mapa_coarse': Jurisdiction.EU,
+    'mapa_fine': Jurisdiction.EU,
 }
 
 NER_DELIMITER = "|"
@@ -257,7 +257,7 @@ class LEXTREME(AbstractDataset):
                 elif task_code == 'MLTC':
                     correct_labels = list(
                         map(str, example['label']
-                            ))  # here we don't have any mapping to label names
+                           ))  # here we don't have any mapping to label names
                 elif task_code == 'NER':
                     correct_labels = [
                         label_classes[label] for label in example['label']
@@ -283,8 +283,7 @@ class LEXTREME(AbstractDataset):
 
                 for answer, lang in answers:
                     text = f"{instructions}\n\n{answer}"
-                    task_type = TASK_TYPE.NAMED_ENTITY_RECOGNITION if task_code == 'NER' else TASK_TYPE.TEXT_CLASSIFICATION
+                    task_type = TaskType.NAMED_ENTITY_RECOGNITION if task_code == 'NER' else TaskType.TEXT_CLASSIFICATION
                     prompt_language = "en"
                     yield self.build_data_point(prompt_language, lang, text,
-                                                task_type, jurisdiction,
-                                                subset)
+                                                task_type, jurisdiction, subset)

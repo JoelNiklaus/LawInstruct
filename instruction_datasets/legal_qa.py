@@ -1,8 +1,8 @@
 import pandas as pd
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class LegalQA(AbstractDataset):
@@ -20,8 +20,8 @@ class LegalQA(AbstractDataset):
             "This is a question on a Chinese online forum for legal advice. Do not cite case law and use plain language.",
             "Answer the question as a lawyer according to Chinese law, be informal."
         ]
-        task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.CHINA
+        task_type = TaskType.QUESTION_ANSWERING
+        jurisdiction = Jurisdiction.CHINA
         prompt_language = "en"
 
         for q, a in zip(df['question: body'], df['answer']):

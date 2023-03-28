@@ -1,8 +1,8 @@
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class ShortAnswerFeedback(AbstractDataset):
@@ -15,8 +15,8 @@ class ShortAnswerFeedback(AbstractDataset):
 
     def get_data(self):
         df = load_dataset("JohnnyBoy00/saf_legal_domain_german")
-        task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.GERMANY
+        task_type = TaskType.QUESTION_ANSWERING
+        jurisdiction = Jurisdiction.GERMANY
         prompt_language = "en"
 
         instruction_bank_openqa = [

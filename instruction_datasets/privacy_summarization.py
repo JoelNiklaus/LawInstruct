@@ -4,8 +4,8 @@ import pathlib
 import pandas as pd
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 _TEXT4LABEL = {
     "bad": "risky",
@@ -24,8 +24,8 @@ class PrivacySummarization(AbstractDataset):
             f"{self.raw_data_dir}/TOSDR_full_content_au_labeled_v2.csv")
 
     def get_data(self) -> Iterator[dict]:
-        task_type = TASK_TYPE.TEXT_CLASSIFICATION
-        jurisdiction = JURISDICTION.UNKNOWN
+        task_type = TaskType.TEXT_CLASSIFICATION
+        jurisdiction = Jurisdiction.UNKNOWN
         prompt_language = "en"
         answer_language = "en"
 

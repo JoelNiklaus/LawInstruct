@@ -1,8 +1,8 @@
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 def get_multiple_choice_instruction_bank():
@@ -21,8 +21,8 @@ class SwissJudgmentPrediction(AbstractDataset):
 
     def get_data(self):
         df = load_dataset('swiss_judgment_prediction', 'all+mt', split='train')
-        task_type = TASK_TYPE.TEXT_CLASSIFICATION
-        jurisdiction = JURISDICTION.SWITZERLAND
+        task_type = TaskType.TEXT_CLASSIFICATION
+        jurisdiction = Jurisdiction.SWITZERLAND
         prompt_language = "en"
         for example in df:
             court_location = "" if example[
@@ -42,7 +42,7 @@ class SwissJudgmentPrediction(AbstractDataset):
                                             example["language"], text,
                                             task_type, jurisdiction)
 
-            task_type = TASK_TYPE.MULTIPLE_CHOICE
+            task_type = TaskType.MULTIPLE_CHOICE
             outcome_mc1 = ["(a)", "(b)"][example["label"]]
             text = example['text']
             text = f"{self.random.choice(get_multiple_choice_instruction_bank())}\n\n" \

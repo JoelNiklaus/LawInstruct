@@ -1,8 +1,8 @@
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class GermanRentalAgreements(AbstractDataset):
@@ -19,8 +19,8 @@ class GermanRentalAgreements(AbstractDataset):
             "You are given a sentence from a German rental agreement. Predict the category of the sentence.",
             "Predict the category of the following sentence from a German rental agreement.",
         ]
-        task_type = TASK_TYPE.TEXT_CLASSIFICATION
-        jurisdiction = JURISDICTION.GERMANY
+        task_type = TaskType.TEXT_CLASSIFICATION
+        jurisdiction = Jurisdiction.GERMANY
         prompt_language = "en"
 
         for example in df:

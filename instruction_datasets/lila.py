@@ -2,8 +2,8 @@ import json
 import os
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class Lila(AbstractDataset):
@@ -21,14 +21,13 @@ class Lila(AbstractDataset):
             "Consider the following question. Write a Python program to solve it.",
             "Write a Python program to solve the following question, denote it as \"Program:\". Provide the output as \"Answer:\"."
         ]
-        task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.N_A
+        task_type = TaskType.QUESTION_ANSWERING
+        jurisdiction = Jurisdiction.N_A
         prompt_language = "en"
 
         for json_file in json_files:
-            with open(
-                    os.path.join(f"{self.raw_data_dir}/all_lila/", json_file),
-                    "r") as f:
+            with open(os.path.join(f"{self.raw_data_dir}/all_lila/", json_file),
+                      "r") as f:
                 loaded_file = json.loads(f.read())
                 for example in loaded_file["Instances"]:
                     if example["split"] != "train":

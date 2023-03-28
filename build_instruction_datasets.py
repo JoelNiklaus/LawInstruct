@@ -10,14 +10,14 @@ import multiprocessing
 from typing import Optional, Sequence, Type
 
 from abstract_dataset import AbstractDataset
-from datasets import ALL_DATASETS
-from datasets import DATASETS_ALREADY_BUILT
-from datasets import ERRONEOUS_DATASETS
+from lawinstruct_datasets import ALL_DATASETS
+from lawinstruct_datasets import DATASETS_ALREADY_BUILT
+from lawinstruct_datasets import ERRONEOUS_DATASETS
 
 
 def parse_args(args: Optional[list[str]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description='Builds the instruction datasets', )
+        description='Builds the instruction datasets',)
     parser.add_argument(
         '--debug',
         action='store_true',
@@ -38,13 +38,14 @@ def parse_args(args: Optional[list[str]] = None) -> argparse.Namespace:
                         default=[],
                         help="Datasets to build (default: all)")
     args = parser.parse_args(args)
+    # logging.debug(f"args: {args!r}")
 
     # If no datasets are specified, build all of them
     if not args.datasets:
         args.datasets = sorted(dataset.__name__ for dataset in ALL_DATASETS)
     # Get the actual classes for each named dataset.
-    all_datasets = {dataset.__name__: dataset for dataset in ALL_DATASETS}
-    args.datasets = [all_datasets[dataset] for dataset in args.datasets]
+    dataset_lookup = {dataset.__name__: dataset for dataset in ALL_DATASETS}
+    args.datasets = [dataset_lookup[dataset] for dataset in args.datasets]
 
     return args
 
@@ -62,6 +63,7 @@ def build_instruction_datasets(datasets: Sequence[Type[AbstractDataset]],
                                processes: int,
                                debug: bool = False,
                                build_from_scratch: bool = False) -> None:
+    logging.info("Building instruction datasets: %s", datasets)
     if debug:
         datasets_to_build = ERRONEOUS_DATASETS
         debug_size = 5
@@ -78,13 +80,15 @@ def build_instruction_datasets(datasets: Sequence[Type[AbstractDataset]],
 
     build_one = functools.partial(_build_dataset, debug_size=debug_size)
 
-    with multiprocessing.Pool(processes=processes) as pool:
-        pool.map(build_one, datasets_to_build)
+    # with multiprocessing.Pool(processes=processes) as pool:
+    #     pool.map(build_one, datasets_to_build)
+    for dataset in datasets_to_build:
+        build_one(dataset)
 
 
 if __name__ == '__main__':
-    args = parse_args()
-    logging.basicConfig(level=logging.INFO)
+    args = parse_args(['--datasets', 'CABarExamEssays', '--build_from_scratch'])
+    logging.basicConfig(level=logging.DEBUG)
     build_instruction_datasets(args.datasets,
                                processes=args.processes,
                                debug=args.debug,

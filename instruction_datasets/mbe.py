@@ -1,8 +1,8 @@
 import pandas as pd
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class MBE(AbstractDataset):
@@ -13,8 +13,8 @@ class MBE(AbstractDataset):
 
     def get_data(self):
         df = pd.read_csv(f"{self.raw_data_dir}/mbe_train.csv")
-        task_type = TASK_TYPE.MULTIPLE_CHOICE
-        jurisdiction = JURISDICTION.US
+        task_type = TaskType.MULTIPLE_CHOICE
+        jurisdiction = Jurisdiction.US
         prompt_language = "en"
 
         instructions_examples = [

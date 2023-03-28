@@ -1,8 +1,8 @@
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 def build_summarization_answer(input, summary):
@@ -46,8 +46,8 @@ class EurLexSum(AbstractDataset):
         for lang, answer_language in langs.items():
             df = load_dataset("dennlinger/eur-lex-sum", lang, split="train")
 
-            task_type = TASK_TYPE.SUMMARIZATION
-            jurisdiction = JURISDICTION.EU
+            task_type = TaskType.SUMMARIZATION
+            jurisdiction = Jurisdiction.EU
             prompt_language = "en"
 
             instruction_bank = [

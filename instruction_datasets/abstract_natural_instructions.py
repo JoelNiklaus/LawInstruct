@@ -9,8 +9,8 @@ from transformers import PreTrainedTokenizerBase
 from transformers.tokenization_utils_base import PaddingStrategy
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 @dataclasses.dataclass
@@ -113,8 +113,7 @@ class DataCollatorForNI:
                     definition = "Definition: " + instance["Definition"][
                         0].strip()  # TODO: should we use <Definition>?
                 else:
-                    definition = "Definition: " + instance["Definition"].strip(
-                    )
+                    definition = "Definition: " + instance["Definition"].strip()
                 if not definition[-1] in string.punctuation:
                     definition += "."
                 if add_explanation:
@@ -222,8 +221,8 @@ class DataCollatorForNI:
 
         # prepare decoder_input_ids
         if self.model is not None and hasattr(
-                self.model, "prepare_decoder_input_ids_from_labels"
-        ) and not self.text_only:
+                self.model,
+                "prepare_decoder_input_ids_from_labels") and not self.text_only:
             decoder_input_ids = self.model.prepare_decoder_input_ids_from_labels(
                 labels=model_inputs["labels"])
             model_inputs["decoder_input_ids"] = decoder_input_ids
@@ -307,68 +306,68 @@ class AbstractNaturalInstructions(AbstractDataset):
     # searched by "Law", "Legal", "Jurisprudence": https://github.com/allenai/natural-instructions/tree/master/tasks
     legal_tasks = {
         'task268_casehold_legal_answer_generation': {
-            "jurisdiction": JURISDICTION.US,
-            "task_type": TASK_TYPE.QUESTION_ANSWERING
+            "jurisdiction": Jurisdiction.US,
+            "task_type": TaskType.QUESTION_ANSWERING
         },
         'task274_overruling_legal_classification': {
-            "jurisdiction": JURISDICTION.US,
-            "task_type": TASK_TYPE.TEXT_CLASSIFICATION
+            "jurisdiction": Jurisdiction.US,
+            "task_type": TaskType.TEXT_CLASSIFICATION
         },
         'task287_casehold_legal_incorrect_answer_generation': {
-            "jurisdiction": JURISDICTION.US,
-            "task_type": TASK_TYPE.QUESTION_ANSWERING
+            "jurisdiction": Jurisdiction.US,
+            "task_type": TaskType.QUESTION_ANSWERING
         },
         'task597_cuad_answer_generation': {
-            "jurisdiction": JURISDICTION.US,
-            "task_type": TASK_TYPE.QUESTION_ANSWERING
+            "jurisdiction": Jurisdiction.US,
+            "task_type": TaskType.QUESTION_ANSWERING
         },
         'task598_cuad_answer_generation': {
-            "jurisdiction": JURISDICTION.US,
-            "task_type": TASK_TYPE.QUESTION_ANSWERING
+            "jurisdiction": Jurisdiction.US,
+            "task_type": TaskType.QUESTION_ANSWERING
         },
         'task599_cuad_question_generation': {
-            "jurisdiction": JURISDICTION.US,
-            "task_type": TASK_TYPE.QUESTION_GENERATION
+            "jurisdiction": Jurisdiction.US,
+            "task_type": TaskType.QUESTION_GENERATION
         },
         'task683_online_privacy_policy_text_purpose_answer_generation': {
-            "jurisdiction": JURISDICTION.UNKNOWN,
-            "task_type": TASK_TYPE.QUESTION_ANSWERING
+            "jurisdiction": Jurisdiction.UNKNOWN,
+            "task_type": TaskType.QUESTION_ANSWERING
         },
         'task684_online_privacy_policy_text_information_type_generation': {
-            "jurisdiction": JURISDICTION.UNKNOWN,
-            "task_type": TASK_TYPE.QUESTION_ANSWERING
+            "jurisdiction": Jurisdiction.UNKNOWN,
+            "task_type": TaskType.QUESTION_ANSWERING
         },
         'task715_mmmlu_answer_generation_international_law': {
-            "jurisdiction": JURISDICTION.INTERNATIONAL,
-            "task_type": TASK_TYPE.QUESTION_ANSWERING
+            "jurisdiction": Jurisdiction.INTERNATIONAL,
+            "task_type": TaskType.QUESTION_ANSWERING
         },
         'task716_mmmlu_answer_generation_jurisprudence': {
-            "jurisdiction": JURISDICTION.US,
-            "task_type": TASK_TYPE.QUESTION_ANSWERING
+            "jurisdiction": Jurisdiction.US,
+            "task_type": TaskType.QUESTION_ANSWERING
         },
         'task729_mmmlu_answer_generation_professional_law': {
-            "jurisdiction": JURISDICTION.US,
-            "task_type": TASK_TYPE.QUESTION_ANSWERING
+            "jurisdiction": Jurisdiction.US,
+            "task_type": TaskType.QUESTION_ANSWERING
         },
         'task743_eurlex_summarization': {
-            "jurisdiction": JURISDICTION.EU,
-            "task_type": TASK_TYPE.SUMMARIZATION
+            "jurisdiction": Jurisdiction.EU,
+            "task_type": TaskType.SUMMARIZATION
         },
         'task744_eurlex_classification': {
-            "jurisdiction": JURISDICTION.EU,
-            "task_type": TASK_TYPE.TEXT_CLASSIFICATION
+            "jurisdiction": Jurisdiction.EU,
+            "task_type": TaskType.TEXT_CLASSIFICATION
         },
         'task1658_billsum_summarization': {
-            "jurisdiction": JURISDICTION.US,
-            "task_type": TASK_TYPE.SUMMARIZATION
+            "jurisdiction": Jurisdiction.US,
+            "task_type": TaskType.SUMMARIZATION
         },
         'task1666_cail2018_answer_generation': {
-            "jurisdiction": JURISDICTION.CHINA,
-            "task_type": TASK_TYPE.QUESTION_ANSWERING
+            "jurisdiction": Jurisdiction.CHINA,
+            "task_type": TaskType.QUESTION_ANSWERING
         },
         'task1667_cail2018_answer_generation': {
-            "jurisdiction": JURISDICTION.CHINA,
-            "task_type": TASK_TYPE.QUESTION_ANSWERING
+            "jurisdiction": Jurisdiction.CHINA,
+            "task_type": TaskType.QUESTION_ANSWERING
         },
     }
 

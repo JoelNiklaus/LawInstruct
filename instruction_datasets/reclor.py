@@ -1,8 +1,8 @@
 import json
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class ReClor(AbstractDataset):
@@ -18,8 +18,8 @@ class ReClor(AbstractDataset):
             "State the answer in the following format, \"Final Answer: The final answer is ([ANSWER]). I hope it is correct.\"",
             "Read the passage any any relevant rules describing the world. Apply the rules to the facts to answer the question."
         ]
-        task_type = TASK_TYPE.QUESTION_ANSWERING
-        jurisdiction = JURISDICTION.N_A
+        task_type = TaskType.QUESTION_ANSWERING
+        jurisdiction = Jurisdiction.N_A
         prompt_language = "en"
 
         with open(f"{self.raw_data_dir}/reclor_train.json", "r") as f:

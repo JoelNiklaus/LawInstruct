@@ -1,8 +1,8 @@
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 def build_summarization_answer(input, summary):
@@ -18,8 +18,8 @@ class MultiLexSum(AbstractDataset):
 
     def get_data(self):
         df = load_dataset("allenai/multi_lexsum", split="train")
-        task_type = TASK_TYPE.SUMMARIZATION
-        jurisdiction = JURISDICTION.US
+        task_type = TaskType.SUMMARIZATION
+        jurisdiction = Jurisdiction.US
         prompt_language = "en"
 
         instruction_bank = [

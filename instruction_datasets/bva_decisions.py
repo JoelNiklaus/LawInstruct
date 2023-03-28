@@ -2,8 +2,8 @@ import json
 import os
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 
 class BVADecisions(AbstractDataset):
@@ -17,14 +17,15 @@ class BVADecisions(AbstractDataset):
         json_files = [
             f"{self.raw_data_dir}/VetClaims-JSON/BVA Decisions JSON Format/{pos_json}"
             for pos_json in os.listdir(
-                f"{self.raw_data_dir}/VetClaims-JSON/BVA Decisions JSON Format"
-            ) if pos_json.endswith('.json')
+                f"{self.raw_data_dir}/VetClaims-JSON/BVA Decisions JSON Format")
+            if pos_json.endswith('.json')
         ]
         json_files.extend([
             f"{self.raw_data_dir}/VetClaims-JSON/BVA Decisions JSON Format +25/{pos_json}"
             for pos_json in os.listdir(
                 f"{self.raw_data_dir}/VetClaims-JSON/BVA Decisions JSON Format +25"
-            ) if pos_json.endswith('.json')
+            )
+            if pos_json.endswith('.json')
         ])
         sentences = []
         rule_trees = []
@@ -67,8 +68,8 @@ class BVADecisions(AbstractDataset):
                     ])
                 return f"{text}\n{node_text}"
 
-        task_type = TASK_TYPE.TEXT_CLASSIFICATION
-        jurisdiction = JURISDICTION.US
+        task_type = TaskType.TEXT_CLASSIFICATION
+        jurisdiction = Jurisdiction.US
         prompt_language = "en"
 
         for sentence in sentences:
@@ -80,7 +81,7 @@ class BVADecisions(AbstractDataset):
             yield self.build_data_point(prompt_language, "en", datapoint,
                                         task_type, jurisdiction)
 
-        task_type = TASK_TYPE.QUESTION_ANSWERING
+        task_type = TaskType.QUESTION_ANSWERING
         instruction_bank = [
             "Take the following sentence, name all the rules that would be required to back up the claim. Do so in tree format with logical operators like AND and OR.",
             "Name all the rules that would be required to back up the claim."

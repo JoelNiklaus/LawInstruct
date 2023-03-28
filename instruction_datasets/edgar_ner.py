@@ -6,8 +6,8 @@ import pandas as pd
 from tqdm.auto import tqdm
 
 from abstract_dataset import AbstractDataset
-from abstract_dataset import JURISDICTION
-from abstract_dataset import TASK_TYPE
+from enums import Jurisdiction
+from enums import TaskType
 
 from .greek_ner import NerTags
 
@@ -67,8 +67,8 @@ class EdgarNER(AbstractDataset):
                          header=None,
                          names=["Word", "Tag"],
                          na_filter=False)
-        task_type = TASK_TYPE.NAMED_ENTITY_RECOGNITION
-        jurisdiction = JURISDICTION.GREECE
+        task_type = TaskType.NAMED_ENTITY_RECOGNITION
+        jurisdiction = Jurisdiction.GREECE
         prompt_language = "en"
         answer_language = "en"  # TODO: following GermanLER here; it's actually a structured representation though...
 
@@ -77,8 +77,8 @@ class EdgarNER(AbstractDataset):
             introduction_sentence + " " + self._tags.instruction
         ]
 
-        for tokens, tags in group_by_sentence(
-                tqdm(df.iterrows(), total=len(df))):
+        for tokens, tags in group_by_sentence(tqdm(df.iterrows(),
+                                                   total=len(df))):
             text = (f"{self.random.choice(instruction_bank)}\n\n"
                     f"{self._tags.build_answer(tokens, tags)}")
             yield self.build_data_point(prompt_language, answer_language, text,
