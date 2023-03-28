@@ -25,6 +25,7 @@ class SpanishLaborLaw(AbstractDataset):
         for idx, row in df.iterrows():
             question, context, answer = row["Question"], row["context"], row[
                 "Answer text"]
-            text = f"{self.random.choice(instruction_bank)}\n\nContext: {context}\nQ: {question}\nA: {answer}"
-            yield self.build_data_point(prompt_language, "es", text, task_type,
+            instruction = self.random.choice(instruction_bank)
+            text = f"Context: {context}\nQ: {question}\nA: {answer}"
+            yield self.build_data_point(prompt_language, "es", instruction, text, task_type,
                                         jurisdiction)
