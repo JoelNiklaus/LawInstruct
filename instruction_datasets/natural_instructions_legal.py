@@ -7,6 +7,9 @@ from instruction_datasets.abstract_natural_instructions import \
     get_first_lang_code
 
 
+_BLANK_INSTRUCTION = ''
+
+
 class NaturalInstructionsLegal(AbstractNaturalInstructions):
 
     def __init__(self):
@@ -39,4 +42,5 @@ class NaturalInstructionsLegal(AbstractNaturalInstructions):
                 text = encoded_example["inputs"][0] + " " + encoded_example[
                     "labels"][0].strip()
                 yield self.build_data_point(prompt_language, answer_language,
+                                            _BLANK_INSTRUCTION,
                                             text, task_type, jurisdiction)
