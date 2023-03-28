@@ -17,11 +17,12 @@ class PrivacyQA(AbstractDataset):
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.UNKNOWN
         prompt_language = "en"
+        instruction = "Determining if a term mentioned in a privacy policy is relevant or irrelevant to a given question."
 
         for index, example in df.iterrows():
-            text = f"Determine if the term mentioned from the privacy policy is relevant or irrelevant to the given question.\n\n" \
-                   f"Q: {example['Query']}\n" \
+            text = f"Q: {example['Query']}\n" \
                    f"Term: {example['Segment']}\n" \
                    f"A: {example['Label']}"
-            yield self.build_data_point(prompt_language, "en", text, task_type,
+            yield self.build_data_point(prompt_language, "en",
+                                        instruction, text, task_type,
                                         jurisdiction)
