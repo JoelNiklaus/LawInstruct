@@ -34,8 +34,9 @@ class LogiQA(AbstractDataset):
                 for z in range(4):
                     choices.append(x[i])
                     i += 1
-                text = f"{self.random.choice(instruction_bank)}\n\nQuestion: {context.strip()} {question}{''.join(choices)}\n\nAnswer: ({correct.strip()})."
-                yield self.build_data_point(prompt_language, "zh", text,
+                instruction = self.random.choice(instruction_bank)
+                text = f"Question: {context.strip()} {question}{''.join(choices)}\n\nAnswer: ({correct.strip()})."
+                yield self.build_data_point(prompt_language, "zh", instruction, text,
                                             task_type, jurisdiction)
                 if i >= len(x):
                     break
