@@ -30,6 +30,7 @@ class ReClor(AbstractDataset):
             for x, lab in zip(data["answers"], options_labels):
                 options += f"{lab} {x}\n"
             correct_option = options_labels[data['label']]
-            text = f"{self.random.choice(instruction_bank)}\n\nQuestion: {data['context']} {data['question']}\n{options}\nFinal Answer: The final answer is: {correct_option}. I hope it is correct."
-            yield self.build_data_point(prompt_language, "en", text, task_type,
+            instruction = self.random.choice(instruction_bank)
+            text = f"Question: {data['context']} {data['question']}\n{options}\nFinal Answer: The final answer is: {correct_option}. I hope it is correct."
+            yield self.build_data_point(prompt_language, "en", instruction, text, task_type,
                                         jurisdiction)
