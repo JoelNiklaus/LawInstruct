@@ -21,6 +21,7 @@ class GermanRentalAgreements(AbstractDataset):
         ]
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.GERMANY
+        instruction_language = "en"
         prompt_language = "en"
 
         for example in df:
@@ -29,7 +30,9 @@ class GermanRentalAgreements(AbstractDataset):
                 sentence = example[f"text_{num_classes}_classes"]
                 if sentence and label:
                     instruction = self.random.choice(instruction_bank)
-                    text = f"{sentence}\n{label}"
-                    yield self.build_data_point(prompt_language, "de",
-                                                instruction, text, task_type,
+                    # TODO: this one doesn't have any Prompt and Answer nouns...
+                    prompt = sentence
+                    answer = label
+                    yield self.build_data_point(instruction_language, prompt_language, "de",
+                                                instruction, prompt, answer, task_type,
                                                 jurisdiction)
