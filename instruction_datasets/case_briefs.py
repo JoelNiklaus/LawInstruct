@@ -5,6 +5,8 @@ from enums import Jurisdiction
 from enums import TaskType
 
 
+_BLANK_PROMPT = ''
+
 class CaseBriefs(AbstractDataset):
 
     def __init__(self):
@@ -22,11 +24,13 @@ class CaseBriefs(AbstractDataset):
                           use_auth_token=True)
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.US
+        instruction_language = 'en'
         prompt_language = "en"
 
         for example in df["train"]["text"]:
             example = example.split("Key Facts:")[0].split("Year:")[0]
             example = example.replace("Answer:", "Analysis:")
             instruction = self.random.choice(case_brief_instructions)
-            yield self.build_data_point(prompt_language, "en", instruction,
-                                        example, task_type, jurisdiction)
+            # TODO: We need to split the example into a question and an answer.
+            yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
+                                        _BLANK_PROMPT, example, task_type, jurisdiction)
