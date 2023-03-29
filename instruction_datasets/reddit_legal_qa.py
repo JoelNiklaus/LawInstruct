@@ -23,6 +23,7 @@ class RedditLegalQA(AbstractDataset):
                           split="train")
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.UNKNOWN
+        instruction_language = "en"
         prompt_language = "en"
 
         for example in df["text"]:
@@ -35,10 +36,14 @@ class RedditLegalQA(AbstractDataset):
             for a in answers:
                 instruction = self.random.choice(instruction_bank)
                 text = f"Question: {q}\n\nAnalysis: {a}"
-                yield self.build_data_point(prompt_language,
+                prompt = f"Question: {q}"
+                answer = f"Analysis: {a}"
+                yield self.build_data_point(instruction_language,
+                                            prompt_language,
                                             "en",
                                             instruction,
-                                            text,
+                                            prompt,
+                                            answer,
                                             task_type,
                                             jurisdiction,
                                             subset="r_legaladvice")
