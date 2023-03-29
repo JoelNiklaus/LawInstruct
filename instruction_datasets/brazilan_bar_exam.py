@@ -23,6 +23,7 @@ class BrazilianBarExam(AbstractDataset):
 
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.BRAZIL
+        instruction_language = "en"
         prompt_language = "en"
         instruction_bank = [
             "Answer the questions from the Brazilian bar exam.",
@@ -146,6 +147,7 @@ class BrazilianBarExam(AbstractDataset):
                         analysis = just_dict[q["filename"].split(".txt")[0]][
                             q["number"]]["comment"].replace("\n", "")
                         datapoint += f'\n\nAnalysis: {analysis}'
-                datapoint += f"\nAnswer: {correct_answer}."
-                yield self.build_data_point(prompt_language, "pt", instruction,
-                                            datapoint, task_type, jurisdiction)
+                prompt = datapoint
+                answer = f"Answer: {correct_answer}."
+                yield self.build_data_point(instruction_language, prompt_language, "pt", instruction,
+                                            prompt, answer, task_type, jurisdiction)
