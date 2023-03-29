@@ -1,3 +1,5 @@
+import string
+
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
@@ -5,11 +7,17 @@ from enums import Jurisdiction
 from enums import TaskType
 
 
-def build_summarization_answer(input, summary):
-    return f"Passage: {input}. Summary: {summary}"
+def build_summarization_answer(input: str, summary: str) -> tuple[str, str]:
+    prompt = f"Passage: {input}"
+    # Add a period if the last character is not a punctuation.
+    if prompt[-1] not in string.punctuation:
+        prompt += "."
+
+    answer = f"Summary: {summary}"
+    return prompt, answer
 
 
-def get_instruction_bank(court):
+def get_instruction_bank(court: str) -> list[str]:
     return [
         f"Summarize the document of the {court}. ",
         f"Consider the document of the {court} and summarize it. "
@@ -29,6 +37,7 @@ class PlainEnglishContractsSummarization(AbstractDataset):
                           split="train")
         task_type = TaskType.SUMMARIZATION
         jurisdiction = Jurisdiction.UNKNOWN
+        instruction_language = "en"
         prompt_language = "en"
 
         def get_instruction_bank(document):
@@ -39,9 +48,9 @@ class PlainEnglishContractsSummarization(AbstractDataset):
 
         for example in df:
             instruction_bank = get_instruction_bank(example["doc"])
-            input = example["original_text"]
+            input_ = example["original_text"]
             summary = example["reference_summary"]
             instruction = self.random.choice(instruction_bank)
-            text = f"{build_summarization_answer(input, summary)}"
-            yield self.build_data_point(prompt_language, "en", instruction,
-                                        text, task_type, jurisdiction)
+            prompt, answer = build_summarization_answer(input_, summary)
+            yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
+                                        prompt, answer, task_type, jurisdiction)
