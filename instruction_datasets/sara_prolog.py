@@ -17,6 +17,7 @@ class SaraProlog(AbstractDataset):
         ]
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.US
+        instruction_language = "en"
         prompt_language = "en"
 
         json_files = [
@@ -32,9 +33,10 @@ class SaraProlog(AbstractDataset):
                             f"{self.raw_data_dir}/sara_statutes/prolog/",
                             json_file) + ".pl", "r") as f_prolog:
                     instruction = self.random.choice(instruction_bank)
-                    datapoint = f"Statute:\n{f_normal.read()}\n\nProlog Program:\n\n{f_prolog.read()}"
-                    yield self.build_data_point(prompt_language, "en",
-                                                instruction, datapoint,
+                    prompt = f"Statute:\n{f_normal.read()}"
+                    answer = f"Prolog Program:\n\n{f_prolog.read()}"
+                    yield self.build_data_point(instruction_language, prompt_language, "en",
+                                                instruction, prompt, answer,
                                                 task_type, jurisdiction)
 
         instruction_bank = [
@@ -79,6 +81,7 @@ class SaraProlog(AbstractDataset):
                 facts_and_question = facts_and_question.replace("%", "").strip()
 
                 instruction = self.random.choice(instruction_bank)
-                datapoint = f"{facts_and_question}\n\nProlog Program:\n{program.strip()}\nAnswer: {answer}"
-                yield self.build_data_point(prompt_language, "en", instruction,
-                                            datapoint, task_type, jurisdiction)
+                prompt = facts_and_question
+                answer = f"Prolog Program:\n\n{program.strip()}\nAnswer: {answer}"
+                yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
+                                            prompt, answer, task_type, jurisdiction)
