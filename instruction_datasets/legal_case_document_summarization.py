@@ -1,3 +1,5 @@
+import string
+
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
@@ -5,11 +7,18 @@ from enums import Jurisdiction
 from enums import TaskType
 
 
-def build_summarization_answer(input, summary):
-    return f"Passage: {input}. Summary: {summary}"
+def build_summarization_answer(input: str, summary: str) -> tuple[str, str]:
+    prompt = f"Passage: {input}"
+    # Attach a period if the prompt doesn't end in punctuation.
+    if prompt[-1] not in string.punctuation:
+        prompt += "."
+
+    answer = f"Summary: {summary}"
+
+    return prompt, answer
 
 
-def get_instruction_bank(court):
+def get_instruction_bank(court: str) -> list[str]:
     return [
         f"Summarize the document of the {court}. ",
         f"Consider the document of the {court} and summarize it. "
@@ -28,6 +37,7 @@ class LegalCaseDocumentSummarization(AbstractDataset):
         df = load_dataset("joelito/legal_case_document_summarization",
                           split="train")
         task_type = TaskType.SUMMARIZATION
+        instruction_language = "en"
         prompt_language = "en"
 
         for example in df:
@@ -44,6 +54,6 @@ class LegalCaseDocumentSummarization(AbstractDataset):
             input = example["judgement"]
             summary = example["summary"]
             instruction = self.random.choice(instruction_bank)
-            text = build_summarization_answer(input, summary)
-            yield self.build_data_point(prompt_language, "en", instruction,
-                                        text, task_type, jurisdiction)
+            prompt, answer = build_summarization_answer(input, summary)
+            yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
+                                        prompt, answer, task_type, jurisdiction)
