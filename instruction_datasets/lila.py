@@ -23,6 +23,7 @@ class Lila(AbstractDataset):
         ]
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.N_A
+        instruction_language = "en"
         prompt_language = "en"
 
         for json_file in json_files:
@@ -35,9 +36,9 @@ class Lila(AbstractDataset):
                     for program, answer in zip(example['Output Program'],
                                                example['Output Answer']):
                         instruction = self.random.choice(instruction_bank)
-                        datapoint = f"Question: {example['Input']}\n" \
-                                    f"Program:\n```python\n{program}\n```\n" \
-                                    f"Answer: {answer}"
-                        yield self.build_data_point(prompt_language, "en",
-                                                    instruction, datapoint,
+                        prompt = f"Question: {example['Input']}\n" \
+                                    f"Program:\n```python\n{program}\n```\n"
+                        answer = f"Answer: {answer}"
+                        yield self.build_data_point(instruction_language, prompt_language, "en",
+                                                    instruction, prompt, answer,
                                                     task_type, jurisdiction)
