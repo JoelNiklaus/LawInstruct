@@ -69,6 +69,7 @@ class EdgarNER(AbstractDataset):
                          na_filter=False)
         task_type = TaskType.NAMED_ENTITY_RECOGNITION
         jurisdiction = Jurisdiction.US
+        instruction_language = "en"
         prompt_language = "en"
         answer_language = "en"  # TODO: following GermanLER here; it's actually a structured representation though...
 
@@ -80,7 +81,7 @@ class EdgarNER(AbstractDataset):
         for tokens, tags in group_by_sentence(tqdm(df.iterrows(),
                                                    total=len(df))):
             instruction = self.random.choice(instruction_bank)
-            text = self._tags.build_answer(tokens, tags)
-            yield self.build_data_point(prompt_language, answer_language,
-                                        instruction, text, task_type,
+            prompt, answer = self._tags.build_answer(tokens, tags)
+            yield self.build_data_point(instruction_language, prompt_language, answer_language,
+                                        instruction, prompt, answer, task_type,
                                         jurisdiction)
