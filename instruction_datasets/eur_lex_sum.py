@@ -1,3 +1,5 @@
+import string
+
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
@@ -5,8 +7,14 @@ from enums import Jurisdiction
 from enums import TaskType
 
 
-def build_summarization_answer(input, summary):
-    return f"Passage: {input}. Summary: {summary}"
+def build_summarization_answer(input: str, summary: str) -> tuple[str, str]:
+    prompt = f"Passage: {input}"
+    if prompt[-1] not in string.punctuation:
+        prompt += "."
+
+    answer = f"Summary: {summary}"
+
+    return prompt, answer
 
 
 class EurLexSum(AbstractDataset):
@@ -48,6 +56,7 @@ class EurLexSum(AbstractDataset):
 
             task_type = TaskType.SUMMARIZATION
             jurisdiction = Jurisdiction.EU
+            instruction_language = "en"
             prompt_language = "en"
 
             instruction_bank = [
@@ -58,7 +67,7 @@ class EurLexSum(AbstractDataset):
                 input = example["reference"]
                 summary = example["summary"]
                 instruction = self.random.choice(instruction_bank)
-                text = build_summarization_answer(input, summary)
-                yield self.build_data_point(prompt_language, answer_language,
-                                            instruction, text, task_type,
+                prompt, answer = build_summarization_answer(input, summary)
+                yield self.build_data_point(instruction_language, prompt_language, answer_language,
+                                            instruction, prompt, answer, task_type,
                                             jurisdiction)
