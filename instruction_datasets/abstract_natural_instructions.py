@@ -98,7 +98,8 @@ class DataCollatorForNI:
             # add the input first.
             # task_input += "Now complete the following example -\n"
             task_input += f"Input: {instance['Instance']['input'].strip()}"
-            if not task_input[-1] in string.punctuation:
+            # Add a period if the input doesn't end with some punctuation.
+            if task_input[-1] not in string.punctuation:
                 task_input += "."
             task_input += "\n"
             task_input += "Output: "
@@ -117,7 +118,8 @@ class DataCollatorForNI:
                 if not definition[-1] in string.punctuation:
                     definition += "."
                 if add_explanation:
-                    random.choice([
+                    definition += '\n'
+                    definition += random.choice([
                         "If you can, please add an explanation *before* you output your answer.",
                         "Please output an explanation first and then come to your conclusion and create an output.",
                         "Explain your answer first.",
