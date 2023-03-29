@@ -24,6 +24,7 @@ class ChangeMyView(AbstractDataset):
         ]
         task_type = TaskType.ARGUMENTATION
         jurisdiction = Jurisdiction.UNKNOWN
+        instruction_language = "en"
         prompt_language = "en"
 
         with open(f"{self.raw_data_dir}/train_pair_data.jsonlist") as f:
@@ -35,6 +36,7 @@ class ChangeMyView(AbstractDataset):
                     body = d['positive']['comments'][0]['body'].strip()
                 op = d['op_text'].split("EDIT:")[0].strip()
                 instruction = self.random.choice(instruction_bank)
-                text = f"Argument: {op}\n\nCounter-argument: {body}"
-                yield self.build_data_point(prompt_language, "en", instruction,
-                                            text, task_type, jurisdiction)
+                prompt = f"Argument: {op}"
+                answer = f"Counter-argument: {body}"
+                yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
+                                            prompt, answer, task_type, jurisdiction)
