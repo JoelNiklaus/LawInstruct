@@ -15,6 +15,7 @@ class MBE(AbstractDataset):
         df = pd.read_csv(f"{self.raw_data_dir}/mbe_train.csv")
         task_type = TaskType.MULTIPLE_CHOICE
         jurisdiction = Jurisdiction.US
+        instruction_language = "en"
         prompt_language = "en"
 
         instructions_examples = [
@@ -51,25 +52,28 @@ class MBE(AbstractDataset):
                 lookup = ["A", "B", "C", "D"]
                 datapoint += f"{lookup[i]}. {choice}\n"
             data_no_answer = datapoint
-            data_with_answer = data_no_answer + f"Explanation: {positive_passage}\nAnswer: {answer}"
+            answer = f"Explanation: {positive_passage}\nAnswer: {answer}"
+            data_with_answer = data_no_answer + answer
             # if source_year.strip() != "" and int(source_year) > 1950 and int(source_year) < 2023:
             #     source_year_string = f" Consider only the law and relevant cases before {source_year}."
             # else:
             #     source_year_string = ""
             instruction = self.random.choice(instructions_examples)
-            yield self.build_data_point(prompt_language, "en", instruction,
-                                        datapoint, task_type, jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
+                                        data_no_answer, answer, task_type, jurisdiction)
 
             if isinstance(subject, str) and subject.strip() != "":
                 # Datapoint with subject.
                 instruction = self.random.choice(instruction_bank_subject)
-                datapoint = f"{data_no_answer}\nSubject: {subject}"
-                yield self.build_data_point(prompt_language, "en", instruction,
-                                            datapoint, task_type, jurisdiction)
+                prompt = data_no_answer
+                answer = f"Subject: {subject}"
+                yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
+                                            prompt, answer, task_type, jurisdiction)
 
                 # Datapoint for generation with subject.
                 instruction = self.random.choice(
                     instruction_bank_subject_generation) + subject
-                yield self.build_data_point(prompt_language, "en", instruction,
-                                            data_with_answer, task_type,
+                _BLANK_PROMPT = ""  # TODO: what would the prompt be here?
+                yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
+                                            _BLANK_PROMPT, data_with_answer, task_type,
                                             jurisdiction)
