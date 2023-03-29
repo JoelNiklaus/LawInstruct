@@ -8,6 +8,7 @@ import os
 import pathlib
 import random
 import sys
+import warnings
 
 from tqdm import tqdm
 
@@ -24,10 +25,12 @@ except ImportError:
 @dataclasses.dataclass(frozen=True)
 class DataPoint:
     """A data point in the dataset for training an LLM."""
+    instruction_language: str
     prompt_language: str
     answer_language: str
     instructions: str
-    text: str
+    prompt: str
+    answer: str
     task_type: TaskType
     jurisdiction: Jurisdiction
     subset: str
@@ -86,19 +89,24 @@ class AbstractDataset:
                 self.name]
 
     def build_data_point(self,
+                         instruction_language,
                          prompt_language: str,
                          answer_language: str,
                          instructions: str,
-                         text: str,
+                         prompt: str,
+                         answer: str,
                          task_type: TaskType = TaskType.UNKNOWN,
                          jurisdiction: Jurisdiction = Jurisdiction.UNKNOWN,
                          subset: str = "") -> DataPoint:
         """Builds a data point.
 
         Args:
+            instruction_language: The language code for the instructions.
             prompt_language: The language of the prompt.
             answer_language: The language of the answer.
-            text: The text of the prompt and answer.
+            instructions: The text of the instructions.
+            prompt: The text of the prompt.
+            answer: The text of the answer.
             task_type: The type of the task.
             jurisdiction: The jurisdiction of the task.
             subset: The subset of the dataset the datapoint belongs to.
@@ -108,10 +116,12 @@ class AbstractDataset:
         """
         del self  # We don't use `self`, but subclasses might.
         return DataPoint(
+            instruction_language=instruction_language,
             prompt_language=prompt_language,
             answer_language=answer_language,
             instructions=instructions,
-            text=text,
+            prompt=prompt,
+            answer=answer,
             task_type=task_type,
             jurisdiction=jurisdiction,
             subset=subset,
@@ -129,10 +139,13 @@ class AbstractDataset:
             datapoint: The datapoint to write.
         """
         if not datapoint.instructions:
+            warnings.warn(
+                f"datapoint.instruction is empty in {datapoint}")
+        if not datapoint.prompt:
+            warnings.warn(f"datapoint.prompt is empty in {datapoint}")
+        if not datapoint.answer:
             raise ValueError(
-                f"datapoint.instruction must not be empty in {datapoint}")
-        if not datapoint.text:
-            raise ValueError(f"datapoint.text must not be empty in {datapoint}")
+                f"datapoint.answer must not be empty in {datapoint}")
         # text fields are last, so we can easily read the metadata (on servers,
         # for example)
         file.write(
@@ -144,6 +157,8 @@ class AbstractDataset:
                 'source':
                     self.source,
                 'instruction_language':
+                    datapoint.instruction_language,
+                'prompt_language':
                     datapoint.prompt_language,
                 'answer_language':
                     datapoint.answer_language,
@@ -155,8 +170,10 @@ class AbstractDataset:
                     datetime.date.today().strftime('%m-%d-%Y'),
                 'instruction':
                     datapoint.instructions,
-                'text':
-                    datapoint.text,
+                'prompt':
+                    datapoint.prompt,
+                'answer':
+                    datapoint.answer,
             }) + '\n')
 
     def _get_output_file_name(self, file_index: int,
