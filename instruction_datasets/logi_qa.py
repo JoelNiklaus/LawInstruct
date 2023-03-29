@@ -16,6 +16,7 @@ class LogiQA(AbstractDataset):
         ]
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.CHINA
+        instruction_language = "en"
         prompt_language = "en"
 
         with open(f"{self.raw_data_dir}/zh_train.txt", "r") as f:
@@ -35,8 +36,9 @@ class LogiQA(AbstractDataset):
                     choices.append(x[i])
                     i += 1
                 instruction = self.random.choice(instruction_bank)
-                text = f"Question: {context.strip()} {question}{''.join(choices)}\n\nAnswer: ({correct.strip()})."
-                yield self.build_data_point(prompt_language, "zh", instruction,
-                                            text, task_type, jurisdiction)
+                prompt = f"Question: {context.strip()} {question}{''.join(choices)}"
+                answer = f"Answer: ({correct.strip()})."
+                yield self.build_data_point(instruction_language, prompt_language, "zh", instruction,
+                                            prompt, answer, task_type, jurisdiction)
                 if i >= len(x):
                     break
