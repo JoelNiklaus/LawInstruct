@@ -25,6 +25,7 @@ class Littleton(AbstractDataset):
         ]
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.US
+        instruction_language = "en"
         prompt_language = "en"
 
         for json_file in json_files:
@@ -37,8 +38,10 @@ class Littleton(AbstractDataset):
                 for example in loaded_file["examples"]:
                     instruction = self.random.choice(instruction_bank)
                     text = f"Events: {example['program']}\nAnswer: {example['result']}"
-                    yield self.build_data_point(prompt_language, "en",
-                                                instruction, text, task_type,
+                    prompt = f"Events: {example['program']}"
+                    answer = f"Answer: {example['result']}"
+                    yield self.build_data_point(instruction_language, prompt_language, "en",
+                                                instruction, prompt, answer, task_type,
                                                 jurisdiction)
 
         json_files = [
@@ -60,7 +63,8 @@ class Littleton(AbstractDataset):
                     if "expected" not in example:
                         continue
                     instruction = self.random.choice(instruction_bank)
-                    text = f"Events: {example['program']}\nAnswer: {example['expected']}"
-                    yield self.build_data_point(prompt_language, "en",
-                                                instruction, text, task_type,
+                    prompt = f"Events: {example['program']}"
+                    answer = f"Answer: {example['expected']}"
+                    yield self.build_data_point(instruction_language, prompt_language, "en",
+                                                instruction, prompt, answer, task_type,
                                                 jurisdiction)
