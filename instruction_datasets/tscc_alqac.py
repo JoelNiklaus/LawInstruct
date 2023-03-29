@@ -1,4 +1,5 @@
 import json
+from typing import Final
 
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
@@ -36,8 +37,9 @@ class TsccAlqac(AbstractDataset):
 
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.THAILAND
+        instruction_language: Final[str] = "en"
         prompt_language = "en"
-        answer_language = "th"
+        answer_language = "th"  # TODO: is this correct? Looks like `outcome` is English.
 
         for case in cases:
             text = case["text"]
@@ -53,9 +55,10 @@ class TsccAlqac(AbstractDataset):
                 outcome = f"The court would rule {'against' if case['label'] == 1 else 'for'} the defendant."
             laws = '\n'.join(relevant_articles)
             instruction = self.random.choice(instructions_bank)
-            text = f"Facts: {text}\nLaw(s): {laws}\nConclusion: {outcome}"
-            yield self.build_data_point(prompt_language, answer_language,
-                                        instruction, text, task_type,
+            prompt = f"Facts: {text}\nLaw(s): {laws}"
+            answer = f'Conclusion: {outcome}'
+            yield self.build_data_point(instruction_language, prompt_language, answer_language,
+                                        instruction, prompt, answer, task_type,
                                         jurisdiction)
 
             # Provide a non-MC version
