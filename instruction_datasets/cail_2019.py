@@ -14,6 +14,7 @@ class CAIL2019(AbstractDataset):
     def get_data(self):
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.CHINA
+        instruction_language = "en"
         prompt_language = "en"
 
         instruction_bank = [
@@ -32,7 +33,8 @@ class CAIL2019(AbstractDataset):
                             answer = ", ".join(
                                 [a['text'] for a in question['answers']])
                         instruction = self.random.choice(instruction_bank)
-                        text = f"{paragraph['context']}\n\nQuestion:{question['question']}\nAnswer:{answer}"
-                        yield self.build_data_point(prompt_language, "zh",
-                                                    instruction, text,
+                        prompt = f"{paragraph['context']}\n\nQuestion: {question['question']}"
+                        answer = f"Answer: {answer}"
+                        yield self.build_data_point(instruction_language, prompt_language, "zh",
+                                                    instruction, prompt, answer,
                                                     task_type, jurisdiction)
