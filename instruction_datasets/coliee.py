@@ -5,6 +5,8 @@ from enums import Jurisdiction
 from enums import TaskType
 
 _BLANK_INSTRUCTION = ''
+_BLANK_INSTRUCTION_LANGUAGE = 'zxx'
+_BLANK_PROMPT = ''
 
 
 class COLIEE(AbstractDataset):
@@ -29,9 +31,9 @@ class COLIEE(AbstractDataset):
                 examples = [json.loads(x) for x in f.readlines()]
                 for example in examples:
                     text = example['text']
-                    yield self.build_data_point(prompt_language,
+                    yield self.build_data_point(_BLANK_INSTRUCTION_LANGUAGE, prompt_language,
                                                 answer_language,
-                                                _BLANK_INSTRUCTION, text,
+                                                _BLANK_INSTRUCTION, _BLANK_PROMPT, text,
                                                 task_type, jurisdiction)
 
         # Given a legal passage, generate an entailed question
@@ -43,9 +45,9 @@ class COLIEE(AbstractDataset):
                 examples = [json.loads(x) for x in f.readlines()]
                 for example in examples:
                     text = example['text']
-                    yield self.build_data_point(prompt_language,
+                    yield self.build_data_point(_BLANK_INSTRUCTION_LANGUAGE, prompt_language,
                                                 answer_language,
-                                                _BLANK_INSTRUCTION, text,
+                                                _BLANK_INSTRUCTION, _BLANK_PROMPT, text,
                                                 task_type, jurisdiction)
 
         # Given a question, provide the relevant legal rule for answering the question and the answer
@@ -57,7 +59,7 @@ class COLIEE(AbstractDataset):
                 examples = [json.loads(x) for x in f.readlines()]
                 for example in examples:
                     text = example['text']
-                    yield self.build_data_point(prompt_language,
+                    yield self.build_data_point(_BLANK_INSTRUCTION_LANGUAGE, prompt_language,
                                                 answer_language,
-                                                _BLANK_INSTRUCTION, text,
+                                                _BLANK_INSTRUCTION, _BLANK_PROMPT, text,
                                                 task_type, jurisdiction)
