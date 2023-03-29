@@ -35,6 +35,7 @@ class LawngNli(AbstractDataset):
         # Now we're forced to read a pickled pandas dataframe.
         df = pd.read_pickle(file)
         jurisdiction = Jurisdiction.US
+        instruction_language = "en"
         prompt_language = "en"
         task_type = TaskType.NATURAL_LANGUAGE_INFERENCE
         instruction_bank = [
@@ -57,15 +58,15 @@ class LawngNli(AbstractDataset):
             for premise_col in _PREMISE_COLS:
                 # Add the datapoint.
                 instruction = self.random.choice(instruction_bank)
-                datapoint = f"Passage 1: {row[premise_col]}\n" \
-                            f"Sentence 2: {row['hypothesis']}\n" \
-                            f"Answer: {word4label[row['label']]}"
-                yield self.build_data_point(prompt_language, "en", instruction,
-                                            datapoint, task_type, jurisdiction)
+                prompt = f"Passage 1: {row[premise_col]}\n" \
+                            f"Sentence 2: {row['hypothesis']}\n"
+                answer = f"Answer: {word4label[row['label']]}"
+                yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
+                                            prompt, answer, task_type, jurisdiction)
                 # Add the contradicting datapoint.
                 instruction = self.random.choice(instruction_bank)
-                datapoint = f"Passage 1: {row[premise_col]}\n" \
-                            f"Sentence 2: {row['contradicted_parenthetical']}\n" \
-                            f"Answer: {label_reversal[word4label[row['label']]]}"
-                yield self.build_data_point(prompt_language, "en", instruction,
-                                            datapoint, task_type, jurisdiction)
+                prompt = f"Passage 1: {row[premise_col]}\n" \
+                            f"Sentence 2: {row['contradicted_parenthetical']}\n"
+                answer = f"Answer: {label_reversal[word4label[row['label']]]}"
+                yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
+                                            prompt, answer, task_type, jurisdiction)
