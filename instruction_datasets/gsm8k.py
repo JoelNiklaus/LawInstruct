@@ -15,6 +15,7 @@ class GSM8K(AbstractDataset):
         x = load_dataset("gsm8k", "main", split="train")
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.N_A
+        instruction_language = "en"
         prompt_language = "en"
 
         instruction_bank = [
@@ -25,9 +26,10 @@ class GSM8K(AbstractDataset):
         ]
         for example in x:
             instruction = self.random.choice(instruction_bank)
-            text = f"Q: {example['question']}\nA: {example['answer']}"
-            yield self.build_data_point(prompt_language, "en", instruction,
-                                        text, task_type, jurisdiction)
+            prompt = f"Q: {example['question']}"
+            answer = f"A: {example['answer']}"
+            yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
+                                        prompt, answer, task_type, jurisdiction)
 
         x = load_dataset("gsm8k", "socratic", split="train")
 
@@ -39,6 +41,7 @@ class GSM8K(AbstractDataset):
         ]
         for example in x:
             instruction = self.random.choice(instruction_bank)
-            text = f"Q: {example['question']}\nA: {example['answer']}"
-            yield self.build_data_point(prompt_language, "en", instruction,
-                                        text, task_type, jurisdiction)
+            prompt = f"Q: {example['question']}"
+            answer = f"A: {example['answer']}"
+            yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
+                                        prompt, answer, task_type, jurisdiction)
