@@ -42,6 +42,7 @@ class NaturalInstructionsOther(AbstractNaturalInstructions):
                 encoded_example = collator([example])
                 prompt = encoded_example["inputs"][0].strip()
                 answer = encoded_example["labels"][0].strip()
-                yield self.build_data_point(_BLANK_INSTRUCTION_LANGUAGE, prompt_language, answer_language,
-                                            _BLANK_INSTRUCTION, prompt, answer, task_type,
-                                            jurisdiction)
+                yield self.build_data_point(_BLANK_INSTRUCTION_LANGUAGE,
+                                            prompt_language, answer_language,
+                                            _BLANK_INSTRUCTION, prompt, answer,
+                                            task_type, jurisdiction)

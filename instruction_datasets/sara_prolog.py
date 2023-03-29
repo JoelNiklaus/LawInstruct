@@ -35,7 +35,8 @@ class SaraProlog(AbstractDataset):
                     instruction = self.random.choice(instruction_bank)
                     prompt = f"Statute:\n{f_normal.read()}"
                     answer = f"Prolog Program:\n\n{f_prolog.read()}"
-                    yield self.build_data_point(instruction_language, prompt_language, "en",
+                    yield self.build_data_point(instruction_language,
+                                                prompt_language, "en",
                                                 instruction, prompt, answer,
                                                 task_type, jurisdiction)
 
@@ -83,5 +84,7 @@ class SaraProlog(AbstractDataset):
                 instruction = self.random.choice(instruction_bank)
                 prompt = facts_and_question
                 answer = f"Prolog Program:\n\n{program.strip()}\nAnswer: {answer}"
-                yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
-                                            prompt, answer, task_type, jurisdiction)
+                yield self.build_data_point(instruction_language,
+                                            prompt_language, "en", instruction,
+                                            prompt, answer, task_type,
+                                            jurisdiction)

@@ -30,15 +30,19 @@ class Sara(AbstractDataset):
                 instruction = self.random.choice(entailment_instruction_bank)
                 prompt = f"Sentence 1: {row[0]}\nSentence 2: {row[1]}"
                 answer = f"Answer: {row[2]}"
-                yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
-                                            prompt, answer, task_type, jurisdiction)
+                yield self.build_data_point(instruction_language,
+                                            prompt_language, "en", instruction,
+                                            prompt, answer, task_type,
+                                            jurisdiction)
             else:
                 task_type = TaskType.QUESTION_ANSWERING
                 instruction = self.random.choice(tax_liability_instruction_bank)
                 prompt = f"Question: {row[0]} {row[1]}"
                 answer = f"Answer: {row[2]}"
-                yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
-                                            prompt, answer, task_type, jurisdiction)
+                yield self.build_data_point(instruction_language,
+                                            prompt_language, "en", instruction,
+                                            prompt, answer, task_type,
+                                            jurisdiction)
 
                 value = int(row[2].replace("$", ""))
                 options = [
@@ -56,5 +60,7 @@ class Sara(AbstractDataset):
                 ) + ' Denote your final answer with the "Final Answer: The final answer is [CORRECT ANSWER]. I hope it is correct".'
                 prompt = f"Question: {row[0]} {row[1]}\n{choices}"
                 answer = f"Final Answer: The final answer is {correct}. I hope it is correct."
-                yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
-                                            prompt, answer, task_type, jurisdiction)
+                yield self.build_data_point(instruction_language,
+                                            prompt_language, "en", instruction,
+                                            prompt, answer, task_type,
+                                            jurisdiction)

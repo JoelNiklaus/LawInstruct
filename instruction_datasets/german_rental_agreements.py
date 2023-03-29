@@ -33,6 +33,7 @@ class GermanRentalAgreements(AbstractDataset):
                     # TODO: this one doesn't have any Prompt and Answer nouns...
                     prompt = sentence
                     answer = label
-                    yield self.build_data_point(instruction_language, prompt_language, "de",
-                                                instruction, prompt, answer, task_type,
-                                                jurisdiction)
+                    yield self.build_data_point(instruction_language,
+                                                prompt_language, "de",
+                                                instruction, prompt, answer,
+                                                task_type, jurisdiction)

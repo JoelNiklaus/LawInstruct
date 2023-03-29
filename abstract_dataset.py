@@ -139,8 +139,7 @@ class AbstractDataset:
             datapoint: The datapoint to write.
         """
         if not datapoint.instructions:
-            warnings.warn(
-                f"datapoint.instruction is empty in {datapoint}")
+            warnings.warn(f"datapoint.instruction is empty in {datapoint}")
         if not datapoint.prompt:
             warnings.warn(f"datapoint.prompt is empty in {datapoint}")
         if not datapoint.answer:

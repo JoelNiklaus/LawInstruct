@@ -41,6 +41,6 @@ class PrivacySummarization(AbstractDataset):
             instruction = introduction_sentence
             prompt = passage
             answer = _TEXT4LABEL[label]
-            yield self.build_data_point(instruction_language, prompt_language, answer_language,
-                                        instruction, prompt, answer, task_type,
-                                        jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        answer_language, instruction, prompt,
+                                        answer, task_type, jurisdiction)

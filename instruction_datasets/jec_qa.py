@@ -33,5 +33,6 @@ class JECQA(AbstractDataset):
                 prompt += f"{k}. {v}\n"
             prompt.rstrip("\n")  # remove trailing newline
             answer = "Final Answer(s): {','.join(q['answer'])}"
-            yield self.build_data_point(instruction_language, prompt_language, "zh", instruction,
-                                        prompt, answer, task_type, jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "zh", instruction, prompt, answer,
+                                        task_type, jurisdiction)

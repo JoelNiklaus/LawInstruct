@@ -39,5 +39,6 @@ class StackExchangeQuestionsLegal(AbstractDataset):
 
             prompt = f"Question: {question}"
             answer = f"Answer: {answer}"
-            yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
-                                        prompt, answer, task_type, jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", instruction, prompt, answer,
+                                        task_type, jurisdiction)

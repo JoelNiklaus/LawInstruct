@@ -34,5 +34,6 @@ class ReClor(AbstractDataset):
             instruction = self.random.choice(instruction_bank)
             prompt = f"Question: {data['context']} {data['question']}\n{options}"
             answer = f"Final Answer: The final answer is: {correct_option}. I hope it is correct."
-            yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
-                                        prompt, answer, task_type, jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", instruction, prompt, answer,
+                                        task_type, jurisdiction)

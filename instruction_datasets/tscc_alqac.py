@@ -57,9 +57,9 @@ class TsccAlqac(AbstractDataset):
             instruction = self.random.choice(instructions_bank)
             prompt = f"Facts: {text}\nLaw(s): {laws}"
             answer = f'Conclusion: {outcome}'
-            yield self.build_data_point(instruction_language, prompt_language, answer_language,
-                                        instruction, prompt, answer, task_type,
-                                        jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        answer_language, instruction, prompt,
+                                        answer, task_type, jurisdiction)
 
             # Provide a non-MC version
             outcome_mc1 = ["(a)", "(b)"][case["label"]]

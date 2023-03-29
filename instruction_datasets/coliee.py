@@ -31,10 +31,12 @@ class COLIEE(AbstractDataset):
                 examples = [json.loads(x) for x in f.readlines()]
                 for example in examples:
                     text = example['text']
-                    yield self.build_data_point(_BLANK_INSTRUCTION_LANGUAGE, prompt_language,
+                    yield self.build_data_point(_BLANK_INSTRUCTION_LANGUAGE,
+                                                prompt_language,
                                                 answer_language,
-                                                _BLANK_INSTRUCTION, _BLANK_PROMPT, text,
-                                                task_type, jurisdiction)
+                                                _BLANK_INSTRUCTION,
+                                                _BLANK_PROMPT, text, task_type,
+                                                jurisdiction)
 
         # Given a legal passage, generate an entailed question
         task_type = TaskType.QUESTION_GENERATION
@@ -45,10 +47,12 @@ class COLIEE(AbstractDataset):
                 examples = [json.loads(x) for x in f.readlines()]
                 for example in examples:
                     text = example['text']
-                    yield self.build_data_point(_BLANK_INSTRUCTION_LANGUAGE, prompt_language,
+                    yield self.build_data_point(_BLANK_INSTRUCTION_LANGUAGE,
+                                                prompt_language,
                                                 answer_language,
-                                                _BLANK_INSTRUCTION, _BLANK_PROMPT, text,
-                                                task_type, jurisdiction)
+                                                _BLANK_INSTRUCTION,
+                                                _BLANK_PROMPT, text, task_type,
+                                                jurisdiction)
 
         # Given a question, provide the relevant legal rule for answering the question and the answer
         task_type = TaskType.QUESTION_ANSWERING
@@ -59,7 +63,9 @@ class COLIEE(AbstractDataset):
                 examples = [json.loads(x) for x in f.readlines()]
                 for example in examples:
                     text = example['text']
-                    yield self.build_data_point(_BLANK_INSTRUCTION_LANGUAGE, prompt_language,
+                    yield self.build_data_point(_BLANK_INSTRUCTION_LANGUAGE,
+                                                prompt_language,
                                                 answer_language,
-                                                _BLANK_INSTRUCTION, _BLANK_PROMPT, text,
-                                                task_type, jurisdiction)
+                                                _BLANK_INSTRUCTION,
+                                                _BLANK_PROMPT, text, task_type,
+                                                jurisdiction)

@@ -4,8 +4,8 @@ from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
 
-
 _BLANK_PROMPT = ''
+
 
 class CaseBriefs(AbstractDataset):
 
@@ -32,5 +32,6 @@ class CaseBriefs(AbstractDataset):
             example = example.replace("Answer:", "Analysis:")
             instruction = self.random.choice(case_brief_instructions)
             # TODO: We need to split the example into a question and an answer.
-            yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
-                                        _BLANK_PROMPT, example, task_type, jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", instruction, _BLANK_PROMPT,
+                                        example, task_type, jurisdiction)

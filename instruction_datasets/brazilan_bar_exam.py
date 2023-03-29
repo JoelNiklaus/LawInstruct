@@ -149,5 +149,7 @@ class BrazilianBarExam(AbstractDataset):
                         datapoint += f'\n\nAnalysis: {analysis}'
                 prompt = datapoint
                 answer = f"Answer: {correct_answer}."
-                yield self.build_data_point(instruction_language, prompt_language, "pt", instruction,
-                                            prompt, answer, task_type, jurisdiction)
+                yield self.build_data_point(instruction_language,
+                                            prompt_language, "pt", instruction,
+                                            prompt, answer, task_type,
+                                            jurisdiction)

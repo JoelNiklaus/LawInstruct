@@ -28,9 +28,9 @@ class LboxOpen(AbstractDataset):
             instruction = self.random.choice(instruction_bank)
             prompt = f"Fact: {x['facts']}"
             answer = f"Statute(s): {','.join(x['statutes'])}"
-            yield self.build_data_point(instruction_language, prompt_language, answer_language,
-                                        instruction, prompt, answer, task_type,
-                                        jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        answer_language, instruction, prompt,
+                                        answer, task_type, jurisdiction)
 
         # Legal judgement prediction tasks
         data_ljp_criminal = load_dataset("lbox/lbox_open", "ljp_criminal")
@@ -44,15 +44,15 @@ class LboxOpen(AbstractDataset):
             instruction = self.random.choice(instruction_bank)
             prompt = f"Fact: {x['facts']}\n{reason}"
             answer = f"Ruling: {x['ruling']['text']}"
-            yield self.build_data_point(instruction_language, prompt_language, answer_language,
-                                        instruction, prompt, answer, task_type,
-                                        jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        answer_language, instruction, prompt,
+                                        answer, task_type, jurisdiction)
 
         data_ljp_civil = load_dataset("lbox/lbox_open", "ljp_civil")
         for x in data_ljp_civil["train"]:
             instruction = self.random.choice(instruction_bank)
             prompt = f"Fact: {x['facts'].strip()}\n\nClaim: {x['gist_of_claim']['text'].strip()}"
             answer = f"Ruling: {x['ruling']['text']}"
-            yield self.build_data_point(instruction_language, prompt_language, answer_language,
-                                        instruction, prompt, answer, task_type,
-                                        jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        answer_language, instruction, prompt,
+                                        answer, task_type, jurisdiction)

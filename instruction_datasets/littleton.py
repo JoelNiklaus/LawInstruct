@@ -40,9 +40,10 @@ class Littleton(AbstractDataset):
                     text = f"Events: {example['program']}\nAnswer: {example['result']}"
                     prompt = f"Events: {example['program']}"
                     answer = f"Answer: {example['result']}"
-                    yield self.build_data_point(instruction_language, prompt_language, "en",
-                                                instruction, prompt, answer, task_type,
-                                                jurisdiction)
+                    yield self.build_data_point(instruction_language,
+                                                prompt_language, "en",
+                                                instruction, prompt, answer,
+                                                task_type, jurisdiction)
 
         json_files = [
             pos_json for pos_json in os.listdir(
@@ -65,6 +66,7 @@ class Littleton(AbstractDataset):
                     instruction = self.random.choice(instruction_bank)
                     prompt = f"Events: {example['program']}"
                     answer = f"Answer: {example['expected']}"
-                    yield self.build_data_point(instruction_language, prompt_language, "en",
-                                                instruction, prompt, answer, task_type,
-                                                jurisdiction)
+                    yield self.build_data_point(instruction_language,
+                                                prompt_language, "en",
+                                                instruction, prompt, answer,
+                                                task_type, jurisdiction)

@@ -223,10 +223,12 @@ def get_ner_instruction(ner_tags: Collection[str]) -> str:
            f"The named entities are: {' '.join(ner_tags)}."
 
 
-def build_ner_answer(tokens: Sequence[str], tags: Collection[str]) -> tuple[str, str]:
+def build_ner_answer(tokens: Sequence[str],
+                     tags: Collection[str]) -> tuple[str, str]:
     prompt = f"Sentence: {NER_DELIMITER.join(tokens)}"
     answer = f"Named Entity Types: {NER_DELIMITER.join(tags)}"
     return prompt, answer
+
 
 class LEXTREME(AbstractDataset):
     # swiss_judgment_prediction is handled separately
@@ -273,21 +275,28 @@ class LEXTREME(AbstractDataset):
                     if 'multi_eurlex' in subset:
                         input_text = ast.literal_eval(input_text)
                         assert isinstance(input_text, dict)
-                        answers = [(
-                            f"Passage {input_text[lang]}", f"Labels: {','.join(correct_labels)}",
-                            lang) for lang, text in input_text.items()]
+                        answers = [(f"Passage {input_text[lang]}",
+                                    f"Labels: {','.join(correct_labels)}", lang)
+                                   for lang, text in input_text.items()]
                     else:
-                        answers = [(
-                            f"Passage {input_text}", f"Labels: {','.join(correct_labels)}",
-                            example['language'])]
+                        answers = [(f"Passage {input_text}",
+                                    f"Labels: {','.join(correct_labels)}",
+                                    example['language'])]
 
                 elif task_code == 'NER':
-                    prompt, answer = build_ner_answer(example["input"], correct_labels)
+                    prompt, answer = build_ner_answer(example["input"],
+                                                      correct_labels)
                     answers = [(prompt, answer, example['language'])]
 
                 for prompt, answer, lang in answers:
                     task_type = TaskType.NAMED_ENTITY_RECOGNITION if task_code == 'NER' else TaskType.TEXT_CLASSIFICATION
                     prompt_language = "en"
-                    yield self.build_data_point(instruction_language, prompt_language, lang,
-                                                instructions, prompt, answer, task_type,
-                                                jurisdiction, subset=subset)
+                    yield self.build_data_point(instruction_language,
+                                                prompt_language,
+                                                lang,
+                                                instructions,
+                                                prompt,
+                                                answer,
+                                                task_type,
+                                                jurisdiction,
+                                                subset=subset)

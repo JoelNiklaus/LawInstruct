@@ -27,6 +27,7 @@ class CABarExamEssays(AbstractDataset):
             exams = [json.loads(x) for x in f.readlines()]
             for exam in exams:
                 text = exam['text']
-                yield self.build_data_point(_BLANK_INSTRUCTION_LANGUAGE, prompt_language, "en",
-                                            _BLANK_INSTRUCTION, _BLANK_PROMPT, text, task_type,
-                                            jurisdiction)
+                yield self.build_data_point(_BLANK_INSTRUCTION_LANGUAGE,
+                                            prompt_language, "en",
+                                            _BLANK_INSTRUCTION, _BLANK_PROMPT,
+                                            text, task_type, jurisdiction)

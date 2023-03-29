@@ -475,24 +475,24 @@ class MAUD(AbstractDataset):
             instruction = self.random.choice(instruction_bank)
             prompt = f"{example['text']}\nWhat is the ABA category?"
             answer_ = category
-            yield self.build_data_point(instruction_language, prompt_language, answer_language,
-                                        instruction, prompt, answer_, task_type,
-                                        jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        answer_language, instruction, prompt,
+                                        answer_, task_type, jurisdiction)
 
             instruction = self.random.choice(instruction_bank)
             prompt = f"{example['text']}\nWhat is the ABA text type?"
             answer_ = text_type
-            yield self.build_data_point(instruction_language, prompt_language, answer_language,
-                                        instruction, prompt, answer_, task_type,
-                                        jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        answer_language, instruction, prompt,
+                                        answer_, task_type, jurisdiction)
 
             instruction = self.random.choice(instruction_bank)
             text = f"{example['text']}\nWhat is the ABA question?\n{question}"
             prompt = f"{example['text']}\nWhat is the ABA question?"
             answer_ = question
-            yield self.build_data_point(instruction_language, prompt_language, answer_language,
-                                        instruction, prompt, answer_, task_type,
-                                        jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        answer_language, instruction, prompt,
+                                        answer_, task_type, jurisdiction)
 
             try:
                 answers_lookup = info_dict[category][text_type][question]
@@ -506,6 +506,7 @@ class MAUD(AbstractDataset):
                        f"Answer this question: {question}\n\n" \
                        f"Possible answers: {','.join([f'{idx}: {answer}' for idx, answer in enumerate(answers_lookup)])}\n"
                 answer_ = f"Correct answer: {answers_lookup.index(answer)}: {answer}"
-                yield self.build_data_point(instruction_language, prompt_language, answer_language,
-                                            instruction, prompt, answer_, task_type,
-                                            jurisdiction)
+                yield self.build_data_point(instruction_language,
+                                            prompt_language, answer_language,
+                                            instruction, prompt, answer_,
+                                            task_type, jurisdiction)

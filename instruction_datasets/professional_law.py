@@ -76,14 +76,15 @@ class ProfessionalLaw(AbstractDataset):
             cur_answer = f"The Final Answer: {lookup[this_answer]}"
 
             instruction = self.random.choice(instructions_examples)
-            yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
-                                        cur_question, cur_answer, task_type, jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", instruction, cur_question,
+                                        cur_answer, task_type, jurisdiction)
 
             instruction_zero_shot = self.random.choice(instructions_zero_shot)
             question_zero_shot = cur_question.split("###")[-1].strip()
-            answer_zero_shot = cur_answer.replace("The Final Answer: ", "Answer: ")
-            yield self.build_data_point(instruction_language, prompt_language, "en",
-                                        instruction_zero_shot,
-                                        question_zero_shot,
-                                        answer_zero_shot, task_type,
-                                        jurisdiction)
+            answer_zero_shot = cur_answer.replace("The Final Answer: ",
+                                                  "Answer: ")
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", instruction_zero_shot,
+                                        question_zero_shot, answer_zero_shot,
+                                        task_type, jurisdiction)

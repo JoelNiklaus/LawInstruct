@@ -29,5 +29,6 @@ class LegalQA(AbstractDataset):
             instruction = self.random.choice(instruction_bank)
             prompt = f"Q: {q}"
             answer = f"A: {a}"
-            yield self.build_data_point(instruction_language, prompt_language, "zh", instruction,
-                                        prompt, answer, task_type, jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "zh", instruction, prompt, answer,
+                                        task_type, jurisdiction)

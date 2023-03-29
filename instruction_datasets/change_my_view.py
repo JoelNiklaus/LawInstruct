@@ -38,5 +38,7 @@ class ChangeMyView(AbstractDataset):
                 instruction = self.random.choice(instruction_bank)
                 prompt = f"Argument: {op}"
                 answer = f"Counter-argument: {body}"
-                yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
-                                            prompt, answer, task_type, jurisdiction)
+                yield self.build_data_point(instruction_language,
+                                            prompt_language, "en", instruction,
+                                            prompt, answer, task_type,
+                                            jurisdiction)

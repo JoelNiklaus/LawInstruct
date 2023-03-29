@@ -35,6 +35,7 @@ class CAIL2019(AbstractDataset):
                         instruction = self.random.choice(instruction_bank)
                         prompt = f"{paragraph['context']}\n\nQuestion: {question['question']}"
                         answer = f"Answer: {answer}"
-                        yield self.build_data_point(instruction_language, prompt_language, "zh",
+                        yield self.build_data_point(instruction_language,
+                                                    prompt_language, "zh",
                                                     instruction, prompt, answer,
                                                     task_type, jurisdiction)

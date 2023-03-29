@@ -15,8 +15,10 @@ def get_ner_instruction(ner_tags: Collection[str]) -> str:
            f"The named entities are: {' '.join(ner_tags)}."
 
 
-def build_ner_answer(tokens: Sequence[str], tags: Sequence[str]) -> tuple[str, str]:
+def build_ner_answer(tokens: Sequence[str],
+                     tags: Sequence[str]) -> tuple[str, str]:
     return f"Sentence: {NER_DELIMITER.join(tokens)}", f"Named Entity Types: {NER_DELIMITER.join(tags)}"
+
 
 def get_all_ner_labels(df, labels_column_name: str = "labels") -> set[str]:
     all_labels = set()
@@ -47,12 +49,14 @@ class MiningLegalArguments(AbstractDataset):
             ]
             for example in df:
                 instruction = self.random.choice(instruction_bank)
-                prompt, answer = build_ner_answer(example['tokens'], example['labels'])
+                prompt, answer = build_ner_answer(example['tokens'],
+                                                  example['labels'])
                 yield self.build_data_point(instruction_language,
                                             prompt_language,
                                             "en",
                                             instruction,
-                                            prompt, answer,
+                                            prompt,
+                                            answer,
                                             task_type,
                                             jurisdiction,
                                             subset=type)

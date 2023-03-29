@@ -30,7 +30,8 @@ class NerTags(ABC):
                 f" (delimited by '{self._delimiter}')."
                 f" The possible types are: {' '.join(self._tags)}.")
 
-    def build_answer(self, tokens: Sequence[str], tags: Sequence[str]) -> tuple[str, str]:
+    def build_answer(self, tokens: Sequence[str],
+                     tags: Sequence[str]) -> tuple[str, str]:
         return (f"Sentence: {self._delimiter.join(tokens)}",
                 f"Named Entity Types: {self._delimiter.join(tags)}")
 
@@ -109,9 +110,9 @@ class GreekNER(AbstractDataset):
                                                    total=len(df))):
             instruction = self.random.choice(instruction_bank)
             prompt, answer = self._tags.build_answer(tokens, tags)
-            yield self.build_data_point(instruction_language, prompt_language, answer_language,
-                                        instruction, prompt, answer, task_type,
-                                        jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        answer_language, instruction, prompt,
+                                        answer, task_type, jurisdiction)
 
 
 class Ell18Dataset(GreekNER):

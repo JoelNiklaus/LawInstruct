@@ -32,8 +32,9 @@ class ILDC(AbstractDataset):
             instruction = self.random.choice(instruction_bank)
             prompt = row['text']
             answer = decision
-            yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
-                                        prompt, answer, task_type, jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", instruction, prompt, answer,
+                                        task_type, jurisdiction)
 
         for idx, row in df2.iterrows():
             decision = "Court Decision: Reject" if row[
@@ -41,5 +42,6 @@ class ILDC(AbstractDataset):
             instruction = self.random.choice(instruction_bank)
             prompt = row['text']
             answer = decision
-            yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
-                                        prompt, answer, task_type, jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", instruction, prompt, answer,
+                                        task_type, jurisdiction)

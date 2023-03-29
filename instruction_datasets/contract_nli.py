@@ -30,5 +30,7 @@ class ContractNLI(AbstractDataset):
                 prompt = f"Contract Passage: {example['premise']}\n\n" \
                        f"Hypothesis: {example['hypothesis']}"
                 answer = f"Entailment: {class_label.int2str(example['label'])}"
-                yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
-                                            prompt, answer, task_type, jurisdiction)
+                yield self.build_data_point(instruction_language,
+                                            prompt_language, "en", instruction,
+                                            prompt, answer, task_type,
+                                            jurisdiction)

@@ -23,5 +23,6 @@ class PrivacyQA(AbstractDataset):
         for index, example in df.iterrows():
             prompt = f"Q: {example['Query']}\nTerm: {example['Segment']}"
             answer = f"A: {example['Label']}"
-            yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
-                                        prompt, answer, task_type, jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", instruction, prompt, answer,
+                                        task_type, jurisdiction)

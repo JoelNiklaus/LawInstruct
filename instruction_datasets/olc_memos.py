@@ -4,7 +4,6 @@ from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
 
-
 _BLANK_PROMPT = ''
 
 
@@ -38,7 +37,7 @@ class OLCMemos(AbstractDataset):
             # FIXME: The memo topic is part of the text, but it may be multiline.
             #  There is no clean way to extract it beyond manual inspection.
             yield self.build_data_point(instruction_language,
-                prompt_language,
+                                        prompt_language,
                                         "en",
                                         instruction,
                                         _BLANK_PROMPT,

@@ -88,21 +88,23 @@ class CiviproQuestions(AbstractDataset):
             answer_no_explanation = f"Answer: {correct_answer}"
 
             for instruction, prompt, answer in zip(
-                    [
-                        instruction_with_passage,
-                        instruction_no_passage,
-                        instruction_no_explanation,
-                    ],
-                    [
-                        prompt_with_passage,
-                        prompt_no_passage,
-                        prompt_no_explanation,
-                    ],
-                    [
-                        answer_with_passage,
-                        answer_no_passage,
-                        answer_no_explanation,
-                    ],
-                ):
-                yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
-                                            prompt, answer, task_type, jurisdiction)
+                [
+                    instruction_with_passage,
+                    instruction_no_passage,
+                    instruction_no_explanation,
+                ],
+                [
+                    prompt_with_passage,
+                    prompt_no_passage,
+                    prompt_no_explanation,
+                ],
+                [
+                    answer_with_passage,
+                    answer_no_passage,
+                    answer_no_explanation,
+                ],
+            ):
+                yield self.build_data_point(instruction_language,
+                                            prompt_language, "en", instruction,
+                                            prompt, answer, task_type,
+                                            jurisdiction)

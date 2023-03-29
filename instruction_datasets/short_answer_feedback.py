@@ -39,18 +39,21 @@ class ShortAnswerFeedback(AbstractDataset):
             instruction = self.random.choice(instruction_bank_openqa)
             prompt = f"Q: {example['question']}"
             answer = f"A: {example['reference_answer']}"
-            yield self.build_data_point(instruction_language, prompt_language, "de", instruction,
-                                        prompt, answer, task_type, jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "de", instruction, prompt, answer,
+                                        task_type, jurisdiction)
 
             instruction = self.random.choice(instruction_bank_feedback)
 
             prompt = f"Q: {example['question']}\nA: {example['provided_answer']}"
             answer = f"Feedback: {example['verification_feedback']}\nScore: {example['score']}"
-            yield self.build_data_point(instruction_language, prompt_language, "de", instruction,
-                                        prompt, answer, task_type, jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "de", instruction, prompt, answer,
+                                        task_type, jurisdiction)
 
             instruction = self.random.choice(instruction_error_class)
             prompt = f"Q: {example['question']}\nA: {example['provided_answer']}"
             answer = f"Feedback: {example['verification_feedback']}\nScore: {example['score']}\nError Type: {example['error_class']}"
-            yield self.build_data_point(instruction_language, prompt_language, "de", instruction,
-                                        prompt, answer, task_type, jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "de", instruction, prompt, answer,
+                                        task_type, jurisdiction)

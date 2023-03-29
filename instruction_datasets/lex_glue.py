@@ -82,6 +82,7 @@ class LexGLUE(AbstractDataset):
                 answer = f"Labels: {','.join(correct_labels)}"
 
                 prompt_language = "en"
-                yield self.build_data_point(INSTRUCTION_LANGUAGE, prompt_language, "en", instructions,
-                                            prompt, answer, task_type, jurisdiction,
-                                            subset)
+                yield self.build_data_point(INSTRUCTION_LANGUAGE,
+                                            prompt_language, "en", instructions,
+                                            prompt, answer, task_type,
+                                            jurisdiction, subset)

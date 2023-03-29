@@ -39,6 +39,7 @@ class Lila(AbstractDataset):
                         prompt = f"Question: {example['Input']}\n" \
                                     f"Program:\n```python\n{program}\n```\n"
                         answer = f"Answer: {answer}"
-                        yield self.build_data_point(instruction_language, prompt_language, "en",
+                        yield self.build_data_point(instruction_language,
+                                                    prompt_language, "en",
                                                     instruction, prompt, answer,
                                                     task_type, jurisdiction)

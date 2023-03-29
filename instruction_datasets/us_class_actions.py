@@ -29,5 +29,6 @@ class USClassActions(AbstractDataset):
             prompt = {example['target_text']}
             answer = f"Likely Verdict: {example['verdict']}"
             prompt_language = "en"
-            yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
-                                        prompt, answer, task_type, jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", instruction, prompt, answer,
+                                        task_type, jurisdiction)

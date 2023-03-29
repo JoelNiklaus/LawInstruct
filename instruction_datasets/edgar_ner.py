@@ -82,6 +82,6 @@ class EdgarNER(AbstractDataset):
                                                    total=len(df))):
             instruction = self.random.choice(instruction_bank)
             prompt, answer = self._tags.build_answer(tokens, tags)
-            yield self.build_data_point(instruction_language, prompt_language, answer_language,
-                                        instruction, prompt, answer, task_type,
-                                        jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        answer_language, instruction, prompt,
+                                        answer, task_type, jurisdiction)

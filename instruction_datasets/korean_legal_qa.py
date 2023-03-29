@@ -32,5 +32,6 @@ class KoreanLegalQA(AbstractDataset):
             instruction = self.random.choice(instruction_bank)
             prompt = f"Q: {question['question']}"
             answer = f"A: {question['answer']}"
-            yield self.build_data_point(instruction_language, prompt_language, "ko", instruction,
-                                        prompt, answer, task_type, jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "ko", instruction, prompt, answer,
+                                        task_type, jurisdiction)
