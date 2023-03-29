@@ -20,6 +20,7 @@ class ReClor(AbstractDataset):
         ]
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.N_A
+        instruction_language = "en"
         prompt_language = "en"
 
         with open(f"{self.raw_data_dir}/reclor_train.json", "r") as f:
@@ -31,6 +32,7 @@ class ReClor(AbstractDataset):
                 options += f"{lab} {x}\n"
             correct_option = options_labels[data['label']]
             instruction = self.random.choice(instruction_bank)
-            text = f"Question: {data['context']} {data['question']}\n{options}\nFinal Answer: The final answer is: {correct_option}. I hope it is correct."
-            yield self.build_data_point(prompt_language, "en", instruction,
-                                        text, task_type, jurisdiction)
+            prompt = f"Question: {data['context']} {data['question']}\n{options}"
+            answer = f"Final Answer: The final answer is: {correct_option}. I hope it is correct."
+            yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
+                                        prompt, answer, task_type, jurisdiction)
