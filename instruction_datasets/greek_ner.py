@@ -30,9 +30,9 @@ class NerTags(ABC):
                 f" (delimited by '{self._delimiter}')."
                 f" The possible types are: {' '.join(self._tags)}.")
 
-    def build_answer(self, tokens: Sequence[str], tags: Sequence[str]) -> str:
-        return (f"Sentence: {self._delimiter.join(tokens)}\n\n"
-                f"Named Entity Types: {self._delimiter.join(tags)}\n\n")
+    def build_answer(self, tokens: Sequence[str], tags: Sequence[str]) -> tuple[str, str]:
+        return (f"Sentence: {self._delimiter.join(tokens)}",
+                f"Named Entity Types: {self._delimiter.join(tags)}")
 
 
 class Ell4Tags(NerTags):
@@ -96,6 +96,7 @@ class GreekNER(AbstractDataset):
                          names=["Sent_ID", "Word", "_", "Tag"])
         task_type = TaskType.NAMED_ENTITY_RECOGNITION
         jurisdiction = Jurisdiction.GREECE
+        instruction_language = "en"
         prompt_language = "en"
         answer_language = "el"  # TODO: following GermanLER here; it's actually a structured representation though...
 
@@ -107,9 +108,9 @@ class GreekNER(AbstractDataset):
         for tokens, tags in group_by_sentence(tqdm(df.iterrows(),
                                                    total=len(df))):
             instruction = self.random.choice(instruction_bank)
-            text = self._tags.build_answer(tokens, tags)
-            yield self.build_data_point(prompt_language, answer_language,
-                                        instruction, text, task_type,
+            prompt, answer = self._tags.build_answer(tokens, tags)
+            yield self.build_data_point(instruction_language, prompt_language, answer_language,
+                                        instruction, prompt, answer, task_type,
                                         jurisdiction)
 
 

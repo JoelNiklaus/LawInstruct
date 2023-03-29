@@ -43,6 +43,7 @@ class IndianNER(AbstractDataset):
     def get_data(self) -> Iterator[dict]:
         task_type = TaskType.NAMED_ENTITY_RECOGNITION
         jurisdiction = Jurisdiction.INDIA
+        instruction_language = "en"
         prompt_language = "en"
         answer_language = "hi"  # TODO: following GermanLER here; it's actually a structured representation though...
 
@@ -64,7 +65,7 @@ class IndianNER(AbstractDataset):
                 tags[start:end] = label
 
             instruction = self.random.choice(instruction_bank)
-            text = self._tags.build_answer(tokens, tags)
-            yield self.build_data_point(prompt_language, answer_language,
-                                        instruction, text, task_type,
+            prompt, answer = self._tags.build_answer(tokens, tags)
+            yield self.build_data_point(instruction_language, prompt_language, answer_language,
+                                        instruction, prompt, answer, task_type,
                                         jurisdiction)
