@@ -18,6 +18,7 @@ class ILDC(AbstractDataset):
 
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.INDIA
+        instruction_language = "en"
         prompt_language = "en"
 
         instruction_bank = [
@@ -29,14 +30,16 @@ class ILDC(AbstractDataset):
             decision = "Court Decision: Reject" if row[
                 "label"] == 0 else "Court Decision: Accept"
             instruction = self.random.choice(instruction_bank)
-            datapoint = f"{row['text']}\n\n{decision}"
-            yield self.build_data_point(prompt_language, "en", instruction,
-                                        datapoint, task_type, jurisdiction)
+            prompt = row['text']
+            answer = decision
+            yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
+                                        prompt, answer, task_type, jurisdiction)
 
         for idx, row in df2.iterrows():
             decision = "Court Decision: Reject" if row[
                 "label"] == 0 else "Court Decision: Accept"
             instruction = self.random.choice(instruction_bank)
-            datapoint = f"{row['text']}\n\n{decision}"
-            yield self.build_data_point(prompt_language, "en", instruction,
-                                        datapoint, task_type, jurisdiction)
+            prompt = row['text']
+            answer = decision
+            yield self.build_data_point(instruction_language, prompt_language, "en", instruction,
+                                        prompt, answer, task_type, jurisdiction)
