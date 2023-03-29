@@ -26,6 +26,7 @@ class PrivacySummarization(AbstractDataset):
     def get_data(self) -> Iterator[dict]:
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.UNKNOWN
+        instruction_language = "en"
         prompt_language = "en"
         answer_language = "en"
 
@@ -38,7 +39,8 @@ class PrivacySummarization(AbstractDataset):
             passage, label = record["QouteText"], record["Point"]
             # TODO: Should this really count as the instruction?
             instruction = introduction_sentence
-            text = (f"{passage}\n\n" f"{_TEXT4LABEL[label]}")
-            yield self.build_data_point(prompt_language, answer_language,
-                                        instruction, text, task_type,
+            prompt = passage
+            answer = _TEXT4LABEL[label]
+            yield self.build_data_point(instruction_language, prompt_language, answer_language,
+                                        instruction, prompt, answer, task_type,
                                         jurisdiction)
