@@ -16,6 +16,7 @@ class InternationalCitizenshipLawQuestions(AbstractDataset):
     def get_data(self):
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.INTERNATIONAL
+        instruction_language = "en"
         prompt_language = "en"
 
         df1 = pd.read_csv(
@@ -46,14 +47,15 @@ class InternationalCitizenshipLawQuestions(AbstractDataset):
             q = code_dictionary[code_dictionary["Mode ID"] ==
                                 mode_id.strip()]["Focus"].values[0]
 
+            prompt = f"Q: Consider the country of {country.strip()}. {q.strip()}"
             if "No provision" in law_article:
-                datapoint = f"Q: Consider the country of {country.strip()}. {q.strip()}\nA: {code_year_spec_answer} This is not covered in any provision."
+                answer = f"A: {code_year_spec_answer} This is not covered in any provision."
             else:
-                datapoint = f"Q: Consider the country of {country.strip()}. {q.strip()}\nA: {code_year_spec_answer} This is covered in: {law_article}. {specification}".strip(
+                answer = f"A: {code_year_spec_answer} This is covered in: {law_article}. {specification}".strip(
                 )
 
-            yield self.build_data_point(prompt_language, "en",
-                                        _BLANK_INSTRUCTION, datapoint,
+            yield self.build_data_point(instruction_language, prompt_language, "en",
+                                        _BLANK_INSTRUCTION, prompt, answer,
                                         task_type, jurisdiction)
 
         for idx, row in df2.iterrows():
@@ -76,10 +78,11 @@ class InternationalCitizenshipLawQuestions(AbstractDataset):
             code_year_spec_answer = ["No.", "Yes."][code_year_spec]
             q = code_dictionary[code_dictionary["Mode ID"] ==
                                 mode_id.strip()]["Focus"].values[0]
+            prompt = f"Q: Consider the country of {country.strip()}. {q.strip()}"
             if "No provision" in law_article:
-                datapoint = f"Q: Consider the country of {country.strip()}. {q}\nA: {code_year_spec_answer} This is not covered in any provision."
+                answer = f"A: {code_year_spec_answer} This is not covered in any provision."
             else:
-                datapoint = f"Q: Consider the country of {country.strip()}. {q}\nA: {code_year_spec_answer} This is covered in: {law_article}. {specification}".strip(
+                answer = f"A: {code_year_spec_answer} This is covered in: {law_article}. {specification}".strip(
                 )
-            yield self.build_data_point(prompt_language, "en", datapoint,
+            yield self.build_data_point(instruction_language, prompt_language, "en", prompt, answer,
                                         task_type, jurisdiction)
