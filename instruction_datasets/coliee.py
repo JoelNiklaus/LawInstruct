@@ -4,10 +4,6 @@ from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
 
-_BLANK_INSTRUCTION = ''
-_BLANK_INSTRUCTION_LANGUAGE = 'zxx'
-_BLANK_PROMPT = ''
-
 
 class COLIEE(AbstractDataset):
 
@@ -17,6 +13,7 @@ class COLIEE(AbstractDataset):
 
     def get_data(self):
         jurisdiction = Jurisdiction.JAPAN
+        instruction_language = 'en'
         prompt_language = "en"
 
         answer_languages = ["en", "jp"]
@@ -31,11 +28,16 @@ class COLIEE(AbstractDataset):
                 examples = [json.loads(x) for x in f.readlines()]
                 for example in examples:
                     text = example['text']
-                    yield self.build_data_point(_BLANK_INSTRUCTION_LANGUAGE,
+                    # The first line of the text is the instruction.
+                    # The last line of the text is the answer.
+                    # The part in between is the prompt.
+                    instruction, rest = text.split("\n", maxsplit=1)
+                    prompt, answer = rest.rsplit("\n", maxsplit=1)
+                    yield self.build_data_point(instruction_language,
                                                 prompt_language,
                                                 answer_language,
-                                                _BLANK_INSTRUCTION,
-                                                _BLANK_PROMPT, text, task_type,
+                                                instruction,
+                                                prompt, answer, task_type,
                                                 jurisdiction)
 
         # Given a legal passage, generate an entailed question
