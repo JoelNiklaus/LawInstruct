@@ -70,6 +70,7 @@ class BVADecisions(AbstractDataset):
 
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.US
+        instruction_language = "en"
         prompt_language = "en"
 
         for sentence in sentences:
@@ -77,8 +78,11 @@ class BVADecisions(AbstractDataset):
                 role = sentence['rhetClass']
             else:
                 role = ",".join(sentence['rhetRole'])
-            datapoint = f"{self.random.choice(instruction_bank)}\n\nSentence: {sentence['text'].strip()}\nRhetorical Role: {role.strip()}"
-            yield self.build_data_point(prompt_language, "en", datapoint,
+            instruction = self.random.choice(instruction_bank)
+            prompt = f"Sentence: {sentence['text'].strip()}"
+            answer = f"Rhetorical Role: {role.strip()}"
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", instruction, prompt, answer,
                                         task_type, jurisdiction)
 
         task_type = TaskType.QUESTION_ANSWERING
@@ -87,10 +91,14 @@ class BVADecisions(AbstractDataset):
             "Name all the rules that would be required to back up the claim."
         ]
         known_data = []
-        for tree_rule in rule_trees:
+        for sentence, tree_rule in zip(sentences, rule_trees):
             tree_rule = turn_rule_tree_to_text(tree_rule)
-            datapoint = f"{self.random.choice(instruction_bank)}\n\nClaim: {tree_rule.strip()}"
-            if datapoint not in known_data:
-                yield self.build_data_point(prompt_language, "en", datapoint,
-                                            task_type, jurisdiction)
-                known_data.append(datapoint)
+            instruction = self.random.choice(instruction_bank)
+            sentence = f"Sentence: {sentence['text'].strip()}"
+            answer = f"Rules: {tree_rule.strip()}"
+            if answer not in known_data:
+                yield self.build_data_point(instruction_language,
+                                            prompt_language, "en", instruction,
+                                            sentence, answer, task_type,
+                                            jurisdiction)
+                known_data.append(answer)

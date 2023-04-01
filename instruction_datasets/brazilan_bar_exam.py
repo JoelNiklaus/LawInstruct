@@ -23,6 +23,7 @@ class BrazilianBarExam(AbstractDataset):
 
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.BRAZIL
+        instruction_language = "en"
         prompt_language = "en"
         instruction_bank = [
             "Answer the questions from the Brazilian bar exam.",
@@ -117,7 +118,8 @@ class BrazilianBarExam(AbstractDataset):
                 if c["correct"]:
                     correct_answer = f"({c['letter'].lower()})"
             if correct_answer is not None:
-                datapoint = f"{self.random.choice(instruction_bank)}\n\nQuestion: {q['enum']}\n{choices}"
+                instruction = self.random.choice(instruction_bank)
+                datapoint = f"Question: {q['enum']}\n{choices}"
 
                 legal_text = None
                 if q["filename"].split(".txt")[0] in just_dict and q[
@@ -145,6 +147,9 @@ class BrazilianBarExam(AbstractDataset):
                         analysis = just_dict[q["filename"].split(".txt")[0]][
                             q["number"]]["comment"].replace("\n", "")
                         datapoint += f'\n\nAnalysis: {analysis}'
-                datapoint += f"\nAnswer: {correct_answer}."
-                yield self.build_data_point(prompt_language, "pt", datapoint,
-                                            task_type, jurisdiction)
+                prompt = datapoint
+                answer = f"Answer: {correct_answer}."
+                yield self.build_data_point(instruction_language,
+                                            prompt_language, "pt", instruction,
+                                            prompt, answer, task_type,
+                                            jurisdiction)

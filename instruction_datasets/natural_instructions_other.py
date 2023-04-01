@@ -8,6 +8,9 @@ from instruction_datasets.abstract_natural_instructions import \
 from instruction_datasets.abstract_natural_instructions import \
     get_first_lang_code
 
+_BLANK_INSTRUCTION = ''
+_BLANK_INSTRUCTION_LANGUAGE = 'zxx'
+
 
 class NaturalInstructionsOther(AbstractNaturalInstructions):
 
@@ -37,8 +40,9 @@ class NaturalInstructionsOther(AbstractNaturalInstructions):
 
             for collator in self.collators:
                 encoded_example = collator([example])
-                # TODO additionally save prompt and label separately for the legal datasets so we can do machine translation only on prompt
-                text = encoded_example["inputs"][0] + " " + encoded_example[
-                    "labels"][0].strip()
-                yield self.build_data_point(prompt_language, answer_language,
-                                            text, task_type, jurisdiction)
+                prompt = encoded_example["inputs"][0].strip()
+                answer = encoded_example["labels"][0].strip()
+                yield self.build_data_point(_BLANK_INSTRUCTION_LANGUAGE,
+                                            prompt_language, answer_language,
+                                            _BLANK_INSTRUCTION, prompt, answer,
+                                            task_type, jurisdiction)

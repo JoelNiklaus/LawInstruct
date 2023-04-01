@@ -14,13 +14,15 @@ from instruction_datasets.edgar_ner import EdgarNER
 from instruction_datasets.eoir_privacy import EOIRPrivacy
 from instruction_datasets.eur_lex_sum import EurLexSum
 from instruction_datasets.german_ler import GermanLER
-from instruction_datasets.german_rental_agreements import GermanRentalAgreements
-from instruction_datasets.greek_ner import Ell18Dataset
+from instruction_datasets.german_rental_agreements import \
+    GermanRentalAgreements
 from instruction_datasets.greek_ner import Ell4Dataset
+from instruction_datasets.greek_ner import Ell18Dataset
 from instruction_datasets.gsm8k import GSM8K
 from instruction_datasets.ildc import ILDC
 from instruction_datasets.indian_ner import IndianNER
-from instruction_datasets.indian_text_segmentation import IndianTextSegmentation
+from instruction_datasets.indian_text_segmentation import \
+    IndianTextSegmentation
 from instruction_datasets.international_citizenship_law_questions import \
     InternationalCitizenshipLawQuestions
 from instruction_datasets.jec_qa import JECQA

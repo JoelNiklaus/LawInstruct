@@ -17,6 +17,7 @@ class ShortAnswerFeedback(AbstractDataset):
         df = load_dataset("JohnnyBoy00/saf_legal_domain_german")
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.GERMANY
+        instruction_language = "en"
         prompt_language = "en"
 
         instruction_bank_openqa = [
@@ -35,14 +36,24 @@ class ShortAnswerFeedback(AbstractDataset):
         ]
 
         for example in df["train"]:
-            text = f"{self.random.choice(instruction_bank_openqa)}\n\nQ: {example['question']}\nA: {example['reference_answer']}"
-            yield self.build_data_point(prompt_language, "de", text, task_type,
-                                        jurisdiction)
+            instruction = self.random.choice(instruction_bank_openqa)
+            prompt = f"Q: {example['question']}"
+            answer = f"A: {example['reference_answer']}"
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "de", instruction, prompt, answer,
+                                        task_type, jurisdiction)
 
-            text = f"{self.random.choice(instruction_bank_feedback)}\n\nQ: {example['question']}\nA: {example['provided_answer']}\nFeedback: {example['verification_feedback']}\nScore: {example['score']}"
-            yield self.build_data_point(prompt_language, "de", text, task_type,
-                                        jurisdiction)
+            instruction = self.random.choice(instruction_bank_feedback)
 
-            text = f"{self.random.choice(instruction_error_class)}\n\nQ: {example['question']}\nA: {example['provided_answer']}\nFeedback: {example['verification_feedback']}\nScore: {example['score']}\nError Type: {example['error_class']}"
-            yield self.build_data_point(prompt_language, "de", text, task_type,
-                                        jurisdiction)
+            prompt = f"Q: {example['question']}\nA: {example['provided_answer']}"
+            answer = f"Feedback: {example['verification_feedback']}\nScore: {example['score']}"
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "de", instruction, prompt, answer,
+                                        task_type, jurisdiction)
+
+            instruction = self.random.choice(instruction_error_class)
+            prompt = f"Q: {example['question']}\nA: {example['provided_answer']}"
+            answer = f"Feedback: {example['verification_feedback']}\nScore: {example['score']}\nError Type: {example['error_class']}"
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "de", instruction, prompt, answer,
+                                        task_type, jurisdiction)

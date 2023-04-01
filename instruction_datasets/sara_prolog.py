@@ -17,6 +17,7 @@ class SaraProlog(AbstractDataset):
         ]
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.US
+        instruction_language = "en"
         prompt_language = "en"
 
         json_files = [
@@ -31,10 +32,13 @@ class SaraProlog(AbstractDataset):
                         os.path.join(
                             f"{self.raw_data_dir}/sara_statutes/prolog/",
                             json_file) + ".pl", "r") as f_prolog:
-                    datapoint = f"{self.random.choice(instruction_bank)}\n\nStatute:\n{f_normal.read()}\n\nProlog Program:\n\n{f_prolog.read()}"
-                    yield self.build_data_point(prompt_language, "en",
-                                                datapoint, task_type,
-                                                jurisdiction)
+                    instruction = self.random.choice(instruction_bank)
+                    prompt = f"Statute:\n{f_normal.read()}"
+                    answer = f"Prolog Program:\n\n{f_prolog.read()}"
+                    yield self.build_data_point(instruction_language,
+                                                prompt_language, "en",
+                                                instruction, prompt, answer,
+                                                task_type, jurisdiction)
 
         instruction_bank = [
             "Convert the following fact pattern into prolog code. Then answer the question.",
@@ -77,6 +81,10 @@ class SaraProlog(AbstractDataset):
                     "% Question", "\nQuestion:")
                 facts_and_question = facts_and_question.replace("%", "").strip()
 
-                datapoint = f"{self.random.choice(instruction_bank)}\n\n{facts_and_question}\n\nProlog Program:\n{program.strip()}\nAnswer: {answer}"
-                yield self.build_data_point(prompt_language, "en", datapoint,
-                                            task_type, jurisdiction)
+                instruction = self.random.choice(instruction_bank)
+                prompt = facts_and_question
+                answer = f"Prolog Program:\n\n{program.strip()}\nAnswer: {answer}"
+                yield self.build_data_point(instruction_language,
+                                            prompt_language, "en", instruction,
+                                            prompt, answer, task_type,
+                                            jurisdiction)

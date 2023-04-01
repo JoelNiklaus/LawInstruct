@@ -16,6 +16,7 @@ class MCExamsLaw(AbstractDataset):
             f"{self.raw_data_dir}/raw_legal_mc_with_explanations.csv")
         task_type = TaskType.MULTIPLE_CHOICE
         jurisdiction = Jurisdiction.US
+        instruction_language = "en"
         prompt_language = "en"
 
         instruction_bank = [
@@ -33,11 +34,17 @@ class MCExamsLaw(AbstractDataset):
                 "Explanation"], row["Source"]
 
             # No chain of thought
-            text = f"{self.random.choice(instruction_bank)}\n\nQ:{q}\nA:{a}"
-            yield self.build_data_point(prompt_language, "en", text, task_type,
-                                        jurisdiction)
+            instruction = self.random.choice(instruction_bank)
+            prompt = f"Q: {q}"
+            answer = f"A: {a}"
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", instruction, prompt, answer,
+                                        task_type, jurisdiction)
 
             # Chain of thought
-            text = f"{self.random.choice(instruction_bank_expl)}\n\nQ:{q}\nExplanation: {explanation}\nA:{a}"
-            yield self.build_data_point(prompt_language, "en", text, task_type,
-                                        jurisdiction)
+            instruction_expl = self.random.choice(instruction_bank_expl)
+            prompt = f"Q: {q}"
+            answer = f"Explanation: {explanation}\nA:{a}"
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", instruction_expl, prompt, answer,
+                                        task_type, jurisdiction)

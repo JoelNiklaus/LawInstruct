@@ -25,10 +25,14 @@ class EOIRPrivacy(AbstractDataset):
         ]
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.US
+        instruction_language = "en"
         prompt_language = "en"
 
         for example in df:
             lookup = ["Don't use pseudonym.", "Use pseudonym."]
-            text = f"{self.random.choice(instruction_bank)}\n\n{example['text']}\n{lookup[example['label']]}"
-            yield self.build_data_point(prompt_language, "en", text, task_type,
-                                        jurisdiction)
+            instruction = self.random.choice(instruction_bank)
+            prompt = example['text']
+            answer = lookup[example['label']]
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", instruction, prompt, answer,
+                                        task_type, jurisdiction)

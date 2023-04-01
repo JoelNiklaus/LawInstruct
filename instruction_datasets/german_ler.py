@@ -25,9 +25,9 @@ def get_ner_instruction(ner_tags: list[str]) -> str:
             f" The named entities are: {' '.join(ner_tags)}.")
 
 
-def build_ner_answer(tokens: list[str], tags: list[str]) -> str:
-    return (f"Sentence: {NER_DELIMITER.join(tokens)}\n\n"
-            f"Named Entity Types: {NER_DELIMITER.join(tags)}\n\n")
+def build_ner_answer(tokens: list[str], tags: list[str]) -> tuple[str, str]:
+    return (f"Sentence: {NER_DELIMITER.join(tokens)}",
+            f"Named Entity Types: {NER_DELIMITER.join(tags)}")
 
 
 class GermanLER(AbstractDataset):
@@ -41,6 +41,7 @@ class GermanLER(AbstractDataset):
         df = load_dataset("elenanereiss/german-ler", split="train")
         task_type = TaskType.NAMED_ENTITY_RECOGNITION
         jurisdiction = Jurisdiction.GERMANY
+        instruction_language = "en"
         prompt_language = "en"
         answer_language = "de"
 
@@ -53,11 +54,15 @@ class GermanLER(AbstractDataset):
         ]
         for example in df:
             tags = [ner_fine_tags[tag] for tag in example["ner_tags"]]
-            text = f"{self.random.choice(instruction_bank_fine)}\n\n{build_ner_answer(example['tokens'], tags)}"
-            yield self.build_data_point(prompt_language, answer_language, text,
-                                        task_type, jurisdiction)
+            instruction = self.random.choice(instruction_bank_fine)
+            prompt, answer = build_ner_answer(example['tokens'], tags)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        answer_language, instruction, prompt,
+                                        answer, task_type, jurisdiction)
 
             tags = [ner_coarse_tags[tag] for tag in example["ner_coarse_tags"]]
-            text = f"{self.random.choice(instruction_bank_coarse)}\n\n{build_ner_answer(example['tokens'], tags)}"
-            yield self.build_data_point(prompt_language, answer_language, text,
-                                        task_type, jurisdiction)
+            instruction = self.random.choice(instruction_bank_coarse)
+            prompt, answer = build_ner_answer(example['tokens'], tags)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        answer_language, instruction, prompt,
+                                        answer, task_type, jurisdiction)

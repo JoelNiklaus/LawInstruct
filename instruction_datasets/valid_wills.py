@@ -1,8 +1,12 @@
+from typing import Final
+
 import pandas as pd
 
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+
+_BLANK_INSTRUCTION = ""
 
 
 class ValidWills(AbstractDataset):
@@ -19,6 +23,7 @@ class ValidWills(AbstractDataset):
             "Given a statement in a will, the relevant U.S. law, is the condition supported, refuted, or unrelated.",
             "Is the statement in the will valid given the law and conditions? Answer with one of unrelated, supported, refuted."
         ]
+        instruction_language: Final[str] = 'en'
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.US
         prompt_language = "en"
@@ -28,8 +33,10 @@ class ValidWills(AbstractDataset):
                 "conditions"], row["law"], row["classification"]
             CLASSIFICATION_MAP = ['refuted', 'supported', 'unrelated']
             classification = CLASSIFICATION_MAP[classification]
-            prompt = f"{self.random.choice(instruction_bank)}\n\nStatement: {statement}\n\nLaw: {law}\n\nCondition: {conditions}\n\nAnswer: {classification}"
-            prompt2 = f"Statement: {statement}\n\nLaw: {law}\n\nCondition: {conditions}\n\nIs the statement supported by the law and condition?\n\nAnswer: {classification}"
+            instruction = self.random.choice(instruction_bank)
+            prompt = f"Statement: {statement}\n\nLaw: {law}\n\nCondition: {conditions}"
+            prompt2 = f"Statement: {statement}\n\nLaw: {law}\n\nCondition: {conditions}\n\nIs the statement supported by the law and condition?"
+            answer = answer2 = f'Answer: {classification}'
 
             options_mc = ["supported", "refuted", "unrelated"]
             lookup = ["(a)", "(b)", "(c)"]
@@ -40,10 +47,14 @@ class ValidWills(AbstractDataset):
                 if option == classification:
                     correct_option = choice_letter
                 option_mc_string += f"{choice_letter} {option}\n"
-            prompt_mc = f"Statement: {statement}\n\nLaw: {law}\n\nCondition: {conditions}\n\n{option_mc_string}\n\nAnswer: {correct_option}"
-            yield self.build_data_point(prompt_language, "en", prompt,
+            prompt_mc = f"Statement: {statement}\n\nLaw: {law}\n\nCondition: {conditions}\n\n{option_mc_string}"
+            answer_mc = f'Answer: {correct_option}'
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", instruction, prompt, answer,
                                         task_type, jurisdiction)
-            yield self.build_data_point(prompt_language, "en", prompt2,
-                                        task_type, jurisdiction)
-            yield self.build_data_point(prompt_language, "en", prompt_mc,
-                                        task_type, jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", _BLANK_INSTRUCTION, prompt2,
+                                        answer2, task_type, jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", _BLANK_INSTRUCTION, prompt_mc,
+                                        answer_mc, task_type, jurisdiction)

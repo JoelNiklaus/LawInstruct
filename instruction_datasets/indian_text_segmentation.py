@@ -7,6 +7,8 @@ from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
 
+_BLANK_INSTRUCTION = ""
+
 _CATEGORIES: dict[str, str] = {
     "PREAMBLE": "Preamble",
     "FAC": "Facts",
@@ -36,6 +38,7 @@ class IndianTextSegmentation(AbstractDataset):
     def get_data(self) -> Iterator[dict]:
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.INDIA
+        instruction_language = "en"
         prompt_language = "en"
         answer_language = "hi"
 
@@ -49,11 +52,13 @@ class IndianTextSegmentation(AbstractDataset):
                                  raw_passage)  # Collapse whitespace.
                 label = span["value"]["labels"][0]
 
-                text = (
+                prompt = (
                     "In Indian case law, what is the rhetorical role of this part of a court judgment?"
                     f" The options are {', '.join(list(_CATEGORIES.values()))}."
-                    f"\n\nPassage: {passage}"
-                    f"\n\nRole: {_CATEGORIES[label]}")
+                    f"\n\nPassage: {passage}")
+                answer = f"Role: {_CATEGORIES[label]}"
 
-                yield self.build_data_point(prompt_language, answer_language,
-                                            text, task_type, jurisdiction)
+                yield self.build_data_point(instruction_language,
+                                            prompt_language, answer_language,
+                                            _BLANK_INSTRUCTION, prompt, answer,
+                                            task_type, jurisdiction)

@@ -1,6 +1,7 @@
 from typing import List
 
 from datasets import load_dataset
+from tqdm import tqdm
 
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
@@ -34,6 +35,7 @@ class ProfessionalLaw(AbstractDataset):
                           split="auxiliary_train").select(range(1200))
         task_type = TaskType.MULTIPLE_CHOICE
         jurisdiction = Jurisdiction.US
+        instruction_language = "en"
         prompt_language = "en"
 
         def shuffle_choices(choices: List[str], answer: int):
@@ -66,22 +68,23 @@ class ProfessionalLaw(AbstractDataset):
 
             cur_question = prompt
             cur_question += f"Question: {this_question}\n"
+            lookup: list[str] = ["(a)", "(b)", "(c)", "(d)"]
             for i, choice in enumerate(this_choices):
-                lookup = ["(a)", "(b)", "(c)", "(d)"]
                 cur_question += f"{lookup[i]} {choice}\n"
+            cur_question.rstrip("\n")  # Remove trailing newline
 
-            cur_question += (f"The Final Answer: {lookup[this_answer]}")
-            datapoint = cur_question
+            cur_answer = f"The Final Answer: {lookup[this_answer]}"
 
-            final_datapoint = self.random.choice(
-                instructions_examples) + "\n\n" + datapoint
-            yield self.build_data_point(prompt_language, "en", final_datapoint,
+            instruction = self.random.choice(instructions_examples)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", instruction, cur_question,
+                                        cur_answer, task_type, jurisdiction)
+
+            instruction_zero_shot = self.random.choice(instructions_zero_shot)
+            question_zero_shot = cur_question.split("###")[-1].strip()
+            answer_zero_shot = cur_answer.replace("The Final Answer: ",
+                                                  "Answer: ")
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", instruction_zero_shot,
+                                        question_zero_shot, answer_zero_shot,
                                         task_type, jurisdiction)
-
-            datapoint_zero_shot = datapoint.replace(
-                "The Final Answer: ", "Answer: ").split("###")[-1].strip()
-            final_datapoint_zero_shot = self.random.choice(
-                instructions_zero_shot) + "\n\n" + datapoint_zero_shot
-            yield self.build_data_point(prompt_language, "en",
-                                        final_datapoint_zero_shot, task_type,
-                                        jurisdiction)

@@ -1,5 +1,8 @@
-from datasets import load_dataset, get_dataset_config_names
 import json
+
+from datasets import get_dataset_config_names
+from datasets import load_dataset
+
 
 use_fast_way = True  # there is a cleaner way which probably takes longer
 dataset_name = "lawinstruct/lawinstruct"

@@ -1,3 +1,5 @@
+from typing import Final
+
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
@@ -17,12 +19,16 @@ class USClassActions(AbstractDataset):
         df = load_dataset("darrow-ai/USClassActions", split="train")
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.US
+        instruction_language: Final[str] = "en"
         instruction_bank = [
             "Read the following United States class action complaint. Predict whether the complaint will be won or not. Output \"win\" or \"lose\".",
             "Will this class action complaint be successful in U.S. Court?"
         ]
         for example in df:
-            text = f"{self.random.choice(instruction_bank)}\n\n{example['target_text']}\n\nLikely Verdict: {example['verdict']}"
+            instruction = self.random.choice(instruction_bank)
+            prompt = {example['target_text']}
+            answer = f"Likely Verdict: {example['verdict']}"
             prompt_language = "en"
-            yield self.build_data_point(prompt_language, "en", text, task_type,
-                                        jurisdiction)
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", instruction, prompt, answer,
+                                        task_type, jurisdiction)

@@ -13,6 +13,7 @@ class COLIEE(AbstractDataset):
 
     def get_data(self):
         jurisdiction = Jurisdiction.JAPAN
+        instruction_language = 'en'
         prompt_language = "en"
 
         answer_languages = ["en", "jp"]
@@ -27,9 +28,17 @@ class COLIEE(AbstractDataset):
                 examples = [json.loads(x) for x in f.readlines()]
                 for example in examples:
                     text = example['text']
-                    yield self.build_data_point(prompt_language,
-                                                answer_language, text,
-                                                task_type, jurisdiction)
+                    # The first line of the text is the instruction.
+                    # The last line of the text is the answer.
+                    # The part in between is the prompt.
+                    instruction, rest = text.split("\n", maxsplit=1)
+                    prompt, answer = rest.rsplit("\n", maxsplit=1)
+                    yield self.build_data_point(instruction_language,
+                                                prompt_language,
+                                                answer_language,
+                                                instruction,
+                                                prompt, answer, task_type,
+                                                jurisdiction)
 
         # Given a legal passage, generate an entailed question
         task_type = TaskType.QUESTION_GENERATION
@@ -40,9 +49,12 @@ class COLIEE(AbstractDataset):
                 examples = [json.loads(x) for x in f.readlines()]
                 for example in examples:
                     text = example['text']
-                    yield self.build_data_point(prompt_language,
-                                                answer_language, text,
-                                                task_type, jurisdiction)
+                    yield self.build_data_point(_BLANK_INSTRUCTION_LANGUAGE,
+                                                prompt_language,
+                                                answer_language,
+                                                _BLANK_INSTRUCTION,
+                                                _BLANK_PROMPT, text, task_type,
+                                                jurisdiction)
 
         # Given a question, provide the relevant legal rule for answering the question and the answer
         task_type = TaskType.QUESTION_ANSWERING
@@ -53,6 +65,9 @@ class COLIEE(AbstractDataset):
                 examples = [json.loads(x) for x in f.readlines()]
                 for example in examples:
                     text = example['text']
-                    yield self.build_data_point(prompt_language,
-                                                answer_language, text,
-                                                task_type, jurisdiction)
+                    yield self.build_data_point(_BLANK_INSTRUCTION_LANGUAGE,
+                                                prompt_language,
+                                                answer_language,
+                                                _BLANK_INSTRUCTION,
+                                                _BLANK_PROMPT, text, task_type,
+                                                jurisdiction)

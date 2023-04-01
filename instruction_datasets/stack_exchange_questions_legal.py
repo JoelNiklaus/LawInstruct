@@ -23,6 +23,7 @@ class StackExchangeQuestionsLegal(AbstractDataset):
         ]
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.UNKNOWN
+        instruction_language = "en"
         prompt_language = "en"
 
         for idx, example in df.iterrows():
@@ -36,6 +37,8 @@ class StackExchangeQuestionsLegal(AbstractDataset):
             if self.random.random() > .7:
                 instruction += " " + f"This question is about: {','.join([x.replace('>', '').replace('<', '').replace('-', ' ').strip() for x in example['tags'].split('>') if x.replace('>', '').replace('<', '').strip() != ''])}."
 
-            text = f"{instruction}\n\nQuestion: {question}\nAnswer: {answer}"
-            yield self.build_data_point(prompt_language, "en", text, task_type,
-                                        jurisdiction)
+            prompt = f"Question: {question}"
+            answer = f"Answer: {answer}"
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", instruction, prompt, answer,
+                                        task_type, jurisdiction)

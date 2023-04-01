@@ -1,5 +1,6 @@
 """Types that are used for all datasets."""
 from collections.abc import Iterator
+import dataclasses
 import datetime
 import json
 import logging
@@ -7,9 +8,10 @@ import os
 import pathlib
 import random
 import sys
-from typing import TypedDict
+import warnings
 
 from tqdm import tqdm
+
 from enums import Jurisdiction
 from enums import TaskType
 import files
@@ -19,15 +21,16 @@ try:
 except ImportError:
     import pylzma as xz
 
-MAX_FILE_SIZE = 6.25e8
-_FILE_SIZE_CHECK_FREQUENCY = 1000
 
-
-class DataPoint(TypedDict):
+@dataclasses.dataclass(frozen=True)
+class DataPoint:
     """A data point in the dataset for training an LLM."""
+    instruction_language: str
     prompt_language: str
     answer_language: str
-    text: str
+    instructions: str
+    prompt: str
+    answer: str
     task_type: TaskType
     jurisdiction: Jurisdiction
     subset: str
@@ -86,18 +89,24 @@ class AbstractDataset:
                 self.name]
 
     def build_data_point(self,
+                         instruction_language,
                          prompt_language: str,
                          answer_language: str,
-                         text: str,
+                         instructions: str,
+                         prompt: str,
+                         answer: str,
                          task_type: TaskType = TaskType.UNKNOWN,
                          jurisdiction: Jurisdiction = Jurisdiction.UNKNOWN,
                          subset: str = "") -> DataPoint:
         """Builds a data point.
 
         Args:
+            instruction_language: The language code for the instructions.
             prompt_language: The language of the prompt.
             answer_language: The language of the answer.
-            text: The text of the prompt and answer.
+            instructions: The text of the instructions.
+            prompt: The text of the prompt.
+            answer: The text of the answer.
             task_type: The type of the task.
             jurisdiction: The jurisdiction of the task.
             subset: The subset of the dataset the datapoint belongs to.
@@ -106,14 +115,17 @@ class AbstractDataset:
             A data point with the given attributes.
         """
         del self  # We don't use `self`, but subclasses might.
-        return {
-            "prompt_language": prompt_language,
-            "answer_language": answer_language,
-            "text": text,
-            "task_type": task_type,
-            "jurisdiction": jurisdiction,
-            "subset": subset,
-        }
+        return DataPoint(
+            instruction_language=instruction_language,
+            prompt_language=prompt_language,
+            answer_language=answer_language,
+            instructions=instructions,
+            prompt=prompt,
+            answer=answer,
+            task_type=task_type,
+            jurisdiction=jurisdiction,
+            subset=subset,
+        )
 
     def write_json_line(
         self,
@@ -126,15 +138,13 @@ class AbstractDataset:
             file: The file to write to.
             datapoint: The datapoint to write.
         """
-        if not datapoint.instruction:
-            raise ValueError(
-                f"datapoint['instruction'] must not be empty in {datapoint}")
+        if not datapoint.instructions:
+            warnings.warn(f"datapoint.instruction is empty in {datapoint}")
         if not datapoint.prompt:
-            raise ValueError(
-                f"datapoint['prompt'] must not be empty in {datapoint}")
+            warnings.warn(f"datapoint.prompt is empty in {datapoint}")
         if not datapoint.answer:
             raise ValueError(
-                f"datapoint['answer'] must not be empty in {datapoint}")
+                f"datapoint.answer must not be empty in {datapoint}")
         # text fields are last, so we can easily read the metadata (on servers,
         # for example)
         file.write(
@@ -158,7 +168,7 @@ class AbstractDataset:
                 'downloaded_timestamp':
                     datetime.date.today().strftime('%m-%d-%Y'),
                 'instruction':
-                    datapoint.instruction,
+                    datapoint.instructions,
                 'prompt':
                     datapoint.prompt,
                 'answer':

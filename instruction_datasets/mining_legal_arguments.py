@@ -1,3 +1,6 @@
+from collections.abc import Sequence
+from typing import Collection
+
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
@@ -7,17 +10,17 @@ from enums import TaskType
 NER_DELIMITER = "|"
 
 
-def get_ner_instruction(ner_tags):
+def get_ner_instruction(ner_tags: Collection[str]) -> str:
     return f"Predict the named entity types for each token (delimited by '{NER_DELIMITER}'). " \
            f"The named entities are: {' '.join(ner_tags)}."
 
 
-def build_ner_answer(tokens, tags):
-    return f"Sentence: {NER_DELIMITER.join(tokens)}\n\n" \
-           f"Named Entity Types: {NER_DELIMITER.join(tags)}\n\n"
+def build_ner_answer(tokens: Sequence[str],
+                     tags: Sequence[str]) -> tuple[str, str]:
+    return f"Sentence: {NER_DELIMITER.join(tokens)}", f"Named Entity Types: {NER_DELIMITER.join(tags)}"
 
 
-def get_all_ner_labels(df, labels_column_name="labels"):
+def get_all_ner_labels(df, labels_column_name: str = "labels") -> set[str]:
     all_labels = set()
     for example in df:
         all_labels.update(example[labels_column_name])
@@ -33,6 +36,7 @@ class MiningLegalArguments(AbstractDataset):
     def get_data(self):
         task_type = TaskType.NAMED_ENTITY_RECOGNITION
         jurisdiction = Jurisdiction.EU
+        instruction_language = "en"
         prompt_language = "en"
         for type in ["agent", "argType"]:
             source = f"https://huggingface.co/datasets/joelito/mining_legal_arguments_{type}"
@@ -44,10 +48,15 @@ class MiningLegalArguments(AbstractDataset):
                 f"{introduction_sentence} {get_ner_instruction(all_labels)}",
             ]
             for example in df:
-                text = f"{self.random.choice(instruction_bank)}\n\n{build_ner_answer(example['tokens'], example['labels'])}"
-                yield self.build_data_point(prompt_language,
+                instruction = self.random.choice(instruction_bank)
+                prompt, answer = build_ner_answer(example['tokens'],
+                                                  example['labels'])
+                yield self.build_data_point(instruction_language,
+                                            prompt_language,
                                             "en",
-                                            text,
+                                            instruction,
+                                            prompt,
+                                            answer,
                                             task_type,
                                             jurisdiction,
                                             subset=type)

@@ -16,12 +16,13 @@ class PrivacyQA(AbstractDataset):
         df = pd.read_csv(f"{self.raw_data_dir}/policy_train_data.csv", sep="\t")
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.UNKNOWN
+        instruction_language = "en"
         prompt_language = "en"
+        instruction = "Determining if a term mentioned in a privacy policy is relevant or irrelevant to a given question."
 
         for index, example in df.iterrows():
-            text = f"Determine if the term mentioned from the privacy policy is relevant or irrelevant to the given question.\n\n" \
-                   f"Q: {example['Query']}\n" \
-                   f"Term: {example['Segment']}\n" \
-                   f"A: {example['Label']}"
-            yield self.build_data_point(prompt_language, "en", text, task_type,
-                                        jurisdiction)
+            prompt = f"Q: {example['Query']}\nTerm: {example['Segment']}"
+            answer = f"A: {example['Label']}"
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "en", instruction, prompt, answer,
+                                        task_type, jurisdiction)

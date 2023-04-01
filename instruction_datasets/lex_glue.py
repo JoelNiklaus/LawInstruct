@@ -1,9 +1,12 @@
+from typing import Final
+
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
 
+INSTRUCTION_LANGUAGE: Final[str] = "en"
 instructions_for_subsets = {
     "ecthr_a":
         "In this task, you are given the facts from a case heard at the European Court of Human Rights (ECtHR). "
@@ -75,9 +78,11 @@ class LexGLUE(AbstractDataset):
                 input_text = example['text']
                 if 'ecthr' in subset:
                     input_text = " ".join(input_text)
-                answer = f"Passage {input_text} Labels: {','.join(correct_labels)}"
+                prompt = f"Passage: {input_text}"
+                answer = f"Labels: {','.join(correct_labels)}"
 
-                text = f"{instructions}\n\n{answer}"
                 prompt_language = "en"
-                yield self.build_data_point(prompt_language, "en", text,
-                                            task_type, jurisdiction, subset)
+                yield self.build_data_point(INSTRUCTION_LANGUAGE,
+                                            prompt_language, "en", instructions,
+                                            prompt, answer, task_type,
+                                            jurisdiction, subset)

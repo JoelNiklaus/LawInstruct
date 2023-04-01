@@ -15,6 +15,7 @@ class ContractNLI(AbstractDataset):
     def get_data(self):
         task_type = TaskType.NATURAL_LANGUAGE_INFERENCE
         jurisdiction = Jurisdiction.US
+        instruction_language = "en"
         prompt_language = "en"
 
         for subset in ["contractnli_a", "contractnli_b"]:
@@ -25,9 +26,11 @@ class ContractNLI(AbstractDataset):
                 "Does the following Contract Passage entail/contradict/stand neutral to the Hypothesis?"
             ]
             for example in df:
-                text = f"{self.random.choice(instruction_bank)}\n\n" \
-                       f"Contract Passage: {example['premise']}\n\n" \
-                       f"Hypothesis: {example['hypothesis']}\n\n" \
-                       f"Entailment: {class_label.int2str(example['label'])}"
-                yield self.build_data_point(prompt_language, "en", text,
-                                            task_type, jurisdiction)
+                instruction = self.random.choice(instruction_bank)
+                prompt = f"Contract Passage: {example['premise']}\n\n" \
+                       f"Hypothesis: {example['hypothesis']}"
+                answer = f"Entailment: {class_label.int2str(example['label'])}"
+                yield self.build_data_point(instruction_language,
+                                            prompt_language, "en", instruction,
+                                            prompt, answer, task_type,
+                                            jurisdiction)

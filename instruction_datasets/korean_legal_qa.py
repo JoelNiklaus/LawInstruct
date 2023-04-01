@@ -16,6 +16,7 @@ class KoreanLegalQA(AbstractDataset):
     def get_data(self):
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.SOUTH_KOREA
+        instruction_language = "en"
         prompt_language = "en"
 
         instruction_bank = [
@@ -28,6 +29,9 @@ class KoreanLegalQA(AbstractDataset):
             questions = [json.loads(x) for x in f.readlines()]
 
         for question in questions:
-            text = f"{self.random.choice(instruction_bank)}\n\nQ: {question['question']}\nA: {question['answer']}"
-            yield self.build_data_point(prompt_language, "ko", text, task_type,
-                                        jurisdiction)
+            instruction = self.random.choice(instruction_bank)
+            prompt = f"Q: {question['question']}"
+            answer = f"A: {question['answer']}"
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "ko", instruction, prompt, answer,
+                                        task_type, jurisdiction)

@@ -22,9 +22,13 @@ class LegalQA(AbstractDataset):
         ]
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.CHINA
+        instruction_language = "en"
         prompt_language = "en"
 
         for q, a in zip(df['question: body'], df['answer']):
-            text = f"{self.random.choice(instruction_bank)}\n\nQ:{q}\nA:{a}"
-            yield self.build_data_point(prompt_language, "zh", text, task_type,
-                                        jurisdiction)
+            instruction = self.random.choice(instruction_bank)
+            prompt = f"Q: {q}"
+            answer = f"A: {a}"
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "zh", instruction, prompt, answer,
+                                        task_type, jurisdiction)

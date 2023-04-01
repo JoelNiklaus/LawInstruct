@@ -15,6 +15,7 @@ class SpanishLaborLaw(AbstractDataset):
         df = pd.read_csv(f"{self.raw_data_dir}/spanish_legal_qa.csv")
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.SPAIN
+        instruction_language = "en"
         prompt_language = "en"
 
         instruction_bank = [
@@ -25,6 +26,9 @@ class SpanishLaborLaw(AbstractDataset):
         for idx, row in df.iterrows():
             question, context, answer = row["Question"], row["context"], row[
                 "Answer text"]
-            text = f"{self.random.choice(instruction_bank)}\n\nContext: {context}\nQ: {question}\nA: {answer}"
-            yield self.build_data_point(prompt_language, "es", text, task_type,
-                                        jurisdiction)
+            instruction = self.random.choice(instruction_bank)
+            prompt = f"Context: {context}\nQ: {question}"
+            answer = f"A: {answer}"
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        "es", instruction, prompt, answer,
+                                        task_type, jurisdiction)

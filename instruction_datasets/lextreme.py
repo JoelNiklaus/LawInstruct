@@ -1,4 +1,6 @@
 import ast
+from collections.abc import Collection
+from collections.abc import Sequence
 
 from datasets import load_dataset
 
@@ -216,14 +218,16 @@ JURISDICTION_MAPPING = {
 NER_DELIMITER = "|"
 
 
-def get_ner_instruction(ner_tags):
+def get_ner_instruction(ner_tags: Collection[str]) -> str:
     return f"Predict the named entity types for each token (delimited by '{NER_DELIMITER}'). " \
            f"The named entities are: {' '.join(ner_tags)}."
 
 
-def build_ner_answer(tokens, tags):
-    f"Sentence: {NER_DELIMITER.join(tokens)}\n\n" \
-    f"Named Entity Types: {NER_DELIMITER.join(tags)}\n\n"
+def build_ner_answer(tokens: Sequence[str],
+                     tags: Collection[str]) -> tuple[str, str]:
+    prompt = f"Sentence: {NER_DELIMITER.join(tokens)}"
+    answer = f"Named Entity Types: {NER_DELIMITER.join(tags)}"
+    return prompt, answer
 
 
 class LEXTREME(AbstractDataset):
@@ -234,6 +238,7 @@ class LEXTREME(AbstractDataset):
                          "https://huggingface.co/datasets/joelito/lextreme")
 
     def get_data(self):
+        instruction_language = 'en'
         for subset, instructions in instructions_for_subsets.items():
             dataset = load_dataset("joelito/lextreme", subset, split="train")
             jurisdiction = JURISDICTION_MAPPING[subset]
@@ -249,6 +254,7 @@ class LEXTREME(AbstractDataset):
 
             for example in dataset:
                 # get correct labels
+                correct_labels: list[str]
                 if task_code == 'SLTC':
                     correct_label = class_label.int2str(
                         example['label'])  # get label name for correct label
@@ -263,27 +269,34 @@ class LEXTREME(AbstractDataset):
                         label_classes[label] for label in example['label']
                     ]
 
+                answers: list[tuple[str, str, str]]
                 if task_code in ['SLTC', 'MLTC']:
                     input_text = example['input']
                     if 'multi_eurlex' in subset:
                         input_text = ast.literal_eval(input_text)
                         assert isinstance(input_text, dict)
-                        answers = [(
-                            f"Passage {input_text[lang]} Labels: {','.join(correct_labels)}",
-                            lang) for lang, text in input_text.items()]
+                        answers = [(f"Passage {input_text[lang]}",
+                                    f"Labels: {','.join(correct_labels)}", lang)
+                                   for lang, text in input_text.items()]
                     else:
-                        answers = [(
-                            f"Passage {input_text} Labels: {','.join(correct_labels)}",
-                            example['language'])]
+                        answers = [(f"Passage {input_text}",
+                                    f"Labels: {','.join(correct_labels)}",
+                                    example['language'])]
 
                 elif task_code == 'NER':
-                    answers = [(build_ner_answer(example["input"],
-                                                 correct_labels),
-                                example['language'])]
+                    prompt, answer = build_ner_answer(example["input"],
+                                                      correct_labels)
+                    answers = [(prompt, answer, example['language'])]
 
-                for answer, lang in answers:
-                    text = f"{instructions}\n\n{answer}"
+                for prompt, answer, lang in answers:
                     task_type = TaskType.NAMED_ENTITY_RECOGNITION if task_code == 'NER' else TaskType.TEXT_CLASSIFICATION
                     prompt_language = "en"
-                    yield self.build_data_point(prompt_language, lang, text,
-                                                task_type, jurisdiction, subset)
+                    yield self.build_data_point(instruction_language,
+                                                prompt_language,
+                                                lang,
+                                                instructions,
+                                                prompt,
+                                                answer,
+                                                task_type,
+                                                jurisdiction,
+                                                subset=subset)
