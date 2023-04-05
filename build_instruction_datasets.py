@@ -87,8 +87,8 @@ def build_instruction_datasets(datasets: Sequence[Type[AbstractDataset]],
 
 
 if __name__ == '__main__':
-    args = parse_args(['--datasets', 'CABarExamEssays', '--build_from_scratch'])
-    logging.basicConfig(level=logging.DEBUG)
+    args = parse_args(['--datasets', 'all', '--build_from_scratch'])
+    logging.basicConfig(level=logging.WARNING)
     build_instruction_datasets(args.datasets,
                                processes=args.processes,
                                debug=args.debug,
