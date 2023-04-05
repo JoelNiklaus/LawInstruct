@@ -20,7 +20,7 @@ def generate_instruction_data(dataset_name, configs, max_seq_len=512, num_sample
         return text and len(text.split()) < max_seq_len
 
     instruction_data = []
-    filename = f"law_instruction_data_{max_seq_len}.json"
+    filename = f"law_instruction_data_len:{max_seq_len}_samples:{num_samples}.json"
     for config in configs:
         print(f"Loading {dataset_name}:{config}...")
         dataset = load_dataset(dataset_name, config, split="train", streaming=True)
@@ -49,4 +49,5 @@ def generate_instruction_data(dataset_name, configs, max_seq_len=512, num_sample
 
 if __name__ == '__main__':
     for max_seq_len in [512, 1024, 2048]:
-        generate_instruction_data(dataset_name, configs, max_seq_len=max_seq_len)
+        for num_samples in [100, 1000, 10000]:
+            generate_instruction_data(dataset_name, configs, max_seq_len=max_seq_len, num_samples=num_samples)

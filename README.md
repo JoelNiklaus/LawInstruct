@@ -40,12 +40,9 @@ git clone https://github.com/allenai/natural-instructions lawinstruct_raw/raw_da
 - use the same instruction banks for the same tasks if applicable (Lucia)
 - add more examples to the instruction banks and diversify them by looking at FLAN and Natural Instructions (Lucia)
 - make sure the jurisdiction is always in the instruction
-- refactor code, so that we can allow for more finegrained instruction control (Arya)
 - refactor code, so that all the instruction banks live in a json file that we can easily paraphrase and translate in
   the other languages (Arya)
 - translate instruction banks (from json file) into the 24 EU languages (Joel)
-- add retrieval datasets (see here for how to structure
-  prompts: https://crfm-helm.readthedocs.io/en/latest/scenarios/#helm.benchmark.scenarios.msmarco_scenario)
 
 ## Maybe later
 
@@ -55,6 +52,9 @@ git clone https://github.com/allenai/natural-instructions lawinstruct_raw/raw_da
   4: https://arxiv.org/pdf/2210.11416v5.pdf
 - add CoT data (https://github.com/jasonwei20/flan-2/blob/main/mmlu-cot.json) ==> this is only for MMMLU (which we leave
   out)
+- add retrieval datasets (see here for how to structure
+  prompts: https://crfm-helm.readthedocs.io/en/latest/scenarios/#helm.benchmark.scenarios.msmarco_scenario) ==> average
+  prompt is very long, so we could probably only use a small part of the data
 
 ## Done
 
@@ -69,6 +69,7 @@ git clone https://github.com/allenai/natural-instructions lawinstruct_raw/raw_da
 - test the dataset generation thoroughly (Joel)
 - run the script on a big machine to generate the datasets and upload to lawinstruct organisation on huggingface hub (
   Joel)
+- refactor code, so that we can allow for more finegrained instruction control (Arya)
 
 ## Datasets still to add:
 
