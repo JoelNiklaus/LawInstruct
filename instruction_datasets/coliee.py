@@ -5,6 +5,17 @@ from enums import Jurisdiction
 from enums import TaskType
 
 
+def _separate_text_into_pieces(example: dict) -> tuple[str, str, str]:
+    """Turns a COLIEE example into an instruction, prompt, and answer."""
+    text = example['text']
+    # The first line of the text is the instruction.
+    # The last line of the text is the answer.
+    # The part in between is the prompt.
+    instruction, rest = text.split("\n", maxsplit=1)
+    prompt, answer = rest.rsplit("\n", maxsplit=1)
+    return instruction, prompt, answer
+
+
 class COLIEE(AbstractDataset):
 
     def __init__(self):
@@ -27,12 +38,8 @@ class COLIEE(AbstractDataset):
             ) as f:
                 examples = [json.loads(x) for x in f.readlines()]
                 for example in examples:
-                    text = example['text']
-                    # The first line of the text is the instruction.
-                    # The last line of the text is the answer.
-                    # The part in between is the prompt.
-                    instruction, rest = text.split("\n", maxsplit=1)
-                    prompt, answer = rest.rsplit("\n", maxsplit=1)
+                    instruction, prompt, answer = _separate_text_into_pieces(
+                        example)
                     yield self.build_data_point(instruction_language,
                                                 prompt_language,
                                                 answer_language,
@@ -48,12 +55,12 @@ class COLIEE(AbstractDataset):
             ) as f:
                 examples = [json.loads(x) for x in f.readlines()]
                 for example in examples:
-                    text = example['text']
-                    yield self.build_data_point(_BLANK_INSTRUCTION_LANGUAGE,
+                    instruction, prompt, answer = _separate_text_into_pieces(example)
+                    yield self.build_data_point(instruction_language,
                                                 prompt_language,
                                                 answer_language,
-                                                _BLANK_INSTRUCTION,
-                                                _BLANK_PROMPT, text, task_type,
+                                                instruction,
+                                                prompt, answer, task_type,
                                                 jurisdiction)
 
         # Given a question, provide the relevant legal rule for answering the question and the answer
@@ -64,10 +71,10 @@ class COLIEE(AbstractDataset):
             ) as f:
                 examples = [json.loads(x) for x in f.readlines()]
                 for example in examples:
-                    text = example['text']
-                    yield self.build_data_point(_BLANK_INSTRUCTION_LANGUAGE,
+                    instruction, prompt, answer = _separate_text_into_pieces(example)
+                    yield self.build_data_point(instruction_language,
                                                 prompt_language,
                                                 answer_language,
-                                                _BLANK_INSTRUCTION,
-                                                _BLANK_PROMPT, text, task_type,
+                                                instruction,
+                                                prompt, answer, task_type,
                                                 jurisdiction)
