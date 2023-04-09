@@ -60,7 +60,8 @@ class SwissJudgmentPrediction(AbstractDataset):
             text = example['text']
             instruction = self.random.choice(
                 get_multiple_choice_instruction_bank())
-            prompt = f"Question: {text} How would the court find?\n(a) The court should dismiss the case.\n(b) The court should affirm the case."
+            prompt = f"Question: {text} How would the court find?\n" \
+                     f"(a) The court should dismiss the case.\n(b) The court should affirm the case."
             answer = f"Answer: {outcome_mc1}."
             yield self.build_data_point(instruction_language, prompt_language,
                                         example["language"], instruction,
@@ -70,7 +71,8 @@ class SwissJudgmentPrediction(AbstractDataset):
             text = example['text']
             instruction = self.random.choice(
                 get_multiple_choice_instruction_bank())
-            prompt = f"Question: {text} How would the court find?\n(a) The court should approve the case.\n(b) The court should dismiss the case."
+            prompt = f"Question: {text} How would the court find?\n" \
+                     f"(a) The court should approve the case.\n(b) The court should dismiss the case."
             answer = f"Answer: {outcome_mc1}."
             yield self.build_data_point(instruction_language, prompt_language,
                                         example["language"], instruction,

@@ -39,14 +39,15 @@ def parse_args(args: Optional[list[str]] = None) -> argparse.Namespace:
     args = parser.parse_args(args)
     # logging.debug(f"args: {args!r}")
 
-    print(args.datasets)
+    dataset_list = []
     # If no datasets are specified, build all of them
     if not args.datasets or args.datasets == "all":
-        args.datasets = sorted(dataset.__name__ for dataset in ALL_DATASETS)
+        dataset_list = ALL_DATASETS
     elif args.datasets == "legal":
-        args.datasets = sorted(dataset.__name__ for dataset in LEGAL_DATASETS)
+        dataset_list = LEGAL_DATASETS
     elif args.datasets == "nonlegal":
-        args.datasets = sorted(dataset.__name__ for dataset in NON_LEGAL_DATASETS)
+        dataset_list = NON_LEGAL_DATASETS
+    args.datasets = sorted(dataset.__name__ for dataset in dataset_list if not dataset in ERRONEOUS_DATASETS)
     # Get the actual classes for each named dataset.
     dataset_lookup = {dataset.__name__: dataset for dataset in ALL_DATASETS}
     args.datasets = [dataset_lookup[dataset] for dataset in args.datasets]

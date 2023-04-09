@@ -26,7 +26,7 @@ class USClassActions(AbstractDataset):
         ]
         for example in df:
             instruction = self.random.choice(instruction_bank)
-            prompt = {example['target_text']}
+            prompt = example['target_text']
             answer = f"Likely Verdict: {example['verdict']}"
             prompt_language = "en"
             yield self.build_data_point(instruction_language, prompt_language,
