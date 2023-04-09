@@ -30,7 +30,7 @@ class IndianTextSegmentation(AbstractDataset):
 
     def __init__(self):
         super().__init__(
-            "BUILD",
+            "IndianTextSegmentation",
             "https://github.com/Legal-NLP-EkStep/rhetorical-role-baseline")
         self._path = pathlib.Path(
             f"{self.raw_data_dir}/indian_text_segmentation.json")

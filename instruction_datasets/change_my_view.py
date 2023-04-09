@@ -13,9 +13,6 @@ class ChangeMyView(AbstractDataset):
 
     def get_data(self):
         # ChangeMyView Argumentation
-        print("############################")
-        print("########## ChangeMyView ###########")
-        print("############################")
         instruction_bank = [
             "You are given a position, create an argument that would change the original poster's mind.",
             "Write a counter argument to the proposal.",

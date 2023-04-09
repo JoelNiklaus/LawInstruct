@@ -37,7 +37,6 @@ class BrazilianBarExam(AbstractDataset):
 
             filelist = glob.glob(os.path.join(laws_path, "**/*.xml"),
                                  recursive=True)
-            print(filelist)
 
             for file in filelist:
                 urn, law = law_articles_in_file(file)

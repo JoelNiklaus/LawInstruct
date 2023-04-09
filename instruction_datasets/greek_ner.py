@@ -115,7 +115,7 @@ class GreekNER(AbstractDataset):
                                         answer, task_type, jurisdiction)
 
 
-class Ell18Dataset(GreekNER):
+class Ell18GreekNER(GreekNER):
 
     def __init__(self):
         super().__init__(
@@ -125,7 +125,7 @@ class Ell18Dataset(GreekNER):
         self._path = pathlib.Path(f"{self.raw_data_dir}/elNER18_iobes.csv")
 
 
-class Ell4Dataset(GreekNER):
+class Ell4GreekNER(GreekNER):
 
     def __init__(self):
         super().__init__(

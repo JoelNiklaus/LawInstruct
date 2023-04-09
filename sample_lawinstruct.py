@@ -9,15 +9,9 @@ configs = get_dataset_config_names(dataset_name)
 print(configs)
 
 non_legal_configs = ['NaturalInstructionsOther', 'XP3MT']
-faulty_configs = [
-    'IndianTextSegmentation', 'Ell18Dataset', 'Ell4Dataset', 'EdgarNER',
-    'SwissJudgmentPrediction'
-]
-configs = [
-    config for config in configs if config not in non_legal_configs and
-    config not in faulty_configs and config != 'all'
-]
-
+faulty_configs = []
+configs = [config for config in configs
+           if config not in non_legal_configs and config not in faulty_configs and config != 'all']
 
 def generate_instruction_data(dataset_name,
                               configs,
@@ -28,7 +22,7 @@ def generate_instruction_data(dataset_name,
         return text and len(text.split()) < max_seq_len
 
     instruction_data = []
-    filename = f"law_instruction_data_{max_seq_len}.json"
+    filename = f"law_instruction_data_len:{max_seq_len}_samples:{num_samples}.json"
     for config in configs:
         print(f"Loading {dataset_name}:{config}...")
         dataset = load_dataset(dataset_name,
@@ -70,6 +64,5 @@ def generate_instruction_data(dataset_name,
 
 if __name__ == '__main__':
     for max_seq_len in [512, 1024, 2048]:
-        generate_instruction_data(dataset_name,
-                                  configs,
-                                  max_seq_len=max_seq_len)
+        for num_samples in [100, 1000, 10000]:
+            generate_instruction_data(dataset_name, configs, max_seq_len=max_seq_len, num_samples=num_samples)
