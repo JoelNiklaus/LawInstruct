@@ -19,12 +19,12 @@ class EdgarTags(NerTags):
         tags = ["O"]  # outside
         for position in ["B", "I"]:
             for type_ in [
-                    "BUSINESS",
-                    "GOVERNMENT",
-                    "LEGISLATION/ACT",
-                    "LOCATION",
-                    "MISCELLANEOUS",
-                    "PERSON",
+                "BUSINESS",
+                "GOVERNMENT",
+                "LEGISLATION/ACT",
+                "LOCATION",
+                "MISCELLANEOUS",
+                "PERSON",
             ]:
                 tags.append(f"{position}-{type_}")
         # Sanity checks
@@ -57,7 +57,7 @@ class EdgarNER(AbstractDataset):
 
     def __init__(self):
         super().__init__(
-            "EDGAR",
+            "EdgarNER",
             "https://github.com/terenceau2/E-NER-Dataset/blob/main/all.csv")
         self._tags = EdgarTags()
         self._path = pathlib.Path(f"{self.raw_data_dir}/edgar_ner.csv")

@@ -16,8 +16,8 @@ from instruction_datasets.eur_lex_sum import EurLexSum
 from instruction_datasets.german_ler import GermanLER
 from instruction_datasets.german_rental_agreements import \
     GermanRentalAgreements
-from instruction_datasets.greek_ner import Ell4Dataset
-from instruction_datasets.greek_ner import Ell18Dataset
+from instruction_datasets.greek_ner import Ell4GreekNER
+from instruction_datasets.greek_ner import Ell18GreekNER
 from instruction_datasets.gsm8k import GSM8K
 from instruction_datasets.ildc import ILDC
 from instruction_datasets.indian_ner import IndianNER
@@ -80,8 +80,8 @@ LEGAL_DATASETS = frozenset({
     COLIEE,
     ContractNLI,
     EdgarNER,
-    Ell4Dataset,
-    Ell18Dataset,
+    Ell4GreekNER,
+    Ell18GreekNER,
     EOIRPrivacy,
     EurLexSum,
     GermanLER,
@@ -143,8 +143,8 @@ DATASETS_ALREADY_BUILT = NATURAL_INSTRUCTIONS | XP3MT | frozenset({
     COLIEE,
     ContractNLI,
     EdgarNER,
-    Ell4Dataset,
-    Ell18Dataset,
+    Ell4GreekNER,
+    Ell18GreekNER,
     EOIRPrivacy,
     EurLexSum,
     GermanLER,

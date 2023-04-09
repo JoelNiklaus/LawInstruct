@@ -10,7 +10,7 @@ configs = get_dataset_config_names(dataset_name)
 print(configs)
 
 non_legal_configs = ['NaturalInstructionsOther', 'XP3MT']
-faulty_configs = ['IndianTextSegmentation', 'Ell18Dataset', 'Ell4Dataset', 'EdgarNER', 'SwissJudgmentPrediction']
+faulty_configs = []
 configs = [config for config in configs
            if config not in non_legal_configs and config not in faulty_configs and config != 'all']
 
