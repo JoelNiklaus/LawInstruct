@@ -13,13 +13,20 @@ faulty_configs = []
 configs = [config for config in configs
            if config not in non_legal_configs and config not in faulty_configs and config != 'all']
 
+
 def generate_instruction_data(dataset_name,
                               configs,
                               max_seq_len=512,
                               num_samples=500):
-
     def should_be_sampled(text):
         return text and len(text.split()) < max_seq_len
+
+    def get_example_dict(example):
+        return {
+            "instruction": example["instruction"],
+            "input": example["prompt"],
+            "output": example["answer"]
+        }
 
     instruction_data = []
     filename = f"law_instruction_data_len:{max_seq_len}_samples:{num_samples}.json"
@@ -37,26 +44,17 @@ def generate_instruction_data(dataset_name,
             num_samples_taken = 0
             for example in dataset:
                 if should_be_sampled(example['text']):
-                    instruction_data.append({
-                        "instruction": example["text"],
-                        "input": "",
-                        "output": ""
-                    })
+                    instruction_data.append(get_example_dict(example))
                     num_samples_taken += 1
                 if num_samples_taken >= num_samples:
                     break
         else:
             # this slows it down considerably for large datasets,
             # but could be more easily parallelized when using non-streaming datasets
-            dataset = dataset.filter(
-                lambda example: should_be_sampled(example['text']))
+            dataset = dataset.filter(lambda example: should_be_sampled(example['text']))
             dataset = dataset.shuffle(seed=42)
-            examples_to_add = [{
-                "instruction": example["text"],
-                "input": "",
-                "output": ""
-            } for example in dataset.take(num_samples)]
-            instruction_data.extend(examples_to_add)  # sample 100 examples
+            examples_to_add = [get_example_dict(example) for example in dataset.take(num_samples)]
+            instruction_data.extend(examples_to_add)
     print(f"Writing {len(instruction_data)} examples to {filename}...")
     with open(filename, "w") as file:
         json.dump(instruction_data, file, indent=4)

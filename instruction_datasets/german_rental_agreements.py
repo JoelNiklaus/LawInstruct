@@ -22,7 +22,7 @@ class GermanRentalAgreements(AbstractDataset):
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.GERMANY
         instruction_language = "en"
-        prompt_language = "en"
+        prompt_language = "de"
 
         for example in df:
             for num_classes in [3, 6, 9]:
