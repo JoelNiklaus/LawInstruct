@@ -34,17 +34,17 @@ def parse_args(args: Optional[list[str]] = None) -> argparse.Namespace:
     parser.add_argument("--datasets",
                         type=str,
                         nargs="+",
-                        default="all",
+                        default=["all"],
                         help="Datasets to build (default: `all`). `legal` and `nonlegal` are also valid options.")
     args = parser.parse_args(args)
-    logging.debug(f"args: {args!r}")
+    logging.info(f"args: {args!r}")
 
     # If no datasets are specified, build all of them
-    if not args.datasets or args.datasets == "all":
+    if not args.datasets or args.datasets == ["all"]:
         args.datasets = sorted(dataset.__name__ for dataset in ALL_DATASETS)
-    elif args.datasets == "legal":
+    elif args.datasets == ["legal"]:
         args.datasets = sorted(dataset.__name__ for dataset in LEGAL_DATASETS)
-    elif args.datasets == "nonlegal":
+    elif args.datasets == ["nonlegal"]:
         args.datasets = sorted(dataset.__name__ for dataset in NON_LEGAL_DATASETS)
 
     # Get the actual classes for each named dataset.
