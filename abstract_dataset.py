@@ -200,4 +200,9 @@ class AbstractDataset:
                                      debug_size)
                     self.logger.info('Last datapoint: %s', datapoint)
                     break
-                self.write_json_line(writer, datapoint)
+                try:
+                    self.write_json_line(writer, datapoint)
+                except ValueError as e:
+                    self.logger.warning(
+                        'Skipping datapoint %s due to ValueError: %s',
+                        datapoint, e)
