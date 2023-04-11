@@ -37,17 +37,16 @@ def parse_args(args: Optional[list[str]] = None) -> argparse.Namespace:
                         default="all",
                         help="Datasets to build (default: `all`). `legal` and `nonlegal` are also valid options.")
     args = parser.parse_args(args)
-    # logging.debug(f"args: {args!r}")
+    logging.debug(f"args: {args!r}")
 
-    dataset_list = []
     # If no datasets are specified, build all of them
     if not args.datasets or args.datasets == "all":
-        dataset_list = ALL_DATASETS
+        args.datasets = sorted(dataset.__name__ for dataset in ALL_DATASETS)
     elif args.datasets == "legal":
-        dataset_list = LEGAL_DATASETS
+        args.datasets = sorted(dataset.__name__ for dataset in LEGAL_DATASETS)
     elif args.datasets == "nonlegal":
-        dataset_list = NON_LEGAL_DATASETS
-    args.datasets = sorted(dataset.__name__ for dataset in dataset_list if not dataset in ERRONEOUS_DATASETS)
+        args.datasets = sorted(dataset.__name__ for dataset in NON_LEGAL_DATASETS)
+
     # Get the actual classes for each named dataset.
     dataset_lookup = {dataset.__name__: dataset for dataset in ALL_DATASETS}
     args.datasets = [dataset_lookup[dataset] for dataset in args.datasets]
@@ -92,7 +91,7 @@ def build_instruction_datasets(datasets: Sequence[Type[AbstractDataset]],
 
 
 if __name__ == '__main__':
-    args = parse_args(['--build_from_scratch'])
+    args = parse_args()
     logging.basicConfig(level=logging.WARNING)
     build_instruction_datasets(args.datasets,
                                processes=args.processes,

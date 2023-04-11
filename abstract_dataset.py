@@ -16,11 +16,6 @@ from enums import Jurisdiction
 from enums import TaskType
 import files
 
-try:
-    import lzma as xz
-except ImportError:
-    import pylzma as xz
-
 
 @dataclasses.dataclass(frozen=True)
 class DataPoint:
@@ -85,8 +80,7 @@ class AbstractDataset:
 
     def get_instruction_bank(self, language="en"):
         return json.loads(
-            pathlib.Path(f"instruction_banks/{language}.json").read_text())[
-                self.name]
+            pathlib.Path(f"instruction_banks/{language}.json").read_text())[self.name]
 
     def build_data_point(self,
                          instruction_language,
@@ -128,9 +122,9 @@ class AbstractDataset:
         )
 
     def write_json_line(
-        self,
-        file: files.SupportsWrite,
-        datapoint: DataPoint,
+            self,
+            file: files.SupportsWrite,
+            datapoint: DataPoint,
     ) -> None:
         """Write a datapoint to a file in JSON format.
 
@@ -178,7 +172,7 @@ class AbstractDataset:
     def _get_output_file_name(self, file_index: int,
                               split: str) -> pathlib.Path:
         """Returns the output file name for the given split and index."""
-        return self.data_dir / f'{self.name}_{split}_{file_index}.jsonl'
+        return self.data_dir / f'{self.name}_{split}_{file_index}.jsonl.xz'
 
     def build_instruction_dataset(self, debug_size: int = -1) -> None:
         """Writes a dataset to files.

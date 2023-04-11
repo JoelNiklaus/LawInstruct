@@ -5,7 +5,12 @@ import pathlib
 import types
 from typing import Callable, Final, Protocol, TextIO
 
-_MAX_FILE_SIZE: Final[float] = 6.25e8  # 625 MB
+try:
+    import lzma as xz
+except ImportError:
+    import pylzma as xz
+
+_MAX_FILE_SIZE: Final[float] = 1e9  # 1 GB
 
 
 class SupportsWrite(Protocol):
@@ -42,7 +47,7 @@ class SequentialFileWriter:
 
     def _open_new_file(self) -> TextIO:
         filename = self._get_file_name(self._current_file_index)
-        return open(filename, 'w')
+        return xz.open(filename, 'wt')
 
     def _close_current_file(self) -> None:
         if self._current_file:
