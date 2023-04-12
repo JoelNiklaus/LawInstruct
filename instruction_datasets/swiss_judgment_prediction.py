@@ -3,6 +3,7 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+from instruction_datasets.swiss_rulings import get_canton_name
 
 _BLANK_INSTRUCTION = ''
 
@@ -12,40 +13,6 @@ def get_multiple_choice_instruction_bank():
         'Please answer these multiple choice questions. Denote the correct answer as "Answer".',
         "Pick the most likely correct answer."
     ]
-
-
-canton_mapping = {
-    "AG": "Aargau",
-    "AI": "Appenzell Innerrhoden",
-    "AR": "Appenzell Ausserrhoden",
-    "BE": "Bern",
-    "BL": "Basel-Landschaft",
-    "BS": "Basel-Stadt",
-    "FR": "Fribourg",
-    "GE": "Geneva",
-    "GL": "Glarus",
-    "GR": "Graubünden",
-    "JU": "Jura",
-    "LU": "Lucerne",
-    "NE": "Neuchâtel",
-    "NW": "Nidwalden",
-    "OW": "Obwalden",
-    "SG": "St. Gallen",
-    "SH": "Schaffhausen",
-    "SO": "Solothurn",
-    "SZ": "Schwyz",
-    "TG": "Thurgau",
-    "TI": "Ticino",
-    "UR": "Uri",
-    "VD": "Vaud",
-    "VS": "Valais",
-    "ZG": "Zug",
-    "ZH": "Zurich",
-}
-
-
-def get_canton_name(canton_code):
-    return canton_mapping[canton_code.upper()]
 
 
 class SwissJudgmentPrediction(AbstractDataset):
@@ -64,30 +31,19 @@ class SwissJudgmentPrediction(AbstractDataset):
         for example in df:
             court_location = "" if example['canton'] == "n/a" \
                 else f"The lower court is located in {get_canton_name(example['canton'])}."
-            judgement = ["dismiss", "approve"][example['label']]
+
+            judgment = ["dismiss", "approve"][example['label']]
             instruction = f"Determine if you think the Swiss court will dismiss or approve the case. {court_location}"
             prompt = f"Facts: {example['text']}"
-            answer = f"Judgement: {judgement}"
+            answer = f"Judgement: {judgment}"
             yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                        instruction,
-                                        prompt, answer, task_type, jurisdiction)
+                                        instruction, prompt, answer, task_type, jurisdiction)
 
             instruction = "What area of law is this case related to?"
             prompt = f"Case: {example['text']}"
             answer = f"Area of Law: {example['legal area']}"
             yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                        instruction,
-                                        prompt, answer, task_type, jurisdiction)
-
-            if court_location != "":
-                instruction = "Where do you think this case was adjudicated?"
-                prompt = f"Case: {example['text']}"
-                answer = f"Canton: {get_canton_name(example['canton'])}. Region: {example['region']}"
-                yield self.build_data_point(instruction_language, example["language"],
-                                            answer_language,
-                                            instruction,
-                                            prompt, answer, task_type,
-                                            jurisdiction)
+                                        instruction, prompt, answer, task_type, jurisdiction)
 
             task_type = TaskType.MULTIPLE_CHOICE
             outcome_mc1 = ["(a)", "(b)"][example["label"]]
@@ -98,8 +54,7 @@ class SwissJudgmentPrediction(AbstractDataset):
                      f"(a) The court should dismiss the case.\n(b) The court should affirm the case."
             answer = f"Answer: {outcome_mc1}."
             yield self.build_data_point(instruction_language, answer_language, example["language"],
-                                        instruction,
-                                        prompt, answer, task_type, jurisdiction)
+                                        instruction, prompt, answer, task_type, jurisdiction)
 
             outcome_mc1 = ["(b)", "(a)"][example["label"]]
             text = example['text']
@@ -109,5 +64,4 @@ class SwissJudgmentPrediction(AbstractDataset):
                      f"(a) The court should approve the case.\n(b) The court should dismiss the case."
             answer = f"Answer: {outcome_mc1}."
             yield self.build_data_point(instruction_language, answer_language, example["language"],
-                                        instruction,
-                                        prompt, answer, task_type, jurisdiction)
+                                        instruction, prompt, answer, task_type, jurisdiction)
