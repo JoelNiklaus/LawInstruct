@@ -38,6 +38,37 @@ Clone the natural instructions data there too
 git clone https://github.com/allenai/natural-instructions lawinstruct_raw/raw_data/ni_instructions_data
 ```
 
+## Swiss Datasets
+
+### Swiss Legislation 
+- Inputs: pdf_content
+- Outputs: abbreviation, short, title, canton
+
+### Swiss Rulings
+- Inputs: facts, considerations
+- Outputs: topic, canton and region
+
+### Swiss Court View Generation
+- Inputs: facts
+- Outputs: considerations
+
+### Swiss Criticality Prediction
+- Inputs: facts, considerations
+- Outputs: citation_label
+
+### Swiss Law Area Prediction
+- Inputs: facts, considerations
+- Outputs: label (law area)
+
+### Swiss Judgment Prediction (Only Supreme Court but with mt)
+- Inputs: text (facts)
+- Outputs: label (dismissal/approval)
+
+### Swiss Judgment Prediction XL (All courts but without mt)
+- Inputs: facts, considerations
+- Outputs: label (dismissal/approval)
+
+
 ## TODOs
 
 - use the same instruction banks for the same tasks if applicable (Lucia)
@@ -109,6 +140,8 @@ Other Datasets:
   , https://facultystaff.richmond.edu/~jpark/papers/jpark_lrec18.pdf) ==> the full text of the comments is not available
 - US Caselaw Segmentation (https://github.com/jsavelka/us-dec-func-iss-sgm/blob/master/trade_secret_cases.json
   , http://ebooks.iospress.nl/volumearticle/50840) ==> sentence boundary detection is probably not the most useful task
+- MultiLegalSBD (https://huggingface.co/datasets/rcds/MultiLegalSBD) ==> sentence boundary detection is probably not the
+  most useful task
 - Contract extraction dataset (http://nlp.cs.aueb.gr/software_and_datasets/CONTRACTS_ICAIL2017/index.html
   , http://nlp.cs.aueb.gr/pubs/icail2017.pdf) ==> looks like a complicated dataset requiring preprocessing
 - CASS (https://github.com/euranova/CASS-dataset) ==> Couldn't download - `wget` failed.
