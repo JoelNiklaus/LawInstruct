@@ -34,6 +34,7 @@ canton_mapping = {
     "VS": "Valais",
     "ZG": "Zug",
     "ZH": "Zurich",
+    "CH": "Federation",
 }
 
 
