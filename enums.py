@@ -64,6 +64,7 @@ class Jurisdiction(_AutoName):
     EU = enum.auto()
     SWITZERLAND = enum.auto()
     UK = enum.auto()
+    TURKEY = enum.auto()
     # Asia
     CHINA = enum.auto()
     INDIA = enum.auto()
