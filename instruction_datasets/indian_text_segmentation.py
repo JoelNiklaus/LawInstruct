@@ -52,13 +52,12 @@ class IndianTextSegmentation(AbstractDataset):
                                  raw_passage)  # Collapse whitespace.
                 label = span["value"]["labels"][0]
 
-                prompt = (
-                    "In Indian case law, what is the rhetorical role of this part of a court judgment?"
-                    f" The options are {', '.join(list(_CATEGORIES.values()))}."
-                    f"\n\nPassage: {passage}")
+                instruction = f"In Indian case law, what is the rhetorical role of this part of a court judgment?" \
+                              f" The options are {', '.join(list(_CATEGORIES.values()))}."
+                prompt = f"Passage: {passage}"
                 answer = f"Role: {_CATEGORIES[label]}"
 
                 yield self.build_data_point(instruction_language,
                                             prompt_language, answer_language,
-                                            _BLANK_INSTRUCTION, prompt, answer,
+                                            instruction, prompt, answer,
                                             task_type, jurisdiction)
