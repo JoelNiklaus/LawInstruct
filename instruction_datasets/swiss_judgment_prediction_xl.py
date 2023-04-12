@@ -16,7 +16,7 @@ class SwissJudgmentPredictionXL(AbstractDataset):
             "https://huggingface.co/datasets/rcds/swiss_judgment_prediction_xl")
 
     def get_data(self):
-        df = load_dataset('rcds/swiss_judgment_prediction', 'full', split='train')
+        df = load_dataset('rcds/swiss_judgment_prediction_xl', 'full', split='train')
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.SWITZERLAND
         instruction_language = 'en'
