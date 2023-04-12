@@ -22,9 +22,8 @@ class SwissJudgmentPredictionXL(AbstractDataset):
         instruction_language = 'en'
         answer_language = "en"
         for example in df:
-            judgment = ["dismiss", "approve"][example['label']]
-            instruction = f"Determine if you think the Swiss court will dismiss or approve the case."
-            answer = f"Judgement: {judgment}"
+            instruction = f"Determine if you think the Swiss court will rule dismissal or approval for the case."
+            answer = f"Judgement: {example['label']}"
 
             prompt = f"Facts: {example['facts']}"
             yield self.build_data_point(instruction_language, example["language"], answer_language,

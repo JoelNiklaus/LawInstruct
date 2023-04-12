@@ -35,6 +35,7 @@ canton_mapping = {
     "ZG": "Zug",
     "ZH": "Zurich",
     "CH": "Federation",
+    "IK": "Intercantonal",
 }
 
 
