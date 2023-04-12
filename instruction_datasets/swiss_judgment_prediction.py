@@ -8,13 +8,6 @@ from instruction_datasets.swiss_rulings import get_canton_name
 _BLANK_INSTRUCTION = ''
 
 
-def get_multiple_choice_instruction_bank():
-    return [
-        'Please answer these multiple choice questions. Denote the correct answer as "Answer".',
-        "Pick the most likely correct answer."
-    ]
-
-
 class SwissJudgmentPrediction(AbstractDataset):
 
     def __init__(self):
@@ -32,36 +25,23 @@ class SwissJudgmentPrediction(AbstractDataset):
             court_location = "" if example['canton'] == "n/a" \
                 else f"The lower court is located in {get_canton_name(example['canton'])}."
 
-            judgment = ["dismiss", "approve"][example['label']]
-            instruction = f"Determine if you think the Swiss court will dismiss or approve the case. {court_location}"
-            prompt = f"Facts: {example['text']}"
-            answer = f"Judgement: {judgment}"
-            yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                        instruction, prompt, answer, task_type, jurisdiction)
-
-            instruction = "What area of law is this case related to?"
-            prompt = f"Case: {example['text']}"
-            answer = f"Area of Law: {example['legal area']}"
-            yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                        instruction, prompt, answer, task_type, jurisdiction)
+            multiple_choice_instruction_bank = [
+                'Please answer these multiple choice questions. Denote the correct answer as "Answer".',
+                "Pick the most likely correct answer."
+            ]
+            instruction = self.random.choice(multiple_choice_instruction_bank)
 
             task_type = TaskType.MULTIPLE_CHOICE
-            outcome_mc1 = ["(a)", "(b)"][example["label"]]
-            text = example['text']
-            instruction = self.random.choice(
-                get_multiple_choice_instruction_bank())
-            prompt = f"Question: {text} How would the court find?\n" \
+            outcome_mc = ["(a)", "(b)"][example["label"]]
+            prompt = f"Question: {example['text']} How would the Federal Swiss Supreme court find? {court_location}\n" \
                      f"(a) The court should dismiss the case.\n(b) The court should affirm the case."
-            answer = f"Answer: {outcome_mc1}."
+            answer = f"Answer: {outcome_mc}."
             yield self.build_data_point(instruction_language, answer_language, example["language"],
                                         instruction, prompt, answer, task_type, jurisdiction)
 
-            outcome_mc1 = ["(b)", "(a)"][example["label"]]
-            text = example['text']
-            instruction = self.random.choice(
-                get_multiple_choice_instruction_bank())
-            prompt = f"Question: {text} How would the court find?\n" \
+            outcome_mc = ["(b)", "(a)"][example["label"]]
+            prompt = f"Question: {example['text']} How would the Federal Swiss Supreme court find? {court_location}\n" \
                      f"(a) The court should approve the case.\n(b) The court should dismiss the case."
-            answer = f"Answer: {outcome_mc1}."
+            answer = f"Answer: {outcome_mc}."
             yield self.build_data_point(instruction_language, answer_language, example["language"],
                                         instruction, prompt, answer, task_type, jurisdiction)
