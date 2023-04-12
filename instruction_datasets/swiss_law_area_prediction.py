@@ -23,8 +23,13 @@ class SwissLawAreaPrediction(AbstractDataset):
         df = load_dataset('rcds/swiss_law_area_prediction', 'main', split='train')
         for example in df:
             instruction = "What main area of law is this case related to?"
-            prompt = f"Facts: {example['facts']}"
             answer = f"Area of Law: {example['label']} Law"
+
+            prompt = f"Facts: {example['facts']}"
+            yield self.build_data_point(instruction_language, example["language"], answer_language,
+                                        instruction, prompt, answer, task_type, jurisdiction)
+
+            prompt = f"Considerations: {example['considerations']}"
             yield self.build_data_point(instruction_language, example["language"], answer_language,
                                         instruction, prompt, answer, task_type, jurisdiction)
 
@@ -32,7 +37,12 @@ class SwissLawAreaPrediction(AbstractDataset):
             df = load_dataset('rcds/swiss_law_area_prediction', law_area, split='train')
             for example in df:
                 instruction = f"What sub-area of {law_area} law is this case related to?"
-                prompt = f"Facts: {example['facts']}"
                 answer = f"Sub-Area of Law: {example['label']}"
+
+                prompt = f"Facts: {example['facts']}"
+                yield self.build_data_point(instruction_language, example["language"], answer_language,
+                                            instruction, prompt, answer, task_type, jurisdiction)
+
+                prompt = f"Considerations: {example['considerations']}"
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
                                             instruction, prompt, answer, task_type, jurisdiction)

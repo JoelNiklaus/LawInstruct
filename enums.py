@@ -21,6 +21,7 @@ class TaskType(_AutoName):
     TEXT_CLASSIFICATION = enum.auto()
     QUESTION_ANSWERING = enum.auto()
     SUMMARIZATION = enum.auto()
+    TEXT_GENERATION = enum.auto()
     NAMED_ENTITY_RECOGNITION = enum.auto()
     NATURAL_LANGUAGE_INFERENCE = enum.auto()
     MULTIPLE_CHOICE = enum.auto()
