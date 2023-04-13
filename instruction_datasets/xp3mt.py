@@ -22,7 +22,7 @@ class XP3MT(AbstractDataset):
         # Include only code and languages where we have legal data for
         # Maybe also add 'zh', 'vi', because we have legal instruction datasets there
         _LANG = ['en', 'es', 'fr', 'pt', 'code']
-        # TODO maybe treat code as a separate category so we can filter easily
+        # TODO maybe treat code as a separate category, so we can filter easily
 
         # prompts translated into other languages
         # rather use this one instead of xP3all because we compile multi_eurlex ourselves and xP3all only has two datasets more.

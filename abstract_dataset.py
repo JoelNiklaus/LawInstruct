@@ -8,7 +8,6 @@ import os
 import pathlib
 import random
 import sys
-import warnings
 
 from tqdm import tqdm
 
@@ -133,9 +132,9 @@ class AbstractDataset:
             datapoint: The datapoint to write.
         """
         if not datapoint.instructions:
-            warnings.warn(f"datapoint.instruction is empty in {datapoint}")
+            self.logger.debug(f"datapoint.instruction is empty in {datapoint}")
         if not datapoint.prompt:
-            warnings.warn(f"datapoint.prompt is empty in {datapoint}")
+            self.logger.debug(f"datapoint.prompt is empty in {datapoint}")
         if not datapoint.answer:
             raise ValueError(
                 f"datapoint.answer must not be empty in {datapoint}")
