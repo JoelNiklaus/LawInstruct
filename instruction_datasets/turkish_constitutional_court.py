@@ -29,17 +29,16 @@ class TurkishConstitutionalCourt(AbstractDataset):
         prompt_language = "tr"
         answer_language = "en"
         for example in df:
-            judgement = ["Violation", "No violation"][example['Label']]
             instruction = f"Determine if you think the Turkish Court of Cassation will label the case description " \
                           f"as Violation or No Violation."
             prompt = f"Case Description: {example['Text']}"
-            answer = f"Judgement: {judgement}"
+            answer = f"Judgement: {example['Label']}"
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction,
                                         prompt, answer, task_type, jurisdiction)
 
             task_type = TaskType.MULTIPLE_CHOICE
-            outcome_mc1 = ["(a)", "(b)"][example["Label"]]
+            outcome_mc1 = ["(a)", "(b)"][0 if example["Label"] == "No violation" else 1]
             text = example['Text']
             instruction = self.random.choice(get_multiple_choice_instruction_bank())
             prompt = f"Question: {text} How would the court find?\n" \
@@ -49,7 +48,7 @@ class TurkishConstitutionalCourt(AbstractDataset):
                                         answer_language, instruction,
                                         prompt, answer, task_type, jurisdiction)
 
-            outcome_mc1 = ["(b)", "(a)"][example["Label"]]
+            outcome_mc1 = ["(b)", "(a)"][0 if example["Label"] == "No violation" else 1]
             text = example['Text']
             instruction = self.random.choice(get_multiple_choice_instruction_bank())
             prompt = f"Question: {text} How would the court find?\n" \

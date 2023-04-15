@@ -69,6 +69,7 @@ from instruction_datasets.swiss_law_area_prediction import SwissLawAreaPredictio
 from instruction_datasets.swiss_legislation import SwissLegislation
 from instruction_datasets.swiss_rulings import SwissRulings
 from instruction_datasets.tscc_alqac import TsccAlqac
+from instruction_datasets.turkish_constitutional_court import TurkishConstitutionalCourt
 from instruction_datasets.us_class_actions import USClassActions
 from instruction_datasets.valid_wills import ValidWills
 from instruction_datasets.xp3mt import XP3MT
@@ -133,6 +134,7 @@ LEGAL_DATASETS = frozenset({
     SwissLegislation,
     SwissRulings,
     TsccAlqac,
+    TurkishConstitutionalCourt,
     USClassActions,
     ValidWills,
     NaturalInstructionsLegal,
@@ -202,6 +204,7 @@ DATASETS_ALREADY_BUILT = NATURAL_INSTRUCTIONS | XP3MT | frozenset({
     SwissLegislation,
     SwissRulings,
     TsccAlqac,
+    TurkishConstitutionalCourt,
     USClassActions,
     ValidWills,
 })
