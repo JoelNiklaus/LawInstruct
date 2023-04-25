@@ -11,7 +11,7 @@ class JECQA(AbstractDataset):
         super().__init__("JECQA", "https://jecqa.thunlp.org/")
 
     def get_data(self):
-
+        # TODO regenerate this
         instruction_bank = [
             "Answer these multiple choice reasoning questions about Chinese Law. Select all answers that apply, you may have multiple correct answers.",
             "Answer these Chinese Law multiple choice questions, you might have multiple correct answers. Denote your answer(s) as \"Answer: [answer(s)].\""
@@ -32,7 +32,7 @@ class JECQA(AbstractDataset):
             for k, v in q["option_list"].items():
                 prompt += f"{k}. {v}\n"
             prompt.rstrip("\n")  # remove trailing newline
-            answer = "Final Answer(s): {','.join(q['answer'])}"
+            answer = f"Final Answer(s): {','.join(q['answer'])}"
             yield self.build_data_point(instruction_language, prompt_language,
                                         "zh", instruction, prompt, answer,
                                         task_type, jurisdiction)
