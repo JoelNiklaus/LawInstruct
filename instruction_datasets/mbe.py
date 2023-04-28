@@ -3,6 +3,7 @@ import pandas as pd
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class MBE(AbstractDataset):
@@ -11,7 +12,7 @@ class MBE(AbstractDataset):
         # TODO do we have an url for the source here?: Lucia's working paper
         super().__init__("MBE", "MBE")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         df = pd.read_csv(f"{self.raw_data_dir}/mbe_train.csv")
         task_type = TaskType.MULTIPLE_CHOICE
         jurisdiction = Jurisdiction.US

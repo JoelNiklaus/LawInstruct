@@ -3,6 +3,7 @@ import pandas as pd
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class LegalQA(AbstractDataset):
@@ -10,7 +11,7 @@ class LegalQA(AbstractDataset):
     def __init__(self):
         super().__init__("LegalQA", "https://github.com/siatnlp/LegalQA")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         df = pd.read_csv(f"{self.raw_data_dir}/LegalQA-all-train.csv")
 
         df = df[df['label'] == 1]

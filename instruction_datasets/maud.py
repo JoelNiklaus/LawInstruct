@@ -3,6 +3,7 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 INFO_STR = """
 CATEGORY: General Information
@@ -429,7 +430,7 @@ class MAUD(AbstractDataset):
         super().__init__(
             "MAUD", "https://huggingface.co/datasets/theatticusproject/maud")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
 
         def read_info_str_to_dict():
             """This function reads the string in INFO_STR and parses it into a dict"""

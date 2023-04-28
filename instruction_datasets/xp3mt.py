@@ -5,6 +5,7 @@ from tqdm import tqdm
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 _BLANK_INSTRUCTION = ''
 _BLANK_INSTRUCTION_LANGUAGE = 'zxx'
@@ -16,7 +17,7 @@ class XP3MT(AbstractDataset):
         super().__init__("XP3MT",
                          "https://huggingface.co/datasets/bigscience/xP3mt")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         jurisdiction = Jurisdiction.N_A
 
         # Include only code and languages where we have legal data for

@@ -6,6 +6,7 @@ from tqdm import tqdm
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class ProfessionalLaw(AbstractDataset):
@@ -14,7 +15,7 @@ class ProfessionalLaw(AbstractDataset):
         super().__init__("ProfessionalLaw", "https://arxiv.org/abs/2009.03300")
         self.filter_out_mmmlu = True
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         if self.filter_out_mmmlu:
             return  # This dataset is part of mmmlu, just ignore it
 

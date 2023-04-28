@@ -3,6 +3,7 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class RedditLegalQA(AbstractDataset):
@@ -12,7 +13,7 @@ class RedditLegalQA(AbstractDataset):
             "RedditLegalQA",
             "https://huggingface.co/datasets/pile-of-law/pile-of-law")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         instruction_bank = [
             "Here is someone's legal concern. Answer as if you were replying on Reddit. If you are not a lawyer, include the disclaimer IANAL.",
             "Here is someone's legal question. Advice them on the situation. Think like a lawyer on Reddit."

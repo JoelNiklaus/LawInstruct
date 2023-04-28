@@ -7,6 +7,7 @@ from tqdm.auto import tqdm
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 from .greek_ner import NerTags
 
@@ -40,7 +41,7 @@ class IndianNER(AbstractDataset):
         self._path = pathlib.Path(
             f"{self.raw_data_dir}/NER_TRAIN_JUDGEMENT.json")
 
-    def get_data(self) -> Iterator[dict]:
+    def get_data(self, instructions: instruction_manager.InstructionManager) -> Iterator[dict]:
         task_type = TaskType.NAMED_ENTITY_RECOGNITION
         jurisdiction = Jurisdiction.INDIA
         instruction_language = "en"

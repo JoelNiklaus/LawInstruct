@@ -3,6 +3,7 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class GermanRentalAgreements(AbstractDataset):
@@ -12,7 +13,7 @@ class GermanRentalAgreements(AbstractDataset):
             "GermanRentalAgreements",
             "https://huggingface.co/datasets/joelito/german_rental_agreements")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         df = load_dataset("joelito/german_rental_agreements", split="train")
 
         instruction_bank = [

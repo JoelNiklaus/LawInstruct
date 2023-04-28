@@ -3,6 +3,7 @@ import json
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 def _separate_text_into_pieces(
@@ -29,7 +30,7 @@ class COLIEE(AbstractDataset):
         super().__init__("COLIEE",
                          "https://sites.ualberta.ca/~rabelo/COLIEE2022/")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         jurisdiction = Jurisdiction.JAPAN
         instruction_language = 'en'
         answer_languages = ["en", "jp"]

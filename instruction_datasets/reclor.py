@@ -3,6 +3,7 @@ import json
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class ReClor(AbstractDataset):
@@ -10,7 +11,7 @@ class ReClor(AbstractDataset):
     def __init__(self):
         super().__init__("ReClor", "https://github.com/yuweihao/reclor")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         ### Reclor has logical reasoning.
         instruction_bank = [
             "Given the context answer the reasoning question.",

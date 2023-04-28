@@ -3,6 +3,7 @@ import json
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 _BLANK_INSTRUCTION = ''
 _BLANK_INSTRUCTION_LANGUAGE = 'zxx'
@@ -17,7 +18,7 @@ class CABarExamEssays(AbstractDataset):
             "https://www.calbar.ca.gov/Admissions/Examinations/California-Bar-Examination/Past-Exams"
         )
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         # Scraped bar exam essays
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.US

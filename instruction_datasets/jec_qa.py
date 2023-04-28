@@ -3,6 +3,7 @@ import json
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class JECQA(AbstractDataset):
@@ -10,7 +11,7 @@ class JECQA(AbstractDataset):
     def __init__(self):
         super().__init__("JECQA", "https://jecqa.thunlp.org/")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
 
         instruction_bank = [
             "Answer these multiple choice reasoning questions about Chinese Law. Select all answers that apply, you may have multiple correct answers.",

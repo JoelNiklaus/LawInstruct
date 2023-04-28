@@ -5,6 +5,7 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 def build_summarization_answer(input: str, summary: str) -> tuple[str, str]:
@@ -24,7 +25,7 @@ class MultiLexSum(AbstractDataset):
             "MultiLexSum",
             "https://huggingface.co/datasets/allenai/multi_lexsum")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         df = load_dataset("allenai/multi_lexsum", split="train")
         task_type = TaskType.SUMMARIZATION
         jurisdiction = Jurisdiction.US

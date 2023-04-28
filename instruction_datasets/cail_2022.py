@@ -3,6 +3,7 @@ import json
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class CAIL2022(AbstractDataset):
@@ -13,7 +14,7 @@ class CAIL2022(AbstractDataset):
             "https://github.com/china-ai-law-challenge/CAIL2022/tree/main/lblj/data/stage_2"
         )
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         jurisdiction = Jurisdiction.CHINA
         instruction_language = "en"
         prompt_language = "en"

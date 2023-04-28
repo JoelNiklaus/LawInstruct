@@ -6,6 +6,7 @@ from tqdm import tqdm
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class CiviproQuestions(AbstractDataset):
@@ -13,7 +14,7 @@ class CiviproQuestions(AbstractDataset):
     def __init__(self):
         super().__init__("CiviproQuestions", "https://arxiv.org/abs/2211.02950")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
 
         instruction_bank_generate_questions_from_passage = [
             "Consider these questions about American civil procedure. Given the provided information answer them to the best of your ability.",

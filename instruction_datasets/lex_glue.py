@@ -5,6 +5,7 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 INSTRUCTION_LANGUAGE: Final[str] = "en"
 instructions_for_subsets = {
@@ -53,7 +54,7 @@ class LexGLUE(AbstractDataset):
     def __init__(self):
         super().__init__("LexGLUE", "https://huggingface.co/datasets/lex_glue")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         task_type = TaskType.TEXT_CLASSIFICATION
         for subset, instructions in instructions_for_subsets.items():
             dataset = load_dataset("lex_glue", subset, split="train")

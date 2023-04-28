@@ -3,6 +3,7 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 _BLANK_PROMPT = ''
 
@@ -12,7 +13,7 @@ class CaseBriefs(AbstractDataset):
     def __init__(self):
         super().__init__("CaseBriefs", "https://www.oyez.org")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         # Case briefs take the form of a question and an answer.
         case_brief_instructions = [
             "Given the key facts of a case, provide the core question the court should answer, then provide an analysis for how the an American court might decide the case.",

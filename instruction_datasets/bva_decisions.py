@@ -4,6 +4,7 @@ import os
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class BVADecisions(AbstractDataset):
@@ -12,7 +13,7 @@ class BVADecisions(AbstractDataset):
         super().__init__("BVADecisions",
                          "https://github.com/LLTLab/VetClaims-JSON")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
 
         json_files = [
             f"{self.raw_data_dir}/VetClaims-JSON/BVA Decisions JSON Format/{pos_json}"

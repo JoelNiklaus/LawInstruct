@@ -3,6 +3,7 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class ContractNLI(AbstractDataset):
@@ -12,7 +13,7 @@ class ContractNLI(AbstractDataset):
             "ContractNLI",
             "https://huggingface.co/datasets/kiddothe2b/contract-nli")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         task_type = TaskType.NATURAL_LANGUAGE_INFERENCE
         jurisdiction = Jurisdiction.US
         instruction_language = "en"

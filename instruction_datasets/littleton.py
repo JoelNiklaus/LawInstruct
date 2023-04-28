@@ -6,6 +6,7 @@ import toml
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class Littleton(AbstractDataset):
@@ -13,7 +14,7 @@ class Littleton(AbstractDataset):
     def __init__(self):
         super().__init__("Littleton", "https://github.com/grimmelm/littleton")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         json_files = [
             pos_json for pos_json in os.listdir(
                 f"{self.raw_data_dir}/littleton/examples/")

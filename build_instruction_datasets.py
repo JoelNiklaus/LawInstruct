@@ -10,6 +10,7 @@ import multiprocessing
 from typing import Optional, Sequence, Type
 
 from abstract_dataset import AbstractDataset
+import instruction_manager
 from lawinstruct_datasets import ALL_DATASETS, LEGAL_DATASETS, NON_LEGAL_DATASETS
 from lawinstruct_datasets import DATASETS_ALREADY_BUILT
 from lawinstruct_datasets import ERRONEOUS_DATASETS
@@ -36,6 +37,14 @@ def parse_args(args: Optional[list[str]] = None) -> argparse.Namespace:
                         nargs="+",
                         default="all",
                         help="Datasets to build (default: `all`). `legal` and `nonlegal` are also valid options.")
+    parser.add_argument("--language_mode",
+                        choices=["english", "multilingual"],
+                        default="english",
+                        help="Languages for instructions (default: `english`)")
+    parser.add_argument("--instruction_bank_size",
+                        type=int,
+                        default=10,
+                        help="Number of instruction paraphrases to sample from")
     args = parser.parse_args(args)
     # logging.debug(f"args: {args!r}")
 
@@ -54,19 +63,28 @@ def parse_args(args: Optional[list[str]] = None) -> argparse.Namespace:
     return args
 
 
-def _build_dataset(dataset: Type[AbstractDataset], debug_size: int) -> None:
+def _build_dataset(
+        dataset: Type[AbstractDataset],
+        instructions: instruction_manager.InstructionManager,
+        debug_size: int
+) -> None:
     # TODO(arya): We have a Liskov substitution principle violation here.
     #   AbstractDataset's __init__ takes two arguments, but the
     #  __init__s of the subclasses take none. Should rectify, perhaps by
     #  composition instead of inheritance.
-    dataset().build_instruction_dataset(debug_size=debug_size)
+    dataset().build_instruction_dataset(
+        instructions,
+        debug_size=debug_size)
 
 
-def build_instruction_datasets(datasets: Sequence[Type[AbstractDataset]],
-                               *,
-                               processes: int,
-                               debug: bool = False,
-                               build_from_scratch: bool = False) -> None:
+def build_instruction_datasets(
+        datasets: Sequence[Type[AbstractDataset]],
+        instructions: instruction_manager.InstructionManager,
+        *,
+        processes: int,
+        debug: bool = False,
+        build_from_scratch: bool = False
+) -> None:
     logging.info("Building instruction datasets: %s", datasets)
     if debug:
         datasets_to_build = ERRONEOUS_DATASETS
@@ -82,7 +100,11 @@ def build_instruction_datasets(datasets: Sequence[Type[AbstractDataset]],
     logging.info("Building datasets: %s",
                  [d.__name__ for d in datasets_to_build])
 
-    build_one = functools.partial(_build_dataset, debug_size=debug_size)
+    build_one = functools.partial(
+        _build_dataset,
+        instructions=instructions,
+        debug_size=debug_size,
+    )
 
     # with multiprocessing.Pool(processes=processes) as pool:
     #     pool.map(build_one, datasets_to_build)
@@ -93,7 +115,12 @@ def build_instruction_datasets(datasets: Sequence[Type[AbstractDataset]],
 if __name__ == '__main__':
     args = parse_args(['--build_from_scratch'])
     logging.basicConfig(level=logging.WARNING)
+    instructions = instruction_manager.InstructionManager(
+        mode=args.language_mode,
+        instruction_bank_size=args.instruction_bank_size,
+        random_state=1)
     build_instruction_datasets(args.datasets,
+                               instructions,
                                processes=args.processes,
                                debug=args.debug,
                                build_from_scratch=args.build_from_scratch)

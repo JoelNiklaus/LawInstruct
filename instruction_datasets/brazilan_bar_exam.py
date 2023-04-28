@@ -9,6 +9,7 @@ import yaml
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class BrazilianBarExam(AbstractDataset):
@@ -17,7 +18,7 @@ class BrazilianBarExam(AbstractDataset):
         super().__init__("BrazilianBarExam",
                          "https://arxiv.org/pdf/1712.05128.pdf")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         with open(f"{self.raw_data_dir}/oab.json", "r") as f:
             qs = json.loads(f.read())
 

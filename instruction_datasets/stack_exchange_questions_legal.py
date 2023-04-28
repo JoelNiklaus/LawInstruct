@@ -4,6 +4,7 @@ import pandas as pd
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class StackExchangeQuestionsLegal(AbstractDataset):
@@ -12,7 +13,7 @@ class StackExchangeQuestionsLegal(AbstractDataset):
         super().__init__("StackExchangeQuestionsLegal",
                          "https://law.stackexchange.com/")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         # Legal Stack Exchange questions are usually high quality
 
         df = pd.read_csv(f"{self.raw_data_dir}/stack-exchange.csv")

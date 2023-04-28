@@ -3,6 +3,7 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class ShortAnswerFeedback(AbstractDataset):
@@ -13,7 +14,7 @@ class ShortAnswerFeedback(AbstractDataset):
             "https://huggingface.co/datasets/JohnnyBoy00/saf_legal_domain_german"
         )
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         df = load_dataset("JohnnyBoy00/saf_legal_domain_german")
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.GERMANY

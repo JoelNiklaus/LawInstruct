@@ -3,6 +3,7 @@ import pandas as pd
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class Sara(AbstractDataset):
@@ -10,7 +11,7 @@ class Sara(AbstractDataset):
     def __init__(self):
         super().__init__("Sara", "https://arxiv.org/abs/2005.05257")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         df = pd.read_csv(f"{self.raw_data_dir}/sara.tsv", sep="\t", header=None)
         jurisdiction = Jurisdiction.US
         instruction_language = "en"

@@ -4,6 +4,7 @@ from typing import Final
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class TsccAlqac(AbstractDataset):
@@ -14,7 +15,7 @@ class TsccAlqac(AbstractDataset):
             "https://github.com/KevinMercury/tscc-dataset-alqac2021/blob/main/tscc_alqac2021_law.json"
         )
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         # Thai supreme court case law
         with open(f"{self.raw_data_dir}/tscc_alqac2021_question.train.json",
                   "r") as f:

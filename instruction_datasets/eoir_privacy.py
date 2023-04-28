@@ -3,6 +3,7 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class EOIRPrivacy(AbstractDataset):
@@ -12,7 +13,7 @@ class EOIRPrivacy(AbstractDataset):
             "EOIRPrivacy",
             "https://huggingface.co/datasets/pile-of-law/eoir_privacy")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         df = load_dataset("pile-of-law/eoir_privacy",
                           "eoir_privacy",
                           split="train")

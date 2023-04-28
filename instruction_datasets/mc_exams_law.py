@@ -3,6 +3,7 @@ import pandas as pd
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class MCExamsLaw(AbstractDataset):
@@ -11,7 +12,7 @@ class MCExamsLaw(AbstractDataset):
         # TODO do we have an url here: hand built by peter
         super().__init__("MCExamsLaw", "mc_exams_law")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         df = pd.read_csv(
             f"{self.raw_data_dir}/raw_legal_mc_with_explanations.csv")
         task_type = TaskType.MULTIPLE_CHOICE

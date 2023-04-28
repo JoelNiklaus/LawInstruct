@@ -15,6 +15,7 @@ from tqdm import tqdm
 from enums import Jurisdiction
 from enums import TaskType
 import files
+import instruction_manager
 
 try:
     import lzma as xz
@@ -78,7 +79,7 @@ class AbstractDataset:
         handler.setFormatter(formatter)
         root.addHandler(handler)
 
-    def get_data(self) -> Iterator[DataPoint]:
+    def get_data(self, instructions: instruction_manager.InstructionManager) -> Iterator[DataPoint]:
         raise NotImplementedError(
             "This method should yield DataPoint dicts with the following keys: "
             f"{', '.join(DataPoint.__annotations__.keys())}.")
@@ -180,7 +181,10 @@ class AbstractDataset:
         """Returns the output file name for the given split and index."""
         return self.data_dir / f'{self.name}_{split}_{file_index}.jsonl'
 
-    def build_instruction_dataset(self, debug_size: int = -1) -> None:
+    def build_instruction_dataset(
+            self,
+            instructions: instruction_manager.InstructionManager,
+            debug_size: int = -1) -> None:
         """Writes a dataset to files.
 
         We don't want any individual file to get too large, so this method
@@ -200,7 +204,7 @@ class AbstractDataset:
             return self._get_output_file_name(file_index, split='train')
 
         with files.SequentialFileWriter(get_file_name) as writer:
-            for i, datapoint in enumerate(tqdm(self.get_data())):
+            for i, datapoint in enumerate(tqdm(self.get_data(instructions))):
                 if 0 < debug_size <= i:
                     self.logger.info('Stopping after %d datapoints.',
                                      debug_size)

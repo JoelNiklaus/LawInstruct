@@ -3,6 +3,7 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 def get_multiple_choice_instruction_bank():
@@ -18,7 +19,7 @@ class BrCAD5(AbstractDataset):
         super().__init__("BrCAD5",
                          "https://huggingface.co/datasets/joelito/BrCAD-5")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         df = load_dataset('joelito/BrCAD-5', split='train')
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.BRAZIL

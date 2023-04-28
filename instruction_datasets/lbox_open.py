@@ -3,6 +3,7 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class LboxOpen(AbstractDataset):
@@ -10,7 +11,7 @@ class LboxOpen(AbstractDataset):
     def __init__(self):
         super().__init__("LboxOpen", "https://github.com/lbox-kr/lbox-open")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         # statutes classification task
         data_st_plus = load_dataset("lbox/lbox_open",
                                     "statute_classification_plus")

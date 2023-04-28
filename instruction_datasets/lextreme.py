@@ -7,6 +7,7 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 ner_class_mapping = {
     "lener_br": [
@@ -237,7 +238,7 @@ class LEXTREME(AbstractDataset):
         super().__init__("LEXTREME",
                          "https://huggingface.co/datasets/joelito/lextreme")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         instruction_language = 'en'
         for subset, instructions in instructions_for_subsets.items():
             dataset = load_dataset("joelito/lextreme", subset, split="train")

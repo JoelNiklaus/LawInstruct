@@ -3,6 +3,7 @@ import json
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class ChangeMyView(AbstractDataset):
@@ -11,7 +12,7 @@ class ChangeMyView(AbstractDataset):
         super().__init__("ChangeMyView",
                          "https://chenhaot.com/pages/changemyview.html")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         # ChangeMyView Argumentation
         instruction_bank = [
             "You are given a position, create an argument that would change the original poster's mind.",

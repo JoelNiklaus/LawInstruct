@@ -3,6 +3,7 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 _BLANK_PROMPT = ''
 
@@ -14,7 +15,7 @@ class OLCMemos(AbstractDataset):
             "OLCMemos",
             "https://huggingface.co/datasets/pile-of-law/pile-of-law")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         # OLC memos start off with a short form summary and then write the memo
         df = load_dataset("pile-of-law/pile-of-law", "olc_memos", split="train")
 

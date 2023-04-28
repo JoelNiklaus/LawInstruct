@@ -3,6 +3,7 @@ import json
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class CAIL2019(AbstractDataset):
@@ -11,7 +12,7 @@ class CAIL2019(AbstractDataset):
         super().__init__("CAIL2019",
                          "https://github.com/china-ai-law-challenge/CAIL2019")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.CHINA
         instruction_language = "en"

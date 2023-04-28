@@ -6,6 +6,7 @@ import re
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 _BLANK_INSTRUCTION = ""
 
@@ -35,7 +36,7 @@ class IndianTextSegmentation(AbstractDataset):
         self._path = pathlib.Path(
             f"{self.raw_data_dir}/indian_text_segmentation.json")
 
-    def get_data(self) -> Iterator[dict]:
+    def get_data(self, instructions: instruction_manager.InstructionManager) -> Iterator[dict]:
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.INDIA
         instruction_language = "en"

@@ -5,6 +5,7 @@ from instruction_datasets.abstract_natural_instructions import \
     AbstractNaturalInstructions
 from instruction_datasets.abstract_natural_instructions import \
     get_first_lang_code
+import instruction_manager
 
 _BLANK_INSTRUCTION = ''
 _BLANK_INSTRUCTION_LANGUAGE = 'zxx'
@@ -16,7 +17,7 @@ class NaturalInstructionsLegal(AbstractNaturalInstructions):
         super().__init__("NaturalInstructionsLegal",
                          "https://github.com/allenai/natural-instructions")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         raw_datasets = load_dataset(
             f'{self.raw_data_dir}/ni_dataset.py',
             data_dir=f"{self.raw_data_dir}/ni_task_configs",

@@ -6,6 +6,7 @@ from abstract_dataset import AbstractDataset
 from abstract_dataset import DataPoint
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 _PREMISE_COLS = (
     "long_premise",
@@ -24,7 +25,7 @@ class LawngNli(AbstractDataset):
     def __init__(self):
         super().__init__("LawngNli", "https://github.com/wbrun0/LawngNLI")
 
-    def get_data(self) -> Iterable[DataPoint]:
+    def get_data(self, instructions: instruction_manager.InstructionManager) -> Iterable[DataPoint]:
         """Returns the data points in the dataset.
 
     Returns:

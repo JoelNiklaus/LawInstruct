@@ -1,6 +1,7 @@
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class LogiQA(AbstractDataset):
@@ -8,7 +9,7 @@ class LogiQA(AbstractDataset):
     def __init__(self):
         super().__init__("LogiQA", "https://github.com/lgw863/LogiQA-dataset")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         # Chinese Bar Exam, no explanations.
         instruction_bank = [
             "Answer these multiple choice reasoning questions about Chinese Law. There is only one right answer.",

@@ -3,6 +3,7 @@ import os
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class SaraProlog(AbstractDataset):
@@ -10,7 +11,7 @@ class SaraProlog(AbstractDataset):
     def __init__(self):
         super().__init__("SaraProlog", "https://arxiv.org/abs/2005.05257")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         instruction_bank = [
             "Convert the following statute into prolog code.",
             "Write a prolog program to convert the statute into code, denote it as \"Prolog Program:\"."

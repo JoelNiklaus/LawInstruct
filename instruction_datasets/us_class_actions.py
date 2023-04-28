@@ -5,6 +5,7 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class USClassActions(AbstractDataset):
@@ -15,7 +16,7 @@ class USClassActions(AbstractDataset):
             "USClassActions",
             "https://huggingface.co/datasets/darrow-ai/USClassActions")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         df = load_dataset("darrow-ai/USClassActions", split="train")
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.US
