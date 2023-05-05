@@ -25,10 +25,12 @@ class SwissJudgmentPredictionXL(AbstractDataset):
             instruction = f"Determine if you think the Swiss court will rule dismissal or approval for the case."
             answer = f"Judgement: {example['label']}"
 
-            prompt = f"Facts: {example['facts']}"
-            yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                        instruction, prompt, answer, task_type, jurisdiction)
+            if len(example['facts']) > 100:
+                prompt = f"Facts: {example['facts']}"
+                yield self.build_data_point(instruction_language, example["language"], answer_language,
+                                            instruction, prompt, answer, task_type, jurisdiction)
 
-            prompt = f"Considerations: {example['considerations']}"
-            yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                        instruction, prompt, answer, task_type, jurisdiction)
+            if len(example['considerations']) > 100:
+                prompt = f"Considerations: {example['considerations']}"
+                yield self.build_data_point(instruction_language, example["language"], answer_language,
+                                            instruction, prompt, answer, task_type, jurisdiction)

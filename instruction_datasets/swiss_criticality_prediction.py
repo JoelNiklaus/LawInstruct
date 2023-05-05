@@ -27,10 +27,12 @@ class SwissCriticalityPrediction(AbstractDataset):
                           "or range from critical-1 (least critical) to critical-4 (most critical)."
             answer = f"Criticality: {example['citation_label']}"
 
-            prompt = f"Facts: {example['facts']}"
-            yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                        instruction, prompt, answer, task_type, jurisdiction)
+            if len(example['facts']) > 100:
+                prompt = f"Facts: {example['facts']}"
+                yield self.build_data_point(instruction_language, example["language"], answer_language,
+                                            instruction, prompt, answer, task_type, jurisdiction)
 
-            prompt = f"Considerations: {example['considerations']}"
-            yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                        instruction, prompt, answer, task_type, jurisdiction)
+            if len(example['considerations']) > 100:
+                prompt = f"Considerations: {example['considerations']}"
+                yield self.build_data_point(instruction_language, example["language"], answer_language,
+                                            instruction, prompt, answer, task_type, jurisdiction)
