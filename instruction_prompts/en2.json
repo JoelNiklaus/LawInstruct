@@ -1,4 +1,8 @@
 {
+    "valid_wills_entailment": [
+        "Given a statement in a will, the relevant U.S. law, is the condition supported, refuted, or unrelated.",
+        "Is the statement in the will valid given the law and conditions? Answer with one of unrelated, supported, refuted."
+    ],
     "brazilian_court_decisions_judgment": [
         "In this task, you are given the case description from a decision heard at the State Supreme Court of Alagoas (Brazil). Predict the judgment of the case (no: The appeal was denied, partial: For partially favourable decisions, yes: For fully favourable decisions)"
     ],
