@@ -18,13 +18,9 @@ class Lila(AbstractDataset):
             for pos_json in os.listdir(f"{self.raw_data_dir}/all_lila/")
             if pos_json.endswith('.json')
         ]
-        instruction_bank = [
-            "Consider the following question. Write a Python program to solve it.",
-            "Write a Python program to solve the following question, denote it as \"Program:\". Provide the output as \"Answer:\"."
-        ]
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.N_A
-        instruction_language = "en"
+        instruction_language: str
         prompt_language = "en"
 
         for json_file in json_files:
@@ -36,7 +32,7 @@ class Lila(AbstractDataset):
                         continue
                     for program, answer in zip(example['Output Program'],
                                                example['Output Answer']):
-                        instruction = self.random.choice(instruction_bank)
+                        instruction, instruction_language = instructions.sample("lila")
                         prompt = f"Question: {example['Input']}\n" \
                                     f"Program:\n```python\n{program}\n```\n"
                         answer = f"Answer: {answer}"

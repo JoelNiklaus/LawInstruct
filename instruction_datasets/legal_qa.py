@@ -16,18 +16,13 @@ class LegalQA(AbstractDataset):
 
         df = df[df['label'] == 1]
 
-        instruction_bank = [
-            "Answer the following question according to Chinese law, use plain language as if you are a lawyer answering on an online forum.",
-            "This is a question on a Chinese online forum for legal advice. Do not cite case law and use plain language.",
-            "Answer the question as a lawyer according to Chinese law, be informal."
-        ]
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.CHINA
-        instruction_language = "en"
+        instruction_language: str
         prompt_language = "en"
 
         for q, a in zip(df['question: body'], df['answer']):
-            instruction = self.random.choice(instruction_bank)
+            instruction, instruction_language = instructions.sample("legal_qa")
             prompt = f"Q: {q}"
             answer = f"A: {a}"
             yield self.build_data_point(instruction_language, prompt_language,

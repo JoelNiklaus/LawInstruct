@@ -7,27 +7,7 @@ from enums import Jurisdiction
 from enums import TaskType
 import instruction_manager
 
-INSTRUCTION_LANGUAGE: Final[str] = "en"
-instructions_for_subsets = {
-    "ecthr_a":
-        "In this task, you are given the facts from a case heard at the European Court of Human Rights (ECtHR). "
-        "Predict the articles of the ECtHR that were violated (if any).",
-    "ecthr_b":
-        "In this task, you are given the facts from a case heard at the European Court of Human Rights (ECtHR). "
-        "Predict the articles of ECtHR that were allegedly violated (considered by the court).",
-    "scotus":
-        "In this task, you are given a case heard at the Supreme Court of the United States (SCOTUS). "
-        "Predict the relevant issue area.",
-    "eurlex":
-        "In this task, you are given an EU law document published in the EUR-Lex portal. "
-        "Predict the relevant EuroVoc concepts.",
-    "ledgar":
-        "In this task, you are given a contract provision from contracts obtained from US Securities and Exchange Commission (SEC) filings."
-        "Predict the main topic.",
-    "unfair_tos":
-        "In this task, you are given a sentence from a Terms of Service (ToS) document from on-line platforms. "
-        "Predict the types of unfair contractual terms",
-}
+INSTRUCTION_GROUPS: Final[tuple[str, ...]] = ('ecthr_a', 'ecthr_b', 'scotus', 'eurlex', 'ledgar', 'unfair_tos')
 
 TASK_CODE_MAPPING = {
     'ecthr_a': 'MLTC',
@@ -54,9 +34,9 @@ class LexGLUE(AbstractDataset):
     def __init__(self):
         super().__init__("LexGLUE", "https://huggingface.co/datasets/lex_glue")
 
-    def get_data(self, instructions: instruction_manager.InstructionManager):
+    def get_data(self, instructions_: instruction_manager.InstructionManager):
         task_type = TaskType.TEXT_CLASSIFICATION
-        for subset, instructions in instructions_for_subsets.items():
+        for subset in INSTRUCTION_GROUPS:
             dataset = load_dataset("lex_glue", subset, split="train")
             task_code = TASK_CODE_MAPPING[subset]
             jurisdiction = JURISDICTION_MAPPING[subset]
@@ -83,7 +63,8 @@ class LexGLUE(AbstractDataset):
                 answer = f"Labels: {','.join(correct_labels)}"
 
                 prompt_language = "en"
-                yield self.build_data_point(INSTRUCTION_LANGUAGE,
-                                            prompt_language, "en", instructions,
+                instruction, instruction_language = instructions_.sample(subset)
+                yield self.build_data_point(instruction_language,
+                                            prompt_language, "en", instruction,
                                             prompt, answer, task_type,
                                             jurisdiction, subset)

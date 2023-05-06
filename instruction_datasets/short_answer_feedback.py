@@ -18,33 +18,19 @@ class ShortAnswerFeedback(AbstractDataset):
         df = load_dataset("JohnnyBoy00/saf_legal_domain_german")
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.GERMANY
-        instruction_language = "en"
+        instruction_language: str
+        instruction: str
         prompt_language = "en"
 
-        instruction_bank_openqa = [
-            "Consider this question in the context of German law. Provide the correct reference answer.",
-            "Answer the question about German law. Make sure it is correct."
-        ]
-        instruction_bank_feedback = [
-            "Here is a question and answer pair related to German Law. Considering the student provided answer, provide detailed feedback and then provide a score of 1 for correct, 0.5 for partially correct, and 0 for incorrect.",
-            "Consider the answer to the question, is it correct? Provide feedback and then give a score from 0 to 1.",
-            "Consider the student's answer to the question. Rate it and provide feedback."
-        ]
-        instruction_error_class = [
-            "Here is a question and answer pair related to German Law. Considering the student provided answer, provide detailed feedback and then provide a score of 1 for correct, 0.5 for partially correct, and 0 for incorrect.",
-            "Consider the answer to the question, is it correct? Provide feedback and then give a score from 0 to 1. Note the error class.",
-            "Consider the student's answer to the question. Rate it and provide feedback. Note the type of error."
-        ]
-
         for example in df["train"]:
-            instruction = self.random.choice(instruction_bank_openqa)
+            instruction, instruction_language = instructions.sample('short_answer_feedback_openqa')
             prompt = f"Q: {example['question']}"
             answer = f"A: {example['reference_answer']}"
             yield self.build_data_point(instruction_language, prompt_language,
                                         "de", instruction, prompt, answer,
                                         task_type, jurisdiction)
 
-            instruction = self.random.choice(instruction_bank_feedback)
+            instruction, instruction_language = instructions.sample('short_answer_feedback_rating')
 
             prompt = f"Q: {example['question']}\nA: {example['provided_answer']}"
             answer = f"Feedback: {example['verification_feedback']}\nScore: {example['score']}"
@@ -52,7 +38,7 @@ class ShortAnswerFeedback(AbstractDataset):
                                         "de", instruction, prompt, answer,
                                         task_type, jurisdiction)
 
-            instruction = self.random.choice(instruction_error_class)
+            instruction, instruction_language = instructions.sample('short_answer_feedback_error_class')
             prompt = f"Q: {example['question']}\nA: {example['provided_answer']}"
             answer = f"Feedback: {example['verification_feedback']}\nScore: {example['score']}\nError Type: {example['error_class']}"
             yield self.build_data_point(instruction_language, prompt_language,

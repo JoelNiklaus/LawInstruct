@@ -14,17 +14,14 @@ class RedditLegalQA(AbstractDataset):
             "https://huggingface.co/datasets/pile-of-law/pile-of-law")
 
     def get_data(self, instructions: instruction_manager.InstructionManager):
-        instruction_bank = [
-            "Here is someone's legal concern. Answer as if you were replying on Reddit. If you are not a lawyer, include the disclaimer IANAL.",
-            "Here is someone's legal question. Advice them on the situation. Think like a lawyer on Reddit."
-        ]
 
         df = load_dataset("pile-of-law/pile-of-law",
                           "r_legaladvice",
                           split="train")
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.UNKNOWN
-        instruction_language = "en"
+        instruction_language: str
+        instruction: str
         prompt_language = "en"
 
         for example in df["text"]:
@@ -35,7 +32,7 @@ class RedditLegalQA(AbstractDataset):
             answers = question.split("Answer #")[1:]
             answers = [a.split(":")[-1] for a in answers]
             for a in answers:
-                instruction = self.random.choice(instruction_bank)
+                instruction, instruction_language = instructions.sample("reddit_legal_qa")
                 text = f"Question: {q}\n\nAnalysis: {a}"
                 prompt = f"Question: {q}"
                 answer = f"Analysis: {a}"

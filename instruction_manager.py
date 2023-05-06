@@ -3,6 +3,8 @@ import random
 import sys
 from typing import NamedTuple, Optional
 
+from absl import logging
+
 
 class Instruction(NamedTuple):
     instruction: str
@@ -118,10 +120,14 @@ class InstructionManager:
                 raise ValueError(
                     f'No instructions for group(s) {empty}'
                     f' in language {lang} in {json_file}')
-        # Check that all instructions are non-empty.
+        # Check that all instructions are non-empty and warn if they might be bad f-strings.
         for lang, groups in instructions.items():
             for group, options in groups.items():
                 if not all(options):
                     raise ValueError(
                         f'Found empty instruction for group {group} in language'
                         f' {lang} in {json_file}')
+                if any('{' in option for option in options):
+                    for option in options:
+                        if '{' in option:
+                            logging.warning('Open-brace present in instruction. Was an f-string moved into the JSON incorrectly? See: %s', option)

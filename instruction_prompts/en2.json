@@ -1,6 +1,238 @@
 {
   "en":
-{
+  {
+    "brazilian_bar_exam": [
+            "Answer the questions from the Brazilian bar exam.",
+            "Answer these legal multiple choice questions according to Brazilian law."
+        ],
+    "brcad5_mc": [
+        "Please answer these multiple choice questions. Denote the correct answer as \"Answer\".",
+        "Pick the most likely correct answer."
+    ],
+    "bva_decisions_label": [
+            "Label the sentence according to its rhetorical role in a legal argument.",
+            "Please label the sentence as according to its role as either a FindingSentence, a ReasoningSentence, a LegalRuleSentence, a CitationSentence, or an EvidenceSentence. If it is none of these, mark it as just Sentence.",
+            "Please label the following according to one of these categories.\n\tFindingSentence. A finding sentence is a sentence that primarily states an authoritative finding, conclusion or determination of the trier of fact – a decision made “as a matter of fact” instead of \"as a matter of law.\"\n\tReasoningSentence. A reasoning sentence is a sentence that primarily reports the trier of fact’s reasoning based on the evidence, or evaluation of the probative value of the evidence, in making the findings of fact.\n\tEvidenceSentence. An evidence sentence is a sentence that primarily states the content of the testimony of a witness, states the content of documents introduced into evidence, or describes other evidence.\n\tLegalRuleSentence. A legal-rule sentence is a sentence that primarily states one or more legal rules in the abstract, without stating whether the conditions of the rule(s) are satisfied in the case being decided.\n\tCitationSentence. A citation sentence is a sentence whose primary function is to reference legal authorities or other materials, and which usually contains standard notation that encodes useful information about the cited source.\n\tSentence. All other sentences."
+        ],
+    "bva_decisions_qa": [
+            "Take the following sentence, name all the rules that would be required to back up the claim. Do so in tree format with logical operators like AND and OR.",
+            "Name all the rules that would be required to back up the claim."
+        ],
+    "cali_2019": [
+            "Consider the following passage from a Chinese legal case. Answer the questions about the case. If you cannot answer the question feel free to say as such.",
+            "Consider the following situation in Chinese law, answer the questions. If the information is not in the passage, respond with, \"Sorry, this question cannot be answered based on the information available.\"",
+            "Consider the following passage from a Chinese legal case. Answer the questions about the case. If the question is impossible to answer, say that it cannot be answered."
+        ],
+    "cali_2022_mc": [
+            "Use Chinese law to answer these multiple choice questions. Pick the best counter-argument to the plaintiff's argument.",
+            "Which of these is the best response to the following argument if you were the defendant? Consider Chinese law."
+        ],
+    "cali_2022_response": [
+            "Use Chinese law. What is the counter-argument to the plaintiff's argument?",
+            "How should Defendant respond to the following argument? Use Chinese law."
+        ],
+    "cali_2022_crime": [
+            "Consider Chinese law, what is the likely crime being discussed here?"
+        ]
+    "case_briefs": [
+            "Given the key facts of a case, provide the core question the court should answer, then provide an analysis for how the an American court might decide the case.",
+            "Given the facts, describe how an American court should think about the key issue?"
+        ],
+    "change_my_view": [
+            "You are given a position, create an argument that would change the original poster's mind.",
+            "Write a counter argument to the proposal.",
+            "Write a counter argument to the r/changemyview post.",
+            "Write a counterargument to this reddit post."
+        ],
+    "civipro_questions_generate_from_passage": [
+            "Consider these questions about American civil procedure. Given the provided information answer them to the best of your ability.",
+            "Here is some information that can help you answer the question. Provide an analysis of the options and then pick the correct answer.",
+            "Given a passage of text about Civil Procedure in the United States, generate a question that can be answered by reading the passage.",
+            "Generate a CivPro question that can be answered by reading the passage, denote it as \"Question:\", provide an answer as \"Answer\"."
+        ],
+    "civipro_questions_generate_no_passage": [
+                  "Consider these questions about American civil procedure. Answer them to the best of your ability, first provide an explanation then the answer.",
+            "Consider these civil procedure questions. Provide an analysis of the options and then pick the correct answer.",
+            "Answer this Civil Procedure question based on law in the United States. Provide an explanation first.",
+            "Answer this CivPro question provide an answer as \"Answer\", but first provide an explanation as \"Explanation\"."
+
+    ],
+    "civipro_questions_no_explanation": [
+                  "Consider these questions about American civil procedure. Answer them to the best of your ability, DO NOT provide an explanation before giving the answer.",
+            "Consider these civil procedure questions. Pick the correct answer.",
+            "Given a passage of text about Civil Procedure in the United States, answer the question.",
+            "Answer this CivPro question provide an answer as \"Answer\"."
+
+    ],
+    "contract_nli": [
+                "Consider the following Contract Passage and Hypothesis. Predict whether the Contract Passage entails/contradicts/is neutral to the Hypothesis (entailment, contradiction or neutral).",
+                "Does the following Contract Passage entail/contradict/stand neutral to the Hypothesis?"
+            ],
+    "eior_privacy": [
+            "For each masked paragraph, determine if we should use a pseudonym for this case related to immigration law in the United States.",
+            "Consider this paragraph from a precedential EOIR case. Should the IJ use a a pseudonym.",
+            "Should the judge pseudonymize the person's name in this paragraph?"
+        ],
+    "eur_lex_sum": [
+                "Summarize the following European legal document.",
+                "Consider the European legal document and summarize it."
+            ],
+    "german_rental_agreements": [
+            "You are given a sentence from a German rental agreement. Predict the category of the sentence.",
+            "Predict the category of the following sentence from a German rental agreement.",
+        ],
+    "gsm8k_1": [
+            "Answer the question, make sure to show your work.",
+            "Answer the math question step by step. Show your work.",
+            "Answer the following question in logical steps.",
+            "Answer the following questions."
+        ],
+    "gsm8k_2": [
+            "Answer the question, make sure to ask yourself follow up questions.",
+            "Answer the math question using the socratic method. Show your work.",
+            "Answer the following question in logical steps.",
+            "Answer the following questions. Make sure to ask any follow up questions as needed."
+        ],
+    "ildc": [
+            "According to Indian law, will this petition be accepted? If there is more than one petition consider whether the court will accept at least one.",
+            "Will the court accept or reject this petition? Use Indian law. If there is more than one petition consider whether the court will accept at least one."
+        ],
+    "jec_qa": [
+            "Answer these multiple choice reasoning questions about Chinese Law. Select all answers that apply, you may have multiple correct answers.",
+            "Answer these Chinese Law multiple choice questions, you might have multiple correct answers. Denote your answer(s) as \"Answer: [answer(s)].\""
+        ],
+    "korean_legal_qa": [
+            "Consider the following question. Retrieve the relevant South Korean legal article.",
+            "What is the best South Korean law that can help answer this question.",
+            "What South Korean law best applies."
+        ],
+    "lawng_nli_entailment": [
+            "Consider the following matter from a US legal opinion. Does the first passage entail the second fact?",
+            "Are these two passages entailed, contradicting, or neutral?",
+            "Respond entailment, contradiction, or neutral to these two passages.",
+        ],
+    "lbox_open_statute": [
+            "For the given case facts, predict the related South Korean legal statute.",
+            "When presented with this fact pattern, what are the relevant legal statutes in South Korean law?"
+        ],
+    "lbox_open_judgment": [
+            "Given these facts from a South Korean criminal law case. Predict the court's ruling and the reason for the ruling."
+        ],
+    "legal_qa": [
+            "Answer the following question according to Chinese law, use plain language as if you are a lawyer answering on an online forum.",
+            "This is a question on a Chinese online forum for legal advice. Do not cite case law and use plain language.",
+            "Answer the question as a lawyer according to Chinese law, be informal."
+        ],
+    "lila": [
+            "Consider the following question. Write a Python program to solve it.",
+            "Write a Python program to solve the following question, denote it as \"Program:\". Provide the output as \"Answer:\"."
+        ],
+    "littleton_events": [
+            "Consider the law of future interests and conveyances in American property law. Consider the chain of events and then state the interests.",
+            "According to American law, consider the chain of events and future interests."
+        ],
+    "littleton_graph": [
+                  "Consider the law of future interests and conveyances in American property law. Consider the chain of events and then output a graph structure representing the events.",
+            "According to American law, consider the chain of events and future interests. Output a graph structure representing the events and any interests."
+
+    ],
+    "logi_qa": [
+            "Answer these multiple choice reasoning questions about Chinese Law. There is only one right answer.",
+            "Answer these Chinese Law multiple choice questions. There is only one correct answer. Denote your answer as \"Answer: [answer].\""
+        ],
+    "maud": [
+            "Consider the following deal point text from a US merger agreement.",
+            "Look at the following deal point text from a US merger agreement.",
+        ],
+    "mbe_examples": [
+            "Answer these legal questions. Use American Law. Please explain your thought process and then answer the question.",
+            "Answer these U.S. Multistate Bar Exam questions. Please provide an explanation first.",
+            "Pick the most correct option considering U.S. Law. Explain your answer first."
+        ],
+    "mbe_subject": [
+            "What subject of U.S. law is this question about? Pick one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP.",
+            "What area of American law is this question about? Pick one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP."
+        ],
+    "mc_exams_law_noexplain": [
+            "Answer these questions according to the laws of the United States.",
+            "Pick the best answer according to U.S. law.",
+            "Pick the correct multiple choice answer according to American law."
+        ],
+    "mc_exams_law_explain": [
+            "Answer these questions according to the laws of the United States. First explain your answer.",
+            "Pick the best answer according to U.S. law. First explain your answer.",
+            "Pick the correct multiple choice answer according to American law. Explain your answer then give the correct choice."
+        ],
+    "multi_lex_sum": [
+            "Summarize the following summary of a US legal document further. ",
+            "Consider the summary of a US legal document and summarize it further. "
+        ],
+    "olc_memos": [
+            "Write a legal research memo on the following topic.",
+            "Write a memo in the style of OLC on the following legal research question.",
+            "Write a memo in the form of U.S. Office of Legal Counsel.",
+            "Consider the question below, write a formal legal research memo."
+        ],
+    "privacy_qa": [
+      "Determine whether a term mentioned in a privacy policy is relevant or irrelevant to a given question."
+    ],
+    "privacy_summarization": [
+      "Is the following statement from a privacy policy risky or non-risky?"
+    ],
+  "professional_law_examples": [
+            "Generate some Multistate Bar Exam questions according to U.S. law.",
+            "Answer these legal questions. Use American Law. A few examples are provided first to give the answer format.",
+            "Answer these U.S. Multistate Bar Exam questions. A few examples are provided first to give the answer format.",
+            "Pick the most correct option considering U.S. Law."
+        ],
+    "professional_law_zero_shot": [
+            "Answer these legal questions. Use American Law. Provide the choice as \"Answer:\"",
+            "Answer these U.S. Multistate Bar Exam questions. Provide the choice as \"Answer:\"",
+            "Pick the most correct option considering U.S. Law. Output the choice as \"Answer:\""
+        ],
+  "reclor": [
+            "Given the context answer the reasoning question.",
+            "Answer the logical reasoning multiple choice questions.",
+            "State the answer in the following format, \"Final Answer: The final answer is ([ANSWER]). I hope it is correct.\"",
+            "Read the passage any any relevant rules describing the world. Apply the rules to the facts to answer the question."
+        ],
+  "reddit_legal_qa": [
+            "Here is someone's legal concern. Answer as if you were replying on Reddit. If you are not a lawyer, include the disclaimer IANAL.",
+            "Here is someone's legal question. Advice them on the situation. Think like a lawyer on Reddit."
+        ],
+  "sara_entailment": [
+            "Consider the following US Tax scenario. Does the first fact entail the second fact?",
+            "Are these two sentences entailed or contradicting?",
+            "Respond entailment or contradiction to these two sentences."
+        ],
+  "sara_tax_liability": [
+            "Consider the following US Tax scenario and answer the question.",
+            "Consider the following scenario. Calculate the right amount of tax liablity and answer the question."
+        ],
+  "sara_prolog_statute": [
+            "Convert the following statute into prolog code.",
+            "Write a prolog program to convert the statute into code, denote it as \"Prolog Program:\"."
+        ],
+  "sara_prolog_facts": [
+            "Convert the following fact pattern into prolog code. Then answer the question.",
+            "Write a prolog program to mark all the facts, denote it as \"Prolog Program:\". Then answer the question, denote your answer as \"Answer\"."
+        ],
+  "short_answer_feedback_openqa": [
+            "Consider this question in the context of German law. Provide the correct reference answer.",
+            "Answer the question about German law. Make sure it is correct."
+        ],
+  "short_answer_feedback_rating": [
+                "Here is a question and answer pair related to German Law. Considering the student provided answer, provide detailed feedback and then provide a score of 1 for correct, 0.5 for partially correct, and 0 for incorrect.",
+            "Consider the answer to the question, is it correct? Provide feedback and then give a score from 0 to 1.",
+            "Consider the student's answer to the question. Rate it and provide feedback."
+
+  ],
+  "short_answer_feedback_error_class": [
+                "Here is a question and answer pair related to German Law. Considering the student provided answer, provide detailed feedback and then provide a score of 1 for correct, 0.5 for partially correct, and 0 for incorrect.",
+            "Consider the answer to the question, is it correct? Provide feedback and then give a score from 0 to 1. Note the error class.",
+            "Consider the student's answer to the question. Rate it and provide feedback. Note the type of error."
+
+  ],
   "spanish_labor_law": [
                 "Consider this Spanish Labor Law translated passage. Answer the question using an extractive snippet of text.",
             "Consider this Spanish Labor Law translated passage. Answer the question from the context.",

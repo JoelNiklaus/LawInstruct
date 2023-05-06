@@ -16,13 +16,9 @@ class GermanRentalAgreements(AbstractDataset):
     def get_data(self, instructions: instruction_manager.InstructionManager):
         df = load_dataset("joelito/german_rental_agreements", split="train")
 
-        instruction_bank = [
-            "You are given a sentence from a German rental agreement. Predict the category of the sentence.",
-            "Predict the category of the following sentence from a German rental agreement.",
-        ]
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.GERMANY
-        instruction_language = "en"
+        instruction_language: str
         prompt_language = "en"
 
         for example in df:
@@ -30,7 +26,8 @@ class GermanRentalAgreements(AbstractDataset):
                 label = example[f"label_{num_classes}_classes"]
                 sentence = example[f"text_{num_classes}_classes"]
                 if sentence and label:
-                    instruction = self.random.choice(instruction_bank)
+                    instruction, instruction_language = instructions.sample(
+                        "german_rental_agreements")
                     # TODO: this one doesn't have any Prompt and Answer nouns...
                     prompt = sentence
                     answer = label

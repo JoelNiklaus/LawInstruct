@@ -27,19 +27,16 @@ class PrivacySummarization(AbstractDataset):
     def get_data(self, instructions: instruction_manager.InstructionManager) -> Iterator[dict]:
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.UNKNOWN
-        instruction_language = "en"
+        instruction_language: str
         prompt_language = "en"
         answer_language = "en"
 
-        introduction_sentence = ("Is the following statement from a"
-                                 " privacy policy risky or non-risky?")
-
         df = pd.read_csv(self._path, header=0)
         for _, record in df.iterrows():
-            # `QuoteText` is a typo in the original dataset.
+            # `QouteText` is a typo in the original dataset.
             passage, label = record["QouteText"], record["Point"]
             # TODO: Should this really count as the instruction?
-            instruction = introduction_sentence
+            instruction, instruction_language = instructions.sample("privacy_summarization")
             prompt = passage
             answer = _TEXT4LABEL[label]
             yield self.build_data_point(instruction_language, prompt_language,

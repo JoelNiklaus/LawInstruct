@@ -455,12 +455,8 @@ class MAUD(AbstractDataset):
 
         df = load_dataset("theatticusproject/maud", "maud", split="train")
 
-        instruction_bank = [
-            "Consider the following deal point text from a US merger agreement.",
-            "Look at the following deal point text from a US merger agreement.",
-        ]
         jurisdiction = Jurisdiction.US
-        instruction_language = "en"
+        instruction_language: str
         prompt_language = "en"
         answer_language = "en"
 
@@ -473,21 +469,21 @@ class MAUD(AbstractDataset):
             answer = example["answer"]
 
             task_type = TaskType.TEXT_CLASSIFICATION
-            instruction = self.random.choice(instruction_bank)
+            instruction, instruction_language = instructions.sample("maud")
             prompt = f"{example['text']}\nWhat is the ABA category?"
             answer_ = category
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
                                         answer_, task_type, jurisdiction)
 
-            instruction = self.random.choice(instruction_bank)
+            instruction, instruction_language = instructions.sample("maud")
             prompt = f"{example['text']}\nWhat is the ABA text type?"
             answer_ = text_type
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
                                         answer_, task_type, jurisdiction)
 
-            instruction = self.random.choice(instruction_bank)
+            instruction, instruction_language = instructions.sample("maud")
             text = f"{example['text']}\nWhat is the ABA question?\n{question}"
             prompt = f"{example['text']}\nWhat is the ABA question?"
             answer_ = question
@@ -502,7 +498,7 @@ class MAUD(AbstractDataset):
             # do not distinguish between multiple choice and multilabel, since the multilabel ones do not seem to be really multilabel
             if answer in answers_lookup:
                 task_type = TaskType.MULTIPLE_CHOICE
-                instruction = self.random.choice(instruction_bank)
+                instruction, instruction_language = instructions.sample("maud")
                 prompt = f"{example['text']}\n\n" \
                        f"Answer this question: {question}\n\n" \
                        f"Possible answers: {','.join([f'{idx}: {answer}' for idx, answer in enumerate(answers_lookup)])}\n"

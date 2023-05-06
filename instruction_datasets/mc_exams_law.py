@@ -17,25 +17,15 @@ class MCExamsLaw(AbstractDataset):
             f"{self.raw_data_dir}/raw_legal_mc_with_explanations.csv")
         task_type = TaskType.MULTIPLE_CHOICE
         jurisdiction = Jurisdiction.US
-        instruction_language = "en"
+        instruction_language: str
         prompt_language = "en"
 
-        instruction_bank = [
-            "Answer these questions according to the laws of the United States.",
-            "Pick the best answer according to U.S. law.",
-            "Pick the correct multiple choice answer according to American law."
-        ]
-        instruction_bank_expl = [
-            "Answer these questions according to the laws of the United States. First explain your answer.",
-            "Pick the best answer according to U.S. law. First explain your answer.",
-            "Pick the correct multiple choice answer according to American law. Explain your answer then give the correct choice."
-        ]
         for idx, row in df.iterrows():
             q, a, explanation, source = row["Question"], row["Answer"], row[
                 "Explanation"], row["Source"]
 
             # No chain of thought
-            instruction = self.random.choice(instruction_bank)
+            instruction, instruction_language = instructions.sample('mc_exams_law_noexplain')
             prompt = f"Q: {q}"
             answer = f"A: {a}"
             yield self.build_data_point(instruction_language, prompt_language,
@@ -43,7 +33,7 @@ class MCExamsLaw(AbstractDataset):
                                         task_type, jurisdiction)
 
             # Chain of thought
-            instruction_expl = self.random.choice(instruction_bank_expl)
+            instruction_expl, instruction_language = instructions.sample('mc_exams_law_explain')
             prompt = f"Q: {q}"
             answer = f"Explanation: {explanation}\nA:{a}"
             yield self.build_data_point(instruction_language, prompt_language,

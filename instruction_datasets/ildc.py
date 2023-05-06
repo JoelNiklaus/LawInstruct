@@ -19,18 +19,14 @@ class ILDC(AbstractDataset):
 
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.INDIA
-        instruction_language = "en"
+        instruction_language: str
         prompt_language = "en"
 
-        instruction_bank = [
-            "According to Indian law, will this petition be accepted? If there is more than one petition consider whether the court will accept at least one.",
-            "Will the court accept or reject this petition? Use Indian law. If there is more than one petition consider whether the court will accept at least one."
-        ]
 
         for idx, row in df1.iterrows():
             decision = "Court Decision: Reject" if row[
                 "label"] == 0 else "Court Decision: Accept"
-            instruction = self.random.choice(instruction_bank)
+            instruction, instruction_language = instructions.sample("ildc")
             prompt = row['text']
             answer = decision
             yield self.build_data_point(instruction_language, prompt_language,
@@ -40,7 +36,7 @@ class ILDC(AbstractDataset):
         for idx, row in df2.iterrows():
             decision = "Court Decision: Reject" if row[
                 "label"] == 0 else "Court Decision: Accept"
-            instruction = self.random.choice(instruction_bank)
+            instruction, instruction_language = instructions.sample("ildc")
             prompt = row['text']
             answer = decision
             yield self.build_data_point(instruction_language, prompt_language,

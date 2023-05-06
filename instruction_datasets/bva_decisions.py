@@ -35,11 +35,6 @@ class BVADecisions(AbstractDataset):
                 x = json.loads(f.read())
                 sentences.extend(x["sentences"])
                 rule_trees.append(x["ruleTree"])
-        instruction_bank = [
-            "Label the sentence according to its rhetorical role in a legal argument.",
-            "Please label the sentence as according to its role as either a FindingSentence, a ReasoningSentence, a LegalRuleSentence, a CitationSentence, or an EvidenceSentence. If it is none of these, mark it as just Sentence.",
-            "Please label the following according to one of these categories.\n\tFindingSentence. A finding sentence is a sentence that primarily states an authoritative finding, conclusion or determination of the trier of fact – a decision made “as a matter of fact” instead of \"as a matter of law.\"\n\tReasoningSentence. A reasoning sentence is a sentence that primarily reports the trier of fact’s reasoning based on the evidence, or evaluation of the probative value of the evidence, in making the findings of fact.\n\tEvidenceSentence. An evidence sentence is a sentence that primarily states the content of the testimony of a witness, states the content of documents introduced into evidence, or describes other evidence.\n\tLegalRuleSentence. A legal-rule sentence is a sentence that primarily states one or more legal rules in the abstract, without stating whether the conditions of the rule(s) are satisfied in the case being decided.\n\tCitationSentence. A citation sentence is a sentence whose primary function is to reference legal authorities or other materials, and which usually contains standard notation that encodes useful information about the cited source.\n\tSentence. All other sentences."
-        ]
 
         def turn_rule_tree_to_text(tree, n=0):
             op = ""
@@ -71,7 +66,7 @@ class BVADecisions(AbstractDataset):
 
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.US
-        instruction_language = "en"
+        instruction_language: str
         prompt_language = "en"
 
         for sentence in sentences:
@@ -79,7 +74,7 @@ class BVADecisions(AbstractDataset):
                 role = sentence['rhetClass']
             else:
                 role = ",".join(sentence['rhetRole'])
-            instruction = self.random.choice(instruction_bank)
+            instruction, instruction_language = instructions.sample("bva_decisions_label")
             prompt = f"Sentence: {sentence['text'].strip()}"
             answer = f"Rhetorical Role: {role.strip()}"
             yield self.build_data_point(instruction_language, prompt_language,
@@ -87,14 +82,10 @@ class BVADecisions(AbstractDataset):
                                         task_type, jurisdiction)
 
         task_type = TaskType.QUESTION_ANSWERING
-        instruction_bank = [
-            "Take the following sentence, name all the rules that would be required to back up the claim. Do so in tree format with logical operators like AND and OR.",
-            "Name all the rules that would be required to back up the claim."
-        ]
         known_data = []
         for sentence, tree_rule in zip(sentences, rule_trees):
             tree_rule = turn_rule_tree_to_text(tree_rule)
-            instruction = self.random.choice(instruction_bank)
+            instruction, instruction_language = instructions.sample("bva_decisions_qa")
             sentence = f"Sentence: {sentence['text'].strip()}"
             answer = f"Rules: {tree_rule.strip()}"
             if answer not in known_data:

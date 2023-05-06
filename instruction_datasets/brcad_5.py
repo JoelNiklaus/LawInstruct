@@ -6,13 +6,6 @@ from enums import TaskType
 import instruction_manager
 
 
-def get_multiple_choice_instruction_bank():
-    return [
-        "Please answer these multiple choice questions. Denote the correct answer as \"Answer\".",
-        "Pick the most likely correct answer."
-    ]
-
-
 class BrCAD5(AbstractDataset):
 
     def __init__(self):
@@ -23,7 +16,7 @@ class BrCAD5(AbstractDataset):
         df = load_dataset('joelito/BrCAD-5', split='train')
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.BRAZIL
-        instruction_language = "en"
+        instruction_language: str
         prompt_language = "en"
         answer_language = "pt"
 
@@ -56,8 +49,7 @@ class BrCAD5(AbstractDataset):
 
             outcome_mc1 = ["(a)", "(b)"][['NÃO PROVIMENTO',
                                           'PROVIMENTO'].index(example["label"])]
-            instruction = self.random.choice(
-                get_multiple_choice_instruction_bank())
+            instruction, instruction_language = instructions.sample("brcad5_mc")
             prompt = f"Question: {case} How would the court find?\n(a) The court should dismiss the case.\n(b) The court should affirm the case."
             answer = f"Answer: {outcome_mc1}."
             yield self.build_data_point(instruction_language, prompt_language,
@@ -66,8 +58,7 @@ class BrCAD5(AbstractDataset):
 
             outcome_mc1 = ["(b)", "(a)"][['NÃO PROVIMENTO',
                                           'PROVIMENTO'].index(example["label"])]
-            instruction = self.random.choice(
-                get_multiple_choice_instruction_bank())
+            instruction, instruction_language = instructions.sample("brcad5_mc")
             prompt = f"Question: {case} How would the court find?\n(a) The court should approve the case.\n(b) The court should dismiss the case."
             answer = f"Answer: {outcome_mc1}."
             yield self.build_data_point(instruction_language, prompt_language,

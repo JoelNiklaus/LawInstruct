@@ -12,13 +12,10 @@ class SaraProlog(AbstractDataset):
         super().__init__("SaraProlog", "https://arxiv.org/abs/2005.05257")
 
     def get_data(self, instructions: instruction_manager.InstructionManager):
-        instruction_bank = [
-            "Convert the following statute into prolog code.",
-            "Write a prolog program to convert the statute into code, denote it as \"Prolog Program:\"."
-        ]
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.US
-        instruction_language = "en"
+        instruction_language: str
+        instruction: str
         prompt_language = "en"
 
         json_files = [
@@ -33,7 +30,7 @@ class SaraProlog(AbstractDataset):
                         os.path.join(
                             f"{self.raw_data_dir}/sara_statutes/prolog/",
                             json_file) + ".pl", "r") as f_prolog:
-                    instruction = self.random.choice(instruction_bank)
+                    instruction, instruction_language = instructions.sample("sara_prolog_statute")
                     prompt = f"Statute:\n{f_normal.read()}"
                     answer = f"Prolog Program:\n\n{f_prolog.read()}"
                     yield self.build_data_point(instruction_language,
@@ -41,10 +38,6 @@ class SaraProlog(AbstractDataset):
                                                 instruction, prompt, answer,
                                                 task_type, jurisdiction)
 
-        instruction_bank = [
-            "Convert the following fact pattern into prolog code. Then answer the question.",
-            "Write a prolog program to mark all the facts, denote it as \"Prolog Program:\". Then answer the question, denote your answer as \"Answer\"."
-        ]
         json_files = [
             pos_json
             for pos_json in os.listdir(f"{self.raw_data_dir}/sara_cases/")
@@ -82,7 +75,7 @@ class SaraProlog(AbstractDataset):
                     "% Question", "\nQuestion:")
                 facts_and_question = facts_and_question.replace("%", "").strip()
 
-                instruction = self.random.choice(instruction_bank)
+                instruction, instruction_language = instructions.sample("sara_prolog_facts")
                 prompt = facts_and_question
                 answer = f"Prolog Program:\n\n{program.strip()}\nAnswer: {answer}"
                 yield self.build_data_point(instruction_language,
