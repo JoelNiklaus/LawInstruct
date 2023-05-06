@@ -1,4 +1,10 @@
 {
+    "tscc_alqac_question_answering": [
+      "For the relevant facts, please provide the relevant Thai law(s). Use the rule to determine the court's likely conclusion.",
+      "Given these facts in the Thai legal system, please output the relevant legal rule(s) and the court's likely judgement.",
+      "Given these facts in the Thai legal system, please output the relevant legal rule(s) and provide the legal conclusion of whether the court is likely to find for or against the defendant.",
+      "Given these facts in the Thai legal system, please output the relevant legal rule(s) and provide the legal conclusion of whether the court is likely to find the defendant guilty or not guilty."
+    ],
     "us_class_actions_win_lose": [
         "Read the following United States class action complaint. Predict whether the complaint will be won or not. Output \"win\" or \"lose\".",
         "Will this class action complaint be successful in U.S. Court?"
