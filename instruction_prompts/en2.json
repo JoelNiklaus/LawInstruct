@@ -1,4 +1,8 @@
 {
+    "us_class_actions_win_lose": [
+        "Read the following United States class action complaint. Predict whether the complaint will be won or not. Output \"win\" or \"lose\".",
+        "Will this class action complaint be successful in U.S. Court?"
+    ],
     "valid_wills_entailment": [
         "Given a statement in a will, the relevant U.S. law, is the condition supported, refuted, or unrelated.",
         "Is the statement in the will valid given the law and conditions? Answer with one of unrelated, supported, refuted."

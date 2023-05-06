@@ -21,13 +21,10 @@ class USClassActions(AbstractDataset):
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.US
         instruction_language: Final[str] = "en"
-        instruction_bank = [
-            "Read the following United States class action complaint. Predict whether the complaint will be won or not. Output \"win\" or \"lose\".",
-            "Will this class action complaint be successful in U.S. Court?"
-        ]
+        instruction_group = "us_class_actions_win_lose"
         for example in df:
-            instruction = self.random.choice(instruction_bank)
-            prompt = {example['target_text']}
+            instruction = instructions.sample(instruction_group)
+            prompt = example['target_text']
             answer = f"Likely Verdict: {example['verdict']}"
             prompt_language = "en"
             yield self.build_data_point(instruction_language, prompt_language,
