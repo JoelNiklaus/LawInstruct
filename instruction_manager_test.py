@@ -12,8 +12,8 @@ class MyTestCase(absltest.TestCase):
         # ...when you take a sample from it...
         output = manager.sample('QUESTION_ANSWERING')
         # ...then you should get an instruction.
-        expected_output = 'Answer this legal reasoning question.'
-        self.assertEqual(output, expected_output)
+        expected_output = ('Answer this legal reasoning question.', 'en')
+        self.assertTupleEqual(output, expected_output)
 
     def test_many_samples(self):
         # Given an instruction manager...
