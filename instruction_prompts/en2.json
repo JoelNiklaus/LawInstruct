@@ -2,7 +2,17 @@
   "en":
 {
   "swiss_judgment_dismiss_approve": [
-
+    "Determine if you think the Swiss court will dismiss or approve the case."
+  ],
+  "swiss_judgment_area_of_law": [
+    "What area of law is this case related to?"
+  ],
+  "swiss_judgment_location": [
+    "Where do you think this case was adjudicated?"
+  ],
+  "swiss_judgment_multiple_choice": [
+    "Please answer these multiple choice questions. Denote the correct answer as \"Answer\".",
+    "Pick the most likely correct answer."
   ],
   "tscc_alqac_question_answering": [
     "For the relevant facts, please provide the relevant Thai law(s). Use the rule to determine the court's likely conclusion.",
