@@ -1,13 +1,12 @@
 """Translate instruction-tuning dataset's instructions into other languages."""
 from collections.abc import Sequence
 import json
-import os
 import pathlib
+from typing import Any
 
 from absl import app
 from absl import flags
 from absl import logging
-import datasets
 import easynmt
 import tqdm
 
@@ -35,57 +34,38 @@ _OUTPUT_DIR = flags.DEFINE_string(
     'data/translated/',
     'Directory to save translated data to.',
 )
+_OUTPUT_FILENAME = flags.DEFINE_string(
+    'output_filename',
+    'multilingual',
+    'Save filename within output dir (.json extension will be added).'
+)
 
 
-def translate_to_target_lang(
+def translate_to_target_langs(
         model: easynmt.EasyNMT,
-        dataset: datasets.Dataset,
-        save_dir: pathlib.Path,
+        dataset: Any,
         source_lang: str,
-        target_lang: str,
-) -> None:
-    texts: list[str] = []
-    original_langs: list[str] = []
+        target_langs: Sequence[str],
+) -> dict[str, dict[str, list[str]]]:
+    """Translates text into many languages, producing an output file with same structure."""
+    # Initialize result; structure is lang -> task_type -> instruction_text
+    result: dict[str, dict[str, list[str]]] = {t: {} for t in target_langs}
 
-    result: dict[str, list[str]] = {}
+    for target_lang in target_langs:
+        for group in tqdm.tqdm(dataset):
+            result[target_lang][group] = []
+            for instruction in dataset[group]:
+                translated = model.translate(
+                    instruction,
+                    source_lang=source_lang,
+                    target_lang=target_lang,
+                    batch_size=_BATCH_SIZE.value,
+                )
+                logging.info('Original: %r', instruction)
+                logging.info('Translated to %s: %r', target_lang, translated)
+                result[target_lang][group].append(translated)
 
-    for group in tqdm.tqdm(dataset):
-        result[group] = []
-        for instruction in dataset[group]:
-            translated = model.translate(
-                instruction,
-                source_lang=source_lang,
-                target_lang=target_lang,
-                batch_size=_BATCH_SIZE.value,
-            )
-            logging.info('Original: %r', instruction)
-            logging.info('Translated: %r', translated)
-            texts.append(translated)
-            original_langs.append(source_lang)
-            result[group].append(translated)
-
-    # dataset = datasets.Dataset.from_dict({
-    #     'text': texts,
-    #     'translation_model': [_MODEL_NAME.value] * len(original_langs),
-    #     'original_lang': original_langs,
-    #     'target_lang': [target_lang] * len(original_langs),
-    # })
-
-    filepath = save_dir / f'{target_lang}.json'
-    logging.info('Saving to %s', filepath)
-    # dataset.to_json(
-    #     filepath,
-    #     force_ascii=False,
-    #     orient='records',
-    #     lines=True,
-    # )
-    with open(filepath, 'w', encoding='utf-8') as f:
-        # Disabled ensure_ascii to save Unicode data without escapes.
-        json.dump(result, f, indent=4, ensure_ascii=False)
-    logging.info('Done saving to %s', filepath)
-    # logging.info('Compressing...')
-    # os.system(f'xz -zkf -T0 {filepath}')  # -T0 uses all cores
-    # logging.info('Done compressing.')
+    return result
 
 
 def get_file(index: int) -> str:
@@ -98,18 +78,33 @@ def main(args: Sequence[str]) -> None:
 
     # Prepare the output directory.
     save_dir = pathlib.Path(_OUTPUT_DIR.value)
-    logging.info('Creating save directory %s', save_dir)
+    logging.info('Creating save directory %r', save_dir)
     save_dir.mkdir(parents=True, exist_ok=True)
+    save_path = save_dir / f'{_OUTPUT_FILENAME}.json'
+    del save_dir
+    logging.info('Will save to %r', save_path)
 
     # Load the dataset.
     with open('instruction_prompts/en.json', 'r') as f:
         dataset = json.load(f)
     source_lang = 'en'
-    print(dataset)
-    for target_lang in _LANGUAGES.value:
-        logging.info('Translating to %s', target_lang)
-        model = easynmt.EasyNMT(_MODEL_NAME.value)
-        translate_to_target_lang(model, dataset, save_dir, source_lang, target_lang)
+    logging.debug('The dataset: %s', dataset)
+    target_languages = _LANGUAGES.value
+    logging.info('Translating to %s', target_languages)
+    model = easynmt.EasyNMT(_MODEL_NAME.value)
+    # Translate the dataset.
+    result = translate_to_target_langs(
+        model,
+        dataset[source_lang],
+        source_lang,
+        target_languages,
+    )
+    # Save the translations.
+    logging.info('Saving to %s', save_path)
+    with open(save_path, 'w', encoding='utf-8') as f:
+        # Disabled ensure_ascii to save Unicode data without escapes.
+        json.dump(result, f, indent=4, ensure_ascii=False)
+    logging.info('Done saving to %s', save_path)
 
 
 if __name__ == '__main__':
