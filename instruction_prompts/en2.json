@@ -1,6 +1,17 @@
 {
   "en":
 {
+  "spanish_labor_law": [
+                "Consider this Spanish Labor Law translated passage. Answer the question using an extractive snippet of text.",
+            "Consider this Spanish Labor Law translated passage. Answer the question from the context.",
+            "Answer the following Spanish labor law question given the legal provision."
+
+  ],
+  "stack_exchange_questions_legal": [
+            "Answer the following legal question. Cite relevant evidence when possible.",
+            "Answer this online forum question about the law.",
+            "Provide an explanation for this short form legal question."
+        ],
   "swiss_judgment_dismiss_approve": [
     "Determine if you think the Swiss court will dismiss or approve the case."
   ],

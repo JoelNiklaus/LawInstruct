@@ -24,7 +24,6 @@ class StackExchangeQuestionsLegal(AbstractDataset):
         ]
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.UNKNOWN
-        instruction_language = "en"
         prompt_language = "en"
 
         for idx, example in df.iterrows():
@@ -34,7 +33,9 @@ class StackExchangeQuestionsLegal(AbstractDataset):
             soup = BeautifulSoup(example["body.1"])
             text = soup.get_text()
             answer = text
-            instruction = f"{self.random.choice(instruction_bank)}"
+            instruction: str
+            instruction_language: str
+            instruction, instruction_language = instructions.sample("stack_exchange_questions_legal")
             if self.random.random() > .7:
                 instruction += " " + f"This question is about: {','.join([x.replace('>', '').replace('<', '').replace('-', ' ').strip() for x in example['tags'].split('>') if x.replace('>', '').replace('<', '').strip() != ''])}."
 

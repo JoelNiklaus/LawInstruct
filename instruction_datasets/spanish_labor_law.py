@@ -16,18 +16,14 @@ class SpanishLaborLaw(AbstractDataset):
         df = pd.read_csv(f"{self.raw_data_dir}/spanish_legal_qa.csv")
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.SPAIN
-        instruction_language = "en"
+        instruction: str
+        instruction_language: str
         prompt_language = "en"
 
-        instruction_bank = [
-            "Consider this Spanish Labor Law translated passage. Answer the question using an extractive snippet of text.",
-            "Consider this Spanish Labor Law translated passage. Answer the question from the context.",
-            "Answer the following Spanish labor law question given the legal provision."
-        ]
         for idx, row in df.iterrows():
             question, context, answer = row["Question"], row["context"], row[
                 "Answer text"]
-            instruction = self.random.choice(instruction_bank)
+            instruction, instruction_language = instructions.sample("spanish_labor_law")
             prompt = f"Context: {context}\nQ: {question}"
             answer = f"A: {answer}"
             yield self.build_data_point(instruction_language, prompt_language,
