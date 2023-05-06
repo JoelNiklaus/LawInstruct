@@ -20,10 +20,9 @@ class USClassActions(AbstractDataset):
         df = load_dataset("darrow-ai/USClassActions", split="train")
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.US
-        instruction_language: Final[str] = "en"
-        instruction_group = "us_class_actions_win_lose"
+        instructions_group = "us_class_actions_win_lose"
         for example in df:
-            instruction = instructions.sample(instruction_group)
+            instruction, instruction_language = instructions.sample(instructions_group)
             prompt = example['target_text']
             answer = f"Likely Verdict: {example['verdict']}"
             prompt_language = "en"

@@ -1,6 +1,9 @@
 {
   "en":
 {
+  "swiss_judgment_dismiss_approve": [
+
+  ],
   "tscc_alqac_question_answering": [
     "For the relevant facts, please provide the relevant Thai law(s). Use the rule to determine the court's likely conclusion.",
     "Given these facts in the Thai legal system, please output the relevant legal rule(s) and the court's likely judgement.",

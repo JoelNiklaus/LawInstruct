@@ -32,7 +32,6 @@ class TsccAlqac(AbstractDataset):
 
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.THAILAND
-        instruction_language: Final[str] = "en"
         prompt_language = "en"
         answer_language = "th"  # TODO: is this correct? Looks like `outcome` is English.
 
@@ -49,7 +48,7 @@ class TsccAlqac(AbstractDataset):
             else:
                 outcome = f"The court would rule {'against' if case['label'] == 1 else 'for'} the defendant."
             laws = '\n'.join(relevant_articles)
-            instruction = instructions.sample(instruction_group)
+            instruction, instruction_language = instructions.sample(instruction_group)
             prompt = f"Facts: {text}\nLaw(s): {laws}"
             answer = f'Conclusion: {outcome}'
             yield self.build_data_point(instruction_language, prompt_language,
@@ -58,7 +57,7 @@ class TsccAlqac(AbstractDataset):
 
             # Provide a non-MC version
             outcome_mc1 = ["(a)", "(b)"][case["label"]]
-            instruction = instructions.sample(instruction_group)
+            instruction, instruction_language = instructions.sample(instruction_group)
             prompt = f"Question: {text} How would the court find?\n" \
                      f"(a) For the defendant.\n(b) Against the defendant.\nLaw(s): {laws}"
             answer = f"Answer: {outcome_mc1}."
@@ -67,7 +66,7 @@ class TsccAlqac(AbstractDataset):
                                         answer, task_type, jurisdiction)
 
             outcome_mc1 = ["(b)", "(a)"][case["label"]]
-            instruction = instructions.sample(instruction_group)
+            instruction, instruction_language = instructions.sample(instruction_group)
             prompt = f"Question: {text} How would the court find?\n" \
                      f"(a) Against the defendant.\n(b) For the defendant.\nLaw(s): {laws}"
             answer = f"Answer: {outcome_mc1}."

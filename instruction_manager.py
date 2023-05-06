@@ -1,7 +1,12 @@
 import json
 import random
 import sys
-from typing import Optional
+from typing import NamedTuple, Optional
+
+
+class Instruction(NamedTuple):
+    instruction: str
+    lang: str
 
 
 # TODO(arya): When off plane:
@@ -68,7 +73,7 @@ class InstructionManager:
             raise ValueError(
                 f'Instruction bank {json_file} is empty or malformed.')
 
-    def sample(self, task_type: str) -> tuple[str, str]:
+    def sample(self, task_type: str) -> Instruction:
         """Sample an instruction (and its language) from the bank.
 
         Args:
@@ -82,12 +87,13 @@ class InstructionManager:
             self._instructions,
             self._instruction_bank_size,
         )
-        return self._random.choice(universe)
+        instruction, lang = self._random.choice(universe)
+        return Instruction(instruction=instruction, lang=lang)
 
     def _confirm_well_formed(
             self,
             json_file: str,
-            instructions: dict[str, dict[str, str]],
+            instructions: dict[str, dict[str, list[str]]],
     ) -> None:
         # Check that there are any languages.
         if not instructions:
