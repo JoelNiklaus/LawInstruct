@@ -2,73 +2,176 @@
   "en": {
     "brazilian_bar_exam": [
       "Answer the questions from the Brazilian bar exam.",
-      "Answer these legal multiple choice questions according to Brazilian law."
+      "Answer these legal multiple choice questions according to Brazilian law.",
+      "Tackle the legal problems presented in the Brazilian bar assessment.",
+      "Address the multiple choice inquiries based on Brazil's legal system.",
+      "Resolve the legal issues posed in the Brazilian attorney qualification test.",
+      "Reply to the questions related to the Brazilian law in the bar exam.",
+      "Complete the multiple choice section of the Brazilian bar examination.",
+      "Provide answers to the legal questions featured in Brazil's bar exam.",
+      "Attempt the questions on the Brazilian bar test with accurate legal knowledge.",
+      "Respond to the multiple choice legal questions from the Brazilian bar exam."
     ],
     "brcad5_mc": [
-      "Please answer these multiple choice questions. Denote the correct answer as \"Answer\".",
+      "Please answer these multiple choice questions. Denote the correct answer as “Answer:”.",
       "Pick the most likely correct answer."
     ],
     "bva_decisions_label": [
       "Label the sentence according to its rhetorical role in a legal argument.",
       "Please label the sentence as according to its role as either a FindingSentence, a ReasoningSentence, a LegalRuleSentence, a CitationSentence, or an EvidenceSentence. If it is none of these, mark it as just Sentence.",
-      "Please label the following according to one of these categories.\n\tFindingSentence. A finding sentence is a sentence that primarily states an authoritative finding, conclusion or determination of the trier of fact – a decision made “as a matter of fact” instead of \"as a matter of law.\"\n\tReasoningSentence. A reasoning sentence is a sentence that primarily reports the trier of fact’s reasoning based on the evidence, or evaluation of the probative value of the evidence, in making the findings of fact.\n\tEvidenceSentence. An evidence sentence is a sentence that primarily states the content of the testimony of a witness, states the content of documents introduced into evidence, or describes other evidence.\n\tLegalRuleSentence. A legal-rule sentence is a sentence that primarily states one or more legal rules in the abstract, without stating whether the conditions of the rule(s) are satisfied in the case being decided.\n\tCitationSentence. A citation sentence is a sentence whose primary function is to reference legal authorities or other materials, and which usually contains standard notation that encodes useful information about the cited source.\n\tSentence. All other sentences."
+      "Please label the following according to one of these categories.\n\tFindingSentence. A finding sentence is a sentence that primarily states an authoritative finding, conclusion or determination of the trier of fact – a decision made “as a matter of fact” instead of “as a matter of law.”\n\tReasoningSentence. A reasoning sentence is a sentence that primarily reports the trier of fact’s reasoning based on the evidence, or evaluation of the probative value of the evidence, in making the findings of fact.\n\tEvidenceSentence. An evidence sentence is a sentence that primarily states the content of the testimony of a witness, states the content of documents introduced into evidence, or describes other evidence.\n\tLegalRuleSentence. A legal-rule sentence is a sentence that primarily states one or more legal rules in the abstract, without stating whether the conditions of the rule(s) are satisfied in the case being decided.\n\tCitationSentence. A citation sentence is a sentence whose primary function is to reference legal authorities or other materials, and which usually contains standard notation that encodes useful information about the cited source.\n\tSentence. All other sentences.",
+      "Identify the primary function of the sentence in a legal argument and categorize it accordingly.",
+      "Assign a label to the sentence based on its role within the legal argument, such as FindingSentence, ReasoningSentence, LegalRuleSentence, CitationSentence, or EvidenceSentence. If it doesn't fit any of these categories, label it as Sentence.",
+      "Classify the given sentence according to its main purpose in the legal argument, selecting from categories like FindingSentence, ReasoningSentence, LegalRuleSentence, CitationSentence, and EvidenceSentence, or simply Sentence if it doesn't fit any specific role.",
+      "Determine the primary function of the sentence within a legal argument and categorize it as a FindingSentence, ReasoningSentence, LegalRuleSentence, CitationSentence, EvidenceSentence, or just Sentence if it doesn't fit any of these roles.",
+      "Analyze the sentence's main role in a legal argument and classify it as either a FindingSentence, ReasoningSentence, LegalRuleSentence, CitationSentence, EvidenceSentence, or simply a Sentence if it doesn't belong to any specific category.",
+      "Categorize the sentence based on its primary role in the legal argument, choosing from FindingSentence, ReasoningSentence, LegalRuleSentence, CitationSentence, EvidenceSentence, or Sentence if none of the previous categories apply.",
+      "Label the given sentence according to its main function in a legal argument, selecting among the categories of FindingSentence, ReasoningSentence, LegalRuleSentence, CitationSentence, EvidenceSentence, or Sentence if it doesn't fit into any of those roles.",
+      "Assign the appropriate category to the sentence based on its main function in a legal argument, such as FindingSentence, ReasoningSentence, LegalRuleSentence, CitationSentence, EvidenceSentence, or Sentence if it doesn't belong to any specific category."
     ],
     "bva_decisions_qa": [
-      "Take the following sentence, name all the rules that would be required to back up the claim. Do so in tree format with logical operators like AND and OR.",
-      "Name all the rules that would be required to back up the claim."
+      "Take the following sentence from an American disability-claim decision, name all the rules that would be required to back up the claim. Do so in tree format with logical operators like AND and OR.",
+      "Name all the rules that would be required to back up the disability claim.",
+      "Identify and list all necessary rules to support the disability claim, presenting them in tree format using logical operators such as AND and OR.",
+      "List all the essential rules to substantiate the disability claim, organized in a tree structure with AND and OR as logical connectors.",
+      "Determine all required rules to uphold the disability claim and arrange them in a tree format using logical operators like AND and OR.",
+      "State all the rules needed to validate the disability claim, organized in tree format using logical operators, including AND and OR.",
+      "Present all the rules that are necessary to support the disability claim, structured in a tree format with logical operators such as AND and OR.",
+      "Provide all the rules essential for supporting the disability claim, displayed in a tree format using logical operators like AND and OR.",
+      "Mention all the rules needed to justify the disability claim, structured in a tree format utilizing logical operators like AND and OR.",
+      "Enumerate all the rules indispensable for backing the disability claim, arranged in tree format using logical operators, including AND and OR."
     ],
     "cail_2019": [
       "Consider the following passage from a Chinese legal case. Answer the questions about the case. If you cannot answer the question feel free to say as such.",
-      "Consider the following situation in Chinese law, answer the questions. If the information is not in the passage, respond with, \"Sorry, this question cannot be answered based on the information available.\"",
-      "Consider the following passage from a Chinese legal case. Answer the questions about the case. If the question is impossible to answer, say that it cannot be answered."
+      "Consider the following situation in Chinese law, answer the questions. If the information is not in the passage, respond with, “Sorry, this question cannot be answered based on the information available.”",
+      "Consider the following passage from a Chinese legal case. Answer the questions about the case. If the question is impossible to answer, say that it cannot be answered.",
+      "Examine the provided passage from a Chinese legal case and respond to the questions. If you are unable to answer a question, state that it cannot be answered.",
+      "Study the following excerpt from a Chinese legal case and address the questions. If the information is insufficient to answer, acknowledge that the question cannot be answered.",
+      "Review the given passage from a Chinese legal case and provide answers to the questions. If there is not enough information to answer a question, indicate that it cannot be answered.",
+      "Analyze the following passage from a Chinese legal case and answer the questions. If you are unable to provide an answer based on the information, say that the question cannot be answered.",
+      "Evaluate the following excerpt from a Chinese legal case and answer the questions. If the information doesn't allow for an answer, state that the question cannot be answered.",
+      "Take a look at the following passage from a Chinese legal case and respond to the questions. If you cannot find the answer in the passage, mention that the question cannot be answered.",
+      "Assess the following passage from a Chinese legal case and address the questions. If an answer cannot be derived from the available information, state that the question cannot be answered."
     ],
     "cail_2022_mc": [
       "Use Chinese law to answer these multiple choice questions. Pick the best counter-argument to the plaintiff's argument.",
-      "Which of these is the best response to the following argument if you were the defendant? Consider Chinese law."
+      "Which of these is the best response to the following argument if you were the defendant? Consider Chinese law.",
+      "Based on Chinese law, select the most effective counter-argument to the plaintiff's claim in these multiple choice questions.",
+      "Considering Chinese law, choose the strongest counter-argument to the plaintiff's statement in the given multiple choice questions.",
+      "Under Chinese law, determine the best counter-argument to the plaintiff's contention in the provided multiple choice questions.",
+      "In the context of Chinese law, pick the most appropriate counter-argument to the plaintiff's argument in these multiple choice questions.",
+      "Taking Chinese law into account, identify the most compelling counter-argument to the plaintiff's case in the multiple choice questions.",
+      "With reference to Chinese law, decide on the best counter-argument to the plaintiff's position in the given multiple choice questions.",
+      "Using your knowledge of Chinese law, select the most convincing counter-argument to the plaintiff's argument in the multiple choice questions.",
+      "Given the context of Chinese law, choose the optimal counter-argument to the plaintiff's claim presented in the multiple choice questions."
     ],
     "cail_2022_response": [
       "Use Chinese law. What is the counter-argument to the plaintiff's argument?",
-      "How should Defendant respond to the following argument? Use Chinese law."
+      "How should Defendant respond to the following argument? Use Chinese law.",
+      "Considering Chinese law, what would be an appropriate counter-argument to the plaintiff's claim?",
+      "What is the most effective counter-argument to the plaintiff's argument according to Chinese law?",
+      "Based on Chinese law, how should the defendant counter the plaintiff's argument?",
+      "In the context of Chinese law, what counter-argument can be made against the plaintiff's claim?",
+      "Using Chinese law, what is the suitable counter-argument to the plaintiff's contention?",
+      "Given Chinese law, what is an effective rebuttal to the plaintiff's argument?",
+      "What is the appropriate counter-argument to the plaintiff's argument, taking Chinese law into account?",
+      "Under Chinese law, how should the defendant present a counter-argument to the plaintiff's argument?"
     ],
     "cail_2022_crime": [
-      "Consider Chinese law, what is the likely crime being discussed here?"
+      "Consider Chinese law, what is the likely crime being discussed here?",
+      "Taking into account Chinese law, what is the probable crime mentioned in this context?",
+      "In light of Chinese law, what is the possible crime being referred to in this situation?",
+      "Given Chinese law, what could be the crime being addressed in this scenario?",
+      "With respect to Chinese law, what is the potential crime being talked about here?",
+      "Keeping Chinese law in mind, what is the likely offense being discussed in this case?",
+      "Based on Chinese law, what is the crime that seems to be the subject of discussion here?",
+      "In the context of Chinese law, what is the crime likely being examined in this situation?",
+      "Contemplating Chinese law, what is the probable criminal offense being deliberated here?",
+      "Reflecting on Chinese law, what is the likely criminal act being considered in this instance?"
     ],
     "case_briefs": [
       "Given the key facts of a case, provide the core question the court should answer, then provide an analysis for how the an American court might decide the case.",
-      "Given the facts, describe how an American court should think about the key issue?"
+      "Given the facts, describe how an American court should think about the key issue?",
+      "Considering the main facts of a case, identify the central question for the court to address, and analyze how an American court could potentially rule on the case.",
+      "Taking into account the case's key facts, determine the primary question the court needs to resolve, and offer an analysis of how an American court may approach the decision.",
+      "Based on the important facts of a case, present the essential question for the court to decide, and discuss how an American court might handle the case's determination.",
+      "Using the main facts of a case, establish the core question that the court must address, and provide an analysis of how an American court may rule in the case.",
+      "With the key facts of a case in mind, outline the central question for the court to consider, and analyze the way an American court might approach the decision.",
+      "Given the crucial facts of a case, state the fundamental question the court is to answer, and examine how an American court might adjudicate the case.",
+      "Considering the primary facts of a case, identify the pivotal question the court must tackle, and discuss how an American court might decide on the matter.",
+      "In light of the main facts of a case, determine the essential question for the court to address, and analyze the potential decision-making process of an American court."
     ],
     "change_my_view": [
       "You are given a position, create an argument that would change the original poster's mind.",
       "Write a counter argument to the proposal.",
       "Write a counter argument to the r/changemyview post.",
-      "Write a counterargument to this reddit post."
+      "Write a counterargument to this reddit post.",
+      "Craft a persuasive argument that challenges the original poster's viewpoint.",
+      "Develop a well-reasoned counterargument to the stated position.",
+      "Present a convincing argument to alter the original poster's perspective.",
+      "Compose a compelling counterargument to the initially presented stance.",
+      "Create a persuasive rebuttal to the original poster's belief.",
+      "Provide a strong counterargument to change the original poster's opinion."
     ],
     "civipro_questions_generate_from_passage": [
       "Consider these questions about American civil procedure. Given the provided information answer them to the best of your ability.",
       "Here is some information that can help you answer the question. Provide an analysis of the options and then pick the correct answer.",
       "Given a passage of text about Civil Procedure in the United States, generate a question that can be answered by reading the passage.",
-      "Generate a CivPro question that can be answered by reading the passage, denote it as \"Question:\", provide an answer as \"Answer\"."
+      "Generate a CivPro question that can be answered by reading the passage, denote it as “Question:”, provide an answer as “Answer:”.",
+      "Based on the information given about American civil procedure, answer the related questions to the best of your knowledge.",
+      "With the information provided about U.S. civil procedure, analyze the choices and select the appropriate response.",
+      "Create a question concerning U.S. civil procedure that can be addressed using the provided passage.",
+      "Formulate a question related to Civil Procedure, which can be answered by analyzing the given passage. Label it as “Question:” and supply the answer as “Answer:”.",
+      "Examine the provided passage on American civil procedure and answer the pertinent questions using the information available.",
+      "Considering the details on U.S. civil procedure, evaluate the options and choose the correct answer."
     ],
     "civipro_questions_generate_no_passage": [
       "Consider these questions about American civil procedure. Answer them to the best of your ability, first provide an explanation then the answer.",
-      "Consider these civil procedure questions. Provide an analysis of the options and then pick the correct answer.",
+      "Consider these American civil procedure questions. Provide an analysis of the options and then pick the correct answer.",
       "Answer this Civil Procedure question based on law in the United States. Provide an explanation first.",
-      "Answer this CivPro question provide an answer as \"Answer\", but first provide an explanation as \"Explanation\"."
+      "Answer this CivPro question provide an answer as “Answer:”, but first provide an explanation as “Explanation”.",
+      "Reflect on these questions related to U.S. civil procedure and provide your best answer, including an explanation.",
+      "Examine these American civil procedure questions, analyze the choices, and select the correct response.",
+      "Respond to this Civil Procedure question, considering U.S. law, and include an explanation before your answer.",
+      "Tackle this CivPro question by first offering an explanation as “Explanation” and then providing the answer as “Answer:”.",
+      "Address these questions on American civil procedure by giving a well-reasoned explanation followed by the answer.",
+      "Contemplate these U.S. civil procedure questions, provide a thorough analysis, and then choose the correct answer."
     ],
     "civipro_questions_no_explanation": [
       "Consider these questions about American civil procedure. Answer them to the best of your ability, DO NOT provide an explanation before giving the answer.",
-      "Consider these civil procedure questions. Pick the correct answer.",
+      "Consider these American civil procedure questions. Pick the correct answer.",
       "Given a passage of text about Civil Procedure in the United States, answer the question.",
-      "Answer this CivPro question provide an answer as \"Answer\"."
+      "Answer this CivPro question provide an answer as “Answer:”.",
+      "Reflect on these U.S. civil procedure questions and provide your best answer without an explanation.",
+      "Examine these American civil procedure questions and choose the correct response without providing an analysis.",
+      "Respond to this Civil Procedure question based on U.S. law, without including an explanation.",
+      "Tackle this CivPro question by providing the answer as “Answer:” without offering any explanation.",
+      "Address these American civil procedure questions by giving only the correct answer, without any explanation.",
+      "Contemplate these U.S. civil procedure questions and simply choose the correct answer without an analysis."
     ],
     "contract_nli": [
       "Consider the following Contract Passage and Hypothesis. Predict whether the Contract Passage entails/contradicts/is neutral to the Hypothesis (entailment, contradiction or neutral).",
-      "Does the following Contract Passage entail/contradict/stand neutral to the Hypothesis?"
+      "Does the following Contract Passage entail/contradict/stand neutral to the Hypothesis?",
+      "Evaluate the given Contract Passage and Hypothesis to determine if they are in agreement (entailment), disagreement (contradiction), or unrelated (neutral).",
+      "Analyze the Contract Passage and Hypothesis to determine if they entail, contradict, or remain neutral to each other.",
+      "Based on the Contract Passage and Hypothesis, decide if they entail, contradict, or have a neutral relationship.",
+      "Examine the Contract Passage and Hypothesis and predict if they entail, contradict, or stand neutral to one another.",
+      "Assess the Contract Passage and Hypothesis to identify if they entail, contradict, or maintain a neutral stance.",
+      "Determine the relationship between the Contract Passage and Hypothesis: entailment, contradiction, or neutrality.",
+      "Review the Contract Passage and Hypothesis, and decide if they have an entailment, contradiction, or neutral connection.",
+      "Identify the relationship between the Contract Passage and Hypothesis: entailment, contradiction, or neutral."
     ],
-    "eior_privacy": [
+    "eoir_privacy": [
       "For each masked paragraph, determine if we should use a pseudonym for this case related to immigration law in the United States.",
       "Consider this paragraph from a precedential EOIR case. Should the IJ use a a pseudonym.",
-      "Should the judge pseudonymize the person's name in this paragraph?"
+      "Should the judge pseudonymize the person's name in this paragraph?",
+      "Evaluate the given paragraph in the context of a U.S. immigration law case and decide if a pseudonym should be used.",
+      "Analyze the provided paragraph from an EOIR case and determine if the immigration judge should apply a pseudonym.",
+      "Based on the content of the paragraph, decide if a pseudonym is necessary in this immigration law case.",
+      "Examine the paragraph from a precedential EOIR case and assess if a pseudonym should be used by the immigration judge.",
+      "Review the paragraph related to an immigration law case and establish if it requires the use of a pseudonym.",
+      "Contemplate the provided paragraph from an EOIR case and decide if the immigration judge should utilize a pseudonym.",
+      "Read the paragraph from a U.S. immigration law case and determine if it warrants the use of a pseudonym."
     ],
     "eur_lex_sum": [
       "Summarize the following European legal document.",
@@ -76,7 +179,15 @@
     ],
     "german_rental_agreements": [
       "You are given a sentence from a German rental agreement. Predict the category of the sentence.",
-      "Predict the category of the following sentence from a German rental agreement."
+      "Predict the category of the following sentence from a German rental agreement.",
+      "Based on the provided sentence from a German rental agreement, determine its category.",
+      "Examine the given sentence from a German rental contract and identify its category.",
+      "Analyze the sentence from a German rental agreement and decide its category.",
+      "Evaluate the provided sentence from a German rental agreement and classify its category.",
+      "Assess the sentence from a German rental agreement and ascertain its category.",
+      "Contemplate the sentence from a German rental contract and predict its category.",
+      "Review the given sentence from a German rental agreement and establish its category.",
+      "Read the sentence from a German rental agreement and determine the category it belongs to."
     ],
     "gsm8k_1": [
       "Answer the question, make sure to show your work.",
@@ -96,7 +207,7 @@
     ],
     "jec_qa": [
       "Answer these multiple choice reasoning questions about Chinese Law. Select all answers that apply, you may have multiple correct answers.",
-      "Answer these Chinese Law multiple choice questions, you might have multiple correct answers. Denote your answer(s) as \"Answer: [answer(s)].\""
+      "Answer these Chinese Law multiple choice questions, you might have multiple correct answers. Denote your answer(s) as “Answer: [answer(s)].”"
     ],
     "korean_legal_qa": [
       "Consider the following question. Retrieve the relevant South Korean legal article.",
@@ -122,7 +233,7 @@
     ],
     "lila": [
       "Consider the following question. Write a Python program to solve it.",
-      "Write a Python program to solve the following question, denote it as \"Program:\". Provide the output as \"Answer:\"."
+      "Write a Python program to solve the following question, denote it as “Program:”. Provide the output as “Answer:”."
     ],
     "littleton_events": [
       "Consider the law of future interests and conveyances in American property law. Consider the chain of events and then state the interests.",
@@ -134,7 +245,7 @@
     ],
     "logi_qa": [
       "Answer these multiple choice reasoning questions about Chinese Law. There is only one right answer.",
-      "Answer these Chinese Law multiple choice questions. There is only one correct answer. Denote your answer as \"Answer: [answer].\""
+      "Answer these Chinese Law multiple choice questions. There is only one correct answer. Denote your answer as “Answer: [answer].”"
     ],
     "maud": [
       "Consider the following deal point text from a US merger agreement.",
@@ -182,14 +293,14 @@
       "Pick the most correct option considering U.S. Law."
     ],
     "professional_law_zero_shot": [
-      "Answer these legal questions. Use American Law. Provide the choice as \"Answer:\"",
-      "Answer these U.S. Multistate Bar Exam questions. Provide the choice as \"Answer:\"",
-      "Pick the most correct option considering U.S. Law. Output the choice as \"Answer:\""
+      "Answer these legal questions. Use American Law. Provide the choice as “Answer:”",
+      "Answer these U.S. Multistate Bar Exam questions. Provide the choice as “Answer:”",
+      "Pick the most correct option considering U.S. Law. Output the choice as “Answer:”"
     ],
     "reclor": [
       "Given the context answer the reasoning question.",
       "Answer the logical reasoning multiple choice questions.",
-      "State the answer in the following format, \"Final Answer: The final answer is ([ANSWER]). I hope it is correct.\"",
+      "State the answer in the following format, “Final Answer: The final answer is ([ANSWER]). I hope it is correct.”",
       "Read the passage any any relevant rules describing the world. Apply the rules to the facts to answer the question."
     ],
     "reddit_legal_qa": [
@@ -207,11 +318,11 @@
     ],
     "sara_prolog_statute": [
       "Convert the following statute into prolog code.",
-      "Write a prolog program to convert the statute into code, denote it as \"Prolog Program:\"."
+      "Write a prolog program to convert the statute into code, denote it as “Prolog Program:”."
     ],
     "sara_prolog_facts": [
       "Convert the following fact pattern into prolog code. Then answer the question.",
-      "Write a prolog program to mark all the facts, denote it as \"Prolog Program:\". Then answer the question, denote your answer as \"Answer\"."
+      "Write a prolog program to mark all the facts, denote it as “Prolog Program:”. Then answer the question, denote your answer as “Answer:”."
     ],
     "short_answer_feedback_openqa": [
       "Consider this question in the context of German law. Provide the correct reference answer.",
@@ -264,7 +375,7 @@
       "What do you think is the topic of this case?"
     ],
     "swiss_judgment_multiple_choice": [
-      "Please answer these multiple choice questions. Denote the correct answer as \"Answer\".",
+      "Please answer these multiple choice questions. Denote the correct answer as “Answer:”.",
       "Pick the most likely correct answer."
     ],
     "swiss_legislation_canton": [
@@ -290,11 +401,11 @@
       "Determine if you think the Turkish Court of Cassation will label the case description as Violation or No Violation."
     ],
     "turkish_constitutional_multiple_choice": [
-      "Please answer these multiple choice questions. Denote the correct answer as \"Answer\".",
+      "Please answer these multiple choice questions. Denote the correct answer as “Answer:”.",
       "Pick the most likely correct answer."
     ],
     "us_class_actions_win_lose": [
-      "Read the following United States class action complaint. Predict whether the complaint will be won or not. Output \"win\" or \"lose\".",
+      "Read the following United States class action complaint. Predict whether the complaint will be won or not. Output “win” or “lose”.",
       "Will this class action complaint be successful in U.S. Court?"
     ],
     "valid_wills_entailment": [
