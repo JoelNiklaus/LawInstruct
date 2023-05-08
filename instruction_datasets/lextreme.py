@@ -1,12 +1,14 @@
 import ast
 from collections.abc import Collection
 from collections.abc import Sequence
+from typing import Final
 
 from datasets import load_dataset
 
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 ner_class_mapping = {
     "lener_br": [
@@ -97,83 +99,7 @@ ner_class_mapping = {
     ],
 }
 
-instructions_for_subsets = {
-    "brazilian_court_decisions_judgment":
-        "In this task, you are given the case description from a decision heard at the State Supreme Court of Alagoas (Brazil). "
-        "Predict the judgment of the case "
-        "(no: The appeal was denied, "
-        "partial: For partially favourable decisions, "
-        "yes: For fully favourable decisions)",
-    "brazilian_court_decisions_unanimity":
-        "In this task, you are given the case description from a decision heard at the State Supreme Court of Alagoas (Brazil). "
-        "Predict the unanimity of the case (unanimity, not-unanimity, not_determined)",
-    "german_argument_mining":
-        "In this task, you are given sentences from German court decisions. "
-        "Predict the major component of German Urteilsstil "
-        "(conclusion: Overall result, "
-        "definition: Abstract legal facts and consequences, "
-        "subsumption: Determination sentence / Concrete facts, "
-        "other: Anything else)",
-    "greek_legal_code_chapter":
-        "In this task, you are given a Greek legislative document. "
-        "Predict the chapter level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
-    "greek_legal_code_subject":
-        "In this task, you are given a Greek legislative document. "
-        "Predict the subject level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
-    "greek_legal_code_volume":
-        "In this task, you are given a Greek legislative document. "
-        "Predict the volume level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
-    "online_terms_of_service_unfairness_levels":
-        "In this task, you are given a sentence from a Terms of Service (ToS) document. "
-        "Predict the unfairness level of the sentence (potentially_unfair, clearly_unfair, clearly_fair, untagged)",
-    "online_terms_of_service_clause_topics":
-        "In this task, you are given a sentence from a Terms of Service (ToS) document. "
-        "Predict the clause topics of the sentence "
-        "(0: Arbitration, "
-        "1: Unilateral change, "
-        "2: Content removal, "
-        "3: Jurisdiction, "
-        "4: Choice of law, "
-        "5: Limitation of liability, "
-        "6: Unilateral termination, "
-        "7: Contract by using, "
-        "8: Privacy included)",
-    "covid19_emergency_event":
-        "In this task, you are given a sentence from a European legislative document. "
-        "Predict the applicable measurements against COVID-19 "
-        "(0: State of Emergency, "
-        "1: Restrictions of fundamental rights and civil liberties, "
-        "2: Restrictions of daily liberties, "
-        "3: Closures / lockdown, "
-        "4: Suspension of international cooperation and commitments, "
-        "5: Police mobilization, "
-        "6: Army mobilization, "
-        "7: Government oversight)",
-    "multi_eurlex_level_1":
-        "In this task, you are given a document from an EU law. "
-        "Predict the level 1 concept in the EUROVOC taxonomy.",
-    "multi_eurlex_level_2":
-        "In this task, you are given a document from an EU law. "
-        "Predict the level 2 concept in the EUROVOC taxonomy.",
-    "multi_eurlex_level_3":
-        "In this task, you are given a document from an EU law. "
-        "Predict the level 3 concept in the EUROVOC taxonomy.",
-    "greek_legal_ner":
-        "In this task, you are given a sentence from Greek legislation. "
-        "Predict the named entity type for each token.",
-    "legalnero":
-        "In this task, you are given a sentence from Romanian legislation. "
-        "Predict the named entity type for each token.",
-    "lener_br":
-        "In this task, you are given a sentence from Brazilian legal documents (court decisions and legislation). "
-        "Predict the named entity type for each token.",
-    "mapa_coarse":
-        "In this task, you are given a sentence from the EUR-Lex database. "
-        "Predict the coarse grained named entity type for each token.",
-    "mapa_fine":
-        "In this task, you are given a sentence from the EUR-Lex database. "
-        "Predict the fine grained named entity type for each token.",
-}
+INSTRUCTION_GROUPS: Final[tuple[str, ...]] = ('brazilian_court_decisions_judgment', 'brazilian_court_decisions_unanimity', 'german_argument_mining', 'greek_legal_code_chapter', 'greek_legal_code_subject', 'greek_legal_code_volume', 'swiss_judgment_prediction', 'online_terms_of_service_unfairness_levels', 'online_terms_of_service_clause_topics', 'covid19_emergency_event', 'multi_eurlex_level_1', 'multi_eurlex_level_2', 'multi_eurlex_level_3', 'greek_legal_ner', 'legalnero', 'lener_br', 'mapa_coarse', 'mapa_fine')
 
 TASK_CODE_MAPPING = {
     'brazilian_court_decisions_judgment': 'SLTC',
@@ -237,15 +163,12 @@ class LEXTREME(AbstractDataset):
         super().__init__("LEXTREME",
                          "https://huggingface.co/datasets/joelito/lextreme")
 
-    def get_data(self):
-        instruction_language = 'en'
-        for subset, instructions in instructions_for_subsets.items():
+    def get_data(self, instructions_: instruction_manager.InstructionManager):
+        instruction_language: str
+        for subset in INSTRUCTION_GROUPS:
             dataset = load_dataset("joelito/lextreme", subset, split="train")
             jurisdiction = JURISDICTION_MAPPING[subset]
             task_code = TASK_CODE_MAPPING[subset]
-            if task_code == "NER":
-                instructions += " " + get_ner_instruction(
-                    ner_class_mapping[subset])
 
             if task_code == 'SLTC':
                 class_label = dataset.features["label"]
@@ -272,7 +195,7 @@ class LEXTREME(AbstractDataset):
                 answers: list[tuple[str, str, str]]
                 if task_code in ['SLTC', 'MLTC']:
                     input_text = example['input']
-                    if 'multi_eurlex' in subset:
+                    if subset.startswith('multi_eurlex'):
                         input_text = ast.literal_eval(input_text)
                         assert isinstance(input_text, dict)
                         answers = [(f"Passage {input_text[lang]}",
@@ -291,10 +214,11 @@ class LEXTREME(AbstractDataset):
                 for prompt, answer, lang in answers:
                     task_type = TaskType.NAMED_ENTITY_RECOGNITION if task_code == 'NER' else TaskType.TEXT_CLASSIFICATION
                     prompt_language = "en"
+                    instruction, instruction_language = instructions_.sample(subset)
                     yield self.build_data_point(instruction_language,
                                                 prompt_language,
                                                 lang,
-                                                instructions,
+                                                instruction,
                                                 prompt,
                                                 answer,
                                                 task_type,

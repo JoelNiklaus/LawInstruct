@@ -6,6 +6,7 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 NER_DELIMITER = "|"
 
@@ -33,7 +34,7 @@ class MiningLegalArguments(AbstractDataset):
         super().__init__("MiningLegalArguments",
                          "https://github.com/trusthlt/mining-legal-arguments")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         task_type = TaskType.NAMED_ENTITY_RECOGNITION
         jurisdiction = Jurisdiction.EU
         instruction_language = "en"

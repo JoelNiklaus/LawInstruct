@@ -5,6 +5,7 @@ import pandas as pd
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 _BLANK_INSTRUCTION = ""
 
@@ -14,16 +15,12 @@ class ValidWills(AbstractDataset):
     def __init__(self):
         super().__init__("ValidWills", "https://arxiv.org/pdf/2210.16989.pdf")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         # Will Validity
         train = pd.read_csv(
             f'{self.raw_data_dir}/wills_train.csv',
             encoding='utf-8')  # replace with real path and dataset names
-        instruction_bank = [
-            "Given a statement in a will, the relevant U.S. law, is the condition supported, refuted, or unrelated.",
-            "Is the statement in the will valid given the law and conditions? Answer with one of unrelated, supported, refuted."
-        ]
-        instruction_language: Final[str] = 'en'
+        instructions_group = "valid_wills_entailment"
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.US
         prompt_language = "en"
@@ -33,7 +30,7 @@ class ValidWills(AbstractDataset):
                 "conditions"], row["law"], row["classification"]
             CLASSIFICATION_MAP = ['refuted', 'supported', 'unrelated']
             classification = CLASSIFICATION_MAP[classification]
-            instruction = self.random.choice(instruction_bank)
+            instruction, instruction_language = instructions.sample(instructions_group)
             prompt = f"Statement: {statement}\n\nLaw: {law}\n\nCondition: {conditions}"
             prompt2 = f"Statement: {statement}\n\nLaw: {law}\n\nCondition: {conditions}\n\nIs the statement supported by the law and condition?"
             answer = answer2 = f'Answer: {classification}'

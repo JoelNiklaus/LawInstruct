@@ -11,6 +11,7 @@ from tqdm.auto import tqdm
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class NerTags(ABC):
@@ -91,7 +92,7 @@ class GreekNER(AbstractDataset):
         self._tags = tags
         self._path = None
 
-    def get_data(self) -> Iterator[dict]:
+    def get_data(self, instructions: instruction_manager.InstructionManager) -> Iterator[dict]:
         df = pd.read_csv(self._path,
                          header=0,
                          names=["Sent_ID", "Word", "_", "Tag"])

@@ -6,6 +6,7 @@ from tqdm import tqdm
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class ProfessionalLaw(AbstractDataset):
@@ -14,28 +15,17 @@ class ProfessionalLaw(AbstractDataset):
         super().__init__("ProfessionalLaw", "https://arxiv.org/abs/2009.03300")
         self.filter_out_mmmlu = True
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         if self.filter_out_mmmlu:
             return  # This dataset is part of mmmlu, just ignore it
 
         # The first 1200 are extra bar exam questions, not sure if we want to keep these in
-        instructions_examples = [
-            "Generate some Multistate Bar Exam questions according to U.S. law.",
-            "Answer these legal questions. Use American Law. A few examples are provided first to give the answer format.",
-            "Answer these U.S. Multistate Bar Exam questions. A few examples are provided first to give the answer format.",
-            "Pick the most correct option considering U.S. Law."
-        ]
-        instructions_zero_shot = [
-            "Answer these legal questions. Use American Law. Provide the choice as \"Answer:\"",
-            "Answer these U.S. Multistate Bar Exam questions. Provide the choice as \"Answer:\"",
-            "Pick the most correct option considering U.S. Law. Output the choice as \"Answer:\""
-        ]
         df = load_dataset("hendrycks_test",
                           "professional_law",
                           split="auxiliary_train").select(range(1200))
         task_type = TaskType.MULTIPLE_CHOICE
         jurisdiction = Jurisdiction.US
-        instruction_language = "en"
+        instruction_language: str
         prompt_language = "en"
 
         def shuffle_choices(choices: List[str], answer: int):
@@ -75,12 +65,12 @@ class ProfessionalLaw(AbstractDataset):
 
             cur_answer = f"The Final Answer: {lookup[this_answer]}"
 
-            instruction = self.random.choice(instructions_examples)
+            instruction, instruction_language = instructions.sample("professional_law_examples")
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", instruction, cur_question,
                                         cur_answer, task_type, jurisdiction)
 
-            instruction_zero_shot = self.random.choice(instructions_zero_shot)
+            instruction_zero_shot, instruction_language = instructions.sample("professional_law_zero_shot")
             question_zero_shot = cur_question.split("###")[-1].strip()
             answer_zero_shot = cur_answer.replace("The Final Answer: ",
                                                   "Answer: ")

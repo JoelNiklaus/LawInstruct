@@ -9,6 +9,7 @@ import yaml
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class BrazilianBarExam(AbstractDataset):
@@ -17,18 +18,14 @@ class BrazilianBarExam(AbstractDataset):
         super().__init__("BrazilianBarExam",
                          "https://arxiv.org/pdf/1712.05128.pdf")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         with open(f"{self.raw_data_dir}/oab.json", "r") as f:
             qs = json.loads(f.read())
 
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.BRAZIL
-        instruction_language = "en"
+        instruction_language: str
         prompt_language = "en"
-        instruction_bank = [
-            "Answer the questions from the Brazilian bar exam.",
-            "Answer these legal multiple choice questions according to Brazilian law."
-        ]
 
         def all_law_articles_in_path(laws_path):
             # reads all .xml files in laws_path to a list of law_articles
@@ -117,7 +114,7 @@ class BrazilianBarExam(AbstractDataset):
                 if c["correct"]:
                     correct_answer = f"({c['letter'].lower()})"
             if correct_answer is not None:
-                instruction = self.random.choice(instruction_bank)
+                instruction, instruction_language = instructions.sample("brazilian_bar_exam")
                 datapoint = f"Question: {q['enum']}\n{choices}"
 
                 legal_text = None

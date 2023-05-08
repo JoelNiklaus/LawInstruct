@@ -4,6 +4,7 @@ import os
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class Lila(AbstractDataset):
@@ -11,19 +12,15 @@ class Lila(AbstractDataset):
     def __init__(self):
         super().__init__("Lila", "https://github.com/allenai/Lila")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         json_files = [
             pos_json
             for pos_json in os.listdir(f"{self.raw_data_dir}/all_lila/")
             if pos_json.endswith('.json')
         ]
-        instruction_bank = [
-            "Consider the following question. Write a Python program to solve it.",
-            "Write a Python program to solve the following question, denote it as \"Program:\". Provide the output as \"Answer:\"."
-        ]
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.N_A
-        instruction_language = "en"
+        instruction_language: str
         prompt_language = "en"
 
         for json_file in json_files:
@@ -35,7 +32,7 @@ class Lila(AbstractDataset):
                         continue
                     for program, answer in zip(example['Output Program'],
                                                example['Output Answer']):
-                        instruction = self.random.choice(instruction_bank)
+                        instruction, instruction_language = instructions.sample("lila")
                         prompt = f"Question: {example['Input']}\n" \
                                     f"Program:\n```python\n{program}\n```\n"
                         answer = f"Answer: {answer}"

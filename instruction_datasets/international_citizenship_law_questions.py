@@ -3,6 +3,7 @@ import pandas as pd
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 _BLANK_INSTRUCTION = ''
 
@@ -13,7 +14,7 @@ class InternationalCitizenshipLawQuestions(AbstractDataset):
         super().__init__("InternationalCitizenshipLawQuestions",
                          "https://cadmus.eui.eu/handle/1814/73190")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.INTERNATIONAL
         instruction_language = "en"

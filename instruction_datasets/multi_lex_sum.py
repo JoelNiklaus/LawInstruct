@@ -5,6 +5,7 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 def build_summarization_answer(input: str, summary: str) -> tuple[str, str]:
@@ -24,22 +25,18 @@ class MultiLexSum(AbstractDataset):
             "MultiLexSum",
             "https://huggingface.co/datasets/allenai/multi_lexsum")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         df = load_dataset("allenai/multi_lexsum", split="train")
         task_type = TaskType.SUMMARIZATION
         jurisdiction = Jurisdiction.US
-        instruction_language = "en"
+        instruction_language: str
         prompt_language = "en"
 
-        instruction_bank = [
-            "Summarize the following summary of a US legal document further. ",
-            "Consider the summary of a US legal document and summarize it further. "
-        ]
         for example in df:
             input = example["summary/long"]
             if example["summary/short"]:
                 summary = example["summary/short"]
-                instruction = self.random.choice(instruction_bank)
+                instruction, instruction_language = instructions.sample("multi_lex_sum")
                 prompt, answer = build_summarization_answer(input, summary)
                 yield self.build_data_point(instruction_language,
                                             prompt_language, "en", instruction,
@@ -47,7 +44,7 @@ class MultiLexSum(AbstractDataset):
                                             jurisdiction)
             if example["summary/tiny"]:
                 summary = example["summary/tiny"]
-                instruction = self.random.choice(instruction_bank)
+                instruction, instruction_language = instructions.sample("multi_lex_sum")
                 prompt, answer = build_summarization_answer(input, summary)
                 yield self.build_data_point(instruction_language,
                                             prompt_language, "en", instruction,
@@ -56,7 +53,7 @@ class MultiLexSum(AbstractDataset):
             if example["summary/short"] and example["summary/tiny"]:
                 input = example["summary/short"]
                 summary = example["summary/tiny"]
-                instruction = self.random.choice(instruction_bank)
+                instruction, instruction_language = instructions.sample("multi_lex_sum")
                 prompt, answer = build_summarization_answer(input, summary)
                 yield self.build_data_point(instruction_language,
                                             prompt_language, "en", instruction,

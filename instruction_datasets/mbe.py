@@ -3,6 +3,7 @@ import pandas as pd
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class MBE(AbstractDataset):
@@ -11,22 +12,13 @@ class MBE(AbstractDataset):
         # TODO do we have an url for the source here?: Lucia's working paper
         super().__init__("MBE", "MBE")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         df = pd.read_csv(f"{self.raw_data_dir}/mbe_train.csv")
         task_type = TaskType.MULTIPLE_CHOICE
         jurisdiction = Jurisdiction.US
-        instruction_language = "en"
+        instruction_language: str
         prompt_language = "en"
 
-        instructions_examples = [
-            "Answer these legal questions. Use American Law. Please explain your thought process and then answer the question.",
-            "Answer these U.S. Multistate Bar Exam questions. Please provide an explanation first.",
-            "Pick the most correct option considering U.S. Law. Explain your answer first."
-        ]
-        instruction_bank_subject = [
-            "What subject of U.S. law is this question about? Pick one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP.",
-            "What area of American law is this question about? Pick one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP."
-        ]
         instruction_bank_subject_generation = [
             "Generate a bar exam multiple choice question, along with an explanation and answer, for the following subject: ",
             "Generate an MBE MC question for "
@@ -58,14 +50,15 @@ class MBE(AbstractDataset):
             #     source_year_string = f" Consider only the law and relevant cases before {source_year}."
             # else:
             #     source_year_string = ""
-            instruction = self.random.choice(instructions_examples)
+            instruction, instruction_language = instructions.sample(
+                'mbe_examples')
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", instruction, data_no_answer,
                                         answer, task_type, jurisdiction)
 
             if isinstance(subject, str) and subject.strip() != "":
                 # Datapoint with subject.
-                instruction = self.random.choice(instruction_bank_subject)
+                instruction, instruction_language = instructions.sample('mbe_subject')
                 prompt = data_no_answer
                 answer = f"Subject: {subject}"
                 yield self.build_data_point(instruction_language,
@@ -77,7 +70,7 @@ class MBE(AbstractDataset):
                 instruction = self.random.choice(
                     instruction_bank_subject_generation) + subject
                 _BLANK_PROMPT = ""  # TODO: what would the prompt be here?
-                yield self.build_data_point(instruction_language,
+                yield self.build_data_point('en',
                                             prompt_language, "en", instruction,
                                             _BLANK_PROMPT, data_with_answer,
                                             task_type, jurisdiction)

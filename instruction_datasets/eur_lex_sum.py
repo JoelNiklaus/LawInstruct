@@ -5,6 +5,7 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 def build_summarization_answer(input: str, summary: str) -> tuple[str, str]:
@@ -24,7 +25,7 @@ class EurLexSum(AbstractDataset):
             "EurLexSum",
             "https://huggingface.co/datasets/dennlinger/eur-lex-sum")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         langs = {
             'bulgarian': 'bg',
             'czech': 'cs',
@@ -56,17 +57,14 @@ class EurLexSum(AbstractDataset):
 
             task_type = TaskType.SUMMARIZATION
             jurisdiction = Jurisdiction.EU
-            instruction_language = "en"
+            instruction_language: str
             prompt_language = "en"
 
-            instruction_bank = [
-                "Summarize the following European legal document.",
-                "Consider the European legal document and summarize it."
-            ]
             for example in df:
                 input = example["reference"]
                 summary = example["summary"]
-                instruction = self.random.choice(instruction_bank)
+                instruction, instruction_language = instructions.sample(
+                    "eur_lex_sum")
                 prompt, answer = build_summarization_answer(input, summary)
                 yield self.build_data_point(instruction_language,
                                             prompt_language, answer_language,

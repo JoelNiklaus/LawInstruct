@@ -3,6 +3,7 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 ner_fine_tags = [
     'B-AN', 'B-EUN', 'B-GRT', 'B-GS', 'B-INN', 'B-LD', 'B-LDS', 'B-LIT',
@@ -37,7 +38,7 @@ class GermanLER(AbstractDataset):
             "GermanLER",
             "https://huggingface.co/datasets/elenanereiss/german-ler")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         df = load_dataset("elenanereiss/german-ler", split="train")
         task_type = TaskType.NAMED_ENTITY_RECOGNITION
         jurisdiction = Jurisdiction.GERMANY

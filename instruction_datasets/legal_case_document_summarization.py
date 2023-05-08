@@ -5,6 +5,7 @@ from datasets import load_dataset
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 def build_summarization_answer(input: str, summary: str) -> tuple[str, str]:
@@ -33,7 +34,7 @@ class LegalCaseDocumentSummarization(AbstractDataset):
             "https://huggingface.co/datasets/joelito/legal_case_document_summarization"
         )
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         df = load_dataset("joelito/legal_case_document_summarization",
                           split="train")
         task_type = TaskType.SUMMARIZATION

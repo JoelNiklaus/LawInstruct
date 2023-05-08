@@ -8,6 +8,7 @@ from tqdm.auto import tqdm
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 from .greek_ner import NerTags
 
@@ -62,7 +63,7 @@ class EdgarNER(AbstractDataset):
         self._tags = EdgarTags()
         self._path = pathlib.Path(f"{self.raw_data_dir}/edgar_ner.csv")
 
-    def get_data(self) -> Iterator[dict]:
+    def get_data(self, instructions: instruction_manager.InstructionManager) -> Iterator[dict]:
         df = pd.read_csv(self._path,
                          header=None,
                          names=["Word", "Tag"],

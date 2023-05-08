@@ -3,6 +3,7 @@ import json
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
+import instruction_manager
 
 
 class ChangeMyView(AbstractDataset):
@@ -11,17 +12,11 @@ class ChangeMyView(AbstractDataset):
         super().__init__("ChangeMyView",
                          "https://chenhaot.com/pages/changemyview.html")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         # ChangeMyView Argumentation
-        instruction_bank = [
-            "You are given a position, create an argument that would change the original poster's mind.",
-            "Write a counter argument to the proposal.",
-            "Write a counter argument to the r/changemyview post.",
-            "Write a counterargument to this reddit post."
-        ]
         task_type = TaskType.ARGUMENTATION
         jurisdiction = Jurisdiction.UNKNOWN
-        instruction_language = "en"
+        instruction_language: str
         prompt_language = "en"
 
         with open(f"{self.raw_data_dir}/train_pair_data.jsonlist") as f:
@@ -32,7 +27,7 @@ class ChangeMyView(AbstractDataset):
                 else:
                     body = d['positive']['comments'][0]['body'].strip()
                 op = d['op_text'].split("EDIT:")[0].strip()
-                instruction = self.random.choice(instruction_bank)
+                instruction, instruction_language = instructions.sample("change_my_view")
                 prompt = f"Argument: {op}"
                 answer = f"Counter-argument: {body}"
                 yield self.build_data_point(instruction_language,
