@@ -13,8 +13,16 @@
       "Respond to the multiple choice legal questions from the Brazilian bar exam."
     ],
     "brcad5_mc": [
-      "Please answer these multiple choice questions. Denote the correct answer as “Answer:”.",
-      "Pick the most likely correct answer."
+      "Please answer these multiple choice questions given the following case from the Brazilian Federal Small Claims Courts. Denote the correct answer as “Answer:”.",
+      "Pick the most likely correct answer concerning the given Brazilian case.",
+      "Choose the best answer for these multiple choice questions based on the provided Brazilian Federal Small Claims Courts case. Mark the answer as “Answer:”.",
+      "Select the most probable correct answer related to the given case from the Brazilian Federal Small Claims Courts.",
+      "Answer these multiple choice questions based on the Brazilian Federal Small Claims Courts case. Provide the correct answer as “Answer:”.",
+      "Considering the provided Brazilian Federal Small Claims Courts case, identify the most likely correct answer.",
+      "Determine the correct answer for these multiple choice questions related to the given Brazilian case. Indicate the answer as “Answer:”.",
+      "Review the Brazilian Federal Small Claims Courts case and select the most appropriate correct answer.",
+      "Analyze the given Brazilian Federal Small Claims Courts case and choose the correct answer for these multiple choice questions. Label it as “Answer:”.",
+      "Based on the provided Brazilian case, pick the most accurate answer for these multiple choice questions."
     ],
     "bva_decisions_label": [
       "Label the sentence according to its rhetorical role in a legal argument.",
@@ -476,19 +484,50 @@
     "sara_entailment": [
       "Consider the following US Tax scenario. Does the first fact entail the second fact?",
       "Are these two sentences entailed or contradicting?",
-      "Respond entailment or contradiction to these two sentences."
+      "Respond entailment or contradiction to these two sentences from the US Internal Revenue Code.",
+      "Given the US Tax context, do the first and second facts have an entailment or contradiction relationship?",
+      "In the US Tax scenario, determine whether the first fact entails or contradicts the second fact.",
+      "Examine the US Tax scenario and decide if the first statement entails or contradicts the second statement.",
+      "Considering the US Tax situation, assess if the first fact entails or contradicts the second fact.",
+      "Analyze the provided US Tax scenario and identify whether the first fact entails or contradicts the second fact.",
+      "Evaluate the US Tax scenario and determine if there is an entailment or contradiction between the first and second facts.",
+      "Within the context of the US Tax scenario, ascertain if the first fact entails or is in contradiction with the second fact."
     ],
     "sara_tax_liability": [
       "Consider the following US Tax scenario and answer the question.",
-      "Consider the following scenario. Calculate the right amount of tax liability and answer the question."
+      "Consider the following scenario. Calculate the right amount of tax liability and answer the question.",
+      "Evaluate the given US tax situation and provide an answer to the question.",
+      "Analyze the provided US tax scenario and address the question.",
+      "Taking into account the presented US tax situation, respond to the question.",
+      "Examine the US tax scenario provided and answer the associated question.",
+      "Based on the given US tax context, respond to the question.",
+      "Review the US tax situation presented and offer an answer to the question.",
+      "Assess the US tax scenario given and provide a response to the question.",
+      "Study the US tax situation and answer the related question."
     ],
     "sara_prolog_statute": [
-      "Convert the following statute into prolog code.",
-      "Write a prolog program to convert the statute into code, denote it as “Prolog Program:”."
+      "Convert the following US statute into prolog code.",
+      "Write a prolog program to convert the US statute into code, denote it as “Prolog Program:”.",
+      "Transform the provided US statute into prolog code.",
+      "Create a prolog program that represents the given US statute, label it as “Prolog Program:”.",
+      "Translate the US statute into a prolog program.",
+      "Develop a prolog code representation for the given US statute.",
+      "Write prolog code that corresponds to the provided US statute.",
+      "Generate prolog code based on the given US statute.",
+      "Using the US statute as a guide, create a prolog code representation.",
+      "Construct a prolog program that mirrors the given US statute."
     ],
     "sara_prolog_facts": [
-      "Convert the following fact pattern into prolog code. Then answer the question.",
-      "Write a prolog program to mark all the facts, denote it as “Prolog Program:”. Then answer the question, denote your answer as “Answer:”."
+      "Convert the following fact pattern from the US Internal Revenue Code into prolog code. Then answer the question.",
+      "Write a prolog program to mark all the facts, denote it as “Prolog Program:”. Then answer the question, denote your answer as “Answer:”.",
+      "Transform the provided fact pattern from the US Internal Revenue Code into prolog code and answer the question.",
+      "Create a prolog program that represents the given fact pattern from the US Internal Revenue Code, label it as “Prolog Program:”, and then answer the question.",
+      "Translate the fact pattern from the US Internal Revenue Code into a prolog program and provide an answer to the question.",
+      "Develop a prolog code representation for the given fact pattern from the US Internal Revenue Code, and then answer the question.",
+      "Write prolog code that corresponds to the provided fact pattern from the US Internal Revenue Code, and then answer the question.",
+      "Generate prolog code based on the given fact pattern from the US Internal Revenue Code, and then provide a response to the question.",
+      "Using the fact pattern from the US Internal Revenue Code as a guide, create a prolog code representation and answer the question.",
+      "Construct a prolog program that mirrors the given fact pattern from the US Internal Revenue Code and provide a response to the question."
     ],
     "short_answer_feedback_openqa": [
       "Consider this question in the context of German law. Provide the correct reference answer.",
@@ -541,64 +580,208 @@
       "Deduce if the Swiss court is likely to go for dismissal or approval of the case."
     ],
     "swiss_judgment_criticality": [
-      "How important or critical is this case? The case can be non-critical or range from critical-1 (least critical) to critical-4 (most critical)."
+      "How important or critical is this case? The case can be non-critical or range from critical-1 (least critical) to critical-4 (most critical).",
+      "Determine the level of importance or criticality of this case, with non-critical being the lowest and critical-4 being the highest.",
+      "Assess the criticality of this case on a scale of non-critical to critical-4, with critical-4 being the most critical.",
+      "Rate the importance or criticality of this case, from non-critical to critical-4, where critical-4 represents the highest level of criticality.",
+      "Evaluate the significance or criticality of this case, with options ranging from non-critical to critical-4 (most critical).",
+      "Gauge the level of criticality of this case, with non-critical at the low end and critical-4 at the high end.",
+      "Estimate the importance or criticality of this case, with levels ranging from non-critical to critical-4 (most critical).",
+      "Rank the criticality of this case on a scale from non-critical to critical-4, where critical-4 is the most critical.",
+      "Deduce the level of importance or criticality for this case, with options from non-critical to critical-4 (most critical).",
+      "Decide on the criticality of this case, with a range of non-critical to critical-4, where critical-4 is the highest level of criticality."
     ],
     "swiss_judgment_court_view_generation_same_court": [
-      "Write the court's view (considerations) for the given facts description."
+      "Write the court's view (considerations) for the given facts description.",
+      "Provide the court's perspective (considerations) based on the presented facts.",
+      "Compose the court's viewpoint (considerations) for the provided facts description.",
+      "Draft the court's opinion (considerations) based on the given facts description.",
+      "Develop the court's stance (considerations) for the presented facts description.",
+      "Create the court's position (considerations) based on the given facts description.",
+      "Outline the court's perspective (considerations) for the provided facts description.",
+      "Formulate the court's opinion (considerations) based on the presented facts.",
+      "Detail the court's viewpoint (considerations) for the given facts description.",
+      "Explain the court's stance (considerations) based on the provided facts description."
     ],
     "swiss_judgment_court_view_generation_lower_court": [
-      "Write the court's view (considerations) for the given facts and considerations from the lower court."
+      "Write the court's view (considerations) for the given facts and considerations from the lower court.",
+      "Provide the court's perspective (considerations) based on the presented facts and lower court's considerations.",
+      "Compose the court's viewpoint (considerations) for the provided facts and lower court's considerations.",
+      "Draft the court's opinion (considerations) based on the given facts and considerations from the lower court.",
+      "Develop the court's stance (considerations) for the presented facts and lower court's considerations.",
+      "Create the court's position (considerations) based on the given facts and lower court's considerations.",
+      "Outline the court's perspective (considerations) for the provided facts and lower court's considerations.",
+      "Formulate the court's opinion (considerations) based on the presented facts and considerations from the lower court.",
+      "Detail the court's viewpoint (considerations) for the given facts and lower court's considerations.",
+      "Explain the court's stance (considerations) based on the provided facts and lower court's considerations."
     ],
     "swiss_judgment_area_of_law_main_area": [
-      "What main area of law is this case related to?"
+      "What main area of law is this case related to?",
+      "Determine the main area of law that this case is related to.",
+      "Identify the primary legal domain associated with this case.",
+      "In which field of law is this case situated?",
+      "What is the principal area of law involved in this case?",
+      "Which major area of law does this case fall under?",
+      "What is the main legal category that pertains to this case?",
+      "What primary area of law is connected to this case?",
+      "In which main area of law is this case classified?",
+      "What is the key area of law relevant to this case?"
     ],
     "swiss_judgment_area_of_law_sub_area": [
-      "What sub-area of law is this case related to?"
+      "What sub-area of law is this case related to?",
+      "Determine the sub-area of law that this case is related to.",
+      "Identify the specific legal subdomain associated with this case.",
+      "In which sub-field of law is this case situated?",
+      "What is the particular area of law involved in this case?",
+      "Which subcategory of law does this case fall under?",
+      "What is the secondary legal category that pertains to this case?",
+      "What specific area of law is connected to this case?",
+      "In which sub-area of law is this case classified?",
+      "What is the specialized area of law relevant to this case?"
     ],
     "swiss_judgment_location": [
       "Where do you think this case was adjudicated?",
-      "In what canton and region was this case heard?"
+      "In what canton and region was this case heard?",
+      "Determine the canton and region where this case was heard.",
+      "Identify the canton and region in which this case took place.",
+      "What canton and region did this case occur in?",
+      "In which canton and region was this case adjudicated?",
+      "What is the canton and region where this case was heard?",
+      "Which canton and region is the location of this case?",
+      "Where was this case heard in terms of canton and region?",
+      "Find the canton and region associated with this case."
     ],
     "swiss_judgment_topic": [
-      "What do you think is the topic of this case?"
+      "What do you think is the topic of this case?",
+      "Determine the topic of this case.",
+      "Identify the main subject of this case.",
+      "What is the central issue in this case?",
+      "What is the primary subject matter of this case?",
+      "Establish the central theme of this case.",
+      "What is the focus of this case?",
+      "Ascertain the main topic of this case.",
+      "Deduce the primary topic of this case.",
+      "What is the key issue addressed in this case?"
     ],
     "swiss_judgment_multiple_choice": [
-      "Please answer these multiple choice questions. Denote the correct answer as “Answer:”.",
-      "Pick the most likely correct answer."
+      "Please answer these multiple choice questions given the following case from the Swiss Federal Supreme Court. Denote the correct answer as “Answer:”.",
+      "Pick the most likely correct answer concerning the given Swiss case.",
+      "Choose the best answer for these multiple choice questions based on the provided Swiss Federal Supreme Court case. Mark the answer as “Answer:”.",
+      "Select the most probable correct answer related to the given case from the Swiss Federal Supreme Court.",
+      "Answer these multiple choice questions based on the Swiss Federal Supreme Court case. Provide the correct answer as “Answer:”.",
+      "Considering the provided Swiss Federal Supreme Court case, identify the most likely correct answer.",
+      "Determine the correct answer for these multiple choice questions related to the given Swiss case. Indicate the answer as “Answer:”.",
+      "Review the Swiss Federal Supreme Court case and select the most appropriate correct answer.",
+      "Analyze the given Swiss Federal Supreme Court case and choose the correct answer for these multiple choice questions. Label it as “Answer:”.",
+      "Based on the provided Swiss case, pick the most accurate answer for these multiple choice questions."
     ],
     "swiss_legislation_canton": [
-      "Where do you think this law was passed?",
-      "In which canton was this law was passed?"
+      "Where do you think this Swiss law was passed?",
+      "In which canton was this law was passed?",
+      "Determine the canton where this law was passed.",
+      "Identify the canton in which this law was enacted.",
+      "Which canton is responsible for passing this law?",
+      "Establish the canton where this legislation was created.",
+      "Ascertain the canton that enacted this law.",
+      "In which Swiss canton was this legislation passed?",
+      "What is the canton of origin for this law?",
+      "Find the canton that originated this law."
     ],
     "swiss_legislation_title": [
-      "What do you think is the official long title of this law?"
+      "What do you think is the official long title of this Swiss law?",
+      "Determine the official long title of this Swiss law.",
+      "Identify the official long title of this Swiss legislation.",
+      "Ascertain the full official title of this Swiss law.",
+      "What is the complete official title of this Swiss law?",
+      "Establish the official long title of this Swiss legislation.",
+      "Find the official extended title of this Swiss law.",
+      "What is the full and official title of this Swiss legislation?",
+      "Discover the official long title of this Swiss legal act.",
+      "Provide the official long title of this Swiss statute."
     ],
     "swiss_legislation_short": [
-      "What do you think is the short title of this law?"
+      "What do you think is the short title of this Swiss law?",
+      "Determine the short title of this Swiss law.",
+      "Identify the short title of this Swiss legislation.",
+      "Ascertain the abbreviated title of this Swiss law.",
+      "What is the concise title of this Swiss law?",
+      "Establish the short title of this Swiss legislation.",
+      "Find the brief title of this Swiss law.",
+      "What is the short and official title of this Swiss legislation?",
+      "Discover the short title of this Swiss legal act.",
+      "Provide the short title of this Swiss statute."
     ],
     "swiss_legislation_abbreviation": [
-      "What do you think is the abbvreviation of this law?"
+      "What do you think is the abbreviation of this Swiss law?",
+      "Determine the abbreviation of this Swiss law.",
+      "Identify the abbreviation for this Swiss legislation.",
+      "Ascertain the abbreviated form of this Swiss law.",
+      "What is the abbreviation used for this Swiss law?",
+      "Establish the abbreviation of this Swiss legislation.",
+      "Find the abbreviation commonly used for this Swiss law.",
+      "What is the standard abbreviation of this Swiss legislation?",
+      "Discover the abbreviation associated with this Swiss legal act.",
+      "Provide the abbreviation of this Swiss statute."
     ],
     "tscc_alqac_question_answering": [
       "For the relevant facts, please provide the relevant Thai law(s). Use the rule to determine the court's likely conclusion.",
       "Given these facts in the Thai legal system, please output the relevant legal rule(s) and the court's likely judgement.",
-      "Given these facts in the Thai legal system, please output the relevant legal rule(s) and provide the legal conclusion of whether the court is likely to find for or against the defendant.",
-      "Given these facts in the Thai legal system, please output the relevant legal rule(s) and provide the legal conclusion of whether the court is likely to find the defendant guilty or not guilty."
+      "Given these facts in the Thai legal system, output the relevant legal rule(s) and provide the legal conclusion of whether the court is likely to find for or against the defendant.",
+      "Given these facts in the Thai legal system, please output the relevant legal rule(s) and provide the legal conclusion of whether the court is likely to find the defendant guilty or not guilty.",
+      "Based on these facts and the Thai legal system, identify the relevant legal rule(s) and predict the court's likely decision.",
+      "In light of these facts within the Thai legal system, determine the applicable legal rule(s) and the probable outcome of the case.",
+      "Considering these facts under Thai law, provide the relevant legal rule(s) and the likely conclusion reached by the court.",
+      "With these facts and the Thai legal framework, outline the pertinent legal rule(s) and the expected court ruling.",
+      "Taking into account these facts in the context of Thai law, present the relevant legal rule(s) and the potential court judgement.",
+      "Given the circumstances and the Thai legal system, provide the relevant legal rule(s) and the probable verdict of the court."
     ],
     "turkish_constitutional_violation_no_violation": [
-      "Determine if you think the Turkish Court of Cassation will label the case description as Violation or No Violation."
+      "Determine if you think the Turkish Court of Cassation will label the case description as Violation or No Violation.",
+      "Will the Turkish Court of Cassation find this case to be a violation of the Turkish Constitution?",
+      "Predict if the Turkish Court of Cassation will rule this case as a Violation or No Violation of the constitution.",
+      "Based on the case description, will the Turkish Court of Cassation determine a constitutional violation has occurred?",
+      "Do you think the Turkish Court of Cassation will consider this case to be in violation or not in violation of the constitution?",
+      "Given the case details, will the Turkish Court of Cassation decide it is a violation or not a violation of the constitution?",
+      "Assess whether the Turkish Court of Cassation will identify a constitutional violation in the presented case.",
+      "Based on the case facts, predict if the Turkish Court of Cassation will deem it a constitutional violation or not.",
+      "In light of the case description, will the Turkish Court of Cassation find a violation or no violation of the constitution?",
+      "Considering the case at hand, will the Turkish Court of Cassation rule it as a constitutional violation or not?"
     ],
     "turkish_constitutional_multiple_choice": [
-      "Please answer these multiple choice questions. Denote the correct answer as “Answer:”.",
-      "Pick the most likely correct answer."
+      "Please answer these multiple choice questions given the following case from the Turkish Court of Cassation. Denote the correct answer as “Answer:”.",
+      "Pick the most likely correct answer concerning the given Turkish case.",
+      "Choose the best answer for these multiple choice questions based on the provided Turkish Court of Cassation case. Mark the answer as “Answer:”.",
+      "Select the most probable correct answer related to the given case from the Turkish Court of Cassation.",
+      "Answer these multiple choice questions based on the Turkish Court of Cassation case. Provide the correct answer as “Answer:”.",
+      "Considering the provided Turkish Court of Cassation case, identify the most likely correct answer.",
+      "Determine the correct answer for these multiple choice questions related to the given Turkish case. Indicate the answer as “Answer:”.",
+      "Review the Turkish Court of Cassation case and select the most appropriate correct answer.",
+      "Analyze the given Turkish Court of Cassation case and choose the correct answer for these multiple choice questions. Label it as “Answer:”.",
+      "Based on the provided Turkish case, pick the most accurate answer for these multiple choice questions."
     ],
     "us_class_actions_win_lose": [
       "Read the following United States class action complaint. Predict whether the complaint will be won or not. Output “win” or “lose”.",
-      "Will this class action complaint be successful in U.S. Court?"
+      "Will this class action complaint be successful in U.S. Court?",
+      "Determine if the class action complaint is likely to win or lose in a U.S. court.",
+      "Based on the class action complaint, predict if the plaintiffs will win or lose in the United States court system.",
+      "Evaluate the class action complaint and predict whether the outcome will be a win or loss in the U.S. court.",
+      "Assess the United States class action complaint and predict if the plaintiffs will win or lose the case.",
+      "Given the class action complaint, will the plaintiffs likely win or lose in the U.S. court system?",
+      "Considering the U.S. class action complaint, do you think the plaintiffs will win or lose the case?",
+      "Analyze the class action complaint and determine if it's likely to result in a win or loss in the U.S. court.",
+      "Based on the information in the class action complaint, will the plaintiffs likely achieve a win or suffer a loss in the U.S. court?"
     ],
     "valid_wills_entailment": [
-      "Given a statement in a will, the relevant U.S. law, is the condition supported, refuted, or unrelated.",
-      "Is the statement in the will valid given the law and conditions? Answer with one of unrelated, supported, refuted."
+      "Given a statement in a will, the relevant U.S. law, is the condition “supported”, “refuted”, or “unrelated”.",
+      "Is the statement in the will valid given the law and conditions? Answer with one of “unrelated”, “supported”, “refuted”.",
+      "Considering the statement in the will and the applicable U.S. law, is the condition “supported”, “contradicted”, or “neutral”?",
+      "Evaluate the statement in the will in light of U.S. law, and determine if the condition is “supported”, “refuted”, or “unrelated”.",
+      "Given a statement in a will and the relevant U.S. law, assess whether the condition is “upheld”, “negated”, or “unconnected”.",
+      "Analyze the statement in the will and the corresponding U.S. law to determine if the condition is “supported”, “refuted”, or “neutral”.",
+      "In view of the statement in the will and the applicable U.S. law, does the condition “hold”, “contradict”, or remain “unrelated”?",
+      "Based on the statement in the will and the relevant U.S. law, decide if the condition is “backed”, “opposed”, or “unrelated”.",
+      "Taking into account the statement in the will and the U.S. law, determine if the condition is “supported”, “refuted”, or “not connected”.",
+      "Review the statement in the will and the U.S. law to establish if the condition is “supported”, “contradicted”, or “unrelated”."
     ],
     "brazilian_court_decisions_judgment": [
       "In this task, you are given the case description from a decision heard at the State Supreme Court of Alagoas (Brazil). Predict the judgment of the case (no: The appeal was denied, partial: For partially favourable decisions, yes: For fully favourable decisions)"
