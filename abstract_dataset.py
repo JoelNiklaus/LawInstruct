@@ -8,7 +8,6 @@ import os
 import pathlib
 import random
 import sys
-import warnings
 
 from tqdm import tqdm
 
@@ -16,11 +15,6 @@ from enums import Jurisdiction
 from enums import TaskType
 import files
 import instruction_manager
-
-try:
-    import lzma as xz
-except ImportError:
-    import pylzma as xz
 
 
 @dataclasses.dataclass(frozen=True)
@@ -86,8 +80,7 @@ class AbstractDataset:
 
     def get_instruction_bank(self, language="en"):
         return json.loads(
-            pathlib.Path(f"instruction_banks/{language}.json").read_text())[
-                self.name]
+            pathlib.Path(f"instruction_banks/{language}.json").read_text())[self.name]
 
     def build_data_point(self,
                          instruction_language,
@@ -129,9 +122,9 @@ class AbstractDataset:
         )
 
     def write_json_line(
-        self,
-        file: files.SupportsWrite,
-        datapoint: DataPoint,
+            self,
+            file: files.SupportsWrite,
+            datapoint: DataPoint,
     ) -> None:
         """Write a datapoint to a file in JSON format.
 
@@ -140,9 +133,9 @@ class AbstractDataset:
             datapoint: The datapoint to write.
         """
         if not datapoint.instructions:
-            warnings.warn(f"datapoint.instruction is empty in {datapoint}")
+            self.logger.debug(f"datapoint.instruction is empty in {datapoint}")
         if not datapoint.prompt:
-            warnings.warn(f"datapoint.prompt is empty in {datapoint}")
+            self.logger.debug(f"datapoint.prompt is empty in {datapoint}")
         if not datapoint.answer:
             raise ValueError(
                 f"datapoint.answer must not be empty in {datapoint}")
@@ -179,7 +172,7 @@ class AbstractDataset:
     def _get_output_file_name(self, file_index: int,
                               split: str) -> pathlib.Path:
         """Returns the output file name for the given split and index."""
-        return self.data_dir / f'{self.name}_{split}_{file_index}.jsonl'
+        return self.data_dir / f'{self.name}_{split}_{file_index}.jsonl.xz'
 
     def build_instruction_dataset(
             self,
@@ -210,4 +203,9 @@ class AbstractDataset:
                                      debug_size)
                     self.logger.info('Last datapoint: %s', datapoint)
                     break
-                self.write_json_line(writer, datapoint)
+                try:
+                    self.write_json_line(writer, datapoint)
+                except ValueError as e:
+                    self.logger.warning(
+                        'Skipping datapoint %s due to ValueError: %s',
+                        datapoint, e)

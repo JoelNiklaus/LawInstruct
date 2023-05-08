@@ -86,5 +86,5 @@ class InternationalCitizenshipLawQuestions(AbstractDataset):
                 answer = f"A: {code_year_spec_answer} This is covered in: {law_article}. {specification}".strip(
                 )
             yield self.build_data_point(instruction_language, prompt_language,
-                                        "en", prompt, answer, task_type,
+                                        "en", _BLANK_INSTRUCTION, prompt, answer, task_type,
                                         jurisdiction)

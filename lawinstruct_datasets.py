@@ -60,9 +60,16 @@ from instruction_datasets.short_answer_feedback import ShortAnswerFeedback
 from instruction_datasets.spanish_labor_law import SpanishLaborLaw
 from instruction_datasets.stack_exchange_questions_legal import \
     StackExchangeQuestionsLegal
+from instruction_datasets.swiss_court_view_generation import SwissCourtViewGeneration
+from instruction_datasets.swiss_criticality_prediction import SwissCriticalityPrediction
 from instruction_datasets.swiss_judgment_prediction import \
     SwissJudgmentPrediction
+from instruction_datasets.swiss_judgment_prediction_xl import SwissJudgmentPredictionXL
+from instruction_datasets.swiss_law_area_prediction import SwissLawAreaPrediction
+from instruction_datasets.swiss_legislation import SwissLegislation
+from instruction_datasets.swiss_rulings import SwissRulings
 from instruction_datasets.tscc_alqac import TsccAlqac
+from instruction_datasets.turkish_constitutional_court import TurkishConstitutionalCourt
 from instruction_datasets.us_class_actions import USClassActions
 from instruction_datasets.valid_wills import ValidWills
 from instruction_datasets.xp3mt import XP3MT
@@ -119,8 +126,15 @@ LEGAL_DATASETS = frozenset({
     ShortAnswerFeedback,
     SpanishLaborLaw,
     StackExchangeQuestionsLegal,
+    SwissCourtViewGeneration,
+    SwissCriticalityPrediction,
     SwissJudgmentPrediction,
+    SwissJudgmentPredictionXL,
+    SwissLawAreaPrediction,
+    SwissLegislation,
+    SwissRulings,
     TsccAlqac,
+    TurkishConstitutionalCourt,
     USClassActions,
     ValidWills,
     NaturalInstructionsLegal,
@@ -182,8 +196,15 @@ DATASETS_ALREADY_BUILT = NATURAL_INSTRUCTIONS | XP3MT | frozenset({
     ShortAnswerFeedback,
     SpanishLaborLaw,
     StackExchangeQuestionsLegal,
+    SwissCourtViewGeneration,
+    SwissCriticalityPrediction,
     SwissJudgmentPrediction,
+    SwissJudgmentPredictionXL,
+    SwissLawAreaPrediction,
+    SwissLegislation,
+    SwissRulings,
     TsccAlqac,
+    TurkishConstitutionalCourt,
     USClassActions,
     ValidWills,
 })
