@@ -175,7 +175,15 @@
     ],
     "eur_lex_sum": [
       "Summarize the following European legal document.",
-      "Consider the European legal document and summarize it."
+      "Consider the European legal document and summarize it.",
+      "Provide a summary of the given European legal document.",
+      "Briefly summarize the European legal document provided.",
+      "Condense the information in the European legal document into a summary.",
+      "Present a concise summary of the European legal document.",
+      "Compose a summary of the following European legal text.",
+      "Give a brief overview of the European legal document.",
+      "Create a short summary of the European legal document.",
+      "Outline the main points of the European legal document."
     ],
     "german_rental_agreements": [
       "You are given a sentence from a German rental agreement. Predict the category of the sentence.",
@@ -193,59 +201,157 @@
       "Answer the question, make sure to show your work.",
       "Answer the math question step by step. Show your work.",
       "Answer the following question in logical steps.",
-      "Answer the following questions."
+      "Answer the following questions.",
+      "Solve the given problem and display your work.",
+      "Provide a solution for the question, illustrating your process.",
+      "Resolve the question and demonstrate your steps.",
+      "Work through the problem and present your solution.",
+      "Complete the question and provide a detailed explanation of your work.",
+      "Tackle the question, ensuring to outline your steps."
     ],
     "gsm8k_2": [
       "Answer the question, make sure to ask yourself follow up questions.",
       "Answer the math question using the socratic method. Show your work.",
       "Answer the following question in logical steps.",
-      "Answer the following questions. Make sure to ask any follow up questions as needed."
+      "Answer the following questions. Make sure to ask any follow up questions as needed.",
+      "Solve the given problem and consider any additional questions that arise.",
+      "Provide a solution for the question, examining any related queries.",
+      "Resolve the question and contemplate subsequent questions.",
+      "Work through the problem and explore any follow-up questions.",
+      "Complete the question while taking into account any additional questions.",
+      "Tackle the question, reflecting on potential follow-up inquiries."
     ],
     "ildc": [
       "According to Indian law, will this petition be accepted? If there is more than one petition consider whether the court will accept at least one.",
-      "Will the court accept or reject this petition? Use Indian law. If there is more than one petition consider whether the court will accept at least one."
+      "Will the court accept or reject this petition? Use Indian law. If there is more than one petition consider whether the court will accept at least one.",
+      "Based on Indian law, is the petition likely to be approved? For multiple petitions, determine if at least one would be accepted.",
+      "Using Indian law, evaluate the likelihood of this petition being accepted. In cases with multiple petitions, consider if any would be approved.",
+      "Under Indian law, determine the possibility of this petition being accepted. When multiple petitions are involved, assess if at least one may be accepted.",
+      "Assess the petition's chance of acceptance according to Indian law. If multiple petitions are present, consider if at least one will be accepted.",
+      "In accordance with Indian law, determine the probability of this petition being granted. If multiple petitions exist, evaluate if at least one is likely to be accepted.",
+      "Examine the petition's likelihood of success under Indian law. For cases involving multiple petitions, analyze if the court might accept at least one.",
+      "Applying Indian law, evaluate whether this petition stands a chance of being accepted. In instances with multiple petitions, ascertain if at least one is likely to be approved.",
+      "Based on Indian legal principles, estimate the chances of this petition being accepted. When dealing with multiple petitions, consider if the court may approve at least one."
     ],
     "jec_qa": [
       "Answer these multiple choice reasoning questions about Chinese Law. Select all answers that apply, you may have multiple correct answers.",
-      "Answer these Chinese Law multiple choice questions, you might have multiple correct answers. Denote your answer(s) as “Answer: [answer(s)].”"
+      "Answer these Chinese Law multiple choice questions, you might have multiple correct answers. Denote your answer(s) as “Answer: [answer(s)].”",
+      "Respond to these multiple choice questions related to Chinese Law. Choose all applicable answers, as there may be more than one correct option.",
+      "Tackle these Chinese Law multiple choice questions, keeping in mind that there could be multiple correct answers. Indicate your answer(s) as “Answer: [answer(s)].”",
+      "Address these multiple choice questions concerning Chinese Law. Remember to select all appropriate answers, since multiple options could be correct.",
+      "Answer the following multiple choice questions on Chinese Law, considering that there may be several correct responses. Label your answer(s) as “Answer: [answer(s)].”",
+      "Complete these Chinese Law multiple choice questions, and be aware that multiple answers might be correct. Provide your answer(s) as “Answer: [answer(s)].”",
+      "Take on these multiple choice questions about Chinese Law, noting that there can be multiple right answers. Specify your answer(s) as “Answer: [answer(s)].”",
+      "Work through these multiple choice questions on Chinese Law, and remember that more than one answer may be correct. Present your answer(s) as “Answer: [answer(s)].”",
+      "Answer these Chinese Law-related multiple choice questions, bearing in mind that multiple answers could be accurate. Mark your answer(s) as “Answer: [answer(s)].”"
     ],
     "korean_legal_qa": [
       "Consider the following question. Retrieve the relevant South Korean legal article.",
       "What is the best South Korean law that can help answer this question.",
-      "What South Korean law best applies."
+      "What South Korean law best applies.",
+      "Identify the most relevant South Korean legal article to address this question.",
+      "Find the appropriate South Korean legal provision that can answer this question.",
+      "Determine the South Korean legal article that is most suitable for answering this question.",
+      "Select the South Korean law that is most applicable to this question.",
+      "Choose the most fitting South Korean legal article to help answer the question.",
+      "Establish the South Korean legal provision that best addresses the question.",
+      "Pinpoint the most relevant South Korean law to resolve this question."
     ],
     "lawng_nli_entailment": [
       "Consider the following matter from a US legal opinion. Does the first passage entail the second fact?",
       "Are these two passages entailed, contradicting, or neutral?",
-      "Respond entailment, contradiction, or neutral to these two passages."
+      "Respond entailment, contradiction, or neutral to these two passages from a US case.",
+      "Determine if the first passage entails, contradicts, or is neutral to the second passage in this US legal opinion.",
+      "Examine the relationship between these two passages from a US case: entailment, contradiction, or neutral?",
+      "Analyze these two passages from a US legal case: do they entail, contradict, or remain neutral to each other?",
+      "In this US legal opinion, is there entailment, contradiction, or neutrality between the two given passages?",
+      "Assess the connection between these two passages from a US legal case: entailment, contradiction, or neutral?",
+      "Based on these two passages from a US legal opinion, decide if there's entailment, contradiction, or neutrality.",
+      "Evaluate the relationship between these two passages in a US legal case, determining if it's entailment, contradiction, or neutral."
     ],
     "lbox_open_statute": [
       "For the given case facts, predict the related South Korean legal statute.",
-      "When presented with this fact pattern, what are the relevant legal statutes in South Korean law?"
+      "When presented with this fact pattern, what are the relevant legal statutes in South Korean law?",
+      "Given the case facts, identify the applicable South Korean legal statute.",
+      "Based on the provided facts, determine the relevant South Korean law or statute.",
+      "Considering the case facts, what South Korean legal statute is most applicable?",
+      "Identify the pertinent South Korean legal statute for the provided case facts.",
+      "What is the relevant South Korean legal statute for the given case situation?",
+      "For the case facts presented, ascertain the related legal statute in South Korean law.",
+      "Given these case facts, which South Korean legal statute would be most relevant?",
+      "Determine the appropriate South Korean legal statute for the presented case facts."
     ],
     "lbox_open_judgment": [
-      "Given these facts from a South Korean criminal law case. Predict the court's ruling and the reason for the ruling."
+      "Given these facts from a South Korean criminal law case, predict the court's ruling and the reason for the ruling.",
+      "Based on the provided facts from a South Korean criminal law case, determine the likely court ruling and rationale behind it.",
+      "Considering the facts from this South Korean criminal law case, anticipate the court's decision and the reasoning behind it.",
+      "Using the presented facts from a South Korean criminal law case, predict the court's judgment and the basis for that judgment.",
+      "With the given facts of a South Korean criminal law case, estimate the court's ruling and explain the reasoning for the decision.",
+      "Given the case facts from a South Korean criminal law situation, forecast the court's verdict and the rationale for that verdict.",
+      "Based on the facts in this South Korean criminal law case, predict the court's determination and the justification for that determination.",
+      "For the presented facts in a South Korean criminal law case, deduce the court's ruling and the underlying reasoning.",
+      "Given the facts of a South Korean criminal law case, project the court's decision and the grounds for that decision.",
+      "Taking into account the facts from a South Korean criminal law case, predict the court's outcome and the reasons behind it."
     ],
     "legal_qa": [
       "Answer the following question according to Chinese law, use plain language as if you are a lawyer answering on an online forum.",
       "This is a question on a Chinese online forum for legal advice. Do not cite case law and use plain language.",
-      "Answer the question as a lawyer according to Chinese law, be informal."
+      "Answer the question as a lawyer according to Chinese law. Be informal.",
+      "Provide a response to this question in simple language, as if you are a lawyer offering advice on a Chinese legal forum.",
+      "Address the question using layman's terms, as a lawyer would in an online forum about Chinese law.",
+      "Respond to the question as a lawyer familiar with Chinese law, using casual language suitable for an online forum.",
+      "In the role of a lawyer, answer the question in plain language, as if you were giving advice on a Chinese legal forum.",
+      "As if you were a lawyer participating in a Chinese legal advice forum, provide an answer to the question using non-technical language.",
+      "Answer the question as a lawyer knowledgeable in Chinese law, using easy-to-understand language suitable for an online forum.",
+      "Respond to the question in layman's terms, as a lawyer providing advice on a forum related to Chinese law."
     ],
     "lila": [
       "Consider the following question. Write a Python program to solve it.",
-      "Write a Python program to solve the following question, denote it as “Program:”. Provide the output as “Answer:”."
+      "Write a Python program to solve the following question, denote it as “Program:”. Provide the output as “Answer:”.",
+      "Given this question, create a Python script to resolve the issue.",
+      "For the following problem, create a Python program to find the solution.",
+      "Develop a Python program to address the following question.",
+      "Create a Python code snippet to solve the presented problem.",
+      "Construct a Python program to tackle the following question.",
+      "Design a Python solution for the given problem statement.",
+      "Write a Python code to resolve the issue in the provided question.",
+      "Develop a Python script to answer the question presented."
     ],
     "littleton_events": [
       "Consider the law of future interests and conveyances in American property law. Consider the chain of events and then state the interests.",
-      "According to American law, consider the chain of events and future interests."
+      "According to American law, consider the chain of events and future interests.",
+      "Analyze the chain of events in light of American property law's rules on future interests and conveyances.",
+      "Based on American property law, examine the chain of events and determine the relevant future interests.",
+      "Contemplate the chain of events and identify the interests involved, using the principles of future interests and conveyances in American property law.",
+      "Taking into account the law of future interests and conveyances in American property law, evaluate the chain of events and outline the interests.",
+      "Under American property law, study the sequence of events and ascertain the future interests and conveyances.",
+      "In the context of American property law, examine the events in question and identify the associated future interests and conveyances.",
+      "Apply the concepts of future interests and conveyances in American property law to analyze the given chain of events and determine the interests involved.",
+      "With respect to American property law, scrutinize the chain of events and establish the future interests and conveyances."
     ],
     "littleton_graph": [
       "Consider the law of future interests and conveyances in American property law. Consider the chain of events and then output a graph structure representing the events.",
-      "According to American law, consider the chain of events and future interests. Output a graph structure representing the events and any interests."
+      "According to American law, consider the chain of events and future interests. Output a graph structure representing the events and any interests.",
+      "Analyze the chain of events in light of American property law's rules on future interests and conveyances, and create a graph structure to illustrate the events.",
+      "Based on American property law, examine the chain of events and generate a graph structure that represents the relevant future interests.",
+      "Contemplate the chain of events and identify the interests involved, using the principles of future interests and conveyances in American property law. Create a graph structure to represent the events.",
+      "Taking into account the law of future interests and conveyances in American property law, evaluate the chain of events and provide a graph structure illustrating the events and interests.",
+      "Under American property law, study the sequence of events and ascertain the future interests and conveyances. Produce a graph structure to visualize the events.",
+      "In the context of American property law, examine the events in question and identify the associated future interests and conveyances. Present a graph structure to depict the events.",
+      "Apply the concepts of future interests and conveyances in American property law to analyze the given chain of events and determine the interests involved. Develop a graph structure to represent the events.",
+      "With respect to American property law, scrutinize the chain of events and establish the future interests and conveyances. Output a graph structure that captures the events and interests."
     ],
     "logi_qa": [
       "Answer these multiple choice reasoning questions about Chinese Law. There is only one right answer.",
-      "Answer these Chinese Law multiple choice questions. There is only one correct answer. Denote your answer as “Answer: [answer].”"
+      "Answer these Chinese Law multiple choice questions. There is only one correct answer. Denote your answer as “Answer: [answer].”",
+      "Solve these Chinese Law multiple choice questions. Each question has only one correct option. Indicate your answer with “Answer: [answer].”",
+      "Address these multiple choice questions on Chinese Law. Keep in mind that there's only one accurate answer for each question.",
+      "Respond to these Chinese Law multiple choice questions, remembering that each question has just one correct answer.",
+      "Complete these multiple choice questions related to Chinese Law, ensuring you select the one right answer for each question.",
+      "Tackle these multiple choice questions on Chinese Law, being aware that there's only a single correct response for each.",
+      "Work through these Chinese Law multiple choice questions, noting that each question has a unique correct answer.",
+      "Take on these Chinese Law multiple choice questions, and remember that each question offers only one valid answer.",
+      "Attempt these multiple choice questions about Chinese Law, keeping in mind that each question has merely one accurate answer."
     ],
     "maud": [
       "Consider the following deal point text from a US merger agreement.",
@@ -254,37 +360,89 @@
     "mbe_examples": [
       "Answer these legal questions. Use American Law. Please explain your thought process and then answer the question.",
       "Answer these U.S. Multistate Bar Exam questions. Please provide an explanation first.",
-      "Pick the most correct option considering U.S. Law. Explain your answer first."
+      "Pick the most correct option considering U.S. Law. Explain your answer first.",
+      "Respond to these legal questions using American Law. First, clarify your reasoning before providing the answer.",
+      "Tackle these Multistate Bar Exam questions from the U.S. Make sure to offer an explanation before giving the answer.",
+      "Address these legal questions based on U.S. Law. Begin with an explanation of your thought process, then provide the answer.",
+      "Work through these legal questions using American Law, making sure to explain your reasoning before presenting the answer.",
+      "Answer these legal questions according to U.S. Law, and remember to provide an explanation before stating the answer.",
+      "Solve these legal questions using American Law, ensuring you first explain your thought process and then give the answer.",
+      "Attempt these legal questions based on U.S. Law, and make sure to explain your reasoning before delivering the answer."
     ],
     "mbe_subject": [
       "What subject of U.S. law is this question about? Pick one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP.",
-      "What area of American law is this question about? Pick one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP."
+      "What area of American law is this question about? Pick one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP.",
+      "Identify the U.S. law subject in this question. Choose one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP.",
+      "Determine the subject of U.S. law addressed in this question. Select one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP.",
+      "Which field of U.S. law does this question pertain to? Choose one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP.",
+      "What topic of U.S. law is this question focused on? Select one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP.",
+      "What branch of U.S. law is covered in this question? Pick one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP.",
+      "In which area of U.S. law does this question fall? Choose one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP.",
+      "What legal subject in U.S. law is addressed in this question? Select one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP.",
+      "Which U.S. law subject is being discussed in this question? Pick one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP."
     ],
     "mc_exams_law_no_explain": [
       "Answer these questions according to the laws of the United States.",
       "Pick the best answer according to U.S. law.",
-      "Pick the correct multiple choice answer according to American law."
+      "Pick the correct multiple choice answer according to American law.",
+      "Choose the right answer based on U.S. law.",
+      "Select the most appropriate answer based on U.S. legal principles.",
+      "Answer these multiple choice questions based on U.S. law.",
+      "Choose the correct option according to the laws of the United States.",
+      "Pick the right answer in accordance with U.S. law.",
+      "Select the accurate multiple choice answer as per American law.",
+      "Determine the correct answer in line with U.S. legal principles."
     ],
     "mc_exams_law_explain": [
       "Answer these questions according to the laws of the United States. First explain your answer.",
       "Pick the best answer according to U.S. law. First explain your answer.",
-      "Pick the correct multiple choice answer according to American law. Explain your answer then give the correct choice."
+      "Pick the correct multiple choice answer according to American law. Explain your answer then give the correct choice.",
+      "Choose the right answer based on U.S. law, and provide an explanation.",
+      "Select the most appropriate answer based on U.S. legal principles, and explain your choice.",
+      "Answer these multiple choice questions based on U.S. law, and provide your reasoning.",
+      "Choose the correct option according to the laws of the United States, and explain why.",
+      "Pick the right answer in accordance with U.S. law, and provide an explanation.",
+      "Select the accurate multiple choice answer as per American law, and explain your choice.",
+      "Determine the correct answer in line with U.S. legal principles, and provide your rationale."
     ],
     "multi_lex_sum": [
-      "Summarize the following summary of a US legal document further. ",
-      "Consider the summary of a US legal document and summarize it further. "
+      "Summarize the following summary of a US legal document further.",
+      "Consider this summary of a US legal document and summarize it further.",
+      "Condense the given summary of a US legal document.",
+      "Provide a more concise summary of the provided US legal document summary.",
+      "Create a shorter summary of the given US legal document summary.",
+      "Further summarize this US legal document summary.",
+      "Briefly summarize the provided summary of a US legal document.",
+      "Summarize the mentioned summary of a US legal document in a more compact form.",
+      "Offer a more succinct summary of the given US legal document summary.",
+      "Distill the summary of this US legal document even further."
     ],
     "olc_memos": [
       "Write a legal research memo on the following topic.",
       "Write a memo in the style of OLC on the following legal research question.",
       "Write a memo in the form of U.S. Office of Legal Counsel.",
-      "Consider the question below, write a formal legal research memo."
+      "Consider the question below and write a formal legal research memo.",
+      "Compose a legal research memorandum addressing the question provided.",
+      "Draft a legal memo in the manner of the U.S. Office of Legal Counsel.",
+      "Prepare a legal research memo discussing the topic below.",
+      "Write a research memo in line with the U.S. Office of Legal Counsel's style.",
+      "Develop a legal research memo addressing the following question.",
+      "Create a legal research memorandum in the style of the U.S. Office of Legal Counsel."
     ],
     "privacy_qa": [
       "Determine whether a term mentioned in a privacy policy is relevant or irrelevant to a given question."
     ],
     "privacy_summarization": [
-      "Is the following statement from a privacy policy risky or non-risky?"
+      "Is the following statement from a privacy policy risky or non-risky?",
+      "Determine if the given statement from a privacy policy is risky or not.",
+      "Classify the following privacy policy statement as risky or non-risky.",
+      "Assess whether the following statement from a privacy policy is risky or non-risky.",
+      "Evaluate if the statement from the privacy policy is risky or non-risky.",
+      "Identify if the provided statement from a privacy policy is risky or non-risky.",
+      "Does the statement from the privacy policy present a risk or is it non-risky?",
+      "Categorize the following statement from a privacy policy as risky or non-risky.",
+      "Is the provided statement from a privacy policy considered risky or non-risky?",
+      "Analyze whether the statement from the privacy policy is risky or non-risky."
     ],
     "professional_law_examples": [
       "Generate some Multistate Bar Exam questions according to U.S. law.",
@@ -305,7 +463,15 @@
     ],
     "reddit_legal_qa": [
       "Here is someone's legal concern. Answer as if you were replying on Reddit. If you are not a lawyer, include the disclaimer IANAL.",
-      "Here is someone's legal question. Advice them on the situation. Think like a lawyer on Reddit."
+      "Here is someone's legal question. Advise them on the situation. Think like a lawyer on Reddit.",
+      "Given this legal issue, provide advice as if you're responding on Reddit. If you aren't a lawyer, include the IANAL disclaimer.",
+      "Answer this legal concern as if you were a Reddit user. Remember to add the IANAL disclaimer if you're not a lawyer.",
+      "Provide a response to this legal question as if you were participating in a Reddit discussion. If you aren't an attorney, use the IANAL disclaimer.",
+      "Respond to this legal inquiry as if you were commenting on Reddit. Use the IANAL disclaimer if you're not a legal professional.",
+      "Offer advice on this legal issue as if you were a Reddit user. Include the IANAL disclaimer if you're not an attorney.",
+      "Address this legal concern in a manner similar to a Reddit comment. If you're not a lawyer, make sure to add the IANAL disclaimer.",
+      "As a Reddit participant, provide guidance on this legal question. Remember to use the IANAL disclaimer if you aren't a lawyer.",
+      "Respond to this legal situation as if you were answering on Reddit. Add the IANAL disclaimer if you're not a legal professional."
     ],
     "sara_entailment": [
       "Consider the following US Tax scenario. Does the first fact entail the second fact?",
@@ -314,7 +480,7 @@
     ],
     "sara_tax_liability": [
       "Consider the following US Tax scenario and answer the question.",
-      "Consider the following scenario. Calculate the right amount of tax liablity and answer the question."
+      "Consider the following scenario. Calculate the right amount of tax liability and answer the question."
     ],
     "sara_prolog_statute": [
       "Convert the following statute into prolog code.",
@@ -341,16 +507,38 @@
     "spanish_labor_law": [
       "Consider this Spanish Labor Law translated passage. Answer the question using an extractive snippet of text.",
       "Consider this Spanish Labor Law translated passage. Answer the question from the context.",
-      "Answer the following Spanish labor law question given the legal provision."
+      "Answer the following Spanish labor law question given the legal provision.",
+      "Based on this translated passage of Spanish Labor Law, provide an answer to the question using a relevant text snippet.",
+      "Analyze this translated passage of Spanish Labor Law and answer the question using a pertinent portion of the text.",
+      "Using the provided translated passage of Spanish Labor Law, answer the question with a relevant extract from the text.",
+      "Examine the translated passage of Spanish Labor Law and respond to the question by quoting an appropriate section of the text.",
+      "With reference to the translated passage from Spanish Labor Law, answer the question by providing a suitable snippet from the text.",
+      "Review the translated passage from Spanish Labor Law and answer the question by citing a relevant portion of the text.",
+      "Given the translated passage of Spanish Labor Law, provide an answer to the question by extracting an appropriate snippet from the text."
     ],
     "stack_exchange_questions_legal": [
       "Answer the following legal question. Cite relevant evidence when possible.",
       "Answer this online forum question about the law.",
-      "Provide an explanation for this short form legal question."
+      "Provide an explanation for this short form legal question.",
+      "Respond to the legal question below, supporting your answer with pertinent information.",
+      "Address the following legal query and support your response with relevant evidence if possible.",
+      "Provide an informed answer to the legal question, citing pertinent evidence or examples when available.",
+      "Tackle the legal issue presented and include any relevant evidence or examples in your response.",
+      "Answer the legal question presented, using any relevant evidence to support your answer.",
+      "Explain the answer to the legal question, incorporating any applicable evidence when possible.",
+      "Respond to the legal question at hand and reference any relevant evidence to support your answer."
     ],
     "swiss_judgment_dismiss_approve": [
-      "Determine if you think the Swiss court will dismiss or approve the case.",
-      "Determine if you think the Swiss court will rule dismissal or approval for the case."
+      "Determine if the Swiss court will dismiss or approve the case.",
+      "Determine if you think the Swiss court will rule dismissal or approval for the case.",
+      "Predict whether the Swiss court will opt for dismissal or approval in this case.",
+      "Assess if the Swiss court is likely to dismiss or approve the presented case.",
+      "Figure out if the Swiss court will choose to dismiss or approve the case in question.",
+      "Decide if the Swiss court is inclined to dismiss or approve the case.",
+      "Evaluate if the Swiss court will lean towards dismissing or approving the case.",
+      "Estimate whether the Swiss court will favor dismissal or approval for the case.",
+      "Gauge if the Swiss court will be more likely to dismiss or approve the case.",
+      "Deduce if the Swiss court is likely to go for dismissal or approval of the case."
     ],
     "swiss_judgment_criticality": [
       "How important or critical is this case? The case can be non-critical or range from critical-1 (least critical) to critical-4 (most critical)."
