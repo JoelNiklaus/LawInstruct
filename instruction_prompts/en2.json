@@ -17,22 +17,22 @@
       "Take the following sentence, name all the rules that would be required to back up the claim. Do so in tree format with logical operators like AND and OR.",
       "Name all the rules that would be required to back up the claim."
     ],
-    "cali_2019": [
+    "cail_2019": [
       "Consider the following passage from a Chinese legal case. Answer the questions about the case. If you cannot answer the question feel free to say as such.",
       "Consider the following situation in Chinese law, answer the questions. If the information is not in the passage, respond with, \"Sorry, this question cannot be answered based on the information available.\"",
       "Consider the following passage from a Chinese legal case. Answer the questions about the case. If the question is impossible to answer, say that it cannot be answered."
     ],
-    "cali_2022_mc": [
+    "cail_2022_mc": [
       "Use Chinese law to answer these multiple choice questions. Pick the best counter-argument to the plaintiff's argument.",
       "Which of these is the best response to the following argument if you were the defendant? Consider Chinese law."
     ],
-    "cali_2022_response": [
+    "cail_2022_response": [
       "Use Chinese law. What is the counter-argument to the plaintiff's argument?",
       "How should Defendant respond to the following argument? Use Chinese law."
     ],
-    "cali_2022_crime": [
+    "cail_2022_crime": [
       "Consider Chinese law, what is the likely crime being discussed here?"
-    ]
+    ],
     "case_briefs": [
       "Given the key facts of a case, provide the core question the court should answer, then provide an analysis for how the an American court might decide the case.",
       "Given the facts, describe how an American court should think about the key issue?"
@@ -239,7 +239,7 @@
     ],
     "swiss_judgment_dismiss_approve": [
       "Determine if you think the Swiss court will dismiss or approve the case.",
-      "Determine if you think the Swiss court will rule dismissal or approval for the case.",
+      "Determine if you think the Swiss court will rule dismissal or approval for the case."
     ],
     "swiss_judgment_criticality": [
       "How important or critical is this case? The case can be non-critical or range from critical-1 (least critical) to critical-4 (most critical)."
