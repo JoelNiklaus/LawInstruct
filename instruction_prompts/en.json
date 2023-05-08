@@ -260,7 +260,7 @@
       "What subject of U.S. law is this question about? Pick one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP.",
       "What area of American law is this question about? Pick one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP."
     ],
-    "mc_exams_law_noexplain": [
+    "mc_exams_law_no_explain": [
       "Answer these questions according to the laws of the United States.",
       "Pick the best answer according to U.S. law.",
       "Pick the correct multiple choice answer according to American law."

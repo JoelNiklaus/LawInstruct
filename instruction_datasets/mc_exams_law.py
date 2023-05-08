@@ -25,7 +25,7 @@ class MCExamsLaw(AbstractDataset):
                 "Explanation"], row["Source"]
 
             # No chain of thought
-            instruction, instruction_language = instructions.sample('mc_exams_law_noexplain')
+            instruction, instruction_language = instructions.sample('mc_exams_law_no_explain')
             prompt = f"Q: {q}"
             answer = f"A: {a}"
             yield self.build_data_point(instruction_language, prompt_language,
