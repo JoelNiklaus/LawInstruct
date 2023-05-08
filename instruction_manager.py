@@ -39,6 +39,7 @@ def _get_all_lang_instructions(
 
 class InstructionManager:
     """Class for managing instructions for different datasets."""
+
     def __init__(
             self,
             mode: str,
@@ -130,4 +131,5 @@ class InstructionManager:
                 if any('{' in option for option in options):
                     for option in options:
                         if '{' in option:
-                            logging.warning('Open-brace present in instruction. Was an f-string moved into the JSON incorrectly? See: %s', option)
+                            logging.warning('Open-brace present in instruction. '
+                                            'Was an f-string moved into the JSON incorrectly? See: %s', option)
