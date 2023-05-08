@@ -17,11 +17,6 @@ class StackExchangeQuestionsLegal(AbstractDataset):
         # Legal Stack Exchange questions are usually high quality
 
         df = pd.read_csv(f"{self.raw_data_dir}/stack-exchange.csv")
-        instruction_bank = [
-            "Answer the following legal question. Cite relevant evidence when possible.",
-            "Answer this online forum question about the law.",
-            "Provide an explanation for this short form legal question."
-        ]
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.UNKNOWN
         prompt_language = "en"

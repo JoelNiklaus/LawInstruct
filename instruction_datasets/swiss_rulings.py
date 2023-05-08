@@ -1,11 +1,11 @@
 from datasets import load_dataset
 
+import instruction_manager
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
 
 _BLANK_INSTRUCTION = ''
-
 
 canton_mapping = {
     "AG": "Aargau",
@@ -50,10 +50,9 @@ class SwissRulings(AbstractDataset):
             "SwissRulings",
             "https://huggingface.co/datasets/rcds/swiss_rulings")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.SWITZERLAND
-        instruction_language = 'en'
         answer_language = "en"
 
         # TODO: In the future we could also let it predict the court and the chamber
@@ -61,7 +60,7 @@ class SwissRulings(AbstractDataset):
         df = load_dataset('rcds/swiss_rulings', 'full', split='train')
         for example in df:
             if example['canton'] and example['canton'] != "n/a":
-                instruction = "Where do you think this case was adjudicated?"
+                instruction, instruction_language = instructions.sample("swiss_judgment_location")
                 answer = f"Canton: {get_canton_name(example['canton'])}. Region: {example['region']}"
 
                 prompt = f"Facts: {example['facts']}"
@@ -73,7 +72,7 @@ class SwissRulings(AbstractDataset):
                                             instruction, prompt, answer, task_type, jurisdiction)
 
             if example['topic']:
-                instruction = "What do you think is the topic of this case?"
+                instruction, instruction_language = instructions.sample("swiss_judgment_topic")
                 answer = f"Topic: {example['topic']}"
 
                 prompt = f"Facts: {example['facts']}"

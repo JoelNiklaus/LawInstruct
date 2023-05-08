@@ -1,9 +1,9 @@
 from datasets import load_dataset
 
+import instruction_manager
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
-from instruction_datasets.swiss_rulings import get_canton_name
 
 _BLANK_INSTRUCTION = ''
 
@@ -15,14 +15,14 @@ class SwissJudgmentPredictionXL(AbstractDataset):
             "SwissJudgmentPredictionXL",
             "https://huggingface.co/datasets/rcds/swiss_judgment_prediction_xl")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         df = load_dataset('rcds/swiss_judgment_prediction_xl', 'full', split='train')
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.SWITZERLAND
-        instruction_language = 'en'
         answer_language = "en"
         for example in df:
-            instruction = f"Determine if you think the Swiss court will rule dismissal or approval for the case."
+            instructions_group = 'swiss_judgment_dismiss_approve'
+            instruction, instruction_language = instructions.sample(instructions_group)
             answer = f"Judgement: {example['label']}"
 
             if len(example['facts']) > 100:

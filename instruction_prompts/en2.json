@@ -1,499 +1,529 @@
 {
-  "en":
-  {
+  "en": {
     "brazilian_bar_exam": [
-            "Answer the questions from the Brazilian bar exam.",
-            "Answer these legal multiple choice questions according to Brazilian law."
-        ],
+      "Answer the questions from the Brazilian bar exam.",
+      "Answer these legal multiple choice questions according to Brazilian law."
+    ],
     "brcad5_mc": [
-        "Please answer these multiple choice questions. Denote the correct answer as \"Answer\".",
-        "Pick the most likely correct answer."
+      "Please answer these multiple choice questions. Denote the correct answer as \"Answer\".",
+      "Pick the most likely correct answer."
     ],
     "bva_decisions_label": [
-            "Label the sentence according to its rhetorical role in a legal argument.",
-            "Please label the sentence as according to its role as either a FindingSentence, a ReasoningSentence, a LegalRuleSentence, a CitationSentence, or an EvidenceSentence. If it is none of these, mark it as just Sentence.",
-            "Please label the following according to one of these categories.\n\tFindingSentence. A finding sentence is a sentence that primarily states an authoritative finding, conclusion or determination of the trier of fact – a decision made “as a matter of fact” instead of \"as a matter of law.\"\n\tReasoningSentence. A reasoning sentence is a sentence that primarily reports the trier of fact’s reasoning based on the evidence, or evaluation of the probative value of the evidence, in making the findings of fact.\n\tEvidenceSentence. An evidence sentence is a sentence that primarily states the content of the testimony of a witness, states the content of documents introduced into evidence, or describes other evidence.\n\tLegalRuleSentence. A legal-rule sentence is a sentence that primarily states one or more legal rules in the abstract, without stating whether the conditions of the rule(s) are satisfied in the case being decided.\n\tCitationSentence. A citation sentence is a sentence whose primary function is to reference legal authorities or other materials, and which usually contains standard notation that encodes useful information about the cited source.\n\tSentence. All other sentences."
-        ],
+      "Label the sentence according to its rhetorical role in a legal argument.",
+      "Please label the sentence as according to its role as either a FindingSentence, a ReasoningSentence, a LegalRuleSentence, a CitationSentence, or an EvidenceSentence. If it is none of these, mark it as just Sentence.",
+      "Please label the following according to one of these categories.\n\tFindingSentence. A finding sentence is a sentence that primarily states an authoritative finding, conclusion or determination of the trier of fact – a decision made “as a matter of fact” instead of \"as a matter of law.\"\n\tReasoningSentence. A reasoning sentence is a sentence that primarily reports the trier of fact’s reasoning based on the evidence, or evaluation of the probative value of the evidence, in making the findings of fact.\n\tEvidenceSentence. An evidence sentence is a sentence that primarily states the content of the testimony of a witness, states the content of documents introduced into evidence, or describes other evidence.\n\tLegalRuleSentence. A legal-rule sentence is a sentence that primarily states one or more legal rules in the abstract, without stating whether the conditions of the rule(s) are satisfied in the case being decided.\n\tCitationSentence. A citation sentence is a sentence whose primary function is to reference legal authorities or other materials, and which usually contains standard notation that encodes useful information about the cited source.\n\tSentence. All other sentences."
+    ],
     "bva_decisions_qa": [
-            "Take the following sentence, name all the rules that would be required to back up the claim. Do so in tree format with logical operators like AND and OR.",
-            "Name all the rules that would be required to back up the claim."
-        ],
+      "Take the following sentence, name all the rules that would be required to back up the claim. Do so in tree format with logical operators like AND and OR.",
+      "Name all the rules that would be required to back up the claim."
+    ],
     "cali_2019": [
-            "Consider the following passage from a Chinese legal case. Answer the questions about the case. If you cannot answer the question feel free to say as such.",
-            "Consider the following situation in Chinese law, answer the questions. If the information is not in the passage, respond with, \"Sorry, this question cannot be answered based on the information available.\"",
-            "Consider the following passage from a Chinese legal case. Answer the questions about the case. If the question is impossible to answer, say that it cannot be answered."
-        ],
+      "Consider the following passage from a Chinese legal case. Answer the questions about the case. If you cannot answer the question feel free to say as such.",
+      "Consider the following situation in Chinese law, answer the questions. If the information is not in the passage, respond with, \"Sorry, this question cannot be answered based on the information available.\"",
+      "Consider the following passage from a Chinese legal case. Answer the questions about the case. If the question is impossible to answer, say that it cannot be answered."
+    ],
     "cali_2022_mc": [
-            "Use Chinese law to answer these multiple choice questions. Pick the best counter-argument to the plaintiff's argument.",
-            "Which of these is the best response to the following argument if you were the defendant? Consider Chinese law."
-        ],
+      "Use Chinese law to answer these multiple choice questions. Pick the best counter-argument to the plaintiff's argument.",
+      "Which of these is the best response to the following argument if you were the defendant? Consider Chinese law."
+    ],
     "cali_2022_response": [
-            "Use Chinese law. What is the counter-argument to the plaintiff's argument?",
-            "How should Defendant respond to the following argument? Use Chinese law."
-        ],
+      "Use Chinese law. What is the counter-argument to the plaintiff's argument?",
+      "How should Defendant respond to the following argument? Use Chinese law."
+    ],
     "cali_2022_crime": [
-            "Consider Chinese law, what is the likely crime being discussed here?"
-        ]
+      "Consider Chinese law, what is the likely crime being discussed here?"
+    ]
     "case_briefs": [
-            "Given the key facts of a case, provide the core question the court should answer, then provide an analysis for how the an American court might decide the case.",
-            "Given the facts, describe how an American court should think about the key issue?"
-        ],
+      "Given the key facts of a case, provide the core question the court should answer, then provide an analysis for how the an American court might decide the case.",
+      "Given the facts, describe how an American court should think about the key issue?"
+    ],
     "change_my_view": [
-            "You are given a position, create an argument that would change the original poster's mind.",
-            "Write a counter argument to the proposal.",
-            "Write a counter argument to the r/changemyview post.",
-            "Write a counterargument to this reddit post."
-        ],
+      "You are given a position, create an argument that would change the original poster's mind.",
+      "Write a counter argument to the proposal.",
+      "Write a counter argument to the r/changemyview post.",
+      "Write a counterargument to this reddit post."
+    ],
     "civipro_questions_generate_from_passage": [
-            "Consider these questions about American civil procedure. Given the provided information answer them to the best of your ability.",
-            "Here is some information that can help you answer the question. Provide an analysis of the options and then pick the correct answer.",
-            "Given a passage of text about Civil Procedure in the United States, generate a question that can be answered by reading the passage.",
-            "Generate a CivPro question that can be answered by reading the passage, denote it as \"Question:\", provide an answer as \"Answer\"."
-        ],
+      "Consider these questions about American civil procedure. Given the provided information answer them to the best of your ability.",
+      "Here is some information that can help you answer the question. Provide an analysis of the options and then pick the correct answer.",
+      "Given a passage of text about Civil Procedure in the United States, generate a question that can be answered by reading the passage.",
+      "Generate a CivPro question that can be answered by reading the passage, denote it as \"Question:\", provide an answer as \"Answer\"."
+    ],
     "civipro_questions_generate_no_passage": [
-                  "Consider these questions about American civil procedure. Answer them to the best of your ability, first provide an explanation then the answer.",
-            "Consider these civil procedure questions. Provide an analysis of the options and then pick the correct answer.",
-            "Answer this Civil Procedure question based on law in the United States. Provide an explanation first.",
-            "Answer this CivPro question provide an answer as \"Answer\", but first provide an explanation as \"Explanation\"."
-
+      "Consider these questions about American civil procedure. Answer them to the best of your ability, first provide an explanation then the answer.",
+      "Consider these civil procedure questions. Provide an analysis of the options and then pick the correct answer.",
+      "Answer this Civil Procedure question based on law in the United States. Provide an explanation first.",
+      "Answer this CivPro question provide an answer as \"Answer\", but first provide an explanation as \"Explanation\"."
     ],
     "civipro_questions_no_explanation": [
-                  "Consider these questions about American civil procedure. Answer them to the best of your ability, DO NOT provide an explanation before giving the answer.",
-            "Consider these civil procedure questions. Pick the correct answer.",
-            "Given a passage of text about Civil Procedure in the United States, answer the question.",
-            "Answer this CivPro question provide an answer as \"Answer\"."
-
+      "Consider these questions about American civil procedure. Answer them to the best of your ability, DO NOT provide an explanation before giving the answer.",
+      "Consider these civil procedure questions. Pick the correct answer.",
+      "Given a passage of text about Civil Procedure in the United States, answer the question.",
+      "Answer this CivPro question provide an answer as \"Answer\"."
     ],
     "contract_nli": [
-                "Consider the following Contract Passage and Hypothesis. Predict whether the Contract Passage entails/contradicts/is neutral to the Hypothesis (entailment, contradiction or neutral).",
-                "Does the following Contract Passage entail/contradict/stand neutral to the Hypothesis?"
-            ],
+      "Consider the following Contract Passage and Hypothesis. Predict whether the Contract Passage entails/contradicts/is neutral to the Hypothesis (entailment, contradiction or neutral).",
+      "Does the following Contract Passage entail/contradict/stand neutral to the Hypothesis?"
+    ],
     "eior_privacy": [
-            "For each masked paragraph, determine if we should use a pseudonym for this case related to immigration law in the United States.",
-            "Consider this paragraph from a precedential EOIR case. Should the IJ use a a pseudonym.",
-            "Should the judge pseudonymize the person's name in this paragraph?"
-        ],
+      "For each masked paragraph, determine if we should use a pseudonym for this case related to immigration law in the United States.",
+      "Consider this paragraph from a precedential EOIR case. Should the IJ use a a pseudonym.",
+      "Should the judge pseudonymize the person's name in this paragraph?"
+    ],
     "eur_lex_sum": [
-                "Summarize the following European legal document.",
-                "Consider the European legal document and summarize it."
-            ],
+      "Summarize the following European legal document.",
+      "Consider the European legal document and summarize it."
+    ],
     "german_rental_agreements": [
-            "You are given a sentence from a German rental agreement. Predict the category of the sentence.",
-            "Predict the category of the following sentence from a German rental agreement.",
-        ],
+      "You are given a sentence from a German rental agreement. Predict the category of the sentence.",
+      "Predict the category of the following sentence from a German rental agreement."
+    ],
     "gsm8k_1": [
-            "Answer the question, make sure to show your work.",
-            "Answer the math question step by step. Show your work.",
-            "Answer the following question in logical steps.",
-            "Answer the following questions."
-        ],
+      "Answer the question, make sure to show your work.",
+      "Answer the math question step by step. Show your work.",
+      "Answer the following question in logical steps.",
+      "Answer the following questions."
+    ],
     "gsm8k_2": [
-            "Answer the question, make sure to ask yourself follow up questions.",
-            "Answer the math question using the socratic method. Show your work.",
-            "Answer the following question in logical steps.",
-            "Answer the following questions. Make sure to ask any follow up questions as needed."
-        ],
+      "Answer the question, make sure to ask yourself follow up questions.",
+      "Answer the math question using the socratic method. Show your work.",
+      "Answer the following question in logical steps.",
+      "Answer the following questions. Make sure to ask any follow up questions as needed."
+    ],
     "ildc": [
-            "According to Indian law, will this petition be accepted? If there is more than one petition consider whether the court will accept at least one.",
-            "Will the court accept or reject this petition? Use Indian law. If there is more than one petition consider whether the court will accept at least one."
-        ],
+      "According to Indian law, will this petition be accepted? If there is more than one petition consider whether the court will accept at least one.",
+      "Will the court accept or reject this petition? Use Indian law. If there is more than one petition consider whether the court will accept at least one."
+    ],
     "jec_qa": [
-            "Answer these multiple choice reasoning questions about Chinese Law. Select all answers that apply, you may have multiple correct answers.",
-            "Answer these Chinese Law multiple choice questions, you might have multiple correct answers. Denote your answer(s) as \"Answer: [answer(s)].\""
-        ],
+      "Answer these multiple choice reasoning questions about Chinese Law. Select all answers that apply, you may have multiple correct answers.",
+      "Answer these Chinese Law multiple choice questions, you might have multiple correct answers. Denote your answer(s) as \"Answer: [answer(s)].\""
+    ],
     "korean_legal_qa": [
-            "Consider the following question. Retrieve the relevant South Korean legal article.",
-            "What is the best South Korean law that can help answer this question.",
-            "What South Korean law best applies."
-        ],
+      "Consider the following question. Retrieve the relevant South Korean legal article.",
+      "What is the best South Korean law that can help answer this question.",
+      "What South Korean law best applies."
+    ],
     "lawng_nli_entailment": [
-            "Consider the following matter from a US legal opinion. Does the first passage entail the second fact?",
-            "Are these two passages entailed, contradicting, or neutral?",
-            "Respond entailment, contradiction, or neutral to these two passages.",
-        ],
+      "Consider the following matter from a US legal opinion. Does the first passage entail the second fact?",
+      "Are these two passages entailed, contradicting, or neutral?",
+      "Respond entailment, contradiction, or neutral to these two passages."
+    ],
     "lbox_open_statute": [
-            "For the given case facts, predict the related South Korean legal statute.",
-            "When presented with this fact pattern, what are the relevant legal statutes in South Korean law?"
-        ],
+      "For the given case facts, predict the related South Korean legal statute.",
+      "When presented with this fact pattern, what are the relevant legal statutes in South Korean law?"
+    ],
     "lbox_open_judgment": [
-            "Given these facts from a South Korean criminal law case. Predict the court's ruling and the reason for the ruling."
-        ],
+      "Given these facts from a South Korean criminal law case. Predict the court's ruling and the reason for the ruling."
+    ],
     "legal_qa": [
-            "Answer the following question according to Chinese law, use plain language as if you are a lawyer answering on an online forum.",
-            "This is a question on a Chinese online forum for legal advice. Do not cite case law and use plain language.",
-            "Answer the question as a lawyer according to Chinese law, be informal."
-        ],
+      "Answer the following question according to Chinese law, use plain language as if you are a lawyer answering on an online forum.",
+      "This is a question on a Chinese online forum for legal advice. Do not cite case law and use plain language.",
+      "Answer the question as a lawyer according to Chinese law, be informal."
+    ],
     "lila": [
-            "Consider the following question. Write a Python program to solve it.",
-            "Write a Python program to solve the following question, denote it as \"Program:\". Provide the output as \"Answer:\"."
-        ],
+      "Consider the following question. Write a Python program to solve it.",
+      "Write a Python program to solve the following question, denote it as \"Program:\". Provide the output as \"Answer:\"."
+    ],
     "littleton_events": [
-            "Consider the law of future interests and conveyances in American property law. Consider the chain of events and then state the interests.",
-            "According to American law, consider the chain of events and future interests."
-        ],
+      "Consider the law of future interests and conveyances in American property law. Consider the chain of events and then state the interests.",
+      "According to American law, consider the chain of events and future interests."
+    ],
     "littleton_graph": [
-                  "Consider the law of future interests and conveyances in American property law. Consider the chain of events and then output a graph structure representing the events.",
-            "According to American law, consider the chain of events and future interests. Output a graph structure representing the events and any interests."
-
+      "Consider the law of future interests and conveyances in American property law. Consider the chain of events and then output a graph structure representing the events.",
+      "According to American law, consider the chain of events and future interests. Output a graph structure representing the events and any interests."
     ],
     "logi_qa": [
-            "Answer these multiple choice reasoning questions about Chinese Law. There is only one right answer.",
-            "Answer these Chinese Law multiple choice questions. There is only one correct answer. Denote your answer as \"Answer: [answer].\""
-        ],
+      "Answer these multiple choice reasoning questions about Chinese Law. There is only one right answer.",
+      "Answer these Chinese Law multiple choice questions. There is only one correct answer. Denote your answer as \"Answer: [answer].\""
+    ],
     "maud": [
-            "Consider the following deal point text from a US merger agreement.",
-            "Look at the following deal point text from a US merger agreement.",
-        ],
+      "Consider the following deal point text from a US merger agreement.",
+      "Look at the following deal point text from a US merger agreement."
+    ],
     "mbe_examples": [
-            "Answer these legal questions. Use American Law. Please explain your thought process and then answer the question.",
-            "Answer these U.S. Multistate Bar Exam questions. Please provide an explanation first.",
-            "Pick the most correct option considering U.S. Law. Explain your answer first."
-        ],
+      "Answer these legal questions. Use American Law. Please explain your thought process and then answer the question.",
+      "Answer these U.S. Multistate Bar Exam questions. Please provide an explanation first.",
+      "Pick the most correct option considering U.S. Law. Explain your answer first."
+    ],
     "mbe_subject": [
-            "What subject of U.S. law is this question about? Pick one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP.",
-            "What area of American law is this question about? Pick one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP."
-        ],
+      "What subject of U.S. law is this question about? Pick one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP.",
+      "What area of American law is this question about? Pick one from: TORTS, CONTRACTS, CRIM. LAW, EVIDENCE, CONST. LAW, REAL PROP."
+    ],
     "mc_exams_law_noexplain": [
-            "Answer these questions according to the laws of the United States.",
-            "Pick the best answer according to U.S. law.",
-            "Pick the correct multiple choice answer according to American law."
-        ],
+      "Answer these questions according to the laws of the United States.",
+      "Pick the best answer according to U.S. law.",
+      "Pick the correct multiple choice answer according to American law."
+    ],
     "mc_exams_law_explain": [
-            "Answer these questions according to the laws of the United States. First explain your answer.",
-            "Pick the best answer according to U.S. law. First explain your answer.",
-            "Pick the correct multiple choice answer according to American law. Explain your answer then give the correct choice."
-        ],
+      "Answer these questions according to the laws of the United States. First explain your answer.",
+      "Pick the best answer according to U.S. law. First explain your answer.",
+      "Pick the correct multiple choice answer according to American law. Explain your answer then give the correct choice."
+    ],
     "multi_lex_sum": [
-            "Summarize the following summary of a US legal document further. ",
-            "Consider the summary of a US legal document and summarize it further. "
-        ],
+      "Summarize the following summary of a US legal document further. ",
+      "Consider the summary of a US legal document and summarize it further. "
+    ],
     "olc_memos": [
-            "Write a legal research memo on the following topic.",
-            "Write a memo in the style of OLC on the following legal research question.",
-            "Write a memo in the form of U.S. Office of Legal Counsel.",
-            "Consider the question below, write a formal legal research memo."
-        ],
+      "Write a legal research memo on the following topic.",
+      "Write a memo in the style of OLC on the following legal research question.",
+      "Write a memo in the form of U.S. Office of Legal Counsel.",
+      "Consider the question below, write a formal legal research memo."
+    ],
     "privacy_qa": [
       "Determine whether a term mentioned in a privacy policy is relevant or irrelevant to a given question."
     ],
     "privacy_summarization": [
       "Is the following statement from a privacy policy risky or non-risky?"
     ],
-  "professional_law_examples": [
-            "Generate some Multistate Bar Exam questions according to U.S. law.",
-            "Answer these legal questions. Use American Law. A few examples are provided first to give the answer format.",
-            "Answer these U.S. Multistate Bar Exam questions. A few examples are provided first to give the answer format.",
-            "Pick the most correct option considering U.S. Law."
-        ],
+    "professional_law_examples": [
+      "Generate some Multistate Bar Exam questions according to U.S. law.",
+      "Answer these legal questions. Use American Law. A few examples are provided first to give the answer format.",
+      "Answer these U.S. Multistate Bar Exam questions. A few examples are provided first to give the answer format.",
+      "Pick the most correct option considering U.S. Law."
+    ],
     "professional_law_zero_shot": [
-            "Answer these legal questions. Use American Law. Provide the choice as \"Answer:\"",
-            "Answer these U.S. Multistate Bar Exam questions. Provide the choice as \"Answer:\"",
-            "Pick the most correct option considering U.S. Law. Output the choice as \"Answer:\""
-        ],
-  "reclor": [
-            "Given the context answer the reasoning question.",
-            "Answer the logical reasoning multiple choice questions.",
-            "State the answer in the following format, \"Final Answer: The final answer is ([ANSWER]). I hope it is correct.\"",
-            "Read the passage any any relevant rules describing the world. Apply the rules to the facts to answer the question."
-        ],
-  "reddit_legal_qa": [
-            "Here is someone's legal concern. Answer as if you were replying on Reddit. If you are not a lawyer, include the disclaimer IANAL.",
-            "Here is someone's legal question. Advice them on the situation. Think like a lawyer on Reddit."
-        ],
-  "sara_entailment": [
-            "Consider the following US Tax scenario. Does the first fact entail the second fact?",
-            "Are these two sentences entailed or contradicting?",
-            "Respond entailment or contradiction to these two sentences."
-        ],
-  "sara_tax_liability": [
-            "Consider the following US Tax scenario and answer the question.",
-            "Consider the following scenario. Calculate the right amount of tax liablity and answer the question."
-        ],
-  "sara_prolog_statute": [
-            "Convert the following statute into prolog code.",
-            "Write a prolog program to convert the statute into code, denote it as \"Prolog Program:\"."
-        ],
-  "sara_prolog_facts": [
-            "Convert the following fact pattern into prolog code. Then answer the question.",
-            "Write a prolog program to mark all the facts, denote it as \"Prolog Program:\". Then answer the question, denote your answer as \"Answer\"."
-        ],
-  "short_answer_feedback_openqa": [
-            "Consider this question in the context of German law. Provide the correct reference answer.",
-            "Answer the question about German law. Make sure it is correct."
-        ],
-  "short_answer_feedback_rating": [
-                "Here is a question and answer pair related to German Law. Considering the student provided answer, provide detailed feedback and then provide a score of 1 for correct, 0.5 for partially correct, and 0 for incorrect.",
-            "Consider the answer to the question, is it correct? Provide feedback and then give a score from 0 to 1.",
-            "Consider the student's answer to the question. Rate it and provide feedback."
-
-  ],
-  "short_answer_feedback_error_class": [
-                "Here is a question and answer pair related to German Law. Considering the student provided answer, provide detailed feedback and then provide a score of 1 for correct, 0.5 for partially correct, and 0 for incorrect.",
-            "Consider the answer to the question, is it correct? Provide feedback and then give a score from 0 to 1. Note the error class.",
-            "Consider the student's answer to the question. Rate it and provide feedback. Note the type of error."
-
-  ],
-  "spanish_labor_law": [
-                "Consider this Spanish Labor Law translated passage. Answer the question using an extractive snippet of text.",
-            "Consider this Spanish Labor Law translated passage. Answer the question from the context.",
-            "Answer the following Spanish labor law question given the legal provision."
-
-  ],
-  "stack_exchange_questions_legal": [
-            "Answer the following legal question. Cite relevant evidence when possible.",
-            "Answer this online forum question about the law.",
-            "Provide an explanation for this short form legal question."
-        ],
-  "swiss_judgment_dismiss_approve": [
-    "Determine if you think the Swiss court will dismiss or approve the case."
-  ],
-  "swiss_judgment_area_of_law": [
-    "What area of law is this case related to?"
-  ],
-  "swiss_judgment_location": [
-    "Where do you think this case was adjudicated?"
-  ],
-  "swiss_judgment_multiple_choice": [
-    "Please answer these multiple choice questions. Denote the correct answer as \"Answer\".",
-    "Pick the most likely correct answer."
-  ],
-  "tscc_alqac_question_answering": [
-    "For the relevant facts, please provide the relevant Thai law(s). Use the rule to determine the court's likely conclusion.",
-    "Given these facts in the Thai legal system, please output the relevant legal rule(s) and the court's likely judgement.",
-    "Given these facts in the Thai legal system, please output the relevant legal rule(s) and provide the legal conclusion of whether the court is likely to find for or against the defendant.",
-    "Given these facts in the Thai legal system, please output the relevant legal rule(s) and provide the legal conclusion of whether the court is likely to find the defendant guilty or not guilty."
-  ],
-  "us_class_actions_win_lose": [
-    "Read the following United States class action complaint. Predict whether the complaint will be won or not. Output \"win\" or \"lose\".",
-    "Will this class action complaint be successful in U.S. Court?"
-  ],
-  "valid_wills_entailment": [
-    "Given a statement in a will, the relevant U.S. law, is the condition supported, refuted, or unrelated.",
-    "Is the statement in the will valid given the law and conditions? Answer with one of unrelated, supported, refuted."
-  ],
-  "brazilian_court_decisions_judgment": [
-    "In this task, you are given the case description from a decision heard at the State Supreme Court of Alagoas (Brazil). Predict the judgment of the case (no: The appeal was denied, partial: For partially favourable decisions, yes: For fully favourable decisions)"
-  ],
-  "brazilian_court_decisions_unanimity": [
-    "In this task, you are given the case description from a decision heard at the State Supreme Court of Alagoas (Brazil). Predict the unanimity of the case (unanimity, not-unanimity, not_determined)"
-  ],
-  "german_argument_mining": [
-    "In this task, you are given sentences from German court decisions. Predict the major component of German Urteilsstil (conclusion: Overall result, definition: Abstract legal facts and consequences, subsumption: Determination sentence / Concrete facts, other: Anything else)"
-  ],
-  "greek_legal_code_chapter": [
-    "In this task, you are given a Greek legislative document. Predict the chapter level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to."
-  ],
-  "greek_legal_code_subject": [
-    "In this task, you are given a Greek legislative document. Predict the subject level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to."
-  ],
-  "greek_legal_code_volume": [
-    "In this task, you are given a Greek legislative document. Predict the volume level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to."
-  ],
-  "swiss_judgment_prediction": [
-    "In this task, you are given the facts description from a decision heard at the Swiss Federal Supreme Court. Predict the judgment of the case (approval: The appeal was approved, or dismissal: The appeal was denied)"
-  ],
-  "online_terms_of_service_unfairness_levels": [
-    "In this task, you are given a sentence from a Terms of Service (ToS) document. Predict the unfairness level of the sentence (potentially_unfair, clearly_unfair, clearly_fair, untagged)"
-  ],
-  "online_terms_of_service_clause_topics": [
-    "In this task, you are given a sentence from a Terms of Service (ToS) document. Predict the clause topics of the sentence out of the following: 0: Arbitration, 1: Unilateral change, 2: Content removal, 3: Jurisdiction, 4: Choice of law, 5: Limitation of liability, 6: Unilateral termination, 7: Contract by using, 8: Privacy included. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
-  ],
-  "covid19_emergency_event": [
-    "In this task, you are given a sentence from a European legislative document. Predict the applicable measurements against COVID-19 out of the following: 0: State of Emergency, 1: Restrictions of fundamental rights and civil liberties, 2: Restrictions of daily liberties, 3: Closures / lockdown, 4: Suspension of international cooperation and commitments, 5: Police mobilization, 6: Army mobilization, 7: Government oversight. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
-  ],
-  "multi_eurlex_level_1": [
-    "In this task, you are given a document from an EU law. Predict the level 1 concept in the EUROVOC taxonomy. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
-  ],
-  "multi_eurlex_level_2": [
-    "In this task, you are given a document from an EU law. Predict the level 2 concept in the EUROVOC taxonomy. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
-  ],
-  "multi_eurlex_level_3": [
-    "In this task, you are given a document from an EU law. Predict the level 3 concept in the EUROVOC taxonomy. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
-  ],
-  "greek_legal_ner": [
-    "In this task, you are given a sentence from Greek legislation. Predict the named entity type for each token out of the following: O, B-ORG, I-ORG, B-GPE, I-GPE, B-LEG-REFS, I-LEG-REFS, B-PUBLIC-DOCS, I-PUBLIC-DOCS, B-PERSON, I-PERSON, B-FACILITY, I-FACILITY, B-LOCATION-UNK, I-LOCATION-UNK, B-LOCATION-NAT, I-LOCATION-NAT"
-  ],
-  "legalnero": [
-    "In this task, you are given a sentence from Romanian legislation. Predict the named entity type for each token out of the following: O, B-TIME, I-TIME, B-LEGAL, I-LEGAL, B-ORG, I-ORG, B-LOC, I-LOC, B-PER, I-PER"
-  ],
-  "lener_br": [
-    "In this task, you are given a sentence from Brazilian legal documents (court decisions and legislation). Predict the named entity type for each token out of the following: O, B-ORGANIZACAO, I-ORGANIZACAO, B-PESSOA, I-PESSOA, B-TEMPO, I-TEMPO, B-LOCAL, I-LOCAL, B-LEGISLACAO, I-LEGISLACAO, B-JURISPRUDENCIA, I-JURISPRUDENCIA"
-  ],
-  "mapa_coarse": [
-    "In this task, you are given a sentence from the EUR-Lex database. Predict the coarse grained named entity type for each token out of the following: O, B-ORGANISATION, I-ORGANISATION, B-ADDRESS, I-ADDRESS, B-DATE, I-DATE, B-PERSON, I-PERSON, B-AMOUNT, I-AMOUNT, B-TIME, I-TIME"
-  ],
-  "mapa_fine": [
-    "In this task, you are given a sentence from the EUR-Lex database. Predict the fine grained named entity type for each token out of the following: O, B-BUILDING, I-BUILDING, B-CITY, I-CITY, B-COUNTRY, I-COUNTRY, B-PLACE, I-PLACE, B-TERRITORY, I-TERRITORY, I-UNIT, B-UNIT, B-VALUE, I-VALUE, B-YEAR, I-YEAR, B-STANDARD ABBREVIATION, I-STANDARD ABBREVIATION, B-MONTH, I-MONTH, B-DAY, I-DAY, B-AGE, I-AGE, B-ETHNIC CATEGORY, I-ETHNIC CATEGORY, B-FAMILY NAME, I-FAMILY NAME, B-INITIAL NAME, I-INITIAL NAME, B-MARITAL STATUS, I-MARITAL STATUS, B-PROFESSION, I-PROFESSION, B-ROLE, I-ROLE, B-NATIONALITY, I-NATIONALITY, B-TITLE, I-TITLE, B-URL, I-URL, B-TYPE, I-TYPE"
-  ],
-  "ecthr_a": [
-    "In this task, you are given the facts from a case heard at the European Court of Human Rights (ECtHR). Predict the articles of the ECtHR that were violated (if any) out of the following: 0: Article 2, 1: Article 3, 2: Article 5, 3: Article 6, 4: Article 8, 5: Article 9, 6: Article 10, 7: Article 11, 8: Article 14, 9: Article 1 of Protocol 1. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
-  ],
-  "ecthr_b": [
-    "In this task, you are given the facts from a case heard at the European Court of Human Rights (ECtHR). Predict the articles of ECtHR that were allegedly violated (considered by the court) out of the following:0: Article 2, 1: Article 3, 2: Article 5, 3: Article 6, 4: Article 8, 5: Article 9, 6: Article 10, 7: Article 11, 8: Article 14, 9: Article 1 of Protocol 1. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
-  ],
-  "scotus": [
-    "In this task, you are given a case heard at the Supreme Court of the United States (SCOTUS). Predict the relevant issue area out of the following: 0: Criminal Procedure, 1: Civil Rights, 2: First Amendment, 3: Due Process, 4: Privacy, 5: Attorneys, 6: Unions, 7: Economic Activity, 8: Judicial Power, 9: Federalism, 10: Interstate Relations, 11: Federal Taxation, 12: Miscellaneous, 13: Private Action."
-  ],
-  "eurlex": [
-    "In this task, you are given an EU law document published in the EUR-Lex portal. Predict the relevant EuroVoc concepts. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
-  ],
-  "ledgar": [
-    "In this task, you are given a contract provision from contracts obtained from US Securities and Exchange Commission (SEC) filings.Predict the main topic. "
-  ],
-  "unfair_tos": [
-    "In this task, you are given a sentence from a Terms of Service (ToS) document from online platforms. Predict the types of unfair contractual terms out of the following: 0: Limitation of liability, 1: Unilateral termination, 2: Unilateral change, 3: Content removal, 4: Contract by using, 5: Choice of law, 6: Jurisdiction, 7: Arbitration. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
-  ],
-  "case_hold": [
-    "In this task, you are given an excerpt from a court decision, containing a reference to a particular case, while the holding statement is masked out. Predict the index of the holding statement fitting in the context at <HOLDING> from a selection of five choices."
-  ],
-  "QUESTION_ANSWERING": [
-    "Answer this legal reasoning question.",
-    "Respond to this legal reasoning question.",
-    "Generate the correct answer to the question.",
-    "Given a question, answer the question based on your knowledge.",
-    "You are given a legal question. Return an answer based on factual information.",
-    "Given a legal question, generate a correct answer to the given question.",
-    "Given a question, generate the answer to the question.",
-    "Answer the given question.",
-    "Provide a response to the question that has been provided.",
-    "Provide a response to the question that has been presented.",
-    "Respond to the given question with an appropriate answer.",
-    "Answer the following question.",
-    "Answer the question that appears after this instruction."
-  ],
-  "QUESTION_ANSWERING_WITH_PASSAGE": [
-    "Answer a legal reasoning question based on a passage.",
-    "Write the correct answer to a given question based on a given sentence.",
-    "Generate an answer, given a collection of facts.",
-    "Given a passage and question, generate the best answer.",
-    "Given a set of context and supporting facts, answer the question asked.",
-    "Given a passage and a question, answer the question based on the passage.",
-    "Given a context and a question, answer the question based on the context.",
-    "Generate the answer from context and question.",
-    "Generate the answer for a given question based on passages.",
-    "Given a passage and a question, generate an answer for that question.",
-    "Given a question and a context, answer the question.",
-    "Write the correct answer to a given question based on a given passage.",
-    "Given a fact and question, generate an answer to the question.",
-    "Generate an answer to the question based on the given passage.",
-    "Given a context and a question, return an answer to the question based on context."
-  ],
-  "SUMMARIZATION": [
-    "Given text, generate a short summary.",
-    "Given a passage, summarize it.",
-    "Given text, generate a summary about the text.",
-    "Use the given text to create a summary of its content.",
-    "Generate a brief summary of the text based on the information provided.",
-    "Summarize the given text in a concise manner.",
-    "Use the provided text to write a summary of its main points."
-  ],
-  "NAMED_ENTITY_RECOGNITION": [
-    "Given a document, find the named entities about whom the author is writing.",
-    "Recognize and label the named entities in the text.",
-    "Given a legal question, write the named entities from the question if present.",
-    "Generate named entities from given text.",
-    "Identify and categorize the named entities present in the text.",
-    "Locate and assign labels to the entities found in the text.",
-    "Recognize and classify the named entities mentioned in the text.",
-    "Label the named entities that are present in the given text."
-  ],
-  "NATURAL_LANGUAGE_INFERENCE": [
-    "Given two sentences choose whether they agree/disagree/neither with each other.",
-    "Given 2 sentences, determine if they clearly agree or disagree with each other or if that cannot be determined.",
-    "Given a premise sentence and a hypothesis sentence, determine whether the hypothesis sentence entails, contradicts, or is neutral with respect to the given premise sentence.",
-    "Given two sentences, choose whether they agree, disagree, or neither with each other.",
-    "Given a premise and hypothesis, determine if the hypothesis entails, contradicts, or is neutral to the premise.",
-    "Perform classification based on if two sentences agree, disagree, or are neutral.",
-    "Perform classification based on if two statements agree/disagree or can't be determined.",
-    "Check if the second sentance entails the first or not.",
-    "Classify the entailment relationship of a given premise and hypothesis pair.",
-    "Determine if there is entailment between Hypothesis and Premise.",
-    "Classify the correct relation between the second and first sentence.",
-    "Given two sentences, determine whether they are in agreement, disagreement, or indeterminate.",
-    "Assess whether two provided sentences are in agreement, disagreement, or unable to be determined.",
-    "Classify the entailment relationship of a given premise and hypothesis combination.",
-    "Determine the type of entailment relationship between a given premise and hypothesis pair.",
-    "Decide whether a given pair of sentences agree, disagree, or have no relationship with each other.",
-    "Select the appropriate label that describes the relationship between a pair of given sentences: agreement, disagreement, or neither."
-  ],
-  "NATURAL_LANGUAGE_INFERENCE_GENERATE_ENTAILED": [
-    "Given a premise sentence, generate a hypothesis sentence entailed by the premise sentence.",
-    "Generate an entailed sentence for the given passage.",
-    "Based on a given premise sentence, generate a hypothesis sentence that is entailed by the premise.",
-    "Use the provided premise sentence to generate a hypothesis sentence that is logically entailed by the premise.",
-    "Produce a hypothesis sentence that logically follows from a given premise sentence.",
-    "Create a hypothesis sentence that is entailed by a given premise sentence."
-  ],
-  "NATURAL_LANGUAGE_INFERENCE_GENERATE_NOT_ENTAILED": [
-    "Given a premise sentence, generate a hypothesis sentence that contracts the premise sentence.",
-    "Generate a contradictory sentence for the given passage.",
-    "Use the provided premise sentence to generate a hypothesis sentence that contradicts the premise.",
-    "Produce a sentence that contradicts the given premise sentence.",
-    "Create a hypothesis sentence that is in opposition to the information presented in the premise sentence.",
-    "Generate a sentence that is at odds with the provided premise sentence."
-  ],
-  "NATURAL_LANGUAGE_INFERENCE_GENERATE_NEUTRAL": [
-    "Given a premise sentence, generate a hypothesis sentence that neither entails nor contradicts the premise sentence.",
-    "Generate a neutral sentence for the given passage.",
-    "Using the provided premise sentence, produce a hypothesis sentence that is independent of the premise and neither entails nor contradicts it.",
-    "Create a hypothesis sentence that is unrelated to the given premise sentence, and neither follows nor opposes it.",
-    "Generate a sentence that is neutral with respect to the provided premise sentence, neither implying nor contradicting it.",
-    "Produce a hypothesis sentence that does not logically follow from the provided premise sentence, nor does it contradict it."
-  ],
-  "MULTIPLE_CHOICE": [
-    "Identify the answer to a given multiple-choice question.",
-    "Given a passage and question, select the best answer from the given choices.",
-    "Given a passage, a question and multiple choice options; provide correct answer for the question based on the passage.",
-    "Given a question, pick the correct option among a list of multiple candidates.",
-    "Answer a multiple choice question on professional law.",
-    "Given a multiple-choice question, pick the correct option.",
-    "Given a multiple-choice question, answer the question.",
-    "Answer the multiple-choice question.",
-    "Choose an answer to the given multiple-choice question based on the paragraph.",
-    "Based on the provided passage and multiple choice options, select the correct answer for the question.",
-    "Use the passage and available multiple choice options to identify the accurate response to the question.",
-    "Determine the correct answer to the question, using the provided passage and multiple choice options.",
-    "Select the appropriate answer to the question, based on the information presented in the passage and multiple choice options.",
-    "Choose the appropriate answer to the question based on the information presented in the passage and the multiple-choice options."
-  ],
-  "ARGUMENTATION_PRO": [
-    "You are given a position, create an argument that supports the position.",
-    "Write an argument that supports the position.",
-    "Construct an argument that defends the position.",
-    "Create a persuasive argument that supports the stance.",
-    "Develop a well-reasoned argument that advocates for the position."
-  ],
-  "ARGUMENTATION_COUNTER": [
-    "You are given a position, create an argument that would change the original poster's mind.",
-    "Write a counterargument to the position.",
-    "Develop a counterargument that challenges the position.",
-    "Create a persuasive argument that opposes the stance.",
-    "Write a response that presents a compelling counterargument to the position.",
-    "Develop a well-reasoned argument that provides an opposing perspective to the position."
-  ],
-  "QUESTION_GENERATION": [
-    "Write a question for the given passage.",
-    "Create a legal reasoning question based on the given passage.",
-    "Create a question based on a given sentence.",
-    "Construct a question based on the information present in the passage.",
-    "Generate a question, given a collection of facts.",
-    "Given a context paragraph, generate a question.",
-    "Given a passage, generate a question that can be answered based on the passage.",
-    "Given a passage, generate a question based on it.",
-    "Given a context, generate a question based on it.",
-    "Generate a question based on the given sentence.",
-    "Generate a question based on the given context.",
-    "Given a passage, generate an appropriate question based on the passage.",
-    "Generate a question from context.",
-    "Generate a question for the given topic.",
-    "Generate a question based on the passage.",
-    "Given a passage, generate a question.",
-    "Given a fact, generate a question that can be answered using the fact.",
-    "Generate a question from the given passage.",
-    "Based on the provided passage, create a question that can be answered using the information in the passage.",
-    "Use the given passage to generate a question that can be answered by the information presented.",
-    "Write a question that can be answered based on the content of the provided passage.",
-    "Develop a question that can be resolved by referring to the information provided in the passage."
-  ]
-}
+      "Answer these legal questions. Use American Law. Provide the choice as \"Answer:\"",
+      "Answer these U.S. Multistate Bar Exam questions. Provide the choice as \"Answer:\"",
+      "Pick the most correct option considering U.S. Law. Output the choice as \"Answer:\""
+    ],
+    "reclor": [
+      "Given the context answer the reasoning question.",
+      "Answer the logical reasoning multiple choice questions.",
+      "State the answer in the following format, \"Final Answer: The final answer is ([ANSWER]). I hope it is correct.\"",
+      "Read the passage any any relevant rules describing the world. Apply the rules to the facts to answer the question."
+    ],
+    "reddit_legal_qa": [
+      "Here is someone's legal concern. Answer as if you were replying on Reddit. If you are not a lawyer, include the disclaimer IANAL.",
+      "Here is someone's legal question. Advice them on the situation. Think like a lawyer on Reddit."
+    ],
+    "sara_entailment": [
+      "Consider the following US Tax scenario. Does the first fact entail the second fact?",
+      "Are these two sentences entailed or contradicting?",
+      "Respond entailment or contradiction to these two sentences."
+    ],
+    "sara_tax_liability": [
+      "Consider the following US Tax scenario and answer the question.",
+      "Consider the following scenario. Calculate the right amount of tax liablity and answer the question."
+    ],
+    "sara_prolog_statute": [
+      "Convert the following statute into prolog code.",
+      "Write a prolog program to convert the statute into code, denote it as \"Prolog Program:\"."
+    ],
+    "sara_prolog_facts": [
+      "Convert the following fact pattern into prolog code. Then answer the question.",
+      "Write a prolog program to mark all the facts, denote it as \"Prolog Program:\". Then answer the question, denote your answer as \"Answer\"."
+    ],
+    "short_answer_feedback_openqa": [
+      "Consider this question in the context of German law. Provide the correct reference answer.",
+      "Answer the question about German law. Make sure it is correct."
+    ],
+    "short_answer_feedback_rating": [
+      "Here is a question and answer pair related to German Law. Considering the student provided answer, provide detailed feedback and then provide a score of 1 for correct, 0.5 for partially correct, and 0 for incorrect.",
+      "Consider the answer to the question, is it correct? Provide feedback and then give a score from 0 to 1.",
+      "Consider the student's answer to the question. Rate it and provide feedback."
+    ],
+    "short_answer_feedback_error_class": [
+      "Here is a question and answer pair related to German Law. Considering the student provided answer, provide detailed feedback and then provide a score of 1 for correct, 0.5 for partially correct, and 0 for incorrect.",
+      "Consider the answer to the question, is it correct? Provide feedback and then give a score from 0 to 1. Note the error class.",
+      "Consider the student's answer to the question. Rate it and provide feedback. Note the type of error."
+    ],
+    "spanish_labor_law": [
+      "Consider this Spanish Labor Law translated passage. Answer the question using an extractive snippet of text.",
+      "Consider this Spanish Labor Law translated passage. Answer the question from the context.",
+      "Answer the following Spanish labor law question given the legal provision."
+    ],
+    "stack_exchange_questions_legal": [
+      "Answer the following legal question. Cite relevant evidence when possible.",
+      "Answer this online forum question about the law.",
+      "Provide an explanation for this short form legal question."
+    ],
+    "swiss_judgment_dismiss_approve": [
+      "Determine if you think the Swiss court will dismiss or approve the case.",
+      "Determine if you think the Swiss court will rule dismissal or approval for the case.",
+    ],
+    "swiss_judgment_criticality": [
+      "How important or critical is this case? The case can be non-critical or range from critical-1 (least critical) to critical-4 (most critical)."
+    ],
+    "swiss_judgment_court_view_generation_same_court": [
+      "Write the court's view (considerations) for the given facts description."
+    ],
+    "swiss_judgment_court_view_generation_lower_court": [
+      "Write the court's view (considerations) for the given facts and considerations from the lower court."
+    ],
+    "swiss_judgment_area_of_law_main_area": [
+      "What main area of law is this case related to?"
+    ],
+    "swiss_judgment_area_of_law_sub_area": [
+      "What sub-area of law is this case related to?"
+    ],
+    "swiss_judgment_location": [
+      "Where do you think this case was adjudicated?",
+      "In what canton and region was this case heard?"
+    ],
+    "swiss_judgment_topic": [
+      "What do you think is the topic of this case?"
+    ],
+    "swiss_judgment_multiple_choice": [
+      "Please answer these multiple choice questions. Denote the correct answer as \"Answer\".",
+      "Pick the most likely correct answer."
+    ],
+    "swiss_legislation_canton": [
+      "Where do you think this law was passed?",
+      "In which canton was this law was passed?"
+    ],
+    "swiss_legislation_title": [
+      "What do you think is the official long title of this law?"
+    ],
+    "swiss_legislation_short": [
+      "What do you think is the short title of this law?"
+    ],
+    "swiss_legislation_abbreviation": [
+      "What do you think is the abbvreviation of this law?"
+    ],
+    "tscc_alqac_question_answering": [
+      "For the relevant facts, please provide the relevant Thai law(s). Use the rule to determine the court's likely conclusion.",
+      "Given these facts in the Thai legal system, please output the relevant legal rule(s) and the court's likely judgement.",
+      "Given these facts in the Thai legal system, please output the relevant legal rule(s) and provide the legal conclusion of whether the court is likely to find for or against the defendant.",
+      "Given these facts in the Thai legal system, please output the relevant legal rule(s) and provide the legal conclusion of whether the court is likely to find the defendant guilty or not guilty."
+    ],
+    "turkish_constitutional_violation_no_violation": [
+      "Determine if you think the Turkish Court of Cassation will label the case description as Violation or No Violation."
+    ],
+    "turkish_constitutional_multiple_choice": [
+      "Please answer these multiple choice questions. Denote the correct answer as \"Answer\".",
+      "Pick the most likely correct answer."
+    ],
+    "us_class_actions_win_lose": [
+      "Read the following United States class action complaint. Predict whether the complaint will be won or not. Output \"win\" or \"lose\".",
+      "Will this class action complaint be successful in U.S. Court?"
+    ],
+    "valid_wills_entailment": [
+      "Given a statement in a will, the relevant U.S. law, is the condition supported, refuted, or unrelated.",
+      "Is the statement in the will valid given the law and conditions? Answer with one of unrelated, supported, refuted."
+    ],
+    "brazilian_court_decisions_judgment": [
+      "In this task, you are given the case description from a decision heard at the State Supreme Court of Alagoas (Brazil). Predict the judgment of the case (no: The appeal was denied, partial: For partially favourable decisions, yes: For fully favourable decisions)"
+    ],
+    "brazilian_court_decisions_unanimity": [
+      "In this task, you are given the case description from a decision heard at the State Supreme Court of Alagoas (Brazil). Predict the unanimity of the case (unanimity, not-unanimity, not_determined)"
+    ],
+    "german_argument_mining": [
+      "In this task, you are given sentences from German court decisions. Predict the major component of German Urteilsstil (conclusion: Overall result, definition: Abstract legal facts and consequences, subsumption: Determination sentence / Concrete facts, other: Anything else)"
+    ],
+    "greek_legal_code_chapter": [
+      "In this task, you are given a Greek legislative document. Predict the chapter level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to."
+    ],
+    "greek_legal_code_subject": [
+      "In this task, you are given a Greek legislative document. Predict the subject level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to."
+    ],
+    "greek_legal_code_volume": [
+      "In this task, you are given a Greek legislative document. Predict the volume level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to."
+    ],
+    "swiss_judgment_prediction": [
+      "In this task, you are given the facts description from a decision heard at the Swiss Federal Supreme Court. Predict the judgment of the case (approval: The appeal was approved, or dismissal: The appeal was denied)"
+    ],
+    "online_terms_of_service_unfairness_levels": [
+      "In this task, you are given a sentence from a Terms of Service (ToS) document. Predict the unfairness level of the sentence (potentially_unfair, clearly_unfair, clearly_fair, untagged)"
+    ],
+    "online_terms_of_service_clause_topics": [
+      "In this task, you are given a sentence from a Terms of Service (ToS) document. Predict the clause topics of the sentence out of the following: 0: Arbitration, 1: Unilateral change, 2: Content removal, 3: Jurisdiction, 4: Choice of law, 5: Limitation of liability, 6: Unilateral termination, 7: Contract by using, 8: Privacy included. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
+    ],
+    "covid19_emergency_event": [
+      "In this task, you are given a sentence from a European legislative document. Predict the applicable measurements against COVID-19 out of the following: 0: State of Emergency, 1: Restrictions of fundamental rights and civil liberties, 2: Restrictions of daily liberties, 3: Closures / lockdown, 4: Suspension of international cooperation and commitments, 5: Police mobilization, 6: Army mobilization, 7: Government oversight. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
+    ],
+    "multi_eurlex_level_1": [
+      "In this task, you are given a document from an EU law. Predict the level 1 concept in the EUROVOC taxonomy. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
+    ],
+    "multi_eurlex_level_2": [
+      "In this task, you are given a document from an EU law. Predict the level 2 concept in the EUROVOC taxonomy. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
+    ],
+    "multi_eurlex_level_3": [
+      "In this task, you are given a document from an EU law. Predict the level 3 concept in the EUROVOC taxonomy. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
+    ],
+    "greek_legal_ner": [
+      "In this task, you are given a sentence from Greek legislation. Predict the named entity type for each token out of the following: O, B-ORG, I-ORG, B-GPE, I-GPE, B-LEG-REFS, I-LEG-REFS, B-PUBLIC-DOCS, I-PUBLIC-DOCS, B-PERSON, I-PERSON, B-FACILITY, I-FACILITY, B-LOCATION-UNK, I-LOCATION-UNK, B-LOCATION-NAT, I-LOCATION-NAT"
+    ],
+    "legalnero": [
+      "In this task, you are given a sentence from Romanian legislation. Predict the named entity type for each token out of the following: O, B-TIME, I-TIME, B-LEGAL, I-LEGAL, B-ORG, I-ORG, B-LOC, I-LOC, B-PER, I-PER"
+    ],
+    "lener_br": [
+      "In this task, you are given a sentence from Brazilian legal documents (court decisions and legislation). Predict the named entity type for each token out of the following: O, B-ORGANIZACAO, I-ORGANIZACAO, B-PESSOA, I-PESSOA, B-TEMPO, I-TEMPO, B-LOCAL, I-LOCAL, B-LEGISLACAO, I-LEGISLACAO, B-JURISPRUDENCIA, I-JURISPRUDENCIA"
+    ],
+    "mapa_coarse": [
+      "In this task, you are given a sentence from the EUR-Lex database. Predict the coarse grained named entity type for each token out of the following: O, B-ORGANISATION, I-ORGANISATION, B-ADDRESS, I-ADDRESS, B-DATE, I-DATE, B-PERSON, I-PERSON, B-AMOUNT, I-AMOUNT, B-TIME, I-TIME"
+    ],
+    "mapa_fine": [
+      "In this task, you are given a sentence from the EUR-Lex database. Predict the fine grained named entity type for each token out of the following: O, B-BUILDING, I-BUILDING, B-CITY, I-CITY, B-COUNTRY, I-COUNTRY, B-PLACE, I-PLACE, B-TERRITORY, I-TERRITORY, I-UNIT, B-UNIT, B-VALUE, I-VALUE, B-YEAR, I-YEAR, B-STANDARD ABBREVIATION, I-STANDARD ABBREVIATION, B-MONTH, I-MONTH, B-DAY, I-DAY, B-AGE, I-AGE, B-ETHNIC CATEGORY, I-ETHNIC CATEGORY, B-FAMILY NAME, I-FAMILY NAME, B-INITIAL NAME, I-INITIAL NAME, B-MARITAL STATUS, I-MARITAL STATUS, B-PROFESSION, I-PROFESSION, B-ROLE, I-ROLE, B-NATIONALITY, I-NATIONALITY, B-TITLE, I-TITLE, B-URL, I-URL, B-TYPE, I-TYPE"
+    ],
+    "ecthr_a": [
+      "In this task, you are given the facts from a case heard at the European Court of Human Rights (ECtHR). Predict the articles of the ECtHR that were violated (if any) out of the following: 0: Article 2, 1: Article 3, 2: Article 5, 3: Article 6, 4: Article 8, 5: Article 9, 6: Article 10, 7: Article 11, 8: Article 14, 9: Article 1 of Protocol 1. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
+    ],
+    "ecthr_b": [
+      "In this task, you are given the facts from a case heard at the European Court of Human Rights (ECtHR). Predict the articles of ECtHR that were allegedly violated (considered by the court) out of the following:0: Article 2, 1: Article 3, 2: Article 5, 3: Article 6, 4: Article 8, 5: Article 9, 6: Article 10, 7: Article 11, 8: Article 14, 9: Article 1 of Protocol 1. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
+    ],
+    "scotus": [
+      "In this task, you are given a case heard at the Supreme Court of the United States (SCOTUS). Predict the relevant issue area out of the following: 0: Criminal Procedure, 1: Civil Rights, 2: First Amendment, 3: Due Process, 4: Privacy, 5: Attorneys, 6: Unions, 7: Economic Activity, 8: Judicial Power, 9: Federalism, 10: Interstate Relations, 11: Federal Taxation, 12: Miscellaneous, 13: Private Action."
+    ],
+    "eurlex": [
+      "In this task, you are given an EU law document published in the EUR-Lex portal. Predict the relevant EuroVoc concepts. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
+    ],
+    "ledgar": [
+      "In this task, you are given a contract provision from contracts obtained from US Securities and Exchange Commission (SEC) filings.Predict the main topic. "
+    ],
+    "unfair_tos": [
+      "In this task, you are given a sentence from a Terms of Service (ToS) document from online platforms. Predict the types of unfair contractual terms out of the following: 0: Limitation of liability, 1: Unilateral termination, 2: Unilateral change, 3: Content removal, 4: Contract by using, 5: Choice of law, 6: Jurisdiction, 7: Arbitration. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
+    ],
+    "case_hold": [
+      "In this task, you are given an excerpt from a court decision, containing a reference to a particular case, while the holding statement is masked out. Predict the index of the holding statement fitting in the context at <HOLDING> from a selection of five choices."
+    ],
+    "QUESTION_ANSWERING": [
+      "Answer this legal reasoning question.",
+      "Respond to this legal reasoning question.",
+      "Generate the correct answer to the question.",
+      "Given a question, answer the question based on your knowledge.",
+      "You are given a legal question. Return an answer based on factual information.",
+      "Given a legal question, generate a correct answer to the given question.",
+      "Given a question, generate the answer to the question.",
+      "Answer the given question.",
+      "Provide a response to the question that has been provided.",
+      "Provide a response to the question that has been presented.",
+      "Respond to the given question with an appropriate answer.",
+      "Answer the following question.",
+      "Answer the question that appears after this instruction."
+    ],
+    "QUESTION_ANSWERING_WITH_PASSAGE": [
+      "Answer a legal reasoning question based on a passage.",
+      "Write the correct answer to a given question based on a given sentence.",
+      "Generate an answer, given a collection of facts.",
+      "Given a passage and question, generate the best answer.",
+      "Given a set of context and supporting facts, answer the question asked.",
+      "Given a passage and a question, answer the question based on the passage.",
+      "Given a context and a question, answer the question based on the context.",
+      "Generate the answer from context and question.",
+      "Generate the answer for a given question based on passages.",
+      "Given a passage and a question, generate an answer for that question.",
+      "Given a question and a context, answer the question.",
+      "Write the correct answer to a given question based on a given passage.",
+      "Given a fact and question, generate an answer to the question.",
+      "Generate an answer to the question based on the given passage.",
+      "Given a context and a question, return an answer to the question based on context."
+    ],
+    "SUMMARIZATION": [
+      "Given text, generate a short summary.",
+      "Given a passage, summarize it.",
+      "Given text, generate a summary about the text.",
+      "Use the given text to create a summary of its content.",
+      "Generate a brief summary of the text based on the information provided.",
+      "Summarize the given text in a concise manner.",
+      "Use the provided text to write a summary of its main points."
+    ],
+    "NAMED_ENTITY_RECOGNITION": [
+      "Given a document, find the named entities about whom the author is writing.",
+      "Recognize and label the named entities in the text.",
+      "Given a legal question, write the named entities from the question if present.",
+      "Generate named entities from given text.",
+      "Identify and categorize the named entities present in the text.",
+      "Locate and assign labels to the entities found in the text.",
+      "Recognize and classify the named entities mentioned in the text.",
+      "Label the named entities that are present in the given text."
+    ],
+    "NATURAL_LANGUAGE_INFERENCE": [
+      "Given two sentences choose whether they agree/disagree/neither with each other.",
+      "Given 2 sentences, determine if they clearly agree or disagree with each other or if that cannot be determined.",
+      "Given a premise sentence and a hypothesis sentence, determine whether the hypothesis sentence entails, contradicts, or is neutral with respect to the given premise sentence.",
+      "Given two sentences, choose whether they agree, disagree, or neither with each other.",
+      "Given a premise and hypothesis, determine if the hypothesis entails, contradicts, or is neutral to the premise.",
+      "Perform classification based on if two sentences agree, disagree, or are neutral.",
+      "Perform classification based on if two statements agree/disagree or can't be determined.",
+      "Check if the second sentance entails the first or not.",
+      "Classify the entailment relationship of a given premise and hypothesis pair.",
+      "Determine if there is entailment between Hypothesis and Premise.",
+      "Classify the correct relation between the second and first sentence.",
+      "Given two sentences, determine whether they are in agreement, disagreement, or indeterminate.",
+      "Assess whether two provided sentences are in agreement, disagreement, or unable to be determined.",
+      "Classify the entailment relationship of a given premise and hypothesis combination.",
+      "Determine the type of entailment relationship between a given premise and hypothesis pair.",
+      "Decide whether a given pair of sentences agree, disagree, or have no relationship with each other.",
+      "Select the appropriate label that describes the relationship between a pair of given sentences: agreement, disagreement, or neither."
+    ],
+    "NATURAL_LANGUAGE_INFERENCE_GENERATE_ENTAILED": [
+      "Given a premise sentence, generate a hypothesis sentence entailed by the premise sentence.",
+      "Generate an entailed sentence for the given passage.",
+      "Based on a given premise sentence, generate a hypothesis sentence that is entailed by the premise.",
+      "Use the provided premise sentence to generate a hypothesis sentence that is logically entailed by the premise.",
+      "Produce a hypothesis sentence that logically follows from a given premise sentence.",
+      "Create a hypothesis sentence that is entailed by a given premise sentence."
+    ],
+    "NATURAL_LANGUAGE_INFERENCE_GENERATE_NOT_ENTAILED": [
+      "Given a premise sentence, generate a hypothesis sentence that contracts the premise sentence.",
+      "Generate a contradictory sentence for the given passage.",
+      "Use the provided premise sentence to generate a hypothesis sentence that contradicts the premise.",
+      "Produce a sentence that contradicts the given premise sentence.",
+      "Create a hypothesis sentence that is in opposition to the information presented in the premise sentence.",
+      "Generate a sentence that is at odds with the provided premise sentence."
+    ],
+    "NATURAL_LANGUAGE_INFERENCE_GENERATE_NEUTRAL": [
+      "Given a premise sentence, generate a hypothesis sentence that neither entails nor contradicts the premise sentence.",
+      "Generate a neutral sentence for the given passage.",
+      "Using the provided premise sentence, produce a hypothesis sentence that is independent of the premise and neither entails nor contradicts it.",
+      "Create a hypothesis sentence that is unrelated to the given premise sentence, and neither follows nor opposes it.",
+      "Generate a sentence that is neutral with respect to the provided premise sentence, neither implying nor contradicting it.",
+      "Produce a hypothesis sentence that does not logically follow from the provided premise sentence, nor does it contradict it."
+    ],
+    "MULTIPLE_CHOICE": [
+      "Identify the answer to a given multiple-choice question.",
+      "Given a passage and question, select the best answer from the given choices.",
+      "Given a passage, a question and multiple choice options; provide correct answer for the question based on the passage.",
+      "Given a question, pick the correct option among a list of multiple candidates.",
+      "Answer a multiple choice question on professional law.",
+      "Given a multiple-choice question, pick the correct option.",
+      "Given a multiple-choice question, answer the question.",
+      "Answer the multiple-choice question.",
+      "Choose an answer to the given multiple-choice question based on the paragraph.",
+      "Based on the provided passage and multiple choice options, select the correct answer for the question.",
+      "Use the passage and available multiple choice options to identify the accurate response to the question.",
+      "Determine the correct answer to the question, using the provided passage and multiple choice options.",
+      "Select the appropriate answer to the question, based on the information presented in the passage and multiple choice options.",
+      "Choose the appropriate answer to the question based on the information presented in the passage and the multiple-choice options."
+    ],
+    "ARGUMENTATION_PRO": [
+      "You are given a position, create an argument that supports the position.",
+      "Write an argument that supports the position.",
+      "Construct an argument that defends the position.",
+      "Create a persuasive argument that supports the stance.",
+      "Develop a well-reasoned argument that advocates for the position."
+    ],
+    "ARGUMENTATION_COUNTER": [
+      "You are given a position, create an argument that would change the original poster's mind.",
+      "Write a counterargument to the position.",
+      "Develop a counterargument that challenges the position.",
+      "Create a persuasive argument that opposes the stance.",
+      "Write a response that presents a compelling counterargument to the position.",
+      "Develop a well-reasoned argument that provides an opposing perspective to the position."
+    ],
+    "QUESTION_GENERATION": [
+      "Write a question for the given passage.",
+      "Create a legal reasoning question based on the given passage.",
+      "Create a question based on a given sentence.",
+      "Construct a question based on the information present in the passage.",
+      "Generate a question, given a collection of facts.",
+      "Given a context paragraph, generate a question.",
+      "Given a passage, generate a question that can be answered based on the passage.",
+      "Given a passage, generate a question based on it.",
+      "Given a context, generate a question based on it.",
+      "Generate a question based on the given sentence.",
+      "Generate a question based on the given context.",
+      "Given a passage, generate an appropriate question based on the passage.",
+      "Generate a question from context.",
+      "Generate a question for the given topic.",
+      "Generate a question based on the passage.",
+      "Given a passage, generate a question.",
+      "Given a fact, generate a question that can be answered using the fact.",
+      "Generate a question from the given passage.",
+      "Based on the provided passage, create a question that can be answered using the information in the passage.",
+      "Use the given passage to generate a question that can be answered by the information presented.",
+      "Write a question that can be answered based on the content of the provided passage.",
+      "Develop a question that can be resolved by referring to the information provided in the passage."
+    ]
+  }
 }

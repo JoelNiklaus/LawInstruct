@@ -1,5 +1,6 @@
 from datasets import load_dataset
 
+import instruction_manager
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
@@ -14,17 +15,14 @@ class SwissCriticalityPrediction(AbstractDataset):
             "SwissCriticalityPrediction",
             "https://huggingface.co/datasets/rcds/swiss_criticality_prediction")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.SWITZERLAND
-        instruction_language = 'en'
         answer_language = "en"
 
         df = load_dataset('rcds/swiss_criticality_prediction', 'full', split='train')
         for example in df:
-            instruction = "How important or critical is this case? " \
-                          "The case can be non-critical " \
-                          "or range from critical-1 (least critical) to critical-4 (most critical)."
+            instruction, instruction_language = instructions.sample("swiss_judgment_criticality")
             answer = f"Criticality: {example['citation_label']}"
 
             if len(example['facts']) > 100:
