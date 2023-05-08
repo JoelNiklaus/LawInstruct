@@ -55,7 +55,7 @@ class InstructionManager:
             random_state: To ensure reproducibility
         """
         if mode == 'english':
-            json_file = 'instruction_prompts/en2.json'
+            json_file = 'instruction_prompts/en.json'
         elif mode == 'multilingual':
             json_file = 'instruction_prompts/multilingual.json'
         elif mode == 'dummy':
