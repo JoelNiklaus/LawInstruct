@@ -192,6 +192,9 @@ class LEXTREME(AbstractDataset):
                         label_classes[label] for label in example['label']
                     ]
 
+                if subset in ['online_terms_of_service_clause_topics', 'covid19_emergency_event']:
+                    correct_labels = [chr(int(num) + 65) for num in correct_labels]  # convert to letters
+
                 answers: list[tuple[str, str, str]]
                 if task_code in ['SLTC', 'MLTC']:
                     input_text = example['input']

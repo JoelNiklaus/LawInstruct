@@ -56,6 +56,9 @@ class LexGLUE(AbstractDataset):
                         map(str, example['labels']
                            ))  # here we don't have any mapping to label names
 
+                if subset in ['ecthr_a', 'ecthr_b', 'scotus', 'unfair_tos']:
+                    correct_labels = [chr(int(num) + 65) for num in correct_labels]  # convert to letters
+
                 input_text = example['text']
                 if 'ecthr' in subset:
                     input_text = " ".join(input_text)
