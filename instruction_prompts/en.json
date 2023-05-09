@@ -363,7 +363,15 @@
     ],
     "maud": [
       "Consider the following deal point text from a US merger agreement.",
-      "Look at the following deal point text from a US merger agreement."
+      "Look at the following deal point text from a US merger agreement.",
+      "Examine the following deal point text from a US merger agreement.",
+      "Review the following deal point text from a US merger agreement.",
+      "Study the following deal point text from a US merger agreement.",
+      "Analyze the following deal point text from a US merger agreement.",
+      "Read the following deal point text from a US merger agreement.",
+      "Inspect the following deal point text from a US merger agreement.",
+      "Evaluate the following deal point text from a US merger agreement.",
+      "Observe the following deal point text from a US merger agreement."
     ],
     "mbe_examples": [
       "Answer these legal questions. Use American Law. Please explain your thought process and then answer the question.",
@@ -438,7 +446,16 @@
       "Create a legal research memorandum in the style of the U.S. Office of Legal Counsel."
     ],
     "privacy_qa": [
-      "Determine whether a term mentioned in a privacy policy is relevant or irrelevant to a given question."
+      "Determine whether a term mentioned in a privacy policy is relevant or irrelevant to a given question.",
+      "Decide if a term mentioned in a privacy policy is pertinent or unrelated to the given question.",
+      "Assess if a term mentioned in a privacy policy is applicable or inapplicable to the given question.",
+      "Establish whether a term mentioned in a privacy policy is connected or unconnected to a given question.",
+      "Ascertain if a term mentioned in a privacy policy is significant or insignificant to the given question.",
+      "Evaluate whether a term mentioned in a privacy policy bears relevance or irrelevance to a given question.",
+      "Judge if a term mentioned in a privacy policy is related or unrelated to the given question.",
+      "Find out if a term mentioned in a privacy policy is important or unimportant to the given question.",
+      "Figure out if a term mentioned in a privacy policy is germane or immaterial to the given question.",
+      "Determine if a term mentioned in a privacy policy is appropriate or inappropriate to the given question."
     ],
     "privacy_summarization": [
       "Is the following statement from a privacy policy risky or non-risky?",
@@ -456,18 +473,37 @@
       "Generate some Multistate Bar Exam questions according to U.S. law.",
       "Answer these legal questions. Use American Law. A few examples are provided first to give the answer format.",
       "Answer these U.S. Multistate Bar Exam questions. A few examples are provided first to give the answer format.",
-      "Pick the most correct option considering U.S. Law."
+      "Pick the most correct option considering U.S. Law.",
+      "Provide answers to these legal questions based on American Law. Examples are given first to demonstrate the answer format.",
+      "Respond to these U.S. Multistate Bar Exam questions. Examples are provided to establish the format for answers.",
+      "Choose the best answer based on U.S. law for these legal questions.",
+      "Address these legal questions according to American Law. Some examples are given initially to show the answer format.",
+      "Answer these legal questions following U.S. law. Initial examples are provided to illustrate the format for answers.",
+      "Select the most accurate answer in accordance with U.S. law for these legal questions."
     ],
     "professional_law_zero_shot": [
       "Answer these legal questions. Use American Law. Provide the choice as “Answer:”",
       "Answer these U.S. Multistate Bar Exam questions. Provide the choice as “Answer:”",
-      "Pick the most correct option considering U.S. Law. Output the choice as “Answer:”"
+      "Pick the most correct option considering U.S. Law. Output the choice as “Answer:”",
+      "Respond to these legal questions based on U.S. law. Indicate your selection as “Answer:”",
+      "Tackle these American Law questions and present your choice as “Answer:”",
+      "Address these legal questions using U.S. law and denote your choice as “Answer:”",
+      "Choose the best answer according to American law and label it as “Answer:”",
+      "Select the most accurate response based on U.S. law and present it as “Answer:”",
+      "Determine the correct option for these legal questions under U.S. law and mark it as “Answer:”",
+      "Identify the most appropriate answer following U.S. law and provide it as “Answer:”"
     ],
     "reclor": [
-      "Given the context answer the reasoning question.",
+      "Given the context answer the reasoning question from this graduate admission exam.",
       "Answer the logical reasoning multiple choice questions.",
       "State the answer in the following format, “Final Answer: The final answer is ([ANSWER]). I hope it is correct.”",
-      "Read the passage any any relevant rules describing the world. Apply the rules to the facts to answer the question."
+      "Read the passage and any relevant rules describing the world. Apply the rules to the facts to answer the question.",
+      "Tackle the reasoning question in this graduate admission test using the given context.",
+      "Respond to the logical reasoning question with multiple choice answers.",
+      "Present your answer in this format: “Final Answer: The final answer is ([ANSWER]). I hope it is correct.”",
+      "Examine the provided passage and related rules, then use them to answer the question.",
+      "Using the context, address the reasoning question from this graduate admission exam.",
+      "Solve the logical reasoning question with multiple choice options."
     ],
     "reddit_legal_qa": [
       "Here is someone's legal concern. Answer as if you were replying on Reddit. If you are not a lawyer, include the disclaimer IANAL.",
@@ -531,17 +567,39 @@
     ],
     "short_answer_feedback_openqa": [
       "Consider this question in the context of German law. Provide the correct reference answer.",
-      "Answer the question about German law. Make sure it is correct."
+      "Answer the question about German law. Make sure it is correct.",
+      "Provide an accurate response to the question related to German law.",
+      "Answer the given question with a correct response according to German law.",
+      "Given the context of German law, provide a correct and relevant answer to the question.",
+      "In the context of German law, provide the appropriate reference answer to the question.",
+      "Considering German law, deliver the right reference answer for the question.",
+      "Respond to the question accurately within the scope of German law.",
+      "Reply to the question with the correct answer in the context of German law.",
+      "Address the question and provide the correct answer based on German law."
     ],
     "short_answer_feedback_rating": [
       "Here is a question and answer pair related to German Law. Considering the student provided answer, provide detailed feedback and then provide a score of 1 for correct, 0.5 for partially correct, and 0 for incorrect.",
-      "Consider the answer to the question, is it correct? Provide feedback and then give a score from 0 to 1.",
-      "Consider the student's answer to the question. Rate it and provide feedback."
+      "Consider the answer to the question. Is it correct? Provide feedback and then give a score from 0 to 1.",
+      "Consider the student's answer to the question. Rate it and provide feedback.",
+      "Evaluate the student's response to the German law question, give feedback, and assign a score between 0 and 1.",
+      "Examine the answer to the German law question, offer feedback, and rate it on a scale of 0 to 1.",
+      "Assess the student's response to the German law question, provide feedback, and give a score from 0 to 1.",
+      "Review the student's answer to the German law question, give detailed feedback, and rate it with a score between 0 and 1.",
+      "Analyze the provided answer to the German law question, offer constructive feedback, and assign a score from 0 to 1.",
+      "Examine the student's response to the German law question, deliver feedback, and rate it on a scale of 0 to 1.",
+      "Evaluate the student's answer related to German law, provide comprehensive feedback, and give a score ranging from 0 to 1."
     ],
     "short_answer_feedback_error_class": [
-      "Here is a question and answer pair related to German Law. Considering the student provided answer, provide detailed feedback and then provide a score of 1 for correct, 0.5 for partially correct, and 0 for incorrect.",
-      "Consider the answer to the question, is it correct? Provide feedback and then give a score from 0 to 1. Note the error class.",
-      "Consider the student's answer to the question. Rate it and provide feedback. Note the type of error."
+      "Consider the student's answer to the question. Rate it and provide feedback. Note the type of error.",
+      "Assess the student's response to the question, provide feedback, and identify the error type.",
+      "Review the student's answer to the question, give feedback, and classify the type of error.",
+      "Examine the student's response to the question, offer feedback, and categorize the error type.",
+      "Evaluate the student's answer to the question, provide constructive feedback, and recognize the type of error.",
+      "Analyze the student's response to the question, deliver feedback, and pinpoint the error category.",
+      "Inspect the student's answer to the question, give comprehensive feedback, and determine the type of error.",
+      "Examine the student's answer to the question, provide detailed feedback, and note the error classification.",
+      "Consider the student's response to the question, offer feedback, and identify the nature of the error.",
+      "Assess the student's answer to the question, give feedback, and recognize the error type involved."
     ],
     "spanish_labor_law": [
       "Consider this Spanish Labor Law translated passage. Answer the question using an extractive snippet of text.",
@@ -784,34 +842,124 @@
       "Review the statement in the will and the U.S. law to establish if the condition is “supported”, “contradicted”, or “unrelated”."
     ],
     "brazilian_court_decisions_judgment": [
-      "In this task, you are given the case description from a decision heard at the State Supreme Court of Alagoas (Brazil). Predict the judgment of the case (no: The appeal was denied, partial: For partially favourable decisions, yes: For fully favourable decisions)"
+      "In this task, you are given the case description from a decision heard at the State Supreme Court of Alagoas (Brazil). Predict the judgment of the case (no: The appeal was denied, partial: For partially favourable decisions, yes: For fully favourable decisions)",
+      "Using the case description from a decision at the State Supreme Court of Alagoas (Brazil), predict the outcome of the case (no: Appeal denied, partial: Partially favorable decision, yes: Fully favorable decision)",
+      "Given a case description from the State Supreme Court of Alagoas (Brazil), forecast the judgment (no: Appeal rejected, partial: Partially favorable ruling, yes: Completely favorable ruling)",
+      "Based on the case description from the State Supreme Court of Alagoas (Brazil), determine the judgment (no: Appeal turned down, partial: Partially favorable outcome, yes: Entirely favorable outcome)",
+      "With the case description from a decision at the State Supreme Court of Alagoas (Brazil), anticipate the judgment (no: Appeal dismissed, partial: Partly favorable decision, yes: Wholly favorable decision)",
+      "Assess the case description from the State Supreme Court of Alagoas (Brazil) and predict the judgment (no: Appeal refused, partial: Partially favorable verdict, yes: Totally favorable verdict)",
+      "Review the case description from the State Supreme Court of Alagoas (Brazil) and estimate the judgment (no: Appeal declined, partial: Somewhat favorable decision, yes: Fully favorable decision)",
+      "Examine the case description from a decision made at the State Supreme Court of Alagoas (Brazil) and predict the outcome (no: Appeal not granted, partial: Partly favorable ruling, yes: Completely favorable ruling)",
+      "Analyze the case description from the State Supreme Court of Alagoas (Brazil) and foresee the judgment (no: Appeal denied, partial: Partially favorable result, yes: Entirely favorable result)",
+      "Study the case description from the State Supreme Court of Alagoas (Brazil) and project the judgment (no: Appeal rejection, partial: Partially favorable resolution, yes: Fully favorable resolution)"
     ],
     "brazilian_court_decisions_unanimity": [
-      "In this task, you are given the case description from a decision heard at the State Supreme Court of Alagoas (Brazil). Predict the unanimity of the case (unanimity, not-unanimity, not_determined)"
+      "In this task, you are given the case description from a decision heard at the State Supreme Court of Alagoas (Brazil). Predict the unanimity of the case (unanimity, not-unanimity, not_determined)",
+      "Using the case description from a decision at the State Supreme Court of Alagoas (Brazil), predict the unanimity of the case (unanimity, not-unanimity, not_determined)",
+      "Given a case description from the State Supreme Court of Alagoas (Brazil), forecast the unanimity of the case (unanimity, not-unanimity, not_determined)",
+      "Based on the case description from the State Supreme Court of Alagoas (Brazil), determine the unanimity of the case (unanimity, not-unanimity, not_determined)",
+      "With the case description from a decision at the State Supreme Court of Alagoas (Brazil), anticipate the unanimity of the case (unanimity, not-unanimity, not_determined)",
+      "Assess the case description from the State Supreme Court of Alagoas (Brazil) and predict the unanimity of the case (unanimity, not-unanimity, not_determined)",
+      "Review the case description from the State Supreme Court of Alagoas (Brazil) and estimate the unanimity of the case (unanimity, not-unanimity, not_determined)",
+      "Examine the case description from a decision made at the State Supreme Court of Alagoas (Brazil) and predict the unanimity of the case (unanimity, not-unanimity, not_determined)",
+      "Analyze the case description from the State Supreme Court of Alagoas (Brazil) and foresee the unanimity of the case (unanimity, not-unanimity, not_determined)",
+      "Study the case description from the State Supreme Court of Alagoas (Brazil) and project the unanimity of the case (unanimity, not-unanimity, not_determined)"
     ],
     "german_argument_mining": [
-      "In this task, you are given sentences from German court decisions. Predict the major component of German Urteilsstil (conclusion: Overall result, definition: Abstract legal facts and consequences, subsumption: Determination sentence / Concrete facts, other: Anything else)"
+      "In this task, you are given sentences from German court decisions. Predict the major component of German Urteilsstil (conclusion: Overall result, definition: Abstract legal facts and consequences, subsumption: Determination sentence / Concrete facts, other: Anything else)",
+      "In this task, you will be provided with sentences from German court decisions. Identify the primary component of German Urteilsstil (conclusion: Overall result, definition: Abstract legal facts and consequences, subsumption: Determination sentence / Concrete facts, other: Anything else)",
+      "This task requires you to analyze sentences from German court decisions and determine the main component of German Urteilsstil (conclusion: Overall result, definition: Abstract legal facts and consequences, subsumption: Determination sentence / Concrete facts, other: Anything else)",
+      "For this task, you will be given sentences from German court decisions. Classify the main component of German Urteilsstil (conclusion: Overall result, definition: Abstract legal facts and consequences, subsumption: Determination sentence / Concrete facts, other: Anything else)",
+      "You will be presented with sentences from German court decisions in this task. Determine the primary aspect of German Urteilsstil (conclusion: Overall result, definition: Abstract legal facts and consequences, subsumption: Determination sentence / Concrete facts, other: Anything else)",
+      "In this assignment, you will be given sentences extracted from German court decisions. Predict the primary element of German Urteilsstil (conclusion: Overall result, definition: Abstract legal facts and consequences, subsumption: Determination sentence / Concrete facts, other: Anything else)",
+      "In this task, you will receive sentences taken from German court decisions. Identify the main element of German Urteilsstil (conclusion: Overall result, definition: Abstract legal facts and consequences, subsumption: Determination sentence / Concrete facts, other: Anything else)",
+      "In this task, you are to analyze sentences from German court decisions and classify the central component of German Urteilsstil (conclusion: Overall result, definition: Abstract legal facts and consequences, subsumption: Determination sentence / Concrete facts, other: Anything else)",
+      "This task involves examining sentences from German court decisions and determining the key aspect of German Urteilsstil (conclusion: Overall result, definition: Abstract legal facts and consequences, subsumption: Determination sentence / Concrete facts, other: Anything else)",
+      "For this task, you will be working with sentences from German court decisions. Identify the predominant component of German Urteilsstil (conclusion: Overall result, definition: Abstract legal facts and consequences, subsumption: Determination sentence / Concrete facts, other: Anything else)"
     ],
     "greek_legal_code_chapter": [
-      "In this task, you are given a Greek legislative document. Predict the chapter level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to."
+      "In this task, you are given a Greek legislative document. Predict the chapter level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
+      "This task requires you to examine a Greek legislative document and determine the chapter level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' that the document falls under.",
+      "In this task, you will analyze a Greek legislative document and identify the chapter level category within the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' that the document pertains to.",
+      "For this task, you will be given a Greek legislative document. Determine the chapter level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document is associated with.",
+      "In this assignment, you will be provided with a Greek legislative document. Predict the chapter level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' that the document is part of.",
+      "This task involves examining a Greek legislative document and identifying the chapter level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
+      "In this task, you will receive a Greek legislative document. Your objective is to determine the chapter level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document is related to.",
+      "For this task, you are to analyze a Greek legislative document and classify the chapter level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document corresponds to.",
+      "In this task, you will be working with a Greek legislative document. Predict the chapter level category within the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' that the document belongs to.",
+      "In this task, you are given a Greek legislative document to examine. Determine the chapter level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' that the document is a part of."
     ],
     "greek_legal_code_subject": [
-      "In this task, you are given a Greek legislative document. Predict the subject level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to."
+      "In this task, you are given a Greek legislative document. Predict the subject level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
+      "This task requires you to examine a Greek legislative document and determine the subject level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' that the document falls under.",
+      "In this task, you will analyze a Greek legislative document and identify the subject level category within the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' that the document pertains to.",
+      "For this task, you will be given a Greek legislative document. Determine the subject level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document is associated with.",
+      "In this assignment, you will be provided with a Greek legislative document. Predict the subject level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' that the document is part of.",
+      "This task involves examining a Greek legislative document and identifying the subject level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
+      "In this task, you will receive a Greek legislative document. Your objective is to determine the subject level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document is related to.",
+      "For this task, you are to analyze a Greek legislative document and classify the subject level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document corresponds to.",
+      "In this task, you will be working with a Greek legislative document. Predict the subject level category within the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' that the document belongs to.",
+      "In this task, you are given a Greek legislative document to examine. Determine the subject level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' that the document is a part of."
     ],
     "greek_legal_code_volume": [
-      "In this task, you are given a Greek legislative document. Predict the volume level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to."
+      "In this task, you are given a Greek legislative document. Predict the volume level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
+      "This task requires you to examine a Greek legislative document and determine the volume level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' that the document falls under.",
+      "In this task, you will analyze a Greek legislative document and identify the volume level category within the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' that the document pertains to.",
+      "For this task, you will be given a Greek legislative document. Determine the volume level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document is associated with.",
+      "In this assignment, you will be provided with a Greek legislative document. Predict the volume level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' that the document is part of.",
+      "This task involves examining a Greek legislative document and identifying the volume level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document belongs to.",
+      "In this task, you will receive a Greek legislative document. Your objective is to determine the volume level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document is related to.",
+      "For this task, you are to analyze a Greek legislative document and classify the volume level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' the document corresponds to.",
+      "In this task, you will be working with a Greek legislative document. Predict the volume level category within the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' that the document belongs to.",
+      "In this task, you are given a Greek legislative document to examine. Determine the volume level category of the 'Permanent Greek Legislation Code - Raptarchis (Ραπτάρχης)' that the document is a part of."
     ],
     "swiss_judgment_prediction": [
-      "In this task, you are given the facts description from a decision heard at the Swiss Federal Supreme Court. Predict the judgment of the case (approval: The appeal was approved, or dismissal: The appeal was denied)"
+      "In this task, you are given the facts description from a decision heard at the Swiss Federal Supreme Court. Predict the judgment of the case (approval: The appeal was approved, or dismissal: The appeal was denied)",
+      "In this task, you will be provided with the facts description from a decision made at the Swiss Federal Supreme Court. Determine the judgment of the case (approval: The appeal was granted, or dismissal: The appeal was rejected)",
+      "This task involves examining the facts description from a decision at the Swiss Federal Supreme Court. Predict the outcome of the case (approval: The appeal was accepted, or dismissal: The appeal was turned down)",
+      "For this task, you are given the facts description from a decision taken at the Swiss Federal Supreme Court. Predict the judgment of the case (approval: The appeal was approved, or dismissal: The appeal was not approved)",
+      "In this assignment, you will be presented with the facts description from a decision heard at the Swiss Federal Supreme Court. Predict the judgment of the case (approval: The appeal was successful, or dismissal: The appeal was unsuccessful)",
+      "In this task, you will analyze the facts description from a decision made by the Swiss Federal Supreme Court. Determine the judgment of the case (approval: The appeal was upheld, or dismissal: The appeal was dismissed)",
+      "In this task, you will be given the facts description from a Swiss Federal Supreme Court decision. Predict the judgment of the case (approval: The appeal was accepted, or dismissal: The appeal was denied)",
+      "This task requires you to examine the facts description from a decision handed down by the Swiss Federal Supreme Court. Predict the judgment of the case (approval: The appeal was approved, or dismissal: The appeal was rejected)",
+      "For this task, you will review the facts description from a decision reached by the Swiss Federal Supreme Court. Predict the judgment of the case (approval: The appeal was endorsed, or dismissal: The appeal was disapproved)",
+      "In this task, you are given the facts description from a decision made at the Swiss Federal Supreme Court. Determine the judgment of the case (approval: The appeal was ratified, or dismissal: The appeal was repudiated)"
     ],
     "online_terms_of_service_unfairness_levels": [
-      "In this task, you are given a sentence from a Terms of Service (ToS) document. Predict the unfairness level of the sentence (potentially_unfair, clearly_unfair, clearly_fair, untagged)"
+      "In this task, you are given a sentence from a Terms of Service (ToS) document. Predict the unfairness level of the sentence (potentially_unfair, clearly_unfair, clearly_fair, untagged)",
+      "In this task, you will be provided with a sentence from a Terms of Service (ToS) document. Determine the unfairness level of the sentence (potentially_unfair, clearly_unfair, clearly_fair, untagged)",
+      "This task involves examining a sentence from a Terms of Service (ToS) document. Predict the unfairness level of the sentence (potentially_unfair, clearly_unfair, clearly_fair, untagged)",
+      "For this task, you are given a sentence from a Terms of Service (ToS) document. Assess the unfairness level of the sentence (potentially_unfair, clearly_unfair, clearly_fair, untagged)",
+      "In this assignment, you will be presented with a sentence from a Terms of Service (ToS) document. Predict the unfairness level of the sentence (potentially_unfair, clearly_unfair, clearly_fair, untagged)",
+      "In this task, you will analyze a sentence from a Terms of Service (ToS) document. Determine the unfairness level of the sentence (potentially_unfair, clearly_unfair, clearly_fair, untagged)",
+      "In this task, you will be given a sentence from a Terms of Service (ToS) document. Estimate the unfairness level of the sentence (potentially_unfair, clearly_unfair, clearly_fair, untagged)",
+      "This task requires you to examine a sentence from a Terms of Service (ToS) document. Predict the unfairness level of the sentence (potentially_unfair, clearly_unfair, clearly_fair, untagged)",
+      "For this task, you will review a sentence from a Terms of Service (ToS) document. Predict the unfairness level of the sentence (potentially_unfair, clearly_unfair, clearly_fair, untagged)",
+      "In this task, you are given a sentence from a Terms of Service (ToS) document. Evaluate the unfairness level of the sentence (potentially_unfair, clearly_unfair, clearly_fair, untagged)"
     ],
     "online_terms_of_service_clause_topics": [
-      "In this task, you are given a sentence from a Terms of Service (ToS) document. Predict the clause topics of the sentence out of the following: A: Arbitration, B: Unilateral change, C: Content removal, D: Jurisdiction, E: Choice of law, F: Limitation of liability, G: Unilateral termination, H: Contract by using, I: Privacy included. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
+      "In this task, you are given a sentence from a Terms of Service (ToS) document. Predict the clause topics of the sentence out of the following: A: Arbitration, B: Unilateral change, C: Content removal, D: Jurisdiction, E: Choice of law, F: Limitation of liability, G: Unilateral termination, H: Contract by using, I: Privacy included. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma.",
+      "For this task, you are provided with a sentence from a Terms of Service (ToS) document. Identify the clause topics of the sentence from the following options: A: Arbitration, B: Unilateral change, C: Content removal, D: Jurisdiction, E: Choice of law, F: Limitation of liability, G: Unilateral termination, H: Contract by using, I: Privacy included. If no label applies, respond with n/a; if multiple labels apply, list them separated by a comma.",
+      "In this task, you will be given a sentence from a Terms of Service (ToS) document. Determine the clause topics of the sentence using the following labels: A: Arbitration, B: Unilateral change, C: Content removal, D: Jurisdiction, E: Choice of law, F: Limitation of liability, G: Unilateral termination, H: Contract by using, I: Privacy included. If there is no applicable label, reply with n/a; if multiple labels apply, specify all of them separated by a comma.",
+      "This task involves examining a sentence from a Terms of Service (ToS) document. Predict the clause topics of the sentence from these options: A: Arbitration, B: Unilateral change, C: Content removal, D: Jurisdiction, E: Choice of law, F: Limitation of liability, G: Unilateral termination, H: Contract by using, I: Privacy included. If no label is relevant, answer with n/a; if multiple labels are relevant, list them separated by a comma.",
+      "For this task, you are given a sentence from a Terms of Service (ToS) document. Assess the clause topics of the sentence using the following categories: A: Arbitration, B: Unilateral change, C: Content removal, D: Jurisdiction, E: Choice of law, F: Limitation of liability, G: Unilateral termination, H: Contract by using, I: Privacy included. If no label is appropriate, reply with n/a; if multiple labels are appropriate, mention all of them separated by a comma.",
+      "In this assignment, you will be presented with a sentence from a Terms of Service (ToS) document. Identify the clause topics of the sentence from the following choices: A: Arbitration, B: Unilateral change, C: Content removal, D: Jurisdiction, E: Choice of law, F: Limitation of liability, G: Unilateral termination, H: Contract by using, I: Privacy included. If there is no suitable label, respond with n/a; if multiple labels are suitable, provide all of them separated by a comma.",
+      "In this task, you will analyze a sentence from a Terms of Service (ToS) document. Determine the clause topics of the sentence using these labels: A: Arbitration, B: Unilateral change, C: Content removal, D: Jurisdiction, E: Choice of law, F: Limitation of liability, G: Unilateral termination, H: Contract by using, I: Privacy included. If no label applies, answer with n/a; if multiple labels apply, list them separated by a comma.",
+      "This task requires you to examine a sentence from a Terms of Service (ToS) document. Identify the clause topics of the sentence using the following options: A: Arbitration, B: Unilateral change, C: Content removal, D: Jurisdiction, E: Choice of law, F: Limitation of liability, G: Unilateral termination, H: Contract by using, I: Privacy included. If no label is relevant, respond with n/a; if multiple labels are relevant, specify all of them separated by a comma.",
+      "For this task, you are provided with a sentence from a Terms of Service (ToS) document. Determine the clause topics of the sentence from these categories: A: Arbitration, B: Unilateral change, C: Content removal, D: Jurisdiction, E: Choice of law, F: Limitation of liability, G: Unilateral termination, H: Contract by using, I: Privacy included. If no label is suitable, reply with n/a; if multiple labels are suitable, list all of them separated by a comma.",
+      "In this task, you will be given a sentence from a Terms of Service (ToS) document. Predict the clause topics of the sentence using the following labels: A: Arbitration, B: Unilateral change, C: Content removal, D: Jurisdiction, E: Choice of law, F: Limitation of liability, G: Unilateral termination, H: Contract by using, I: Privacy included. If no label is applicable, answer with n/a; if multiple labels are applicable, mention all of them separated by a comma."
     ],
     "covid19_emergency_event": [
-      "In this task, you are given a sentence from a European legislative document. Predict the applicable measurements against COVID-19 out of the following: A: State of Emergency, B: Restrictions of fundamental rights and civil liberties, C: Restrictions of daily liberties, D: Closures / lockdown, E: Suspension of international cooperation and commitments, F: Police mobilization, G: Army mobilization, H: Government oversight. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
+      "In this task, you are given a sentence from a European legislative document. Predict the applicable measurements against COVID-19 out of the following: A: State of Emergency, B: Restrictions of fundamental rights and civil liberties, C: Restrictions of daily liberties, D: Closures / lockdown, E: Suspension of international cooperation and commitments, F: Police mobilization, G: Army mobilization, H: Government oversight. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma.",
+      "In this task, analyze a sentence from a European legislative document and determine which COVID-19 countermeasures apply from the following options: A: State of Emergency, B: Restrictions of fundamental rights and civil liberties, C: Restrictions of daily liberties, D: Closures / lockdown, E: Suspension of international cooperation and commitments, F: Police mobilization, G: Army mobilization, H: Government oversight. If no label is relevant, respond with n/a; if multiple labels are relevant, specify all of them separated by a comma.",
+      "For this task, you will be provided with a sentence from a European legislative document. Identify the applicable COVID-19 measures from the following list: A: State of Emergency, B: Restrictions of fundamental rights and civil liberties, C: Restrictions of daily liberties, D: Closures / lockdown, E: Suspension of international cooperation and commitments, F: Police mobilization, G: Army mobilization, H: Government oversight. If no label is suitable, reply with n/a; if multiple labels are suitable, list all of them separated by a comma.",
+      "In this task, you are given a sentence from a European legislative document. Determine the relevant COVID-19 measures from these categories: A: State of Emergency, B: Restrictions of fundamental rights and civil liberties, C: Restrictions of daily liberties, D: Closures / lockdown, E: Suspension of international cooperation and commitments, F: Police mobilization, G: Army mobilization, H: Government oversight. If no label is applicable, answer with n/a; if multiple labels are applicable, mention all of them separated by a comma.",
+      "Examine a sentence from a European legislative document for this task and predict which COVID-19 countermeasures are applicable from the following: A: State of Emergency, B: Restrictions of fundamental rights and civil liberties, C: Restrictions of daily liberties, D: Closures / lockdown, E: Suspension of international cooperation and commitments, F: Police mobilization, G: Army mobilization, H: Government oversight. If there is no relevant label, reply with n/a; if there are multiple relevant labels, list them separated by a comma.",
+      "In this task, you are given a sentence from a European legislative document. Identify the applicable COVID-19 countermeasures from the following options: A: State of Emergency, B: Restrictions of fundamental rights and civil liberties, C: Restrictions of daily liberties, D: Closures / lockdown, E: Suspension of international cooperation and commitments, F: Police mobilization, G: Army mobilization, H: Government oversight. If no label is relevant, respond with n/a; if multiple labels are relevant, specify all of them separated by a comma.",
+      "For this task, you will receive a sentence from a European legislative document. Determine which COVID-19 measures apply from the following list: A: State of Emergency, B: Restrictions of fundamental rights and civil liberties, C: Restrictions of daily liberties, D: Closures / lockdown, E: Suspension of international cooperation and commitments, F: Police mobilization, G: Army mobilization, H: Government oversight. If no label is appropriate, answer with n/a; if multiple labels are appropriate, list all of them separated by a comma.",
+      "In this task, you are provided with a sentence from a European legislative document. Predict the relevant COVID-19 measures from the following categories: A: State of Emergency, B: Restrictions of fundamental rights and civil liberties, C: Restrictions of daily liberties, D: Closures / lockdown, E: Suspension of international cooperation and commitments, F: Police mobilization, G: Army mobilization, H: Government oversight. If no label applies, respond with n/a; if multiple labels apply, mention all of them separated by a comma.",
+      "In this task, analyze a sentence from a European legislative document and identify the applicable COVID-19 countermeasures from these options: A: State of Emergency, B: Restrictions of fundamental rights and civil liberties, C: Restrictions of daily liberties, D: Closures / lockdown, E: Suspension of international cooperation and commitments, F: Police mobilization, G: Army mobilization, H: Government oversight. If no label is relevant, reply with n/a; if multiple labels are relevant, list them separated by a comma.",
+      "Examine a sentence from a European legislative document in this task and determine which COVID-19 measures are relevant from the following list: A: State of Emergency, B: Restrictions of fundamental rights and civil liberties, C: Restrictions of daily liberties, D: Closures / lockdown, E: Suspension of international cooperation and commitments, F: Police mobilization, G: Army mobilization, H: Government oversight. If no label is applicable, answer with n/a; if multiple labels are applicable, mention all of them separated by a comma."
     ],
     "multi_eurlex_level_1": [
       "In this task, you are given a document from an EU law. Predict the level 1 concept in the EUROVOC taxonomy. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma."
