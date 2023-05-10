@@ -10,11 +10,10 @@ from absl import logging
 import easynmt
 import tqdm
 
-
 _LANGUAGES = flags.DEFINE_multi_string(
     'languages',
     ['bg', 'cs', 'da', 'de', 'el', 'en', 'es', 'et', 'fi', 'fr', 'ga', 'hr',
-     'hu', 'it', 'lt', 'lv', 'mt', 'nl', 'pl', 'pt', 'ro', 'sk', 'sl', 'sv'],
+     'hu', 'it', 'lt', 'lv', 'nl', 'pl', 'pt', 'ro', 'sk', 'sl', 'sv'], # mt is not supported
     'Languages to translate to.',
 )
 # for faster speed, use "opus-mt" or "m2m_100_418M", for better quality
@@ -66,6 +65,7 @@ def translate_to_target_langs(
             result[target_lang][group] = translated
 
     return result
+
 
 def main(args: Sequence[str]) -> None:
     if len(args) > 1:
