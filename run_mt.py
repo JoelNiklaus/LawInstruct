@@ -54,16 +54,16 @@ def translate_to_target_langs(
     for target_lang in target_langs:
         for group in tqdm.tqdm(dataset):
             result[target_lang][group] = []
-            for instruction in dataset[group]:
-                translated = model.translate(
-                    instruction,
-                    source_lang=source_lang,
-                    target_lang=target_lang,
-                    batch_size=_BATCH_SIZE.value,
-                )
-                logging.info('Original: %r', instruction)
-                logging.info('Translated to %s: %r', target_lang, translated)
-                result[target_lang][group].append(translated)
+            instructions = dataset[group]
+            translated = model.translate(
+                instructions,
+                source_lang=source_lang,
+                target_lang=target_lang,
+                batch_size=_BATCH_SIZE.value,
+            )
+            logging.info('Original: %r', instructions)
+            logging.info('Translated to %s: %r', target_lang, translated)
+            result[target_lang][group] = translated
 
     return result
 
