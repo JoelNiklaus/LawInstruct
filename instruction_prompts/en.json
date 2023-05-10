@@ -1045,7 +1045,6 @@
       "For this task, you are given a document concerning EU law. Identify the level 2 concept in the EUROVOC taxonomy. If there is no label, reply with n/a. If there are multiple labels, enumerate them separated by commas.",
       "In this task, you will work with a document from EU legislation. Predict the level 2 concept in the EUROVOC taxonomy. If no label is applicable, reply with n/a. For multiple labels, specify them separated by commas."
     ],
-    ],
     "multi_eurlex_level_3": [
       "In this task, you are given a document from an EU law. Predict the level 3 concept in the EUROVOC taxonomy. If there is no label reply n/a, if there are multiple labels specify all of them separated by a comma.",
       "In this task, you are presented with a document from EU legislation. Identify the level 3 concept in the EUROVOC taxonomy. If no label is applicable, reply with n/a. For multiple labels, list them separated by commas.",
@@ -1057,7 +1056,6 @@
       "In this task, you are tasked with analyzing a document from EU legislation. Determine the level 3 concept within the EUROVOC taxonomy. If no label exists, reply with n/a. For multiple labels, list them separated by commas.",
       "For this task, you are given a document concerning EU law. Identify the level 3 concept in the EUROVOC taxonomy. If there is no label, reply with n/a. If there are multiple labels, enumerate them separated by commas.",
       "In this task, you will work with a document from EU legislation. Predict the level 3 concept in the EUROVOC taxonomy. If no label is applicable, reply with n/a. For multiple labels, specify them separated by commas."
-    ],
     ],
     "greek_legal_ner": [
       "In this task, you are given a sentence from Greek legislation. Predict the named entity type for each token out of the following: O, B-ORG, I-ORG, B-GPE, I-GPE, B-LEG-REFS, I-LEG-REFS, B-PUBLIC-DOCS, I-PUBLIC-DOCS, B-PERSON, I-PERSON, B-FACILITY, I-FACILITY, B-LOCATION-UNK, I-LOCATION-UNK, B-LOCATION-NAT, I-LOCATION-NAT",
@@ -1071,7 +1069,6 @@
       "In this task, you are given a sentence from Greek legal documents. Determine the named entity type for each token using these categories: O, B-ORG, I-ORG, B-GPE, I-GPE, B-LEG-REFS, I-LEG-REFS, B-PUBLIC-DOCS, I-PUBLIC-DOCS, B-PERSON, I-PERSON, B-FACILITY, I-FACILITY, B-LOCATION-UNK, I-LOCATION-UNK, B-LOCATION-NAT, I-LOCATION-NAT",
       "For this task, you will analyze a sentence from Greek legislation. Predict the named entity type for each token using the following labels: O, B-ORG, I-ORG, B-GPE, I-GPE, B-LEG-REFS, I-LEG-REFS, B-PUBLIC-DOCS, I-PUBLIC-DOCS, B-PERSON, I-PERSON, B-FACILITY, I-FACILITY, B-LOCATION-UNK, I-LOCATION-UNK, B-LOCATION-NAT, I-LOCATION-NAT"
     ],
-    ,
     "legalnero": [
       "In this task, you are given a sentence from Romanian legislation. Predict the named entity type for each token out of the following: O, B-TIME, I-TIME, B-LEGAL, I-LEGAL, B-ORG, I-ORG, B-LOC, I-LOC, B-PER, I-PER",
       "For this task, you are presented with a sentence from Romanian legal texts. Identify the named entity type for each token using the following labels: O, B-TIME, I-TIME, B-LEGAL, I-LEGAL, B-ORG, I-ORG, B-LOC, I-LOC, B-PER, I-PER",
@@ -1095,7 +1092,6 @@
       "For this task, you will work with a sentence from Brazilian legal sources (including court decisions and legislation). Predict the named entity type for each token using the following labels: O, B-ORGANIZACAO, I-ORGANIZACAO, B-PESSOA, I-PESSOA, B-TEMPO, I-TEMPO, B-LOCAL, I-LOCAL, B-LEGISLACAO, I-LEGISLACAO, B-JURISPRUDENCIA, I-JURISPRUDENCIA",
       "In this task, you will analyze a sentence from Brazilian legal documents (such as legislation and court rulings). Identify the named entity type for each token using these categories: O, B-ORGANIZACAO, I-ORGANIZACAO, B-PESSOA, I-PESSOA, B-TEMPO, I-TEMPO, B-LOCAL, I-LOCAL, B-LEGISLACAO, I-LEGISLACAO, B-JURISPRUDENCIA, I-JURISPRUDENCIA"
     ],
-    ,
     "mapa_coarse": [
       "In this task, you are given a sentence from the EUR-Lex database. Predict the coarse grained named entity type for each token out of the following: O, B-ORGANISATION, I-ORGANISATION, B-ADDRESS, I-ADDRESS, B-DATE, I-DATE, B-PERSON, I-PERSON, B-AMOUNT, I-AMOUNT, B-TIME, I-TIME",
       "Analyze the sentence provided from the EUR-Lex database and determine the coarse grained named entity type for each token using the following categories: O, B-ORGANISATION, I-ORGANISATION, B-ADDRESS, I-ADDRESS, B-DATE, I-DATE, B-PERSON, I-PERSON, B-AMOUNT, I-AMOUNT, B-TIME, I-TIME",

@@ -1,5 +1,7 @@
+absl-py
 BeautifulSoup4~=4.11.1
 datasets~=2.6.1
+easynmt
 fasttext-langdetect
 iso-639
 toml~=0.10.2
@@ -10,4 +12,4 @@ transformers~=4.24.0
 pandas~=1.5.3
 easynmt~=2.0.2
 numpy~=1.23.5
-yaml~=0.2.5
+yaml
