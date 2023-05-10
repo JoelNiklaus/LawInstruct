@@ -12,6 +12,66 @@
       "Attempt the questions on the Brazilian bar test with accurate legal knowledge.",
       "Respond to the multiple choice legal questions from the Brazilian bar exam."
     ],
+    "brcad5_judgment": [
+      "Determine what you think the Brazilian appeals court will rule for the case.",
+      "What do you think the Brazilian appeals court will rule for the case?",
+      "Predict the likely judgment from the Brazilian appeals court for this case.",
+      "Foresee the ruling of the Brazilian appeals court for the given case.",
+      "In your estimation, how will the Brazilian appeals court decide this case?",
+      "Anticipate the decision of the Brazilian appeals court for the case.",
+      "What might be the judgment of the Brazilian appeals court for this case?",
+      "Project the probable ruling of the Brazilian appeals court for this case.",
+      "What is your prediction for the Brazilian appeals court's ruling on this case?",
+      "Estimate the likely decision of the Brazilian appeals court for the case."
+    ],
+    "brcad5_topic_1st": [
+      "What 1st-level topic is this Brazilian Federal Small Claims Courts case related to?",
+      "Determine the 1st-level topic that this Brazilian case is related to.",
+      "Identify the topic at the 1st-level that this Brazilian Small Claims Court case pertains to.",
+      "Establish the 1st-level subject that this Brazilian case is associated with.",
+      "What is the 1st-level topic of relevance in this Brazilian Federal Small Claims Courts case?",
+      "Can you identify the 1st-level theme this Brazilian case revolves around?",
+      "Ascertain the 1st-level topic that this Brazilian case corresponds to.",
+      "What is the central 1st-level theme of this Brazilian Federal Small Claims Courts case?",
+      "Clarify the 1st-level topic that this Brazilian case involves.",
+      "What is the 1st-level subject matter of this Brazilian Federal Small Claims Courts case?"
+    ],
+    "brcad5_topic_2nd": [
+      "What 2nd-level topic is this Brazilian Federal Small Claims Courts case related to?",
+      "Determine the 2nd-level topic that this Brazilian case is related to.",
+      "Identify the topic at the 2nd-level that this Brazilian Small Claims Court case pertains to.",
+      "Establish the 2nd-level subject that this Brazilian case is associated with.",
+      "What is the 2nd-level topic of relevance in this Brazilian Federal Small Claims Courts case?",
+      "Can you identify the 2nd-level theme this Brazilian case revolves around?",
+      "Ascertain the 2nd-level topic that this Brazilian case corresponds to.",
+      "What is the central 2nd-level theme of this Brazilian Federal Small Claims Courts case?",
+      "Clarify the 2nd-level topic that this Brazilian case involves.",
+      "What is the 2nd-level subject matter of this Brazilian Federal Small Claims Courts case?"
+    ],
+    "brcad5_topic_3rd": [
+      "What 3rd-level topic is this Brazilian Federal Small Claims Courts case related to?",
+      "Determine the 3rd-level topic that this Brazilian case is related to.",
+      "Identify the topic at the 3rd-level that this Brazilian Small Claims Court case pertains to.",
+      "Establish the 3rd-level subject that this Brazilian case is associated with.",
+      "What is the 3rd-level topic of relevance in this Brazilian Federal Small Claims Courts case?",
+      "Can you identify the 3rd-level theme this Brazilian case revolves around?",
+      "Ascertain the 3rd-level topic that this Brazilian case corresponds to.",
+      "What is the central 3rd-level theme of this Brazilian Federal Small Claims Courts case?",
+      "Clarify the 3rd-level topic that this Brazilian case involves.",
+      "What is the 3rd-level subject matter of this Brazilian Federal Small Claims Courts case?"
+    ],
+    "brcad5_law_area": [
+      "What area of law is this Brazilian case related to?",
+      "Determine the area of law that this Brazilian case is related to.",
+      "Identify the legal domain that this Brazilian case pertains to.",
+      "Indicate the field of law associated with this Brazilian case.",
+      "What is the relevant law sector for this Brazilian case?",
+      "Establish the legal sphere this Brazilian case falls under.",
+      "Could you specify the area of law this Brazilian case is connected with?",
+      "Recognize the legal field applicable to this Brazilian case.",
+      "What is the legal territory that this Brazilian case concerns?",
+      "Point out the area of law implicated in this Brazilian case."
+    ],
     "brcad5_mc": [
       "Please answer these multiple choice questions given the following case from the Brazilian Federal Small Claims Courts. Denote the correct answer as “Answer:”.",
       "Pick the most likely correct answer concerning the given Brazilian case.",

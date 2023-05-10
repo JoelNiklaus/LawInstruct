@@ -22,15 +22,15 @@ class BrCAD5(AbstractDataset):
 
         for example in df:
             case = example['preprocessed_full_text_first_instance_court_ruling']
-            instruction = 'Determine what you think the Brazilian appeals court will rule for the case.'
+
+            instruction, instruction_language = instructions.sample("brcad5_judgment")
             prompt = f"Case: {case}"
             answer = f"Judgement: {example['label']}"
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
                                         answer, task_type, jurisdiction)
 
-            # TODO: this isn't _really_ an instruction, just a question...
-            instruction = 'What area of law is this case related to?'
+            instruction, instruction_language = instructions.sample("brcad5_law_area")
             prompt = f"Case: {case}"
             answer = f"Area of Law: {example['current_case_class']}"
             yield self.build_data_point(instruction_language, prompt_language,
@@ -38,8 +38,7 @@ class BrCAD5(AbstractDataset):
                                         answer, task_type, jurisdiction)
 
             for level in ["1st", "2nd", "3rd"]:
-                # TODO: this isn't _really_ an instruction, just a question...
-                instruction = f"What {level}-level topic is this case related to?"
+                instruction, instruction_language = instructions.sample(f"brcad5_topic_{level}")
                 prompt = f"Case: {case}"
                 answer = f"Topic: {example[f'case_topic_{level}_level']}"
                 yield self.build_data_point(instruction_language,

@@ -35,7 +35,6 @@ class PrivacySummarization(AbstractDataset):
         for _, record in df.iterrows():
             # `QouteText` is a typo in the original dataset.
             passage, label = record["QouteText"], record["Point"]
-            # TODO: Should this really count as the instruction?
             instruction, instruction_language = instructions.sample("privacy_summarization")
             prompt = passage
             answer = _TEXT4LABEL[label]
