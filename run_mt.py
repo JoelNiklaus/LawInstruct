@@ -67,11 +67,6 @@ def translate_to_target_langs(
 
     return result
 
-
-def get_file(index: int) -> str:
-    return f'https://huggingface.co/datasets/pile-of-law/lawnstruct/resolve/main/data/train.{index}.jsonl.xz'
-
-
 def main(args: Sequence[str]) -> None:
     if len(args) > 1:
         raise app.UsageError('Too many command-line arguments.')

@@ -78,10 +78,6 @@ class AbstractDataset:
             "This method should yield DataPoint dicts with the following keys: "
             f"{', '.join(DataPoint.__annotations__.keys())}.")
 
-    def get_instruction_bank(self, language="en"):
-        return json.loads(
-            pathlib.Path(f"instruction_banks/{language}.json").read_text())[self.name]
-
     def build_data_point(self,
                          instruction_language,
                          prompt_language: str,
