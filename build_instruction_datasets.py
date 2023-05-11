@@ -92,10 +92,6 @@ def build_instruction_datasets(
         build_from_scratch: bool = False
 ) -> None:
     logging.info("Building instruction datasets: %s", datasets)
-    if build_erroneous_datasets:
-        datasets_to_build = ERRONEOUS_DATASETS
-    else:
-        datasets_to_build = set(datasets) - ERRONEOUS_DATASETS
     if debug:
         debug_size = 5
         processes = 1  # Parallelism would only introduce more confusion.
@@ -103,8 +99,12 @@ def build_instruction_datasets(
         debug_size = -1
         processes = processes
 
-    if not build_from_scratch:
-        datasets_to_build = datasets_to_build - DATASETS_ALREADY_BUILT
+    if build_erroneous_datasets:
+        datasets_to_build = sorted(list(ERRONEOUS_DATASETS))
+    else:
+        datasets_to_build = [dataset for dataset in datasets if dataset not in ERRONEOUS_DATASETS]
+        if not build_from_scratch:
+            datasets_to_build = [dataset for dataset in datasets_to_build if dataset not in DATASETS_ALREADY_BUILT]
 
     logging.info("Building datasets: %s",
                  [d.__name__ for d in datasets_to_build])
@@ -119,6 +119,8 @@ def build_instruction_datasets(
     #     pool.map(build_one, datasets_to_build)
     for dataset in datasets_to_build:
         build_one(dataset)
+
+    # TODO add option to run only remaining datasets not yet saved in data folder
 
 
 if __name__ == '__main__':

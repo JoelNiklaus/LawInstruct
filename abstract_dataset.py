@@ -186,7 +186,7 @@ class AbstractDataset:
             debug_size: If > 0, only write this many datapoints, and log the
               last one for debugging.
         """
-        self.logger.info('Building instruction dataset for %s', self.name)
+        self.logger.info('Building instruction dataset for %s. Loading data...', self.name)
 
         # Curry the function to get the file name.
         def get_file_name(file_index):
@@ -197,7 +197,8 @@ class AbstractDataset:
                 if 0 < debug_size <= i:
                     self.logger.info('Stopping after %d datapoints.',
                                      debug_size)
-                    self.logger.info('Last datapoint: %s', datapoint)
+                    self.logger.info('Last datapoint from dataset %s: %s',
+                                     self.name, datapoint)
                     break
                 try:
                     self.write_json_line(writer, datapoint)

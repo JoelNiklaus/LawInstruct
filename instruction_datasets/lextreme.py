@@ -104,6 +104,7 @@ INSTRUCTION_GROUPS: Final[tuple[str, ...]] = ('brazilian_court_decisions_judgmen
 TASK_CODE_MAPPING = {
     'brazilian_court_decisions_judgment': 'SLTC',
     'brazilian_court_decisions_unanimity': 'SLTC',
+    'swiss_judgment_prediction': 'SLTC',
     'german_argument_mining': 'SLTC',
     'greek_legal_code_chapter': 'SLTC',
     'greek_legal_code_subject': 'SLTC',
@@ -124,6 +125,7 @@ TASK_CODE_MAPPING = {
 JURISDICTION_MAPPING = {
     'brazilian_court_decisions_judgment': Jurisdiction.BRAZIL,
     'brazilian_court_decisions_unanimity': Jurisdiction.BRAZIL,
+    'swiss_judgment_prediction': Jurisdiction.SWITZERLAND,
     'german_argument_mining': Jurisdiction.GERMANY,
     'greek_legal_code_chapter': Jurisdiction.GREECE,
     'greek_legal_code_subject': Jurisdiction.GREECE,

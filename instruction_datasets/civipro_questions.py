@@ -62,7 +62,7 @@ class CiviproQuestions(AbstractDataset):
             instruction_no_passage, instruction_no_passage_language = instructions.sample("civipro_questions_generate_no_passage")
             prompt_no_passage = f"Question: {question}\n{choice_string}"
             answer_no_passage = f"Explanation: {analysis_string}\nAnswer: {correct_answer}"
-            instruction_no_explanation, instruction_no_explanation_language = instructions.sample("civipro_questions_generate_no_explanation")
+            instruction_no_explanation, instruction_no_explanation_language = instructions.sample("civipro_questions_no_explanation")
             prompt_no_explanation = f"Question: {question}\n{choice_string}"
             answer_no_explanation = f"Answer: {correct_answer}"
 
