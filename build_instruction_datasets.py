@@ -24,6 +24,11 @@ def parse_args(args: Optional[list[str]] = None) -> argparse.Namespace:
         help='Builds a small version of the dataset for debugging',
     )
     parser.add_argument(
+        '--build_erroneous_datasets',
+        action='store_true',
+        help='Builds only the erroneous datasets for debugging',
+    )
+    parser.add_argument(
         '--build_from_scratch',
         action='store_true',
         help='Builds the dataset from scratch, even if it already exists',
@@ -81,21 +86,25 @@ def build_instruction_datasets(
         datasets: Sequence[Type[AbstractDataset]],
         instructions: instruction_manager.InstructionManager,
         *,
-        processes: int,
+        processes: int = -1,
         debug: bool = False,
+        build_erroneous_datasets: bool = False,
         build_from_scratch: bool = False
 ) -> None:
     logging.info("Building instruction datasets: %s", datasets)
-    if debug:
+    if build_erroneous_datasets:
         datasets_to_build = ERRONEOUS_DATASETS
+    else:
+        datasets_to_build = set(datasets) - ERRONEOUS_DATASETS
+    if debug:
         debug_size = 5
         processes = 1  # Parallelism would only introduce more confusion.
     else:
-        datasets_to_build = set(datasets) - ERRONEOUS_DATASETS
         debug_size = -1
+        processes = processes
 
-        if not build_from_scratch:
-            datasets_to_build = datasets_to_build - DATASETS_ALREADY_BUILT
+    if not build_from_scratch:
+        datasets_to_build = datasets_to_build - DATASETS_ALREADY_BUILT
 
     logging.info("Building datasets: %s",
                  [d.__name__ for d in datasets_to_build])
@@ -114,13 +123,14 @@ def build_instruction_datasets(
 
 if __name__ == '__main__':
     args = parse_args()
-    logging.basicConfig(level=logging.WARNING)
+    log_level = logging.DEBUG if args.debug else logging.WARNING
+    logging.basicConfig(level=log_level)
     instructions = instruction_manager.InstructionManager(
         mode=args.language_mode,
-        instruction_bank_size=args.instruction_bank_size,
-        random_state=1)
+        instruction_bank_size=args.instruction_bank_size)
     build_instruction_datasets(args.datasets,
                                instructions,
                                processes=args.processes,
                                debug=args.debug,
+                               build_erroneous_datasets=args.build_erroneous_datasets,
                                build_from_scratch=args.build_from_scratch)

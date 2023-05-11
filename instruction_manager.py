@@ -44,7 +44,7 @@ class InstructionManager:
             self,
             mode: str,
             instruction_bank_size: int,
-            random_state: Optional[int] = None,
+            random_state: Optional[int] = 42,
     ) -> None:
         """Creates an instruction bank that can be sampled from.
 
