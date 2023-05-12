@@ -50,10 +50,10 @@ class LawngNli(AbstractDataset):
             "neutral": "neutral",
         }
 
+        subset = "lawng_nli_entailment"
         for i, row in df.iterrows():
             for premise_col in _PREMISE_COLS:
                 # Add the datapoint.
-                subset = "lawng_nli_entailment"
                 instruction, instruction_language = instructions.sample(subset)
                 prompt = f"Passage 1: {row[premise_col]}\n" \
                             f"Sentence 2: {row['hypothesis']}\n"
@@ -62,6 +62,7 @@ class LawngNli(AbstractDataset):
                                             prompt_language, "en", instruction,
                                             prompt, answer, task_type,
                                             jurisdiction, subset)
+
                 # Add the contradicting datapoint.
                 instruction, instruction_language = instructions.sample(subset)
                 prompt = f"Passage 1: {row[premise_col]}\n" \

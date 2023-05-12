@@ -73,6 +73,7 @@ class SwissLeadingDecisions(AbstractDataset):
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
                                             instruction, prompt, answer, task_type, jurisdiction, subset)
 
+        for example in df:
             if example['topic']:
                 subset = "swiss_judgment_topic"
                 instruction, instruction_language = instructions.sample(subset)

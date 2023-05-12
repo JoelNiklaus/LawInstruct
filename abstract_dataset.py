@@ -199,6 +199,8 @@ class AbstractDataset:
         writer = None
 
         for i, datapoint in enumerate(tqdm(self.get_data(instructions))):
+            # TODO this solution might not be ideal, because it needs to close and open the filewriter
+            #  for every datapoint if we save to different subsets within the same datapoint
             subset = datapoint.subset
             if subset != self.subset:
                 if writer is not None:

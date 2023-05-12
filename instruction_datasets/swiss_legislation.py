@@ -32,6 +32,8 @@ class SwissLegislation(AbstractDataset):
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
                                             instruction, prompt, answer, task_type, jurisdiction, subset)
 
+        for example in df:
+            prompt = f"Law: {example['pdf_content']}"
             if example['title']:
                 subset = "swiss_legislation_title"
                 instruction, instruction_language = instructions.sample(subset)
@@ -39,6 +41,8 @@ class SwissLegislation(AbstractDataset):
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
                                             instruction, prompt, answer, task_type, jurisdiction, subset)
 
+        for example in df:
+            prompt = f"Law: {example['pdf_content']}"
             if example['short']:
                 subset = "swiss_legislation_short"
                 instruction, instruction_language = instructions.sample(subset)
@@ -46,6 +50,8 @@ class SwissLegislation(AbstractDataset):
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
                                             instruction, prompt, answer, task_type, jurisdiction, subset)
 
+        for example in df:
+            prompt = f"Law: {example['pdf_content']}"
             if example['abbreviation']:
                 subset = "swiss_legislation_abbreviation"
                 instruction, instruction_language = instructions.sample(subset)

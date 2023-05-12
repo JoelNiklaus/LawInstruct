@@ -31,6 +31,8 @@ class BrCAD5(AbstractDataset):
                                         answer_language, instruction, prompt,
                                         answer, task_type, jurisdiction, subset)
 
+        for example in df:
+            case = example['preprocessed_full_text_first_instance_court_ruling']
             subset = "brcad5_law_area"
             instruction, instruction_language = instructions.sample(subset)
             prompt = f"Case: {case}"
@@ -39,16 +41,19 @@ class BrCAD5(AbstractDataset):
                                         answer_language, instruction, prompt,
                                         answer, task_type, jurisdiction, subset)
 
+        for example in df:
+            case = example['preprocessed_full_text_first_instance_court_ruling']
             for level in ["1st", "2nd", "3rd"]:
-                subset = f"brcad5_topic_{level}"
-                instruction, instruction_language = instructions.sample(subset)
+                instruction, instruction_language = instructions.sample(f"brcad5_topic_{level}")
                 prompt = f"Case: {case}"
                 answer = f"Topic: {example[f'case_topic_{level}_level']}"
                 yield self.build_data_point(instruction_language,
                                             prompt_language, answer_language,
                                             instruction, prompt, answer,
-                                            task_type, jurisdiction, subset)
+                                            task_type, jurisdiction, "brcad5_topic")
 
+        for example in df:
+            case = example['preprocessed_full_text_first_instance_court_ruling']
             outcome_mc1 = ["(a)", "(b)"][['NÃO PROVIMENTO',
                                           'PROVIMENTO'].index(example["label"])]
             subset = "brcad5_mc"

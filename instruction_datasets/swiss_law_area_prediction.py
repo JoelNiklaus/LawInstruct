@@ -36,6 +36,7 @@ class SwissLawAreaPrediction(AbstractDataset):
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
                                             instruction, prompt, answer, task_type, jurisdiction, subset)
 
+        for example in df:
             subset = "swiss_judgment_area_of_law_sub_area"
             instruction, instruction_language = instructions.sample(subset)
             if example['law_sub_area']:
