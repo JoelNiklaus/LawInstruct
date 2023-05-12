@@ -43,12 +43,12 @@ def get_canton_name(canton_code):
     return canton_mapping[canton_code.upper()]
 
 
-class SwissRulings(AbstractDataset):
+class SwissLeadingDecisions(AbstractDataset):
 
     def __init__(self):
         super().__init__(
-            "SwissRulings",
-            "https://huggingface.co/datasets/rcds/swiss_rulings")
+            "SwissLeadingDecisions",
+            "https://huggingface.co/datasets/rcds/swiss_leading_decisions")
 
     def get_data(self, instructions: instruction_manager.InstructionManager):
         task_type = TaskType.TEXT_CLASSIFICATION
@@ -56,12 +56,13 @@ class SwissRulings(AbstractDataset):
         answer_language = "en"
 
         # TODO: In the future we could also let it predict the court and the chamber
+        # TODO: We could also take the swiss_rulings dataset to generate more data
 
-        df = load_dataset('rcds/swiss_rulings', 'full', split='train')
+        df = load_dataset('rcds/swiss_leading_decisions', 'full', split='train')
         for example in df:
             if example['canton'] and example['canton'] != "n/a":
                 instruction, instruction_language = instructions.sample("swiss_judgment_location")
-                answer = f"Canton: {get_canton_name(example['canton'])}. Region: {example['region']}"
+                answer = f"Origin Canton: {get_canton_name(example['canton'])}. Region: {example['region']}"
 
                 prompt = f"Facts: {example['facts']}"
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
