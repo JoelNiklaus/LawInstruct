@@ -26,9 +26,10 @@ class ReClor(AbstractDataset):
             for x, lab in zip(data["answers"], options_labels):
                 options += f"{lab} {x}\n"
             correct_option = options_labels[data['label']]
-            instruction, instruction_language = instructions.sample('reclor')
+            subset = 'reclor'
+            instruction, instruction_language = instructions.sample(subset)
             prompt = f"Question: {data['context']} {data['question']}\n{options}"
             answer = f"Final Answer: The final answer is: {correct_option}. I hope it is correct."
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", instruction, prompt, answer,
-                                        task_type, jurisdiction)
+                                        task_type, jurisdiction, subset)

@@ -114,7 +114,8 @@ class BrazilianBarExam(AbstractDataset):
                 if c["correct"]:
                     correct_answer = f"({c['letter'].lower()})"
             if correct_answer is not None:
-                instruction, instruction_language = instructions.sample("brazilian_bar_exam")
+                subset = "brazilian_bar_exam"
+                instruction, instruction_language = instructions.sample(subset)
                 datapoint = f"Question: {q['enum']}\n{choices}"
 
                 legal_text = None
@@ -148,4 +149,4 @@ class BrazilianBarExam(AbstractDataset):
                 yield self.build_data_point(instruction_language,
                                             prompt_language, "pt", instruction,
                                             prompt, answer, task_type,
-                                            jurisdiction)
+                                            jurisdiction, subset)

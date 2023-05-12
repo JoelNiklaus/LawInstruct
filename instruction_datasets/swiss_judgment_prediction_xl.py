@@ -21,16 +21,16 @@ class SwissJudgmentPredictionXL(AbstractDataset):
         jurisdiction = Jurisdiction.SWITZERLAND
         answer_language = "en"
         for example in df:
-            instructions_group = 'swiss_judgment_dismiss_approve'
-            instruction, instruction_language = instructions.sample(instructions_group)
+            subset = 'swiss_judgment_dismiss_approve'
+            instruction, instruction_language = instructions.sample(subset)
             answer = f"Judgement: {example['label']}"
 
             if len(example['facts']) > 100:
                 prompt = f"Facts: {example['facts']}"
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                            instruction, prompt, answer, task_type, jurisdiction)
+                                            instruction, prompt, answer, task_type, jurisdiction, subset)
 
             if len(example['considerations']) > 100:
                 prompt = f"Considerations: {example['considerations']}"
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                            instruction, prompt, answer, task_type, jurisdiction)
+                                            instruction, prompt, answer, task_type, jurisdiction, subset)

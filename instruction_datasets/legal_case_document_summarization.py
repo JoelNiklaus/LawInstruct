@@ -46,10 +46,12 @@ class LegalCaseDocumentSummarization(AbstractDataset):
                 instruction_bank = get_instruction_bank(
                     "Indian Supreme Court case")
                 jurisdiction = Jurisdiction.INDIA
+                subset = "India"
             elif "UK" in example["dataset_name"]:
                 instruction_bank = get_instruction_bank(
                     "U.K. Supreme Court case")
                 jurisdiction = Jurisdiction.UK
+                subset = "UK"
             else:
                 continue
             input = example["judgement"]
@@ -58,4 +60,4 @@ class LegalCaseDocumentSummarization(AbstractDataset):
             prompt, answer = build_summarization_answer(input, summary)
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", instruction, prompt, answer,
-                                        task_type, jurisdiction)
+                                        task_type, jurisdiction, subset)

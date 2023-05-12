@@ -27,8 +27,9 @@ class CaseBriefs(AbstractDataset):
         for example in df["train"]["text"]:
             example = example.split("Key Facts:")[0].split("Year:")[0]
             example = example.replace("Answer:", "Analysis:")
-            instruction, instruction_language = instructions.sample('case_briefs')
+            subset = 'case_briefs'
+            instruction, instruction_language = instructions.sample(subset)
             # TODO: We need to split the example into a question and an answer.
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", instruction, _BLANK_PROMPT,
-                                        example, task_type, jurisdiction)
+                                        example, task_type, jurisdiction, subset)

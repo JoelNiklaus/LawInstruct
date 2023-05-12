@@ -43,7 +43,7 @@ class GermanLER(AbstractDataset):
         task_type = TaskType.NAMED_ENTITY_RECOGNITION
         jurisdiction = Jurisdiction.GERMANY
         instruction_language = "en"
-        prompt_language = "en"
+        prompt_language = "el"
         answer_language = "de"
 
         introduction_sentence = "Consider the following sentence from a German federal court decision."
@@ -59,11 +59,11 @@ class GermanLER(AbstractDataset):
             prompt, answer = build_ner_answer(example['tokens'], tags)
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
-                                        answer, task_type, jurisdiction)
+                                        answer, task_type, jurisdiction, "fine")
 
             tags = [ner_coarse_tags[tag] for tag in example["ner_coarse_tags"]]
             instruction = self.random.choice(instruction_bank_coarse)
             prompt, answer = build_ner_answer(example['tokens'], tags)
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
-                                        answer, task_type, jurisdiction)
+                                        answer, task_type, jurisdiction, "coarse")

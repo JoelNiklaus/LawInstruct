@@ -165,8 +165,11 @@ class AbstractDataset:
                     datapoint.answer,
             }) + '\n')
 
-    def _get_output_file_name(self, subset: str, split: str, file_index: int) -> pathlib.Path:
+    def _get_output_file_name(self, subset: str = 'MainSubset',
+                              split: str = 'train', file_index: int = 0) -> pathlib.Path:
         """Returns the output file name for the given split and index."""
+        if not subset:
+            subset = 'MainSubset'
         return self.data_dir / f'{self.name}-{subset}-{split}-{file_index}.jsonl.xz'
 
     def build_instruction_dataset(

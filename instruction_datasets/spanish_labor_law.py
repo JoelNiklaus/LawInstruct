@@ -23,9 +23,10 @@ class SpanishLaborLaw(AbstractDataset):
         for idx, row in df.iterrows():
             question, context, answer = row["Question"], row["context"], row[
                 "Answer text"]
-            instruction, instruction_language = instructions.sample("spanish_labor_law")
+            subset = "spanish_labor_law"
+            instruction, instruction_language = instructions.sample(subset)
             prompt = f"Context: {context}\nQ: {question}"
             answer = f"A: {answer}"
             yield self.build_data_point(instruction_language, prompt_language,
                                         "es", instruction, prompt, answer,
-                                        task_type, jurisdiction)
+                                        task_type, jurisdiction, subset)

@@ -461,6 +461,8 @@ class MAUD(AbstractDataset):
         answer_language = "en"
 
         for example in df:
+            # TODO extract the instructions to the json file
+
             category = example["category"]
             text_type = example["text_type"]
             question = example["question"]
@@ -474,22 +476,21 @@ class MAUD(AbstractDataset):
             answer_ = category
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
-                                        answer_, task_type, jurisdiction)
+                                        answer_, task_type, jurisdiction, "category")
 
             instruction, instruction_language = instructions.sample("maud")
             prompt = f"{example['text']}\nWhat is the ABA text type?"
             answer_ = text_type
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
-                                        answer_, task_type, jurisdiction)
+                                        answer_, task_type, jurisdiction, "text_type")
 
             instruction, instruction_language = instructions.sample("maud")
-            text = f"{example['text']}\nWhat is the ABA question?\n{question}"
             prompt = f"{example['text']}\nWhat is the ABA question?"
             answer_ = question
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
-                                        answer_, task_type, jurisdiction)
+                                        answer_, task_type, jurisdiction, "question")
 
             try:
                 answers_lookup = info_dict[category][text_type][question]
@@ -506,4 +507,4 @@ class MAUD(AbstractDataset):
                 yield self.build_data_point(instruction_language,
                                             prompt_language, answer_language,
                                             instruction, prompt, answer_,
-                                            task_type, jurisdiction)
+                                            task_type, jurisdiction, "answer")

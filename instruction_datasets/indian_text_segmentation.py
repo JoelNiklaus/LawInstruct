@@ -41,7 +41,7 @@ class IndianTextSegmentation(AbstractDataset):
         jurisdiction = Jurisdiction.INDIA
         instruction_language = "en"
         prompt_language = "en"
-        answer_language = "hi"
+        answer_language = "en"
 
         with open(self._path, "r") as f:
             data = json.load(f)

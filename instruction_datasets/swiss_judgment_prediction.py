@@ -24,18 +24,19 @@ class SwissJudgmentPrediction(AbstractDataset):
         for example in df:
             outcome_mc1 = ["(a)", "(b)"][example["label"]]
             text = example['text']
-            instruction, instruction_language = instructions.sample("swiss_judgment_multiple_choice")
+            subset = "swiss_judgment_multiple_choice"
+            instruction, instruction_language = instructions.sample(subset)
             prompt = f"Question: {text} How would the court find?\n(a) The court should dismiss the case.\n(b) The court should affirm the case."
             answer = f"Answer: {outcome_mc1}."
             yield self.build_data_point(instruction_language, example["language"],
                                         answer_language, instruction,
-                                        prompt, answer, task_type, jurisdiction)
+                                        prompt, answer, task_type, jurisdiction, subset)
 
             outcome_mc1 = ["(b)", "(a)"][example["label"]]
             text = example['text']
-            instruction, instruction_language = instructions.sample("swiss_judgment_multiple_choice")
+            instruction, instruction_language = instructions.sample(subset)
             prompt = f"Question: {text} How would the court find?\n(a) The court should approve the case.\n(b) The court should dismiss the case."
             answer = f"Answer: {outcome_mc1}."
             yield self.build_data_point(instruction_language, example["language"],
                                         answer_language, instruction,
-                                        prompt, answer, task_type, jurisdiction)
+                                        prompt, answer, task_type, jurisdiction, subset)

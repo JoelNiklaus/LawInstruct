@@ -61,25 +61,27 @@ class SwissLeadingDecisions(AbstractDataset):
         df = load_dataset('rcds/swiss_leading_decisions', 'full', split='train')
         for example in df:
             if example['canton'] and example['canton'] != "n/a":
-                instruction, instruction_language = instructions.sample("swiss_judgment_location")
+                subset = "swiss_judgment_location"
+                instruction, instruction_language = instructions.sample(subset)
                 answer = f"Origin Canton: {get_canton_name(example['canton'])}. Region: {example['region']}"
 
                 prompt = f"Facts: {example['facts']}"
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                            instruction, prompt, answer, task_type, jurisdiction)
+                                            instruction, prompt, answer, task_type, jurisdiction, subset)
 
                 prompt = f"Considerations: {example['considerations']}"
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                            instruction, prompt, answer, task_type, jurisdiction)
+                                            instruction, prompt, answer, task_type, jurisdiction, subset)
 
             if example['topic']:
-                instruction, instruction_language = instructions.sample("swiss_judgment_topic")
+                subset = "swiss_judgment_topic"
+                instruction, instruction_language = instructions.sample(subset)
                 answer = f"Topic: {example['topic']}"
 
                 prompt = f"Facts: {example['facts']}"
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                            instruction, prompt, answer, task_type, jurisdiction)
+                                            instruction, prompt, answer, task_type, jurisdiction, subset)
 
                 prompt = f"Considerations: {example['considerations']}"
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                            instruction, prompt, answer, task_type, jurisdiction)
+                                            instruction, prompt, answer, task_type, jurisdiction, subset)

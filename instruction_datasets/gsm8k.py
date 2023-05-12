@@ -20,19 +20,21 @@ class GSM8K(AbstractDataset):
         prompt_language = "en"
 
         for example in x:
-            instruction, instruction_language = instructions.sample("gsm8k_1")
+            subset = "gsm8k_1"
+            instruction, instruction_language = instructions.sample(subset)
             prompt = f"Q: {example['question']}"
             answer = f"A: {example['answer']}"
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", instruction, prompt, answer,
-                                        task_type, jurisdiction)
+                                        task_type, jurisdiction, subset)
 
         x = load_dataset("gsm8k", "socratic", split="train")
 
         for example in x:
-            instruction, instruction_language = instructions.sample("gsm8k_2")
+            subset = "gsm8k_2"
+            instruction, instruction_language = instructions.sample(subset)
             prompt = f"Q: {example['question']}"
             answer = f"A: {example['answer']}"
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", instruction, prompt, answer,
-                                        task_type, jurisdiction)
+                                        task_type, jurisdiction, subset)

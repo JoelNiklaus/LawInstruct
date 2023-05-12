@@ -65,16 +65,18 @@ class ProfessionalLaw(AbstractDataset):
 
             cur_answer = f"The Final Answer: {lookup[this_answer]}"
 
-            instruction, instruction_language = instructions.sample("professional_law_examples")
+            subset = "professional_law_examples"
+            instruction, instruction_language = instructions.sample(subset)
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", instruction, cur_question,
-                                        cur_answer, task_type, jurisdiction)
+                                        cur_answer, task_type, jurisdiction, subset)
 
-            instruction_zero_shot, instruction_language = instructions.sample("professional_law_zero_shot")
+            subset = "professional_law_zero_shot"
+            instruction_zero_shot, instruction_language = instructions.sample(subset)
             question_zero_shot = cur_question.split("###")[-1].strip()
             answer_zero_shot = cur_answer.replace("The Final Answer: ",
                                                   "Answer: ")
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", instruction_zero_shot,
                                         question_zero_shot, answer_zero_shot,
-                                        task_type, jurisdiction)
+                                        task_type, jurisdiction, subset)

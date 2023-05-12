@@ -33,14 +33,15 @@ class Littleton(AbstractDataset):
                 if isinstance(loaded_file, str):
                     continue
                 for example in loaded_file["examples"]:
-                    instruction, instruction_language = instructions.sample('littleton_events')
+                    subset = 'littleton_events'
+                    instruction, instruction_language = instructions.sample(subset)
                     text = f"Events: {example['program']}\nAnswer: {example['result']}"
                     prompt = f"Events: {example['program']}"
                     answer = f"Answer: {example['result']}"
                     yield self.build_data_point(instruction_language,
                                                 prompt_language, "en",
                                                 instruction, prompt, answer,
-                                                task_type, jurisdiction)
+                                                task_type, jurisdiction, subset)
 
         json_files = [
             pos_json for pos_json in os.listdir(
@@ -56,10 +57,11 @@ class Littleton(AbstractDataset):
                 for example in loaded_file["tests"]:
                     if "expected" not in example:
                         continue
-                    instruction, instruction_language = instructions.sample('littleton_graph')
+                    subset = 'littleton_graph'
+                    instruction, instruction_language = instructions.sample(subset)
                     prompt = f"Events: {example['program']}"
                     answer = f"Answer: {example['expected']}"
                     yield self.build_data_point(instruction_language,
                                                 prompt_language, "en",
                                                 instruction, prompt, answer,
-                                                task_type, jurisdiction)
+                                                task_type, jurisdiction, subset)

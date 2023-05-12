@@ -29,10 +29,11 @@ class CAIL2019(AbstractDataset):
                         else:
                             answer = ", ".join(
                                 [a['text'] for a in question['answers']])
-                        instruction, instruction_language = instructions.sample("cail_2019")
+                        subset = "cail_2019"
+                        instruction, instruction_language = instructions.sample(subset)
                         prompt = f"{paragraph['context']}\n\nQuestion: {question['question']}"
                         answer = f"Answer: {answer}"
                         yield self.build_data_point(instruction_language,
                                                     prompt_language, answer_language,
                                                     instruction, prompt, answer,
-                                                    task_type, jurisdiction)
+                                                    task_type, jurisdiction, subset)

@@ -22,29 +22,29 @@ class TurkishConstitutionalCourt(AbstractDataset):
         prompt_language = "tr"
         answer_language = "en"
         for example in df:
-            instructions_group = "turkish_constitutional_violation_no_violation"
-            instruction, instruction_language = instructions.sample(instructions_group)
+            subset = "turkish_constitutional_violation_no_violation"
+            instruction, instruction_language = instructions.sample(subset)
             prompt = f"Case Description: {example['Text']}"
             answer = f"Judgement: {example['Label']}"
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction,
-                                        prompt, answer, task_type, jurisdiction)
+                                        prompt, answer, task_type, jurisdiction, subset)
 
             task_type = TaskType.MULTIPLE_CHOICE
-            instructions_group = "turkish_constitutional_multiple_choice"
+            subset = "turkish_constitutional_multiple_choice"
             outcome_mc1 = ["(a)", "(b)"][0 if example["Label"] == "No violation" else 1]
             text = example['Text']
-            instruction, instruction_language = instructions.sample(instructions_group)
+            instruction, instruction_language = instructions.sample(subset)
             prompt = f"Question: {text} How would the court find?\n" \
                      f"(a) The court should find No violation.\n(b) The court should find Violation."
             answer = f"Answer: {outcome_mc1}."
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction,
-                                        prompt, answer, task_type, jurisdiction)
+                                        prompt, answer, task_type, jurisdiction, subset)
 
             outcome_mc1 = ["(b)", "(a)"][0 if example["Label"] == "No violation" else 1]
             text = example['Text']
-            instruction, instruction_language = instructions.sample(instructions_group)
+            instruction, instruction_language = instructions.sample(subset)
             prompt = f"Question: {text} How would the court find?\n" \
                      f"(a) The court should find Violation.\n(b) The court should find No violation."
             answer = f"Answer: {outcome_mc1}."

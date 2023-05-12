@@ -35,9 +35,10 @@ class PrivacySummarization(AbstractDataset):
         for _, record in df.iterrows():
             # `QouteText` is a typo in the original dataset.
             passage, label = record["QouteText"], record["Point"]
-            instruction, instruction_language = instructions.sample("privacy_summarization")
+            subset = "privacy_summarization"
+            instruction, instruction_language = instructions.sample(subset)
             prompt = passage
             answer = _TEXT4LABEL[label]
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
-                                        answer, task_type, jurisdiction)
+                                        answer, task_type, jurisdiction, subset)

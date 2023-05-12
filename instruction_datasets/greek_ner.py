@@ -99,7 +99,7 @@ class GreekNER(AbstractDataset):
         task_type = TaskType.NAMED_ENTITY_RECOGNITION
         jurisdiction = Jurisdiction.GREECE
         instruction_language = "en"
-        prompt_language = "en"
+        prompt_language = "el"
         answer_language = "el"  # TODO: following GermanLER here; it's actually a structured representation though...
 
         introduction_sentence = "Consider the following sentence in Greek."

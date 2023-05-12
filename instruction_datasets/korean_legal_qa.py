@@ -24,9 +24,10 @@ class KoreanLegalQA(AbstractDataset):
             questions = [json.loads(x) for x in f.readlines()]
 
         for question in questions:
-            instruction, instruction_language = instructions.sample("korean_legal_qa")
+            subset = "korean_legal_qa"
+            instruction, instruction_language = instructions.sample(subset)
             prompt = f"Q: {question['question']}"
             answer = f"A: {question['answer']}"
             yield self.build_data_point(instruction_language, prompt_language,
                                         "ko", instruction, prompt, answer,
-                                        task_type, jurisdiction)
+                                        task_type, jurisdiction, subset)

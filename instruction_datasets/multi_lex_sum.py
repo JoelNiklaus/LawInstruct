@@ -34,28 +34,29 @@ class MultiLexSum(AbstractDataset):
 
         for example in df:
             input = example["summary/long"]
+            subset = "multi_lex_sum"
             if example["summary/short"]:
                 summary = example["summary/short"]
-                instruction, instruction_language = instructions.sample("multi_lex_sum")
+                instruction, instruction_language = instructions.sample(subset)
                 prompt, answer = build_summarization_answer(input, summary)
                 yield self.build_data_point(instruction_language,
                                             prompt_language, "en", instruction,
                                             prompt, answer, task_type,
-                                            jurisdiction)
+                                            jurisdiction, "long_to_short")
             if example["summary/tiny"]:
                 summary = example["summary/tiny"]
-                instruction, instruction_language = instructions.sample("multi_lex_sum")
+                instruction, instruction_language = instructions.sample(subset)
                 prompt, answer = build_summarization_answer(input, summary)
                 yield self.build_data_point(instruction_language,
                                             prompt_language, "en", instruction,
                                             prompt, answer, task_type,
-                                            jurisdiction)
+                                            jurisdiction, "long_to_tiny")
             if example["summary/short"] and example["summary/tiny"]:
                 input = example["summary/short"]
                 summary = example["summary/tiny"]
-                instruction, instruction_language = instructions.sample("multi_lex_sum")
+                instruction, instruction_language = instructions.sample(subset)
                 prompt, answer = build_summarization_answer(input, summary)
                 yield self.build_data_point(instruction_language,
                                             prompt_language, "en", instruction,
                                             prompt, answer, task_type,
-                                            jurisdiction)
+                                            jurisdiction, "short_to_tiny")

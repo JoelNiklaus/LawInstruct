@@ -22,30 +22,31 @@ class SwissLawAreaPrediction(AbstractDataset):
 
         df = load_dataset('rcds/swiss_law_area_prediction', 'main', split='train')
         for example in df:
-            instruction, instruction_language = instructions.sample("swiss_judgment_area_of_law_main_area")
+            subset = "swiss_judgment_area_of_law_main_area"
+            instruction, instruction_language = instructions.sample(subset)
             answer = f"Area of Law: {example['law_area']} Law"
 
             if len(example['facts']) > 100:
                 prompt = f"Facts: {example['facts']}"
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                            instruction, prompt, answer, task_type, jurisdiction)
+                                            instruction, prompt, answer, task_type, jurisdiction, subset)
 
             if len(example['considerations']) > 100:
                 prompt = f"Considerations: {example['considerations']}"
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                            instruction, prompt, answer, task_type, jurisdiction)
+                                            instruction, prompt, answer, task_type, jurisdiction, subset)
 
-
-            instruction, instruction_language = instructions.sample("swiss_judgment_area_of_law_sub_area")
+            subset = "swiss_judgment_area_of_law_sub_area"
+            instruction, instruction_language = instructions.sample(subset)
             if example['law_sub_area']:
                 answer = f"Sub-Area of Law: {example['law_sub_area']}"
 
                 if len(example['facts']) > 100:
                     prompt = f"Facts: {example['facts']}"
                     yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                                instruction, prompt, answer, task_type, jurisdiction)
+                                                instruction, prompt, answer, task_type, jurisdiction, subset)
 
                 if len(example['considerations']) > 100:
                     prompt = f"Considerations: {example['considerations']}"
                     yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                                instruction, prompt, answer, task_type, jurisdiction)
+                                                instruction, prompt, answer, task_type, jurisdiction, subset)

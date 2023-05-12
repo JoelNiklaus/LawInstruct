@@ -23,11 +23,12 @@ class ContractNLI(AbstractDataset):
             df = load_dataset("kiddothe2b/contract-nli", subset, split="train")
             class_label = df.features["label"]
             for example in df:
-                instruction, instruction_language = instructions.sample('contract_nli')
+                subset = 'contract_nli'
+                instruction, instruction_language = instructions.sample(subset)
                 prompt = f"Contract Passage: {example['premise']}\n\n" \
                        f"Hypothesis: {example['hypothesis']}"
                 answer = f"Entailment: {class_label.int2str(example['label'])}"
                 yield self.build_data_point(instruction_language,
                                             prompt_language, "en", instruction,
                                             prompt, answer, task_type,
-                                            jurisdiction)
+                                            jurisdiction, subset)

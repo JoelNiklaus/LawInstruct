@@ -22,23 +22,23 @@ class ILDC(AbstractDataset):
         instruction_language: str
         prompt_language = "en"
 
-
+        subset = "ildc"
         for idx, row in df1.iterrows():
             decision = "Court Decision: Reject" if row[
                 "label"] == 0 else "Court Decision: Accept"
-            instruction, instruction_language = instructions.sample("ildc")
+            instruction, instruction_language = instructions.sample(subset)
             prompt = row['text']
             answer = decision
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", instruction, prompt, answer,
-                                        task_type, jurisdiction)
+                                        task_type, jurisdiction, subset)
 
         for idx, row in df2.iterrows():
             decision = "Court Decision: Reject" if row[
                 "label"] == 0 else "Court Decision: Accept"
-            instruction, instruction_language = instructions.sample("ildc")
+            instruction, instruction_language = instructions.sample(subset)
             prompt = row['text']
             answer = decision
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", instruction, prompt, answer,
-                                        task_type, jurisdiction)
+                                        task_type, jurisdiction, subset)

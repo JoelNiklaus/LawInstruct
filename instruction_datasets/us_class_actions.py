@@ -21,10 +21,11 @@ class USClassActions(AbstractDataset):
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.US
         for example in df:
-            instruction, instruction_language = instructions.sample("us_class_actions_win_lose")
+            subset = "us_class_actions_win_lose"
+            instruction, instruction_language = instructions.sample(subset)
             prompt = example['target_text']
             answer = f"Likely Verdict: {example['verdict']}"
             prompt_language = "en"
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", instruction, prompt, answer,
-                                        task_type, jurisdiction)
+                                        task_type, jurisdiction, subset)
