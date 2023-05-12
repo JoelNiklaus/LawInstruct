@@ -81,9 +81,9 @@ paraphrases. Provide json as output. Keep the provided examples."
 
 ## TODOs
 
+- double check that languages are correct (Arya)
 - use the same instruction banks for the same tasks if applicable (Lucia)
 - add more examples to the instruction banks and diversify them by looking at FLAN and Natural Instructions (Lucia)
-- translate instruction banks (from json file) into the 24 EU languages (Joel)
 
 ## Maybe later
 
@@ -117,6 +117,7 @@ paraphrases. Provide json as output. Keep the provided examples."
   the other languages (Arya)
 - paraphrase the instruction banks with GPT4 (prompt: Below is a list of instructions for a large language model. Expand
   this json to 10 paraphrases. Provide json as output. Keep the provided examples.) (Joel)
+- translate instruction banks (from json file) into the 24 EU languages (Joel)
 
 ## Datasets possibly to be reconsidered later
 
