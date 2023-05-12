@@ -46,4 +46,5 @@ class NaturalInstructionsOther(AbstractNaturalInstructions):
                 yield self.build_data_point(_BLANK_INSTRUCTION_LANGUAGE,
                                             prompt_language, answer_language,
                                             _BLANK_INSTRUCTION, prompt, answer,
-                                            task_type, jurisdiction)
+                                            task_type, jurisdiction,
+                                            ("_").join(example["Task"].split("_")[1:]))

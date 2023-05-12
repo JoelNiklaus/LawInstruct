@@ -60,6 +60,8 @@ def parse_args(args: Optional[list[str]] = None) -> argparse.Namespace:
         args.datasets = sorted(dataset.__name__ for dataset in LEGAL_DATASETS)
     elif args.datasets == ["nonlegal"]:
         args.datasets = sorted(dataset.__name__ for dataset in NON_LEGAL_DATASETS)
+    else:
+        args.datasets = sorted(args.datasets)
 
     # Get the actual classes for each named dataset.
     dataset_lookup = {dataset.__name__: dataset for dataset in ALL_DATASETS}
