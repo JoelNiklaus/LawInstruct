@@ -17,7 +17,7 @@ class CAIL2022(AbstractDataset):
     def get_data(self, instructions: instruction_manager.InstructionManager):
         jurisdiction = Jurisdiction.CHINA
         instruction_language: str
-        prompt_language = "en"
+        prompt_language = "zh"
         answer_language = "zh"
 
         with open(f"{self.raw_data_dir}/cail2022_train_entry_lblj.jsonl",

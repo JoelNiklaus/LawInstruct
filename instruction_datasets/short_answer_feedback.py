@@ -20,7 +20,7 @@ class ShortAnswerFeedback(AbstractDataset):
         jurisdiction = Jurisdiction.GERMANY
         instruction_language: str
         instruction: str
-        prompt_language = "en"
+        prompt_language = "de"
 
         for example in df["train"]:
             instruction, instruction_language = instructions.sample('short_answer_feedback_openqa')

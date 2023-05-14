@@ -72,7 +72,7 @@ class EdgarNER(AbstractDataset):
         jurisdiction = Jurisdiction.US
         instruction_language = "en"
         prompt_language = "en"
-        answer_language = "en"  # TODO: following GermanLER here; it's actually a structured representation though...
+        answer_language = "ner"
 
         introduction_sentence = "Consider the following English sentence from the United States SEC."
         instruction_bank = [

@@ -25,7 +25,7 @@ class BrazilianBarExam(AbstractDataset):
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.BRAZIL
         instruction_language: str
-        prompt_language = "en"
+        prompt_language = "pt"
 
         def all_law_articles_in_path(laws_path):
             # reads all .xml files in laws_path to a list of law_articles

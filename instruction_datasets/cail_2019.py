@@ -16,7 +16,7 @@ class CAIL2019(AbstractDataset):
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.CHINA
         instruction_language: str
-        prompt_language = "en"
+        prompt_language = "zh"
 
         with open(f"{self.raw_data_dir}/big_train_data.json", "r") as f:
             data = json.loads(f.read())["data"]
@@ -24,6 +24,9 @@ class CAIL2019(AbstractDataset):
                 for paragraph in d['paragraphs']:
                     for question in paragraph['qas']:
                         if question['is_impossible']:
+                            # TODO(joel): This is English, but the other
+                            #  answers (to not-impossible questions) are in
+                            #  Chinese. Should we translate this?
                             answer = "Sorry, this question cannot be answered based on the information available."
                         else:
                             answer = ", ".join(

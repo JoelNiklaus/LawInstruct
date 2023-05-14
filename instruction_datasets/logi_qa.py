@@ -14,7 +14,7 @@ class LogiQA(AbstractDataset):
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.CHINA
         instruction_language: str
-        prompt_language = "en"
+        prompt_language = "zh"
 
         with open(f"{self.raw_data_dir}/zh_train.txt", "r") as f:
             x = f.readlines()

@@ -18,7 +18,7 @@ class KoreanLegalQA(AbstractDataset):
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.SOUTH_KOREA
         instruction_language: str
-        prompt_language = "en"
+        prompt_language = "ko"
 
         with open(f"{self.raw_data_dir}/legalqa.jsonlines", "r") as f:
             questions = [json.loads(x) for x in f.readlines()]

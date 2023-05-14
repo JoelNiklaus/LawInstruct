@@ -29,13 +29,13 @@ class NaturalInstructionsOther(AbstractNaturalInstructions):
         if self.filter_out_mmmlu:
             raw_datasets = raw_datasets.filter(
                 lambda x: "mmmlu" not in x["Task"])
-        prompt_language = "en"
 
         other_datasets = raw_datasets.filter(
             lambda x: x["Task"] not in self.legal_tasks.keys())
 
         for example in tqdm(other_datasets):
-            answer_language = get_first_lang_code(example["Input_language"])
+            prompt_language = answer_language = get_first_lang_code(
+                example["Input_language"])
             task_type = TaskType.UNKNOWN
             jurisdiction = Jurisdiction.N_A
 

@@ -32,8 +32,8 @@ class TsccAlqac(AbstractDataset):
 
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.THAILAND
-        prompt_language = "en"
-        answer_language = "th"  # TODO: is this correct? Looks like `outcome` is English.
+        prompt_language = "th"  # NOTE: The wrapping text below is English.
+        answer_language = "en"  # TODO: Why is the answer in English? We don't say to answer in English.
 
         for case in cases:
             text = case["text"]

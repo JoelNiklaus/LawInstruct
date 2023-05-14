@@ -19,7 +19,7 @@ class LegalQA(AbstractDataset):
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.CHINA
         instruction_language: str
-        prompt_language = "en"
+        prompt_language = "zh"
 
         for q, a in zip(df['question: body'], df['answer']):
             instruction, instruction_language = instructions.sample("legal_qa")
