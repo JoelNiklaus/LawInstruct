@@ -50,23 +50,25 @@ class LawngNli(AbstractDataset):
             "neutral": "neutral",
         }
 
+        subset = "lawng_nli_entailment"
         for i, row in df.iterrows():
             for premise_col in _PREMISE_COLS:
                 # Add the datapoint.
-                instruction, instruction_language = instructions.sample("lawng_nli_entailment")
+                instruction, instruction_language = instructions.sample(subset)
                 prompt = f"Passage 1: {row[premise_col]}\n" \
                             f"Sentence 2: {row['hypothesis']}\n"
                 answer = f"Answer: {word4label[row['label']]}"
                 yield self.build_data_point(instruction_language,
                                             prompt_language, "en", instruction,
                                             prompt, answer, task_type,
-                                            jurisdiction)
+                                            jurisdiction, subset)
+
                 # Add the contradicting datapoint.
-                instruction, instruction_language = instructions.sample("lawng_nli_entailment")
+                instruction, instruction_language = instructions.sample(subset)
                 prompt = f"Passage 1: {row[premise_col]}\n" \
                             f"Sentence 2: {row['contradicted_parenthetical']}\n"
                 answer = f"Answer: {label_reversal[word4label[row['label']]]}"
                 yield self.build_data_point(instruction_language,
                                             prompt_language, "en", instruction,
                                             prompt, answer, task_type,
-                                            jurisdiction)
+                                            jurisdiction, subset)

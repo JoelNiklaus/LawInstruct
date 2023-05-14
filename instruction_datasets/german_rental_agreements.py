@@ -26,12 +26,12 @@ class GermanRentalAgreements(AbstractDataset):
                 label = example[f"label_{num_classes}_classes"]
                 sentence = example[f"text_{num_classes}_classes"]
                 if sentence and label:
-                    instruction, instruction_language = instructions.sample(
-                        "german_rental_agreements")
+                    subset = "german_rental_agreements"
+                    instruction, instruction_language = instructions.sample(subset)
                     # TODO: this one doesn't have any Prompt and Answer nouns...
                     prompt = sentence
                     answer = label
                     yield self.build_data_point(instruction_language,
                                                 prompt_language, "de",
                                                 instruction, prompt, answer,
-                                                task_type, jurisdiction)
+                                                task_type, jurisdiction, subset)

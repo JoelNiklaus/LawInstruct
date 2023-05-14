@@ -48,7 +48,7 @@ class IndianNER(AbstractDataset):
         prompt_language = "en"
         answer_language = "ner"
 
-        introduction_sentence = "Consider the following sentence in Greek."
+        introduction_sentence = "Consider the following sentence in English."
         instruction_bank = [
             introduction_sentence + " " + self._tags.instruction
         ]

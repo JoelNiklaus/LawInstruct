@@ -38,45 +38,52 @@ Clone the natural instructions data there too
 git clone https://github.com/allenai/natural-instructions lawinstruct_raw/raw_data/ni_instructions_data
 ```
 
+The en.json file was created by writing one to 5 seed instructions. Using GPT4, we generated paraphrases for each task.
+We used the following prompt: "Below is a list of instructions for a large language model. Expand this json to 10
+paraphrases. Provide json as output. Keep the provided examples."
+
 ## Swiss Datasets
 
-### Swiss Legislation 
+### Swiss Legislation
+
 - Inputs: pdf_content
 - Outputs: abbreviation, short, title, canton
 
 ### Swiss Rulings
+
 - Inputs: facts, considerations
 - Outputs: topic, canton and region
 
 ### Swiss Court View Generation
+
 - Inputs: facts
 - Outputs: considerations
 
 ### Swiss Criticality Prediction
+
 - Inputs: facts, considerations
 - Outputs: citation_label
 
 ### Swiss Law Area Prediction
+
 - Inputs: facts, considerations
 - Outputs: label (law area)
 
 ### Swiss Judgment Prediction (Only Supreme Court but with mt)
+
 - Inputs: text (facts)
 - Outputs: label (dismissal/approval)
 
 ### Swiss Judgment Prediction XL (All courts but without mt)
+
 - Inputs: facts, considerations
 - Outputs: label (dismissal/approval)
 
-
 ## TODOs
 
+- double check that languages are correct (Arya)
 - use the same instruction banks for the same tasks if applicable (Lucia)
 - add more examples to the instruction banks and diversify them by looking at FLAN and Natural Instructions (Lucia)
-- make sure the jurisdiction is always in the instruction
-- refactor code, so that all the instruction banks live in a json file that we can easily paraphrase and translate in
-  the other languages (Arya)
-- translate instruction banks (from json file) into the 24 EU languages (Joel)
 
 ## Maybe later
 
@@ -105,6 +112,12 @@ git clone https://github.com/allenai/natural-instructions lawinstruct_raw/raw_da
   Joel)
 - refactor code, so that we can allow for more finegrained instruction control (Arya)
 - added more datasets (Joel)
+- make sure the jurisdiction is always in the instruction (Joel)
+- refactor code, so that all the instruction banks live in a json file that we can easily paraphrase and translate in
+  the other languages (Arya)
+- paraphrase the instruction banks with GPT4 (prompt: Below is a list of instructions for a large language model. Expand
+  this json to 10 paraphrases. Provide json as output. Keep the provided examples.) (Joel)
+- translate instruction banks (from json file) into the 24 EU languages (Joel)
 
 ## Datasets possibly to be reconsidered later
 

@@ -22,9 +22,10 @@ class LegalQA(AbstractDataset):
         prompt_language = "zh"
 
         for q, a in zip(df['question: body'], df['answer']):
-            instruction, instruction_language = instructions.sample("legal_qa")
+            subset = "legal_qa"
+            instruction, instruction_language = instructions.sample(subset)
             prompt = f"Q: {q}"
             answer = f"A: {a}"
             yield self.build_data_point(instruction_language, prompt_language,
                                         "zh", instruction, prompt, answer,
-                                        task_type, jurisdiction)
+                                        task_type, jurisdiction, subset)

@@ -69,4 +69,4 @@ class EurLexSum(AbstractDataset):
                 yield self.build_data_point(instruction_language,
                                             lang_code, lang_code,
                                             instruction, prompt, answer,
-                                            task_type, jurisdiction)
+                                            task_type, jurisdiction, lang)

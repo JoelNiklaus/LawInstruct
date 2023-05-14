@@ -1,5 +1,6 @@
 from datasets import load_dataset
 
+import instruction_manager
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
@@ -14,39 +15,39 @@ class SwissLawAreaPrediction(AbstractDataset):
             "SwissLawAreaPrediction",
             "https://huggingface.co/datasets/rcds/swiss_law_area_prediction")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.SWITZERLAND
-        instruction_language = 'en'
         answer_language = "en"
 
         df = load_dataset('rcds/swiss_law_area_prediction', 'main', split='train')
         for example in df:
-            instruction = "What main area of law is this case related to?"
-            answer = f"Area of Law: {example['label']} Law"
+            subset = "swiss_judgment_area_of_law_main_area"
+            instruction, instruction_language = instructions.sample(subset)
+            answer = f"Area of Law: {example['law_area']} Law"
 
             if len(example['facts']) > 100:
                 prompt = f"Facts: {example['facts']}"
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                            instruction, prompt, answer, task_type, jurisdiction)
+                                            instruction, prompt, answer, task_type, jurisdiction, subset)
 
             if len(example['considerations']) > 100:
                 prompt = f"Considerations: {example['considerations']}"
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                            instruction, prompt, answer, task_type, jurisdiction)
+                                            instruction, prompt, answer, task_type, jurisdiction, subset)
 
-        for law_area in ['civil', 'criminal', 'public']:
-            df = load_dataset('rcds/swiss_law_area_prediction', law_area, split='train')
-            for example in df:
-                instruction = f"What sub-area of {law_area} law is this case related to?"
-                answer = f"Sub-Area of Law: {example['label']}"
+        for example in df:
+            subset = "swiss_judgment_area_of_law_sub_area"
+            instruction, instruction_language = instructions.sample(subset)
+            if example['law_sub_area']:
+                answer = f"Sub-Area of Law: {example['law_sub_area']}"
 
                 if len(example['facts']) > 100:
                     prompt = f"Facts: {example['facts']}"
                     yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                                instruction, prompt, answer, task_type, jurisdiction)
+                                                instruction, prompt, answer, task_type, jurisdiction, subset)
 
                 if len(example['considerations']) > 100:
                     prompt = f"Considerations: {example['considerations']}"
                     yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                                instruction, prompt, answer, task_type, jurisdiction)
+                                                instruction, prompt, answer, task_type, jurisdiction, subset)

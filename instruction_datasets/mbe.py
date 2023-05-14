@@ -19,6 +19,7 @@ class MBE(AbstractDataset):
         instruction_language: str
         prompt_language = "en"
 
+        # TODO bring instruction bank to json, paraphrase and translate
         instruction_bank_subject_generation = [
             "Generate a bar exam multiple choice question, along with an explanation and answer, for the following subject: ",
             "Generate an MBE MC question for "
@@ -50,21 +51,22 @@ class MBE(AbstractDataset):
             #     source_year_string = f" Consider only the law and relevant cases before {source_year}."
             # else:
             #     source_year_string = ""
-            instruction, instruction_language = instructions.sample(
-                'mbe_examples')
+            subset = 'mbe_examples'
+            instruction, instruction_language = instructions.sample(subset)
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", instruction, data_no_answer,
-                                        answer, task_type, jurisdiction)
+                                        answer, task_type, jurisdiction, subset)
 
             if isinstance(subject, str) and subject.strip() != "":
                 # Datapoint with subject.
-                instruction, instruction_language = instructions.sample('mbe_subject')
+                subset = 'mbe_subject'
+                instruction, instruction_language = instructions.sample(subset)
                 prompt = data_no_answer
                 answer = f"Subject: {subject}"
                 yield self.build_data_point(instruction_language,
                                             prompt_language, "en", instruction,
                                             prompt, answer, task_type,
-                                            jurisdiction)
+                                            jurisdiction, subset)
 
                 # Datapoint for generation with subject.
                 instruction = self.random.choice(
@@ -73,4 +75,4 @@ class MBE(AbstractDataset):
                 yield self.build_data_point('en',
                                             prompt_language, "en", instruction,
                                             _BLANK_PROMPT, data_with_answer,
-                                            task_type, jurisdiction)
+                                            task_type, jurisdiction, "mbe_subject_generation")

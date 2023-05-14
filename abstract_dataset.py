@@ -78,10 +78,6 @@ class AbstractDataset:
             "This method should yield DataPoint dicts with the following keys: "
             f"{', '.join(DataPoint.__annotations__.keys())}.")
 
-    def get_instruction_bank(self, language="en"):
-        return json.loads(
-            pathlib.Path(f"instruction_banks/{language}.json").read_text())[self.name]
-
     def build_data_point(self,
                          instruction_language,
                          prompt_language: str,
@@ -169,10 +165,12 @@ class AbstractDataset:
                     datapoint.answer,
             }) + '\n')
 
-    def _get_output_file_name(self, file_index: int,
-                              split: str) -> pathlib.Path:
+    def _get_output_file_name(self, subset: str = 'MainSubset',
+                              split: str = 'train', file_index: int = 0) -> pathlib.Path:
         """Returns the output file name for the given split and index."""
-        return self.data_dir / f'{self.name}_{split}_{file_index}.jsonl.xz'
+        if not subset:
+            subset = 'MainSubset'
+        return self.data_dir / f'{self.name}-{subset}-{split}-{file_index}.jsonl.xz'
 
     def build_instruction_dataset(
             self,
@@ -190,22 +188,35 @@ class AbstractDataset:
             debug_size: If > 0, only write this many datapoints, and log the
               last one for debugging.
         """
-        self.logger.info('Building instruction dataset for %s', self.name)
+        self.logger.info('Building instruction dataset for %s. Loading data...', self.name)
 
         # Curry the function to get the file name.
         def get_file_name(file_index):
-            return self._get_output_file_name(file_index, split='train')
+            return self._get_output_file_name(self.subset, 'train', file_index)
 
-        with files.SequentialFileWriter(get_file_name) as writer:
-            for i, datapoint in enumerate(tqdm(self.get_data(instructions))):
-                if 0 < debug_size <= i:
-                    self.logger.info('Stopping after %d datapoints.',
-                                     debug_size)
-                    self.logger.info('Last datapoint: %s', datapoint)
-                    break
-                try:
-                    self.write_json_line(writer, datapoint)
-                except ValueError as e:
-                    self.logger.warning(
-                        'Skipping datapoint %s due to ValueError: %s',
-                        datapoint, e)
+        self.subset = None
+        file_index = 0
+        writer = None
+
+        for i, datapoint in enumerate(tqdm(self.get_data(instructions))):
+            # TODO this solution might not be ideal, because it needs to close and open the filewriter
+            #  for every datapoint if we save to different subsets within the same datapoint
+            subset = datapoint.subset
+            if subset != self.subset:
+                if writer is not None:
+                    writer.close()
+                self.subset = subset
+                file_index = 0
+                writer = files.SequentialFileWriter(get_file_name)
+            if 0 < debug_size <= i:
+                self.logger.info('Stopping after %d datapoints.', debug_size)
+                self.logger.info('Last datapoint from dataset %s: %s', self.name, datapoint)
+                break
+            try:
+                self.write_json_line(writer, datapoint)
+            except ValueError as e:
+                self.logger.warning('Skipping datapoint %s due to ValueError: %s', datapoint, e)
+            file_index += 1
+
+        if writer is not None:
+            writer.close()

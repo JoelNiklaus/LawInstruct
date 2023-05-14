@@ -7,7 +7,8 @@ from enums import Jurisdiction
 from enums import TaskType
 import instruction_manager
 
-INSTRUCTION_GROUPS: Final[tuple[str, ...]] = ('ecthr_a', 'ecthr_b', 'scotus', 'eurlex', 'ledgar', 'unfair_tos')
+INSTRUCTION_GROUPS: Final[tuple[str, ...]] = (
+    'ecthr_a', 'ecthr_b', 'scotus', 'eurlex', 'ledgar', 'unfair_tos', 'case_hold')
 
 TASK_CODE_MAPPING = {
     'ecthr_a': 'MLTC',
@@ -16,6 +17,7 @@ TASK_CODE_MAPPING = {
     'eurlex': 'MLTC',
     'ledgar': 'SLTC',
     'unfair_tos': 'MLTC',
+    'case_hold': 'QA',
 }
 
 JURISDICTION_MAPPING = {
@@ -25,6 +27,7 @@ JURISDICTION_MAPPING = {
     'eurlex': Jurisdiction.EU,
     'ledgar': Jurisdiction.US,
     'unfair_tos': Jurisdiction.UNKNOWN,
+    'case_hold': Jurisdiction.US,
 }
 
 
@@ -41,12 +44,12 @@ class LexGLUE(AbstractDataset):
             task_code = TASK_CODE_MAPPING[subset]
             jurisdiction = JURISDICTION_MAPPING[subset]
 
-            if task_code == 'SLTC':
+            if task_code in ['SLTC', 'QA']:
                 class_label = dataset.features["label"]
 
             for example in dataset:
                 # get correct labels
-                if task_code == 'SLTC':
+                if task_code in ['SLTC', 'QA']:
                     correct_label = class_label.int2str(
                         example['label'])  # get label name for correct label
                     correct_labels = correct_label if isinstance(
@@ -54,11 +57,19 @@ class LexGLUE(AbstractDataset):
                 elif task_code == 'MLTC':
                     correct_labels = list(
                         map(str, example['labels']
-                           ))  # here we don't have any mapping to label names
+                            ))  # here we don't have any mapping to label names
 
-                input_text = example['text']
-                if 'ecthr' in subset:
-                    input_text = " ".join(input_text)
+                if subset in ['ecthr_a', 'ecthr_b', 'scotus', 'unfair_tos', 'case_hold']:
+                    correct_labels = [chr(int(num) + 65) for num in correct_labels]  # convert to letters
+
+                if task_code in ['SLTC', 'MLTC']:
+                    input_text = example["text"]
+                    if "ecthr" in subset:
+                        input_text = " ".join(input_text)
+                elif task_code == 'QA':
+                    endings = [f"{chr(i + 65)}: {end}" for i, end in enumerate(example["endings"])]
+                    input_text = example["context"] + "\n\nHoldings:\n" + "\n".join(endings)
+
                 prompt = f"Passage: {input_text}"
                 answer = f"Labels: {','.join(correct_labels)}"
 

@@ -1,5 +1,6 @@
 from datasets import load_dataset
 
+import instruction_manager
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
@@ -15,10 +16,9 @@ class SwissLegislation(AbstractDataset):
             "SwissLegislation",
             "https://huggingface.co/datasets/rcds/swiss_legislation")
 
-    def get_data(self):
+    def get_data(self, instructions: instruction_manager.InstructionManager):
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.SWITZERLAND
-        instruction_language = 'en'
         answer_language = "en"
 
         df = load_dataset('rcds/swiss_legislation', 'full', split='train')
@@ -26,25 +26,35 @@ class SwissLegislation(AbstractDataset):
             prompt = f"Law: {example['pdf_content']}"
 
             if example['canton']:
-                instruction = "Where do you think this law was passed?"
+                subset = "swiss_legislation_canton"
+                instruction, instruction_language = instructions.sample(subset)
                 answer = f"Canton: {get_canton_name(example['canton'])}"
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                            instruction, prompt, answer, task_type, jurisdiction)
+                                            instruction, prompt, answer, task_type, jurisdiction, subset)
 
+        for example in df:
+            prompt = f"Law: {example['pdf_content']}"
             if example['title']:
-                instruction = "What do you think is the official long title of this law?"
+                subset = "swiss_legislation_title"
+                instruction, instruction_language = instructions.sample(subset)
                 answer = f"Title: {example['title']}"
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                            instruction, prompt, answer, task_type, jurisdiction)
+                                            instruction, prompt, answer, task_type, jurisdiction, subset)
 
+        for example in df:
+            prompt = f"Law: {example['pdf_content']}"
             if example['short']:
-                instruction = "What do you think is the short title of this law?"
+                subset = "swiss_legislation_short"
+                instruction, instruction_language = instructions.sample(subset)
                 answer = f"Short Title: {example['short']}"
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                            instruction, prompt, answer, task_type, jurisdiction)
+                                            instruction, prompt, answer, task_type, jurisdiction, subset)
 
+        for example in df:
+            prompt = f"Law: {example['pdf_content']}"
             if example['abbreviation']:
-                instruction = "What do you think is the abbvreviation of this law?"
+                subset = "swiss_legislation_abbreviation"
+                instruction, instruction_language = instructions.sample(subset)
                 answer = f"Abbreviation: {example['abbreviation']}"
                 yield self.build_data_point(instruction_language, example["language"], answer_language,
-                                            instruction, prompt, answer, task_type, jurisdiction)
+                                            instruction, prompt, answer, task_type, jurisdiction, subset)

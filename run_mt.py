@@ -10,11 +10,10 @@ from absl import logging
 import easynmt
 import tqdm
 
-
 _LANGUAGES = flags.DEFINE_multi_string(
     'languages',
     ['bg', 'cs', 'da', 'de', 'el', 'en', 'es', 'et', 'fi', 'fr', 'ga', 'hr',
-     'hu', 'it', 'lt', 'lv', 'mt', 'nl', 'pl', 'pt', 'ro', 'sk', 'sl', 'sv'],
+     'hu', 'it', 'lt', 'lv', 'nl', 'pl', 'pt', 'ro', 'sk', 'sl', 'sv'], # mt is not supported
     'Languages to translate to.',
 )
 # for faster speed, use "opus-mt" or "m2m_100_418M", for better quality
@@ -54,22 +53,18 @@ def translate_to_target_langs(
     for target_lang in target_langs:
         for group in tqdm.tqdm(dataset):
             result[target_lang][group] = []
-            for instruction in dataset[group]:
-                translated = model.translate(
-                    instruction,
-                    source_lang=source_lang,
-                    target_lang=target_lang,
-                    batch_size=_BATCH_SIZE.value,
-                )
-                logging.info('Original: %r', instruction)
-                logging.info('Translated to %s: %r', target_lang, translated)
-                result[target_lang][group].append(translated)
+            instructions = dataset[group]
+            translated = model.translate(
+                instructions,
+                source_lang=source_lang,
+                target_lang=target_lang,
+                batch_size=_BATCH_SIZE.value,
+            )
+            logging.info('Original: %r', instructions)
+            logging.info('Translated to %s: %r', target_lang, translated)
+            result[target_lang][group] = translated
 
     return result
-
-
-def get_file(index: int) -> str:
-    return f'https://huggingface.co/datasets/pile-of-law/lawnstruct/resolve/main/data/train.{index}.jsonl.xz'
 
 
 def main(args: Sequence[str]) -> None:

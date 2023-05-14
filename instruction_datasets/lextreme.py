@@ -104,6 +104,7 @@ INSTRUCTION_GROUPS: Final[tuple[str, ...]] = ('brazilian_court_decisions_judgmen
 TASK_CODE_MAPPING = {
     'brazilian_court_decisions_judgment': 'SLTC',
     'brazilian_court_decisions_unanimity': 'SLTC',
+    'swiss_judgment_prediction': 'SLTC',
     'german_argument_mining': 'SLTC',
     'greek_legal_code_chapter': 'SLTC',
     'greek_legal_code_subject': 'SLTC',
@@ -124,6 +125,7 @@ TASK_CODE_MAPPING = {
 JURISDICTION_MAPPING = {
     'brazilian_court_decisions_judgment': Jurisdiction.BRAZIL,
     'brazilian_court_decisions_unanimity': Jurisdiction.BRAZIL,
+    'swiss_judgment_prediction': Jurisdiction.SWITZERLAND,
     'german_argument_mining': Jurisdiction.GERMANY,
     'greek_legal_code_chapter': Jurisdiction.GREECE,
     'greek_legal_code_subject': Jurisdiction.GREECE,
@@ -191,6 +193,9 @@ class LEXTREME(AbstractDataset):
                     correct_labels = [
                         label_classes[label] for label in example['label']
                     ]
+
+                if subset in ['online_terms_of_service_clause_topics', 'covid19_emergency_event']:
+                    correct_labels = [chr(int(num) + 65) for num in correct_labels]  # convert to letters
 
                 answers: list[tuple[str, str, str]]
                 if task_code in ['SLTC', 'MLTC']:

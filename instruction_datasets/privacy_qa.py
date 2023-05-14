@@ -19,11 +19,12 @@ class PrivacyQA(AbstractDataset):
         jurisdiction = Jurisdiction.UNKNOWN
         instruction_language: str
         prompt_language = "en"
-        instruction, instruction_language = instructions.sample("privacy_qa")
+        subset = "privacy_qa"
+        instruction, instruction_language = instructions.sample(subset)
 
         for index, example in df.iterrows():
             prompt = f"Q: {example['Query']}\nTerm: {example['Segment']}"
             answer = f"A: {example['Label']}"
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", instruction, prompt, answer,
-                                        task_type, jurisdiction)
+                                        task_type, jurisdiction, subset)

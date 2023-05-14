@@ -26,9 +26,10 @@ class EOIRPrivacy(AbstractDataset):
 
         for example in df:
             lookup = ["Don't use pseudonym.", "Use pseudonym."]
-            instruction, instruction_language = instructions.sample('eoir_privacy')
+            subset = 'eoir_privacy'
+            instruction, instruction_language = instructions.sample(subset)
             prompt = example['text']
             answer = lookup[example['label']]
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", instruction, prompt, answer,
-                                        task_type, jurisdiction)
+                                        task_type, jurisdiction, subset)

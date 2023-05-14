@@ -28,7 +28,7 @@ class TsccAlqac(AbstractDataset):
         for article in laws[0]['articles']:
             laws_dict[article['id']] = article['text']
 
-        instruction_group: Final[str] = "tscc_alqac_question_answering"
+        subset = "tscc_alqac_question_answering"
 
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.THAILAND
@@ -48,28 +48,28 @@ class TsccAlqac(AbstractDataset):
             else:
                 outcome = f"The court would rule {'against' if case['label'] == 1 else 'for'} the defendant."
             laws = '\n'.join(relevant_articles)
-            instruction, instruction_language = instructions.sample(instruction_group)
+            instruction, instruction_language = instructions.sample(subset)
             prompt = f"Facts: {text}\nLaw(s): {laws}"
             answer = f'Conclusion: {outcome}'
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
-                                        answer, task_type, jurisdiction)
+                                        answer, task_type, jurisdiction, subset)
 
             # Provide a non-MC version
             outcome_mc1 = ["(a)", "(b)"][case["label"]]
-            instruction, instruction_language = instructions.sample(instruction_group)
+            instruction, instruction_language = instructions.sample(subset)
             prompt = f"Question: {text} How would the court find?\n" \
                      f"(a) For the defendant.\n(b) Against the defendant.\nLaw(s): {laws}"
             answer = f"Answer: {outcome_mc1}."
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
-                                        answer, task_type, jurisdiction)
+                                        answer, task_type, jurisdiction, subset)
 
             outcome_mc1 = ["(b)", "(a)"][case["label"]]
-            instruction, instruction_language = instructions.sample(instruction_group)
+            instruction, instruction_language = instructions.sample(subset)
             prompt = f"Question: {text} How would the court find?\n" \
                      f"(a) Against the defendant.\n(b) For the defendant.\nLaw(s): {laws}"
             answer = f"Answer: {outcome_mc1}."
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
-                                        answer, task_type, jurisdiction)
+                                        answer, task_type, jurisdiction, subset)

@@ -56,39 +56,49 @@ class CiviproQuestions(AbstractDataset):
                 print(f"Skipping {question} because of some problem.")
                 continue
             # TODO: should the 'explanation_passage' be part of the instructions?
-            instruction_with_passage, instruction_with_passage_language = instructions.sample("civipro_questions_generate_from_passage")
+            subset_with_passage = "civipro_questions_generate_from_passage"
+            instruction_with_passage, instruction_with_passage_language = instructions.sample(subset_with_passage)
             prompt_with_passage = f"{values['explanation_passage']}\n\nQuestion: {question}\n{choice_string}"
             answer_with_passage = f"Answer: {correct_answer}"
-            instruction_no_passage, instruction_no_passage_language = instructions.sample("civipro_questions_generate_no_passage")
+
+            subset_no_passage = "civipro_questions_generate_no_passage"
+            instruction_no_passage, instruction_no_passage_language = instructions.sample(subset_no_passage)
             prompt_no_passage = f"Question: {question}\n{choice_string}"
             answer_no_passage = f"Explanation: {analysis_string}\nAnswer: {correct_answer}"
-            instruction_no_explanation, instruction_no_explanation_language = instructions.sample("civipro_questions_generate_no_explanation")
+
+            subset_no_explanation = "civipro_questions_no_explanation"
+            instruction_no_explanation, instruction_no_explanation_language = instructions.sample(subset_no_explanation)
             prompt_no_explanation = f"Question: {question}\n{choice_string}"
             answer_no_explanation = f"Answer: {correct_answer}"
 
-            for instruction, instruction_language, prompt, answer in zip(
-                [
-                    instruction_with_passage,
-                    instruction_no_passage,
-                    instruction_no_explanation,
-                ],
-                [
-                    instruction_with_passage_language,
-                    instruction_no_passage_language,
-                    instruction_no_explanation_language,
-                ],
-                [
-                    prompt_with_passage,
-                    prompt_no_passage,
-                    prompt_no_explanation,
-                ],
-                [
-                    answer_with_passage,
-                    answer_no_passage,
-                    answer_no_explanation,
-                ],
+            for instruction, instruction_language, prompt, answer, subset in zip(
+                    [
+                        instruction_with_passage,
+                        instruction_no_passage,
+                        instruction_no_explanation,
+                    ],
+                    [
+                        instruction_with_passage_language,
+                        instruction_no_passage_language,
+                        instruction_no_explanation_language,
+                    ],
+                    [
+                        prompt_with_passage,
+                        prompt_no_passage,
+                        prompt_no_explanation,
+                    ],
+                    [
+                        answer_with_passage,
+                        answer_no_passage,
+                        answer_no_explanation,
+                    ],
+                    [
+                        subset_with_passage,
+                        subset_no_passage,
+                        subset_no_explanation,
+                    ]
             ):
                 yield self.build_data_point(instruction_language,
                                             prompt_language, "en", instruction,
                                             prompt, answer, task_type,
-                                            jurisdiction)
+                                            jurisdiction, subset)

@@ -22,45 +22,53 @@ class BrCAD5(AbstractDataset):
 
         for example in df:
             case = example['preprocessed_full_text_first_instance_court_ruling']
-            instruction = 'Determine what you think the Brazilian appeals court will rule for the case.'
+
+            subset = "brcad5_judgment"
+            instruction, instruction_language = instructions.sample(subset)
             prompt = f"Case: {case}"
             answer = f"Judgement: {example['label']}"
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
-                                        answer, task_type, jurisdiction)
+                                        answer, task_type, jurisdiction, subset)
 
-            # TODO: this isn't _really_ an instruction, just a question...
-            instruction = 'What area of law is this case related to?'
+        for example in df:
+            case = example['preprocessed_full_text_first_instance_court_ruling']
+            subset = "brcad5_law_area"
+            instruction, instruction_language = instructions.sample(subset)
             prompt = f"Case: {case}"
             answer = f"Area of Law: {example['current_case_class']}"
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
-                                        answer, task_type, jurisdiction)
+                                        answer, task_type, jurisdiction, subset)
 
+        for example in df:
+            case = example['preprocessed_full_text_first_instance_court_ruling']
             for level in ["1st", "2nd", "3rd"]:
-                # TODO: this isn't _really_ an instruction, just a question...
-                instruction = f"What {level}-level topic is this case related to?"
+                instruction, instruction_language = instructions.sample(f"brcad5_topic_{level}")
                 prompt = f"Case: {case}"
                 answer = f"Topic: {example[f'case_topic_{level}_level']}"
                 yield self.build_data_point(instruction_language,
                                             prompt_language, answer_language,
                                             instruction, prompt, answer,
-                                            task_type, jurisdiction)
+                                            task_type, jurisdiction, "brcad5_topic")
 
+        for example in df:
+            case = example['preprocessed_full_text_first_instance_court_ruling']
             outcome_mc1 = ["(a)", "(b)"][['NÃO PROVIMENTO',
                                           'PROVIMENTO'].index(example["label"])]
-            instruction, instruction_language = instructions.sample("brcad5_mc")
+            subset = "brcad5_mc"
+            instruction, instruction_language = instructions.sample(subset)
             prompt = f"Question: {case} How would the court find?\n(a) The court should dismiss the case.\n(b) The court should affirm the case."
             answer = f"Answer: {outcome_mc1}."
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
-                                        answer, task_type, jurisdiction)
+                                        answer, task_type, jurisdiction, subset)
 
             outcome_mc1 = ["(b)", "(a)"][['NÃO PROVIMENTO',
                                           'PROVIMENTO'].index(example["label"])]
-            instruction, instruction_language = instructions.sample("brcad5_mc")
+            instruction, instruction_language = instructions.sample(subset)
             prompt = f"Question: {case} How would the court find?\n(a) The court should approve the case.\n(b) The court should dismiss the case."
             answer = f"Answer: {outcome_mc1}."
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
-                                        answer, task_type, jurisdiction)
+                                        answer, task_type, jurisdiction, subset)

@@ -39,11 +39,12 @@ def _get_all_lang_instructions(
 
 class InstructionManager:
     """Class for managing instructions for different datasets."""
+
     def __init__(
             self,
             mode: str,
             instruction_bank_size: int,
-            random_state: Optional[int] = None,
+            random_state: Optional[int] = 42,
     ) -> None:
         """Creates an instruction bank that can be sampled from.
 
@@ -54,7 +55,7 @@ class InstructionManager:
             random_state: To ensure reproducibility
         """
         if mode == 'english':
-            json_file = 'instruction_prompts/en2.json'
+            json_file = 'instruction_prompts/en.json'
         elif mode == 'multilingual':
             json_file = 'instruction_prompts/multilingual.json'
         elif mode == 'dummy':
@@ -130,4 +131,5 @@ class InstructionManager:
                 if any('{' in option for option in options):
                     for option in options:
                         if '{' in option:
-                            logging.warning('Open-brace present in instruction. Was an f-string moved into the JSON incorrectly? See: %s', option)
+                            logging.warning('Open-brace present in instruction. '
+                                            'Was an f-string moved into the JSON incorrectly? See: %s', option)

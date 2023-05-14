@@ -16,6 +16,7 @@ class CAIL2019(AbstractDataset):
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.CHINA
         instruction_language: str
+        answer_language = "zh"
         prompt_language = "zh"
 
         with open(f"{self.raw_data_dir}/big_train_data.json", "r") as f:
@@ -31,10 +32,11 @@ class CAIL2019(AbstractDataset):
                         else:
                             answer = ", ".join(
                                 [a['text'] for a in question['answers']])
-                        instruction, instruction_language = instructions.sample("cali_2019")
+                        subset = "cail_2019"
+                        instruction, instruction_language = instructions.sample(subset)
                         prompt = f"{paragraph['context']}\n\nQuestion: {question['question']}"
                         answer = f"Answer: {answer}"
                         yield self.build_data_point(instruction_language,
-                                                    prompt_language, "zh",
+                                                    prompt_language, answer_language,
                                                     instruction, prompt, answer,
-                                                    task_type, jurisdiction)
+                                                    task_type, jurisdiction, subset)

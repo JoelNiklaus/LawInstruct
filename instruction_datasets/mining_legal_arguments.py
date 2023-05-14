@@ -52,12 +52,6 @@ class MiningLegalArguments(AbstractDataset):
                 instruction = self.random.choice(instruction_bank)
                 prompt, answer = build_ner_answer(example['tokens'],
                                                   example['labels'])
-                yield self.build_data_point(instruction_language,
-                                            prompt_language,
-                                            "en",
-                                            instruction,
-                                            prompt,
-                                            answer,
-                                            task_type,
-                                            jurisdiction,
-                                            subset=type)
+                yield self.build_data_point(instruction_language, prompt_language, "en",
+                                            instruction, prompt, answer,
+                                            task_type, jurisdiction, subset=type)

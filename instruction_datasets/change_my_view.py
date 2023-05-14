@@ -27,10 +27,11 @@ class ChangeMyView(AbstractDataset):
                 else:
                     body = d['positive']['comments'][0]['body'].strip()
                 op = d['op_text'].split("EDIT:")[0].strip()
-                instruction, instruction_language = instructions.sample("change_my_view")
+                subset = "change_my_view"
+                instruction, instruction_language = instructions.sample(subset)
                 prompt = f"Argument: {op}"
                 answer = f"Counter-argument: {body}"
                 yield self.build_data_point(instruction_language,
                                             prompt_language, "en", instruction,
                                             prompt, answer, task_type,
-                                            jurisdiction)
+                                            jurisdiction, subset)

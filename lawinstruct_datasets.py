@@ -66,8 +66,8 @@ from instruction_datasets.swiss_judgment_prediction import \
     SwissJudgmentPrediction
 from instruction_datasets.swiss_judgment_prediction_xl import SwissJudgmentPredictionXL
 from instruction_datasets.swiss_law_area_prediction import SwissLawAreaPrediction
+from instruction_datasets.swiss_leading_decisions import SwissLeadingDecisions
 from instruction_datasets.swiss_legislation import SwissLegislation
-from instruction_datasets.swiss_rulings import SwissRulings
 from instruction_datasets.tscc_alqac import TsccAlqac
 from instruction_datasets.turkish_constitutional_court import TurkishConstitutionalCourt
 from instruction_datasets.us_class_actions import USClassActions
@@ -132,7 +132,7 @@ LEGAL_DATASETS = frozenset({
     SwissJudgmentPredictionXL,
     SwissLawAreaPrediction,
     SwissLegislation,
-    SwissRulings,
+    SwissLeadingDecisions,
     TsccAlqac,
     TurkishConstitutionalCourt,
     USClassActions,
@@ -202,7 +202,7 @@ DATASETS_ALREADY_BUILT = NATURAL_INSTRUCTIONS | XP3MT | frozenset({
     SwissJudgmentPredictionXL,
     SwissLawAreaPrediction,
     SwissLegislation,
-    SwissRulings,
+    SwissLeadingDecisions,
     TsccAlqac,
     TurkishConstitutionalCourt,
     USClassActions,

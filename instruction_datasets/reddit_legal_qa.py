@@ -32,7 +32,8 @@ class RedditLegalQA(AbstractDataset):
             answers = question.split("Answer #")[1:]
             answers = [a.split(":")[-1] for a in answers]
             for a in answers:
-                instruction, instruction_language = instructions.sample("reddit_legal_qa")
+                subset = "reddit_legal_qa"
+                instruction, instruction_language = instructions.sample(subset)
                 text = f"Question: {q}\n\nAnalysis: {a}"
                 prompt = f"Question: {q}"
                 answer = f"Analysis: {a}"
@@ -44,4 +45,4 @@ class RedditLegalQA(AbstractDataset):
                                             answer,
                                             task_type,
                                             jurisdiction,
-                                            subset="r_legaladvice")
+                                            subset)

@@ -30,13 +30,14 @@ class SaraProlog(AbstractDataset):
                         os.path.join(
                             f"{self.raw_data_dir}/sara_statutes/prolog/",
                             json_file) + ".pl", "r") as f_prolog:
-                    instruction, instruction_language = instructions.sample("sara_prolog_statute")
+                    subset = "sara_prolog_statute"
+                    instruction, instruction_language = instructions.sample(subset)
                     prompt = f"Statute:\n{f_normal.read()}"
                     answer = f"Prolog Program:\n\n{f_prolog.read()}"
                     yield self.build_data_point(instruction_language,
                                                 prompt_language, "en",
                                                 instruction, prompt, answer,
-                                                task_type, jurisdiction)
+                                                task_type, jurisdiction, subset)
 
         json_files = [
             pos_json
@@ -75,10 +76,11 @@ class SaraProlog(AbstractDataset):
                     "% Question", "\nQuestion:")
                 facts_and_question = facts_and_question.replace("%", "").strip()
 
-                instruction, instruction_language = instructions.sample("sara_prolog_facts")
+                subset = "sara_prolog_facts"
+                instruction, instruction_language = instructions.sample(subset)
                 prompt = facts_and_question
                 answer = f"Prolog Program:\n\n{program.strip()}\nAnswer: {answer}"
                 yield self.build_data_point(instruction_language,
                                             prompt_language, "en", instruction,
                                             prompt, answer, task_type,
-                                            jurisdiction)
+                                            jurisdiction, subset)

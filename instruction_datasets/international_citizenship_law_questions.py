@@ -20,16 +20,16 @@ class InternationalCitizenshipLawQuestions(AbstractDataset):
         instruction_language = "en"
         prompt_language = "en"
 
-        df1 = pd.read_csv(
+        df_mode_acq = pd.read_csv(
             f"{self.raw_data_dir}/data_v1.0_country-year-mode_acq.csv")
-        df2 = pd.read_csv(
+        df_mode_loss = pd.read_csv(
             f"{self.raw_data_dir}/data_v1.0_country-year-mode_loss.csv")
         code_year = pd.read_csv(
             f"{self.raw_data_dir}/data_v1.0_country-year.csv")
         code_dictionary = pd.read_csv(
             f"{self.raw_data_dir}/code_dictionary.csv")
 
-        for idx, row in df1.iterrows():
+        for idx, row in df_mode_acq.iterrows():
             mode_id = row["mode_id"]
             country = row["country"]
             law_article = row["article"]
@@ -57,9 +57,9 @@ class InternationalCitizenshipLawQuestions(AbstractDataset):
 
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", _BLANK_INSTRUCTION, prompt,
-                                        answer, task_type, jurisdiction)
+                                        answer, task_type, jurisdiction, "mode_acq")
 
-        for idx, row in df2.iterrows():
+        for idx, row in df_mode_loss.iterrows():
             mode_id = row["mode_id"]
             country = row["country"]
             law_article = row["article"]
@@ -87,4 +87,4 @@ class InternationalCitizenshipLawQuestions(AbstractDataset):
                 )
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", _BLANK_INSTRUCTION, prompt, answer, task_type,
-                                        jurisdiction)
+                                        jurisdiction, "mode_loss")
