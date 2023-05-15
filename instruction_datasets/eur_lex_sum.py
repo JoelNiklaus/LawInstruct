@@ -52,7 +52,7 @@ class EurLexSum(AbstractDataset):
             'slovenian': 'sl',
             'swedish': 'sv'
         }
-        for lang, answer_language in langs.items():
+        for lang, lang_code in langs.items():
             df = load_dataset("dennlinger/eur-lex-sum", lang, split="train")
 
             task_type = TaskType.SUMMARIZATION
@@ -67,6 +67,6 @@ class EurLexSum(AbstractDataset):
                     "eur_lex_sum")
                 prompt, answer = build_summarization_answer(input, summary)
                 yield self.build_data_point(instruction_language,
-                                            prompt_language, answer_language,
+                                            lang_code, lang_code,
                                             instruction, prompt, answer,
                                             task_type, jurisdiction, lang)

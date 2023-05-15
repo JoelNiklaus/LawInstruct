@@ -18,7 +18,7 @@ class LboxOpen(AbstractDataset):
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.SOUTH_KOREA
         instruction_language: str
-        prompt_language = "en"
+        prompt_language = "ko"
         answer_language = "ko"
 
         for x in data_st_plus["train"]:

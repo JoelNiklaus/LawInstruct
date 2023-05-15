@@ -34,7 +34,7 @@ class Lila(AbstractDataset):
                                                example['Output Answer']):
                         instruction, instruction_language = instructions.sample("lila")
                         prompt = f"Question: {example['Input']}\n" \
-                                    f"Program:\n```python\n{program}\n```\n"
+                                 f"Program:\n```python\n{program}\n```\n"
                         answer = f"Answer: {answer}"
                         yield self.build_data_point(instruction_language,
                                                     prompt_language, "en",

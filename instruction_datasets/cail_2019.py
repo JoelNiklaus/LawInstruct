@@ -25,6 +25,9 @@ class CAIL2019(AbstractDataset):
                 for paragraph in d['paragraphs']:
                     for question in paragraph['qas']:
                         if question['is_impossible']:
+                            # TODO(joel): This is English, but the other
+                            #  answers (to not-impossible questions) are in
+                            #  Chinese. Should we translate this?
                             answer = "Sorry, this question cannot be answered based on the information available."
                         else:
                             answer = ", ".join(

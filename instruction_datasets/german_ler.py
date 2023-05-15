@@ -43,8 +43,8 @@ class GermanLER(AbstractDataset):
         task_type = TaskType.NAMED_ENTITY_RECOGNITION
         jurisdiction = Jurisdiction.GERMANY
         instruction_language = "en"
-        prompt_language = "el"
-        answer_language = "de"
+        prompt_language = "de"
+        answer_language = "ner"
 
         introduction_sentence = "Consider the following sentence from a German federal court decision."
         instruction_bank_fine = [

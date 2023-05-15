@@ -17,7 +17,7 @@ class BrCAD5(AbstractDataset):
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.BRAZIL
         instruction_language: str
-        prompt_language = "en"
+        prompt_language = "pt"
         answer_language = "pt"
 
         for example in df:

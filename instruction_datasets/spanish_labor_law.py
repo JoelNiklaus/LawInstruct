@@ -18,7 +18,7 @@ class SpanishLaborLaw(AbstractDataset):
         jurisdiction = Jurisdiction.SPAIN
         instruction: str
         instruction_language: str
-        prompt_language = "en"
+        prompt_language = "es"
 
         for idx, row in df.iterrows():
             question, context, answer = row["Question"], row["context"], row[

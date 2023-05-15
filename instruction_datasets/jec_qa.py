@@ -15,7 +15,7 @@ class JECQA(AbstractDataset):
         task_type = TaskType.QUESTION_ANSWERING
         jurisdiction = Jurisdiction.CHINA
         instruction_language: str
-        prompt_language = "en"
+        prompt_language = "zh"
 
         with open(f"{self.raw_data_dir}/jecqa_0_train.json") as f:
             questions = [json.loads(x) for x in f.readlines()]

@@ -218,10 +218,9 @@ class LEXTREME(AbstractDataset):
 
                 for prompt, answer, lang in answers:
                     task_type = TaskType.NAMED_ENTITY_RECOGNITION if task_code == 'NER' else TaskType.TEXT_CLASSIFICATION
-                    prompt_language = "en"
                     instruction, instruction_language = instructions_.sample(subset)
                     yield self.build_data_point(instruction_language,
-                                                prompt_language,
+                                                lang,
                                                 lang,
                                                 instruction,
                                                 prompt,

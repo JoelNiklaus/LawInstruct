@@ -46,7 +46,7 @@ class IndianNER(AbstractDataset):
         jurisdiction = Jurisdiction.INDIA
         instruction_language = "en"
         prompt_language = "en"
-        answer_language = "en"  # TODO: following GermanLER here; it's actually a structured representation though...
+        answer_language = "ner"
 
         introduction_sentence = "Consider the following sentence in English."
         instruction_bank = [
