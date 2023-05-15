@@ -16,9 +16,24 @@ cd /storage/workspaces/inf_fdn/hpc_nfp77/joel/LawInstruct
 conda activate lawinstruct
 export HF_DATASETS_CACHE="/storage/workspaces/inf_fdn/hpc_nfp77/joel/.cache"
 
-python build_instruction_datasets.py --datasets legal --language_mode english --build_from_scratch
-xz --list data/*.xz
-python build_num_shards_dict.py
+
+# Define the language modes and instruction bank sizes
+language_modes=("english" "multilingual")
+instruction_bank_sizes=(10) # (1 2 5 10)
+
+# Loop over the language modes and instruction bank sizes
+for language_mode in "${language_modes[@]}"
+do
+    for instruction_bank_size in "${instruction_bank_sizes[@]}"
+    do
+        # Invoke the Python script with the desired arguments
+        python build_instruction_datasets.py --language_mode "$language_mode" --instruction_bank_size "$instruction_bank_size" --datasets legal --build_from_scratch
+    done
+done
+
+
+# xz --list data/*.xz
+# python build_num_shards_dict.py
 
 # IMPORTANT:
 # Run with                  sbatch run_ubelix_job.sh

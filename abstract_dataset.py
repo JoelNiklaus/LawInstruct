@@ -40,20 +40,17 @@ class AbstractDataset:
     Attributes:
         name: The name of the dataset.
         source: The source of the dataset, e.g. a URL.
-        data_dir: The directory where the dataset should be written out.
         random: A random.Random instance that should be used to make the dataset
             reproducible.
         raw_data_dir: The directory where any raw data is found.
         logger: A logger instance that should be used to log information.
     """
 
-    def __init__(self, name: str, source: str, data_dir: os.PathLike = "data"):
+    def __init__(self, name: str, source: str):
         if " " in name:
             raise ValueError("Dataset name should not contain spaces.")
         self.name = name
         self.source = source
-        self.data_dir = pathlib.Path(data_dir)
-        os.makedirs(self.data_dir, exist_ok=True)
         self.random: random.Random = random.Random(42)  # make it reproducible
 
         self.raw_data_dir = "lawinstruct_raw/raw_data"
@@ -170,11 +167,12 @@ class AbstractDataset:
         """Returns the output file name for the given split and index."""
         if not subset:
             subset = 'MainSubset'
-        return self.data_dir / f'{self.name}-{subset}-{split}-{file_index}.jsonl.xz'
+        return self.output_dir / f'{self.name}-{subset}-{split}-{file_index}.jsonl.xz'
 
     def build_instruction_dataset(
             self,
             instructions: instruction_manager.InstructionManager,
+            output_dir: os.PathLike = 'data',
             debug_size: int = -1) -> None:
         """Writes a dataset to files.
 
@@ -189,6 +187,9 @@ class AbstractDataset:
               last one for debugging.
         """
         self.logger.info('Building instruction dataset for %s. Loading data...', self.name)
+
+        self.output_dir = pathlib.Path(output_dir)
+        os.makedirs(self.output_dir, exist_ok=True)
 
         # Curry the function to get the file name.
         def get_file_name(file_index):

@@ -7,6 +7,8 @@ import argparse
 import functools
 import logging
 import multiprocessing
+import os
+from pathlib import Path
 from typing import Optional, Sequence, Type
 
 from abstract_dataset import AbstractDataset
@@ -55,23 +57,24 @@ def parse_args(args: Optional[list[str]] = None) -> argparse.Namespace:
 
     # If no datasets are specified, build all of them
     if not args.datasets or args.datasets == ["all"]:
-        args.datasets = sorted(dataset.__name__ for dataset in ALL_DATASETS)
+        args.dataset_names = sorted(dataset.__name__ for dataset in ALL_DATASETS)
     elif args.datasets == ["legal"]:
-        args.datasets = sorted(dataset.__name__ for dataset in LEGAL_DATASETS)
+        args.dataset_names = sorted(dataset.__name__ for dataset in LEGAL_DATASETS)
     elif args.datasets == ["nonlegal"]:
-        args.datasets = sorted(dataset.__name__ for dataset in NON_LEGAL_DATASETS)
+        args.dataset_names = sorted(dataset.__name__ for dataset in NON_LEGAL_DATASETS)
     else:
-        args.datasets = sorted(args.datasets)
+        args.dataset_names = sorted(args.datasets)
 
     # Get the actual classes for each named dataset.
     dataset_lookup = {dataset.__name__: dataset for dataset in ALL_DATASETS}
-    args.datasets = [dataset_lookup[dataset] for dataset in args.datasets]
+    args.dataset_names = [dataset_lookup[dataset] for dataset in args.dataset_names]
 
     return args
 
 
 def _build_dataset(
         dataset: Type[AbstractDataset],
+        output_dir: str,
         instructions: instruction_manager.InstructionManager,
         debug_size: int
 ) -> None:
@@ -81,11 +84,14 @@ def _build_dataset(
     #  composition instead of inheritance.
     dataset().build_instruction_dataset(
         instructions,
-        debug_size=debug_size)
+        output_dir=Path(output_dir),
+        debug_size=debug_size
+    )
 
 
 def build_instruction_datasets(
         datasets: Sequence[Type[AbstractDataset]],
+        output_dir: str,
         instructions: instruction_manager.InstructionManager,
         *,
         processes: int = -1,
@@ -111,8 +117,12 @@ def build_instruction_datasets(
     logging.info("Building datasets: %s",
                  [d.__name__ for d in datasets_to_build])
 
+    os.makedirs(output_dir, exist_ok=True)
+    logging.info("Saving datasets to %s", output_dir)
+
     build_one = functools.partial(
         _build_dataset,
+        output_dir=output_dir,
         instructions=instructions,
         debug_size=debug_size,
     )
@@ -127,12 +137,13 @@ def build_instruction_datasets(
 
 if __name__ == '__main__':
     args = parse_args()
-    log_level = logging.DEBUG if args.debug else logging.WARNING
+    log_level = logging.DEBUG if args.debug else logging.INFO
     logging.basicConfig(level=log_level)
     instructions = instruction_manager.InstructionManager(
         mode=args.language_mode,
         instruction_bank_size=args.instruction_bank_size)
-    build_instruction_datasets(args.datasets,
+    build_instruction_datasets(args.dataset_names,
+                               f"{args.datasets[0]}-{args.language_mode}-{args.instruction_bank_size}",
                                instructions,
                                processes=args.processes,
                                debug=args.debug,
