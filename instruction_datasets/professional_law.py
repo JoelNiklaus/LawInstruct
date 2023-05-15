@@ -13,7 +13,7 @@ class ProfessionalLaw(AbstractDataset):
 
     def __init__(self):
         super().__init__("ProfessionalLaw", "https://arxiv.org/abs/2009.03300")
-        self.filter_out_mmmlu = True
+        self.filter_out_mmmlu = False  # we can remove it in the sampling script if we want
 
     def get_data(self, instructions: instruction_manager.InstructionManager):
         if self.filter_out_mmmlu:
@@ -44,9 +44,9 @@ class ProfessionalLaw(AbstractDataset):
             prompt = ""
             for j, (prompt_question, prompt_choices,
                     prompt_answer) in enumerate(
-                        zip(prompt_samples["question"],
-                            prompt_samples["choices"],
-                            prompt_samples["answer"])):
+                zip(prompt_samples["question"],
+                    prompt_samples["choices"],
+                    prompt_samples["answer"])):
                 prompt += f"Question: {prompt_question}\n"
                 lookup = ["(a)", "(b)", "(c)", "(d)"]
                 prompt_choices, prompt_answer = shuffle_choices(

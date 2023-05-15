@@ -382,4 +382,4 @@ class AbstractNaturalInstructions(AbstractDataset):
                                   model=None,
                                   **encoding,
                                   text_only=True))
-        self.filter_out_mmmlu = True
+        self.filter_out_mmmlu = False  # we can remove it in the sampling script if we want
