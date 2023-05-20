@@ -139,11 +139,10 @@ LEGAL_DATASETS = frozenset({
     ValidWills,
     NaturalInstructionsLegal,
 })
-NATURAL_INSTRUCTIONS = frozenset(
-    {NaturalInstructionsLegal, NaturalInstructionsOther})
+NATURAL_INSTRUCTIONS = frozenset({NaturalInstructionsLegal, NaturalInstructionsOther})
 XP3MT = frozenset({XP3MT})
 NON_LEGAL_DATASETS = frozenset({NaturalInstructionsOther}) | XP3MT
-ERRONEOUS_DATASETS = frozenset([])
+ERRONEOUS_DATASETS = frozenset([ProfessionalLaw])
 DATASETS_ALREADY_BUILT = NATURAL_INSTRUCTIONS | XP3MT | frozenset({
     BrazilianBarExam,
     BrCAD5,
