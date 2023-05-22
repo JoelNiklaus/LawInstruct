@@ -7,6 +7,7 @@ from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
 import instruction_manager
+import multiple_choice
 
 
 class CiviproQuestions(AbstractDataset):
@@ -38,10 +39,10 @@ class CiviproQuestions(AbstractDataset):
             choices = values["choices"]
             question = ".".join(question.split(".")[1:])
             if len(choices) < 4:
-                print(f"Skipping {question} because it has less than 2 choices")
+                print(f"Skipping {question} because it has less than 4 choices")
                 continue
             # self.random.shuffle(choices)
-            lookup = ["A", "B", "C", "D", "E", "F", "G"]
+            lookup = multiple_choice.sample_markers_for_options(choices)
             analysis_string = values[
                 'chain_of_thought']  # "\n".join([f"{choice[2]}" for i, choice in enumerate(choices)])
             try:
