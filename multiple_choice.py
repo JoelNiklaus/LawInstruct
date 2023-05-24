@@ -5,6 +5,7 @@ import random
 
 class MultipleChoiceStyle:
     """Automatic numbering."""
+
     def __init__(self, markers: list[str]) -> None:
         self._markers = markers
 
@@ -17,14 +18,26 @@ class MultipleChoiceStyle:
 
 
 _STYLES = [
-    MultipleChoiceStyle(['(a)', '(b)', '(c)', '(d)', '(e)']),
-    MultipleChoiceStyle(['(A)', '(B)', '(C)', '(D)', '(E)']),
-    MultipleChoiceStyle(['A.', 'B.', 'C.', 'D.', 'E.']),
     MultipleChoiceStyle(['(1)', '(2)', '(3)', '(4)', '(5)']),
+    MultipleChoiceStyle(['1)', '2)', '3)', '4)', '5)']),
     MultipleChoiceStyle(['1.', '2.', '3.', '4.', '5.']),
+    MultipleChoiceStyle(['1', '2', '3', '4', '5']),
+
+    MultipleChoiceStyle(['(A)', '(B)', '(C)', '(D)', '(E)']),
+    MultipleChoiceStyle(['A)', 'B)', 'C)', 'D)', 'E)']),
+    MultipleChoiceStyle(['A.', 'B.', 'C.', 'D.', 'E.']),
+    MultipleChoiceStyle(['A', 'B', 'C', 'D', 'E']),
+
+    MultipleChoiceStyle(['(a)', '(b)', '(c)', '(d)', '(e)']),
+    MultipleChoiceStyle(['a)', 'b)', 'c)', 'd)', 'e)']),
+
     MultipleChoiceStyle(['(i)', '(ii)', '(iii)', '(iv)', '(v)']),
+    MultipleChoiceStyle(['i)', 'ii)', 'iii)', 'iv)', 'v)']),
+
     MultipleChoiceStyle(['(I)', '(II)', '(III)', '(IV)', '(V)']),
+    MultipleChoiceStyle(['I)', 'II)', 'III)', 'IV)', 'V)']),
 ]
+
 
 def sample_markers_for_options(options: Sequence[str]) -> list[str]:
     """Return the markers from a randomly sampled style."""
