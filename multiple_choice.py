@@ -18,24 +18,24 @@ class MultipleChoiceStyle:
 
 
 _STYLES = [
-    MultipleChoiceStyle(['(1)', '(2)', '(3)', '(4)', '(5)']),
-    MultipleChoiceStyle(['1)', '2)', '3)', '4)', '5)']),
-    MultipleChoiceStyle(['1.', '2.', '3.', '4.', '5.']),
-    MultipleChoiceStyle(['1', '2', '3', '4', '5']),
+    MultipleChoiceStyle(['(1)', '(2)', '(3)', '(4)', '(5)', '(6)', '(7)', '(8)', '(9)', '(10)']),
+    MultipleChoiceStyle(['1)', '2)', '3)', '4)', '5)', '6)', '7)', '8)', '9)', '10)']),
+    MultipleChoiceStyle(['1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.', '9.', '10.']),
+    MultipleChoiceStyle(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']),
 
-    MultipleChoiceStyle(['(A)', '(B)', '(C)', '(D)', '(E)']),
-    MultipleChoiceStyle(['A)', 'B)', 'C)', 'D)', 'E)']),
-    MultipleChoiceStyle(['A.', 'B.', 'C.', 'D.', 'E.']),
-    MultipleChoiceStyle(['A', 'B', 'C', 'D', 'E']),
+    MultipleChoiceStyle(['(A)', '(B)', '(C)', '(D)', '(E)', '(F)', '(G)', '(H)', '(I)', '(J)']),
+    MultipleChoiceStyle(['A)', 'B)', 'C)', 'D)', 'E)', 'F)', 'G)', 'H)', 'I)', 'J)']),
+    MultipleChoiceStyle(['A.', 'B.', 'C.', 'D.', 'E.', 'F.', 'G.', 'H.', 'I.', 'J.']),
+    MultipleChoiceStyle(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']),
 
-    MultipleChoiceStyle(['(a)', '(b)', '(c)', '(d)', '(e)']),
-    MultipleChoiceStyle(['a)', 'b)', 'c)', 'd)', 'e)']),
+    MultipleChoiceStyle(['(a)', '(b)', '(c)', '(d)', '(e)', '(f)', '(g)', '(h)', '(i)', '(j)']),
+    MultipleChoiceStyle(['a)', 'b)', 'c)', 'd)', 'e)', 'f)', 'g)', 'h)', 'i)', 'j)']),
 
-    MultipleChoiceStyle(['(i)', '(ii)', '(iii)', '(iv)', '(v)']),
-    MultipleChoiceStyle(['i)', 'ii)', 'iii)', 'iv)', 'v)']),
+    MultipleChoiceStyle(['(i)', '(ii)', '(iii)', '(iv)', '(v)', '(vi)', '(vii)', '(viii)', '(ix)', '(x)']),
+    MultipleChoiceStyle(['i)', 'ii)', 'iii)', 'iv)', 'v)', 'vi)', 'vii)', 'viii)', 'ix)', 'x)']),
 
-    MultipleChoiceStyle(['(I)', '(II)', '(III)', '(IV)', '(V)']),
-    MultipleChoiceStyle(['I)', 'II)', 'III)', 'IV)', 'V)']),
+    MultipleChoiceStyle(['(I)', '(II)', '(III)', '(IV)', '(V)', '(VI)', '(VII)', '(VIII)', '(IX)', '(X)']),
+    MultipleChoiceStyle(['I)', 'II)', 'III)', 'IV)', 'V)', 'VI)', 'VII)', 'VIII)', 'IX)', 'X)']),
 ]
 
 
