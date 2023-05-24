@@ -15,6 +15,8 @@ class MCExamsLaw(AbstractDataset):
     def get_data(self, instructions: instruction_manager.InstructionManager):
         df = pd.read_csv(
             f"{self.raw_data_dir}/raw_legal_mc_with_explanations.csv")
+        # This dataset directly specifies the options, so we can't sample
+        # marker styles.
         task_type = TaskType.MULTIPLE_CHOICE
         jurisdiction = Jurisdiction.US
         instruction_language: str

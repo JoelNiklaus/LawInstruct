@@ -7,6 +7,7 @@ from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
 import instruction_manager
+import multiple_choice
 
 
 class ProfessionalLaw(AbstractDataset):
@@ -48,7 +49,7 @@ class ProfessionalLaw(AbstractDataset):
                     prompt_samples["choices"],
                     prompt_samples["answer"])):
                 prompt += f"Question: {prompt_question}\n"
-                lookup = ["(a)", "(b)", "(c)", "(d)"]
+                lookup = multiple_choice.sample_markers_for_options(prompt_choices)
                 prompt_choices, prompt_answer = shuffle_choices(
                     prompt_choices, prompt_answer)
                 for i, choice in enumerate(prompt_choices):
@@ -58,7 +59,7 @@ class ProfessionalLaw(AbstractDataset):
 
             cur_question = prompt
             cur_question += f"Question: {this_question}\n"
-            lookup: list[str] = ["(a)", "(b)", "(c)", "(d)"]
+            lookup: list[str] = multiple_choice.sample_markers_for_options(this_choices)
             for i, choice in enumerate(this_choices):
                 cur_question += f"{lookup[i]} {choice}\n"
             cur_question.rstrip("\n")  # Remove trailing newline

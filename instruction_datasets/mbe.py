@@ -4,6 +4,7 @@ from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
 import instruction_manager
+import multiple_choice
 
 
 class MBE(AbstractDataset):
@@ -41,8 +42,8 @@ class MBE(AbstractDataset):
             subject = row["Subject"]
             positive_passage = row["Positive Passage"]
             datapoint = f"Question: {question}\n"
+            lookup = multiple_choice.sample_markers_for_options(choices)
             for i, choice in enumerate(choices):
-                lookup = ["A", "B", "C", "D"]
                 datapoint += f"{lookup[i]}. {choice}\n"
             data_no_answer = datapoint
             answer = f"Explanation: {positive_passage}\nAnswer: {answer}"

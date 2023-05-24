@@ -4,6 +4,9 @@ from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
 import instruction_manager
+import multiple_choice
+
+_MC_OPTIONS = ['NÃO PROVIMENTO', 'PROVIMENTO']
 
 
 class BrCAD5(AbstractDataset):
@@ -54,20 +57,21 @@ class BrCAD5(AbstractDataset):
 
         for example in df:
             case = example['preprocessed_full_text_first_instance_court_ruling']
-            outcome_mc1 = ["(a)", "(b)"][['NÃO PROVIMENTO',
+            markers = multiple_choice.sample_markers_for_options(_MC_OPTIONS)
+            outcome_mc1 = markers[['NÃO PROVIMENTO',
                                           'PROVIMENTO'].index(example["label"])]
             subset = "brcad5_mc"
             instruction, instruction_language = instructions.sample(subset)
-            prompt = f"Question: {case} How would the court find?\n(a) The court should dismiss the case.\n(b) The court should affirm the case."
+            prompt = f"Question: {case} How would the court find?\n{markers[0]} The court should dismiss the case.\n{markers[1]} The court should affirm the case."
             answer = f"Answer: {outcome_mc1}."
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
                                         answer, task_type, jurisdiction, subset)
 
-            outcome_mc1 = ["(b)", "(a)"][['NÃO PROVIMENTO',
+            outcome_mc1 = list(reversed(markers))[['NÃO PROVIMENTO',
                                           'PROVIMENTO'].index(example["label"])]
             instruction, instruction_language = instructions.sample(subset)
-            prompt = f"Question: {case} How would the court find?\n(a) The court should approve the case.\n(b) The court should dismiss the case."
+            prompt = f"Question: {case} How would the court find?\n{markers[0]} The court should approve the case.\n{markers[1]} The court should dismiss the case."
             answer = f"Answer: {outcome_mc1}."
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
