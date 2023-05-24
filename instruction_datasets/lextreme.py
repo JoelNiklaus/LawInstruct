@@ -99,7 +99,26 @@ ner_class_mapping = {
     ],
 }
 
-INSTRUCTION_GROUPS: Final[tuple[str, ...]] = ('brazilian_court_decisions_judgment', 'brazilian_court_decisions_unanimity', 'german_argument_mining', 'greek_legal_code_chapter', 'greek_legal_code_subject', 'greek_legal_code_volume', 'swiss_judgment_prediction', 'online_terms_of_service_unfairness_levels', 'online_terms_of_service_clause_topics', 'covid19_emergency_event', 'multi_eurlex_level_1', 'multi_eurlex_level_2', 'multi_eurlex_level_3', 'greek_legal_ner', 'legalnero', 'lener_br', 'mapa_coarse', 'mapa_fine')
+INSTRUCTION_GROUPS: Final[tuple[str, ...]] = (
+    'brazilian_court_decisions_judgment',
+    'brazilian_court_decisions_unanimity',
+    'german_argument_mining',
+    'greek_legal_code_chapter',
+    'greek_legal_code_subject',
+    'greek_legal_code_volume',
+    'swiss_judgment_prediction',
+    'online_terms_of_service_unfairness_levels',
+    'online_terms_of_service_clause_topics',
+    'covid19_emergency_event',
+    'multi_eurlex_level_1',
+    'multi_eurlex_level_2',
+    'multi_eurlex_level_3',
+    'greek_legal_ner',
+    'legalnero',
+    'lener_br',
+    'mapa_coarse',
+    'mapa_fine'
+)
 
 TASK_CODE_MAPPING = {
     'brazilian_court_decisions_judgment': 'SLTC',
@@ -188,7 +207,7 @@ class LEXTREME(AbstractDataset):
                 elif task_code == 'MLTC':
                     correct_labels = list(
                         map(str, example['label']
-                           ))  # here we don't have any mapping to label names
+                            ))  # here we don't have any mapping to label names
                 elif task_code == 'NER':
                     correct_labels = [
                         label_classes[label] for label in example['label']
@@ -196,6 +215,8 @@ class LEXTREME(AbstractDataset):
 
                 if subset in ['online_terms_of_service_clause_topics', 'covid19_emergency_event']:
                     correct_labels = [chr(int(num) + 65) for num in correct_labels]  # convert to letters
+                if not correct_labels:
+                    correct_labels = ["n/a"]  # set to n/a if no labels
 
                 answers: list[tuple[str, str, str]]
                 if task_code in ['SLTC', 'MLTC']:
@@ -204,11 +225,11 @@ class LEXTREME(AbstractDataset):
                         input_text = ast.literal_eval(input_text)
                         assert isinstance(input_text, dict)
                         answers = [(f"Passage {input_text[lang]}",
-                                    f"Labels: {','.join(correct_labels)}", lang)
+                                    f"Label(s): {','.join(correct_labels)}", lang)
                                    for lang, text in input_text.items()]
                     else:
                         answers = [(f"Passage {input_text}",
-                                    f"Labels: {','.join(correct_labels)}",
+                                    f"Label(s): {','.join(correct_labels)}",
                                     example['language'])]
 
                 elif task_code == 'NER':

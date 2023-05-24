@@ -8,7 +8,8 @@ from enums import TaskType
 import instruction_manager
 
 INSTRUCTION_GROUPS: Final[tuple[str, ...]] = (
-    'ecthr_a', 'ecthr_b', 'scotus', 'eurlex', 'ledgar', 'unfair_tos', 'case_hold')
+    'ecthr_a', 'ecthr_b', 'scotus', 'eurlex', 'ledgar', 'unfair_tos', 'case_hold'
+)
 
 TASK_CODE_MAPPING = {
     'ecthr_a': 'MLTC',
@@ -61,6 +62,8 @@ class LexGLUE(AbstractDataset):
 
                 if subset in ['ecthr_a', 'ecthr_b', 'scotus', 'unfair_tos', 'case_hold']:
                     correct_labels = [chr(int(num) + 65) for num in correct_labels]  # convert to letters
+                if not correct_labels:
+                    correct_labels = ["n/a"]  # set to n/a if no labels
 
                 if task_code in ['SLTC', 'MLTC']:
                     input_text = example["text"]
@@ -71,7 +74,7 @@ class LexGLUE(AbstractDataset):
                     input_text = example["context"] + "\n\nHoldings:\n" + "\n".join(endings)
 
                 prompt = f"Passage: {input_text}"
-                answer = f"Labels: {','.join(correct_labels)}"
+                answer = f"Label(s): {','.join(correct_labels)}"
 
                 prompt_language = "en"
                 instruction, instruction_language = instructions_.sample(subset)
