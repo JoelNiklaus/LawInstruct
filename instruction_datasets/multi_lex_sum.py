@@ -26,7 +26,7 @@ class MultiLexSum(AbstractDataset):
             "https://huggingface.co/datasets/allenai/multi_lexsum")
 
     def get_data(self, instructions: instruction_manager.InstructionManager):
-        df = load_dataset("allenai/multi_lexsum", split="train")
+        df = load_dataset("allenai/multi_lexsum", "v20230518", split="train")
         task_type = TaskType.SUMMARIZATION
         jurisdiction = Jurisdiction.US
         instruction_language: str
