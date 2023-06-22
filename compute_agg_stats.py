@@ -3,12 +3,18 @@ import pandas as pd
 import os
 
 from tqdm import tqdm
+import copy
+
+def get_length(text):
+    if not text:
+        return 0
+    return len(text.split())
 
 
 def compute_dataset_stats():
     for config in configs:
         print(f"Started computing dataset specific stats for {config}")
-        stats = base_dict.copy()
+        stats = copy.deepcopy(base_dict)
 
         dataset = load_dataset(dataset_name, config, split="train", streaming=True)
         for example in tqdm(dataset):
@@ -18,11 +24,6 @@ def compute_dataset_stats():
             stats["instruction_language"].append(example["instruction_language"])
             stats["prompt_language"].append(example["prompt_language"])
             stats["answer_language"].append(example["answer_language"])
-
-            def get_length(text):
-                if not text:
-                    return 0
-                return len(text.split())
 
             stats["instruction_length"].append(get_length(example["instruction"]))
             stats["prompt_length"].append(get_length(example["prompt"]))
@@ -36,8 +37,8 @@ def compute_dataset_stats():
 
 def compute_aggregate_stats():
     # Aggregate stats
-    agg = base_dict.copy()
-    agg.update({"dataset": [], "subset": []})
+    agg = {"dataset": [], "subset": []}
+    agg.update(copy.deepcopy(base_dict))
     print(f"Started aggregating stats for configs {configs}")
     for config in tqdm(configs):
         # load dataset statistics
@@ -78,5 +79,5 @@ if __name__ == '__main__':
     base_dict.update({categorical: [] for categorical in categoricals})
     base_dict.update({numerical: [] for numerical in numericals})
 
-    # compute_dataset_stats()
+    compute_dataset_stats()
     compute_aggregate_stats()
