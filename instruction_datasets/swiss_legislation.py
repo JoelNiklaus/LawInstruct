@@ -4,7 +4,7 @@ import instruction_manager
 from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
-from instruction_datasets.swiss_rulings import get_canton_name
+from instruction_datasets.swiss_leading_decisions import get_canton_name
 
 _BLANK_INSTRUCTION = ''
 

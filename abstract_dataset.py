@@ -203,7 +203,7 @@ class AbstractDataset:
             # TODO this solution might not be ideal, because it needs to close and open the filewriter
             #  for every datapoint if we save to different subsets within the same datapoint
             subset = datapoint.subset
-            if subset != self.subset:
+            if subset != self.subset: # switch the writer when the subset changes
                 if writer is not None:
                     writer.close()
                 self.subset = subset
