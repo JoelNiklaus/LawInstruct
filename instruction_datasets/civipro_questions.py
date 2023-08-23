@@ -72,6 +72,7 @@ class CiviproQuestions(AbstractDataset):
             prompt_no_explanation = f"Question: {question}\n{choice_string}"
             answer_no_explanation = f"Answer: {correct_answer}"
 
+            # TODO rewrite this so that there is one loop for each subset
             for instruction, instruction_language, prompt, answer, subset in zip(
                     [
                         instruction_with_passage,

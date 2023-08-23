@@ -36,6 +36,7 @@ class CAIL2022(AbstractDataset):
                                         answer_language, instruction, prompt,
                                         answer, task_type, jurisdiction, subset)
 
+        for question in questions:
             task_type = TaskType.QUESTION_ANSWERING
             response = question[f"bc_{question['answer']}"]
             subset = "cail_2022_response"
@@ -46,7 +47,9 @@ class CAIL2022(AbstractDataset):
                                         answer_language, instruction, prompt,
                                         answer, task_type, jurisdiction, subset)
 
+        for question in questions:
             task_type = TaskType.TEXT_CLASSIFICATION
+            response = question[f"bc_{question['answer']}"]
             subset = "cail_2022_crime"
             instruction, instruction_language = instructions.sample(subset)
             prompt = f"Plaintiff's Argument:{question['sc']}\nDefendant's Response: {response}"

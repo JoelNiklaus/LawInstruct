@@ -61,6 +61,7 @@ class GermanLER(AbstractDataset):
                                         answer_language, instruction, prompt,
                                         answer, task_type, jurisdiction, "fine")
 
+        for example in df:
             tags = [ner_coarse_tags[tag] for tag in example["ner_coarse_tags"]]
             instruction = self.random.choice(instruction_bank_coarse)
             prompt, answer = build_ner_answer(example['tokens'], tags)
