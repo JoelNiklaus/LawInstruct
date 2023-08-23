@@ -82,16 +82,15 @@ paraphrases. Provide json as output. Keep the provided examples."
 ## TODOs
 
 - make overview tables and graphs describing lawinstruct (Joel)
-- Test why some datasets only have very few examples
-- Add Swiss Leading Decision Summarization and Citation Extraction (and maybe Doc2Doc IR) and MultiLegalNeg Datasets
+- Add Swiss Citation Extraction (and maybe Doc2Doc IR) and MultiLegalNeg Datasets
 - make huggingface dataset loading script better: enable dynamic loading of instructions in differing numbers of
   paraphrases and languages
 - double check that languages are correct (Arya)
-- use the same instruction banks for the same tasks if applicable (Lucia)
-- add more examples to the instruction banks and diversify them by looking at FLAN and Natural Instructions (Lucia)
 
 ## Maybe later
 
+- use the same instruction banks for the same tasks if applicable (Lucia)
+- add more examples to the instruction banks and diversify them by looking at FLAN and Natural Instructions (Lucia)
 - put local data on huggingface hub (find them if they use the raw_data folder)
 - translate some answers into the 24 EU languages ==> save instructions and answers into different columns
 - do not use xP3 and natural instructions but only code and legal instructions because of figure
@@ -123,6 +122,7 @@ paraphrases. Provide json as output. Keep the provided examples."
 - paraphrase the instruction banks with GPT4 (prompt: Below is a list of instructions for a large language model. Expand
   this json to 10 paraphrases. Provide json as output. Keep the provided examples.) (Joel)
 - translate instruction banks (from json file) into the 24 EU languages (Joel)
+- Test why some datasets only have very few examples (Joel)
 
 ## Datasets possibly to be reconsidered later
 
