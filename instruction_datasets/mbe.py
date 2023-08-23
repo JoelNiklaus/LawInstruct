@@ -26,38 +26,16 @@ class MBE(AbstractDataset):
             "Generate an MBE MC question for "
         ]
         for idx, row in df.iterrows():
-            # source_year = row["Source"].split("MBE-")[1].split("-")[0]
-            if isinstance(row['Prompt'], str) and row['Prompt'].strip(
-            ) != "" and row['Prompt'].strip() != "nan":
-                question = row['Prompt']
-            else:
-                question = ""
-            question += f" {row['Question']}"
-            question = question.strip()
-            choices = [
-                row["Choice A"], row["Choice B"], row["Choice C"],
-                row["Choice D"]
-            ]
-            answer = row["Answer"]
-            subject = row["Subject"]
-            positive_passage = row["Positive Passage"]
-            datapoint = f"Question: {question}\n"
-            lookup = multiple_choice.sample_markers_for_options(choices)
-            for i, choice in enumerate(choices):
-                datapoint += f"{lookup[i]}. {choice}\n"
-            data_no_answer = datapoint
-            answer = f"Explanation: {positive_passage}\nAnswer: {answer}"
-            data_with_answer = data_no_answer + answer
-            # if source_year.strip() != "" and int(source_year) > 1950 and int(source_year) < 2023:
-            #     source_year_string = f" Consider only the law and relevant cases before {source_year}."
-            # else:
-            #     source_year_string = ""
+            answer, data_no_answer, data_with_answer = self.get_answers(row)
             subset = 'mbe_examples'
             instruction, instruction_language = instructions.sample(subset)
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", instruction, data_no_answer,
                                         answer, task_type, jurisdiction, subset)
 
+        for idx, row in df.iterrows():
+            answer, data_no_answer, data_with_answer = self.get_answers(row)
+            subject = row["Subject"]
             if isinstance(subject, str) and subject.strip() != "":
                 # Datapoint with subject.
                 subset = 'mbe_subject'
@@ -69,11 +47,43 @@ class MBE(AbstractDataset):
                                             prompt, answer, task_type,
                                             jurisdiction, subset)
 
+        for idx, row in df.iterrows():
+            answer, data_no_answer, data_with_answer = self.get_answers(row)
+            subject = row["Subject"]
+            if isinstance(subject, str) and subject.strip() != "":
                 # Datapoint for generation with subject.
+                subset = "mbe_subject_generation"
                 instruction = self.random.choice(
                     instruction_bank_subject_generation) + subject
                 _BLANK_PROMPT = ""  # TODO: what would the prompt be here?
                 yield self.build_data_point('en',
                                             prompt_language, "en", instruction,
                                             _BLANK_PROMPT, data_with_answer,
-                                            task_type, jurisdiction, "mbe_subject_generation")
+                                            task_type, jurisdiction, subset)
+
+    def get_answers(self, row):
+        # source_year = row["Source"].split("MBE-")[1].split("-")[0]
+        if isinstance(row['Prompt'], str) and row['Prompt'].strip(
+        ) != "" and row['Prompt'].strip() != "nan":
+            question = row['Prompt']
+        else:
+            question = ""
+        question += f" {row['Question']}"
+        question = question.strip()
+        choices = [
+            row["Choice A"], row["Choice B"], row["Choice C"],
+            row["Choice D"]
+        ]
+        answer = row["Answer"]
+        positive_passage = row["Positive Passage"]
+        data_no_answer = f"Question: {question}\n"
+        lookup = multiple_choice.sample_markers_for_options(choices)
+        for i, choice in enumerate(choices):
+            data_no_answer += f"{lookup[i]}. {choice}\n"
+        answer = f"Explanation: {positive_passage}\nAnswer: {answer}"
+        data_with_answer = data_no_answer + answer
+        # if source_year.strip() != "" and int(source_year) > 1950 and int(source_year) < 2023:
+        #     source_year_string = f" Consider only the law and relevant cases before {source_year}."
+        # else:
+        #     source_year_string = ""
+        return answer, data_no_answer, data_with_answer

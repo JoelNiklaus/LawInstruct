@@ -459,50 +459,49 @@ class MAUD(AbstractDataset):
         instruction_language: str
         prompt_language = "en"
         answer_language = "en"
+        task_type = TaskType.TEXT_CLASSIFICATION
 
+        # TODO extract the instructions to the json file
         for example in df:
-            # TODO extract the instructions to the json file
-
-            category = example["category"]
-            text_type = example["text_type"]
-            question = example["question"]
             # we don't need this because the multilabel one is not really multilabel
-            subquestion = example["subquestion"]
-            answer = example["answer"]
+            # subquestion = example["subquestion"]
 
-            task_type = TaskType.TEXT_CLASSIFICATION
             instruction, instruction_language = instructions.sample("maud")
             prompt = f"{example['text']}\nWhat is the ABA category?"
-            answer_ = category
+            answer_ = example["category"]
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
                                         answer_, task_type, jurisdiction, "category")
 
+        for example in df:
             instruction, instruction_language = instructions.sample("maud")
             prompt = f"{example['text']}\nWhat is the ABA text type?"
-            answer_ = text_type
+            answer_ = example["text_type"]
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
                                         answer_, task_type, jurisdiction, "text_type")
-
+        for example in df:
             instruction, instruction_language = instructions.sample("maud")
             prompt = f"{example['text']}\nWhat is the ABA question?"
-            answer_ = question
+            answer_ = example["question"]
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
                                         answer_, task_type, jurisdiction, "question")
 
+        for example in df:
+            question = example["question"]
             try:
-                answers_lookup = info_dict[category][text_type][question]
+                answers_lookup = info_dict[example["category"]][example["text_type"]][question]
             except KeyError:
                 continue  # if it errors, just skip this example
             # do not distinguish between multiple choice and multilabel, since the multilabel ones do not seem to be really multilabel
+            answer = example["answer"]
             if answer in answers_lookup:
                 task_type = TaskType.MULTIPLE_CHOICE
                 instruction, instruction_language = instructions.sample("maud")
                 prompt = f"{example['text']}\n\n" \
-                       f"Answer this question: {question}\n\n" \
-                       f"Possible answers: {','.join([f'{idx}: {answer}' for idx, answer in enumerate(answers_lookup)])}\n"
+                         f"Answer this question: {question}\n\n" \
+                         f"Possible answers: {','.join([f'{idx}: {answer}' for idx, answer in enumerate(answers_lookup)])}\n"
                 answer_ = f"Correct answer: {answers_lookup.index(answer)}: {answer}"
                 yield self.build_data_point(instruction_language,
                                             prompt_language, answer_language,

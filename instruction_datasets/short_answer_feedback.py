@@ -31,6 +31,7 @@ class ShortAnswerFeedback(AbstractDataset):
                                         "de", instruction, prompt, answer,
                                         task_type, jurisdiction, subset)
 
+        for example in df["train"]:
             subset = 'short_answer_feedback_rating'
             instruction, instruction_language = instructions.sample(subset)
 
@@ -40,6 +41,7 @@ class ShortAnswerFeedback(AbstractDataset):
                                         "de", instruction, prompt, answer,
                                         task_type, jurisdiction, subset)
 
+        for example in df["train"]:
             subset = 'short_answer_feedback_error_class'
             instruction, instruction_language = instructions.sample(subset)
             prompt = f"Q: {example['question']}\nA: {example['provided_answer']}"

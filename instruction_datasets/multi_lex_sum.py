@@ -34,27 +34,31 @@ class MultiLexSum(AbstractDataset):
 
         for example in df:
             input = example["summary/long"]
-            subset = "multi_lex_sum"
+
             if example["summary/short"]:
                 summary = example["summary/short"]
-                instruction, instruction_language = instructions.sample(subset)
+                instruction, instruction_language = instructions.sample("multi_lex_sum")
                 prompt, answer = build_summarization_answer(input, summary)
                 yield self.build_data_point(instruction_language,
                                             prompt_language, "en", instruction,
                                             prompt, answer, task_type,
                                             jurisdiction, "long_to_short")
+        for example in df:
+            input = example["summary/long"]
             if example["summary/tiny"]:
                 summary = example["summary/tiny"]
-                instruction, instruction_language = instructions.sample(subset)
+                instruction, instruction_language = instructions.sample("multi_lex_sum")
                 prompt, answer = build_summarization_answer(input, summary)
                 yield self.build_data_point(instruction_language,
                                             prompt_language, "en", instruction,
                                             prompt, answer, task_type,
                                             jurisdiction, "long_to_tiny")
+
+        for example in df:
             if example["summary/short"] and example["summary/tiny"]:
                 input = example["summary/short"]
                 summary = example["summary/tiny"]
-                instruction, instruction_language = instructions.sample(subset)
+                instruction, instruction_language = instructions.sample("multi_lex_sum")
                 prompt, answer = build_summarization_answer(input, summary)
                 yield self.build_data_point(instruction_language,
                                             prompt_language, "en", instruction,

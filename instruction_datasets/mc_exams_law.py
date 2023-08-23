@@ -23,8 +23,7 @@ class MCExamsLaw(AbstractDataset):
         prompt_language = "en"
 
         for idx, row in df.iterrows():
-            q, a, explanation, source = row["Question"], row["Answer"], row[
-                "Explanation"], row["Source"]
+            q, a, explanation, source = row["Question"], row["Answer"], row["Explanation"], row["Source"]
 
             # No chain of thought
             subset = 'mc_exams_law_no_explain'
@@ -34,6 +33,9 @@ class MCExamsLaw(AbstractDataset):
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", instruction, prompt, answer,
                                         task_type, jurisdiction, subset)
+
+        for idx, row in df.iterrows():
+            q, a, explanation, source = row["Question"], row["Answer"], row["Explanation"], row["Source"]
 
             # Chain of thought
             subset = 'mc_exams_law_explain'

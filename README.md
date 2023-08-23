@@ -84,7 +84,8 @@ paraphrases. Provide json as output. Keep the provided examples."
 - make overview tables and graphs describing lawinstruct (Joel)
 - Test why some datasets only have very few examples
 - Add Swiss Leading Decision Summarization and Citation Extraction (and maybe Doc2Doc IR) and MultiLegalNeg Datasets
-- make huggingface dataset loading script better: enable dynamic loading of instructions in differing numbers of paraphrases and languages
+- make huggingface dataset loading script better: enable dynamic loading of instructions in differing numbers of
+  paraphrases and languages
 - double check that languages are correct (Arya)
 - use the same instruction banks for the same tasks if applicable (Lucia)
 - add more examples to the instruction banks and diversify them by looking at FLAN and Natural Instructions (Lucia)
@@ -167,3 +168,8 @@ Other Datasets:
 - MakeThisYourLastTime (https://www.makethisyourlasttime.com/essay-bank/) ==> Requires scraping several PDFs; format not
   standardized.
 - ECHR Argument Mining (http://www.di.uevora.pt/~pq/echr/) ==> This is an argument mining dataset.
+
+## Troublehooting
+
+Make sure to only yield from the same subset in the `get_data()` method. Otherwise, it will only write one example to
+the file and close it again.
