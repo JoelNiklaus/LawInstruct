@@ -6,7 +6,6 @@ from enums import Jurisdiction
 from enums import TaskType
 import multiple_choice
 
-
 _BLANK_INSTRUCTION = ''
 _MC_OPTIONS = ["Violation", "No violation"]
 
@@ -24,6 +23,7 @@ class TurkishConstitutionalCourt(AbstractDataset):
         jurisdiction = Jurisdiction.TURKEY
         prompt_language = "tr"
         answer_language = "en"
+
         for example in df:
             subset = "turkish_constitutional_violation_no_violation"
             instruction, instruction_language = instructions.sample(subset)
@@ -33,6 +33,7 @@ class TurkishConstitutionalCourt(AbstractDataset):
                                         answer_language, instruction,
                                         prompt, answer, task_type, jurisdiction, subset)
 
+        for example in df:
             task_type = TaskType.MULTIPLE_CHOICE
             subset = "turkish_constitutional_multiple_choice"
             outcomes = multiple_choice.sample_markers_for_options(_MC_OPTIONS)
@@ -55,4 +56,4 @@ class TurkishConstitutionalCourt(AbstractDataset):
             answer = f"Answer: {outcome_mc1}."  # e.g. "Answer: (a)."
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction,
-                                        prompt, answer, task_type, jurisdiction)
+                                        prompt, answer, task_type, jurisdiction, subset)
