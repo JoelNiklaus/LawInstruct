@@ -82,10 +82,11 @@ paraphrases. Provide json as output. Keep the provided examples."
 ## TODOs
 
 - make overview tables and graphs describing lawinstruct (Joel)
-- Add Swiss Citation Extraction (and maybe Doc2Doc IR) and MultiLegalNeg Datasets
+- add Swiss Citation Extraction (and maybe Doc2Doc IR) and MultiLegalNeg Datasets
 - make huggingface dataset loading script better: enable dynamic loading of instructions in differing numbers of
   paraphrases and languages
 - double check that languages are correct (Arya)
+- frame casehold as a generation task: let the model generate the correct holding statement
 
 ## Maybe later
 
