@@ -72,7 +72,7 @@ class CiviproQuestions(AbstractDataset):
             prompt_no_explanation = f"Question: {question}\n{choice_string}"
             answer_no_explanation = f"Answer: {correct_answer}"
 
-            instructions = [instruction_with_passage, instruction_no_passage, instruction_no_explanation]
+            instructions_list = [instruction_with_passage, instruction_no_passage, instruction_no_explanation]
             instruction_langs = [instruction_with_passage_language, instruction_no_passage_language,
                                  instruction_no_explanation_language]
             prompts = [prompt_with_passage, prompt_no_passage, prompt_no_explanation]
@@ -81,7 +81,7 @@ class CiviproQuestions(AbstractDataset):
 
             for subset in subsets:
                 for instruction, instruction_language, prompt, answer in zip(
-                        instructions, instruction_langs, prompts, answers
+                        instructions_list, instruction_langs, prompts, answers
                 ):
                     yield self.build_data_point(instruction_language,
                                                 prompt_language, "en", instruction,
