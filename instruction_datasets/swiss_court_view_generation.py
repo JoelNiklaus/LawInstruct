@@ -20,7 +20,7 @@ class SwissCourtViewGeneration(AbstractDataset):
         jurisdiction = Jurisdiction.SWITZERLAND
         answer_language = "en"
 
-        df = load_dataset('rcds/swiss_court_view_generation', 'full', split='train')
+        df = load_dataset('rcds/swiss_court_view_generation', 'main', split='train')
         for example in df:
             subset = "swiss_judgment_court_view_generation_same_court"
             instruction, instruction_language = instructions.sample(subset)
