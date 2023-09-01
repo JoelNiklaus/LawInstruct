@@ -93,7 +93,6 @@ LEGAL_DATASETS = frozenset({
     EurLexSum,
     GermanLER,
     GermanRentalAgreements,
-    GSM8K,
     ILDC,
     IndianNER,
     IndianTextSegmentation,
@@ -106,9 +105,7 @@ LEGAL_DATASETS = frozenset({
     LegalQA,
     LexGLUE,
     LEXTREME,
-    Lila,
     Littleton,
-    LogiQA,
     MAUD,
     MBE,
     MCExamsLaw,
@@ -119,7 +116,6 @@ LEGAL_DATASETS = frozenset({
     PrivacyQA,
     PrivacySummarization,
     ProfessionalLaw,
-    ReClor,
     RedditLegalQA,
     Sara,
     SaraProlog,
@@ -141,7 +137,7 @@ LEGAL_DATASETS = frozenset({
 })
 NATURAL_INSTRUCTIONS = frozenset({NaturalInstructionsLegal, NaturalInstructionsOther})
 XP3MT = frozenset({XP3MT})
-NON_LEGAL_DATASETS = frozenset({NaturalInstructionsOther}) | XP3MT
+NON_LEGAL_DATASETS = frozenset({NaturalInstructionsOther, GSM8K, ReClor, Lila, LogiQA}) | XP3MT
 ERRONEOUS_DATASETS = frozenset([ProfessionalLaw])
 DATASETS_ALREADY_BUILT = NATURAL_INSTRUCTIONS | XP3MT | frozenset({
     BrazilianBarExam,
