@@ -12,3 +12,4 @@ transformers~=4.24.0
 pandas~=1.5.3
 easynmt~=2.0.2
 numpy~=1.23.5
+matplotlib

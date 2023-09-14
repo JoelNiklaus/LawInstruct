@@ -62,7 +62,7 @@ def compute_aggregate_stats():
 
 
 if __name__ == '__main__':
-    dataset_name = "lawinstruct/lawinstruct_english"
+    dataset_name = "lawinstruct/lawinstruct_multilingual"
     configs = get_dataset_config_names(dataset_name)
     configs = [config for config in configs if config != 'all']
     print(f"Computing stats for configs {configs}")

@@ -18,6 +18,6 @@ def scan_data_directory(directory):
 
 
 if __name__ == '__main__':
-    dataset = "english"
+    dataset = "multilingual"
     num_shards = scan_data_directory(f'lawinstruct_{dataset}/data')
     pprint(num_shards)
