@@ -35,54 +35,58 @@ class COLIEE(AbstractDataset):
         instruction_language = 'en'
         answer_languages = ["en", "jp"]
 
+        # Given a legal passage, generate an entailed question
+        task_type = TaskType.QUESTION_GENERATION
+        for language in answer_languages:
+            subset = "coliee_task3_generate_entailed_question"
+            with open(
+                    f"{self.raw_data_dir}/coliee/task3/generate_entailed_question/train_{language}.jsonl"
+            ) as f:
+                examples = [json.loads(x) for x in f.readlines()]
+                for example in examples:
+                    instruction, prompt, answer = _separate_text_into_pieces(example)
+                    instruction, instruction_language = instructions.sample(subset)
+                    # Instruction is EN; passage and generated question EN or JP
+                    yield self.build_data_point(instruction_language, language,
+                                                language, instruction, prompt,
+                                                answer, task_type, jurisdiction,
+                                                subset)
+
         # Given two passages, determine entailment
         task_type = TaskType.NATURAL_LANGUAGE_INFERENCE
-
         for language in answer_languages:
-            subset = "passage_entailment"
+            subset = "coliee_task3_passage_entailment"
             with open(
-                    f"{self.raw_data_dir}/coliee/task3/{subset}/train_{language}.jsonl"
+                    f"{self.raw_data_dir}/coliee/task3/passage_entailment/train_{language}.jsonl"
             ) as f:
                 examples = [json.loads(x) for x in f.readlines()]
                 for example in examples:
                     instruction, prompt, answer = _separate_text_into_pieces(
                         example)
+                    # Sample instruction paraphrases, separate_text_into_pieces returns base instruction
+                    instruction, instruction_language = instructions.sample(subset)
                     # Instruction is EN, passage is EN or JP, answer is EN.
                     yield self.build_data_point(instruction_language, language,
                                                 'en', instruction, prompt,
                                                 answer, task_type, jurisdiction,
-                                                f"task3_{subset}")
-
-        # Given a legal passage, generate an entailed question
-        task_type = TaskType.QUESTION_GENERATION
-        for language in answer_languages:
-            subset = "generate_entailed_question"
-            with open(
-                    f"{self.raw_data_dir}/coliee/task3/{subset}/train_{language}.jsonl"
-            ) as f:
-                examples = [json.loads(x) for x in f.readlines()]
-                for example in examples:
-                    instruction, prompt, answer = _separate_text_into_pieces(example)
-                    # Instruction is EN; passage and generated question EN or JP
-                    yield self.build_data_point(instruction_language, language,
-                                                language, instruction, prompt,
-                                                answer, task_type, jurisdiction,
-                                                f"task3_{subset}")
+                                                subset)
 
         # Given a question, provide the relevant legal rule for answering the question and the answer
         task_type = TaskType.QUESTION_ANSWERING
         # TODO:
         for language in answer_languages:
+            subset = "coliee_task4"
             with open(f"{self.raw_data_dir}/coliee/task4/train_{language}.jsonl") as f:
                 examples = [json.loads(x) for x in f.readlines()]
                 for example in examples:
                     # One line is the legal reasoning; one is the answer.
                     instruction, prompt, answer = _separate_text_into_pieces(
                         example, num_answer_lines=2)
+                    instruction, instruction_langauge = instructions.sample(subset)
                     # Difficulty: the legal reasoning can be in EN or JP, but
                     # the yes/no answer is always given in English. Chose to
                     # code this based on the legal reasoning answer.
                     yield self.build_data_point(instruction_language, language,
                                                 language, instruction, prompt,
                                                 answer, task_type, jurisdiction,
-                                                "task4")
+                                                subset)

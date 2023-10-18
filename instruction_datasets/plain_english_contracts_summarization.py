@@ -40,6 +40,8 @@ class PlainEnglishContractsSummarization(AbstractDataset):
         jurisdiction = Jurisdiction.UNKNOWN
         instruction_language = "en"
         prompt_language = "en"
+        answer_language = "en"
+        subset = "plain_english_contracts_summarization"
 
         def get_instruction_bank(document):
             return [
@@ -51,8 +53,8 @@ class PlainEnglishContractsSummarization(AbstractDataset):
             instruction_bank = get_instruction_bank(example["doc"])
             input_ = example["original_text"]
             summary = example["reference_summary"]
-            instruction = self.random.choice(instruction_bank)
+            instruction, instruction_language = instructions.sample(subset)
             prompt, answer = build_summarization_answer(input_, summary)
             yield self.build_data_point(instruction_language, prompt_language,
-                                        "en", instruction, prompt, answer,
-                                        task_type, jurisdiction)
+                                        answer_language, instruction, prompt, answer,
+                                        task_type, jurisdiction, subset)
