@@ -217,6 +217,42 @@
       "Address these American civil procedure questions by giving only the correct answer, without any explanation.",
       "Contemplate these U.S. civil procedure questions and simply choose the correct answer without an analysis."
     ],
+    "coliee_task3_generate_entailed_question": [
+      "Generate an entailed question given this legal passage drawn from Japanese Civil Law articles.",
+      "Produce a question that logically follows from this legal passage extracted from Japanese Civil Law articles.",
+      "Create a question that can be inferred from the legal text taken from Japanese Civil Law articles.",
+      "Generate a question that is implied by the provided legal passage sourced from Japanese Civil Law articles.",
+      "Formulate a question that can be deduced from the legal content originating from Japanese Civil Law articles.",
+      "Construct a question that logically proceeds from the legal passage obtained from Japanese Civil Law articles.",
+      "Produce a question that can be logically inferred from the given legal passage, which is a part of Japanese Civil Law articles.",
+      "Create a question that follows logically from the legal text taken from Japanese Civil Law articles.",
+      "Generate a question that can be deduced from the provided legal passage sourced from Japanese Civil Law articles.",
+      "Construct a question that can be inferred from the legal passage originating from Japanese Civil Law articles."
+    ],
+    "coliee_task3_passage_entailment": [
+      "Consider whether these two passages drawn from Japanese Civil Law articles are entailed. Answer \"Entailed\" or \"Not Entailed\"",
+      "Examine whether there is an entailment between these two excerpts extracted from Japanese Civil Law articles. Provide a response of either \"Entailed\" or \"Not Entailed\".",
+      "Determine if there exists an entailment relationship between the two passages sourced from Japanese Civil Law articles. Indicate your answer as either \"Entailed\" or \"Not Entailed\".",
+      "Assess whether the two passages derived from Japanese Civil Law articles exhibit an entailment. State your response as \"Entailed\" or \"Not Entailed\".",
+      "Analyze whether these two excerpts originating from Japanese Civil Law articles entail each other. Respond with \"Entailed\" or \"Not Entailed\".",
+      "Investigate the presence of an entailment between the two passages taken from Japanese Civil Law articles. Clearly indicate your answer as \"Entailed\" or \"Not Entailed\".",
+      "Examine the entailment relationship between the two passages extracted from Japanese Civil Law articles. Express your answer by choosing \"Entailed\" or \"Not Entailed\".",
+      "Consider whether an entailment exists between these two passages sourced from Japanese Civil Law articles. Provide your response as \"Entailed\" or \"Not Entailed\".",
+      "Determine if there is an entailment connection between the two excerpts originating from Japanese Civil Law articles. Specify your answer as either \"Entailed\" or \"Not Entailed\".",
+      "Assess whether the two passages drawn from Japanese Civil Law articles imply an entailment. State your answer as \"Entailed\" or \"Not Entailed\"."
+    ],
+    "coliee_task4": [
+      "Answer the following question, provide an answer starting at \"Answer:\", provide the relevant legal rule starting with \"Legal Rule:\"",
+      "Respond to the forthcoming query, furnish a response commencing with \"Answer:\", and supply the pertinent legal rule starting with \"Legal Rule:\"",
+      "Provide a reply to the following question, present your response beginning with \"Answer:\", and include the applicable legal rule commencing with \"Legal Rule:\"",
+      "Answer the upcoming query, offer your response starting with \"Answer:\", and include the relevant legal rule starting with \"Legal Rule:\"",
+    "Respond to the ensuing question, give your answer commencing with \"Answer:\", and include the appropriate legal rule starting with \"Legal Rule:\"",
+    "Furnish a response to the following query, commence your answer with \"Answer:\", and provide the pertinent legal rule starting with \"Legal Rule:\"",
+    "Provide a reply to the forthcoming question, start your response with \"Answer:\", and incorporate the relevant legal rule starting with \"Legal Rule:\"",
+    "Answer the impending question, deliver your response commencing with \"Answer:\", and include the applicable legal rule starting with \"Legal Rule:\"",
+    "Respond to the subsequent query, offer your response starting with \"Answer:\", and include the relevant legal rule starting with \"Legal Rule:\"",
+    "Provide a response to the upcoming question, present your answer beginning with \"Answer:\", and supply the pertinent legal rule starting with \"Legal Rule:\""
+    ],
     "contract_nli": [
       "Consider the following Contract Passage and Hypothesis. Predict whether the Contract Passage entails/contradicts/is neutral to the Hypothesis (entailment, contradiction or neutral).",
       "Does the following Contract Passage entail/contradict/stand neutral to the Hypothesis?",
@@ -301,6 +337,42 @@
       "Applying Indian law, evaluate whether this petition stands a chance of being accepted. In instances with multiple petitions, ascertain if at least one is likely to be approved.",
       "Based on Indian legal principles, estimate the chances of this petition being accepted. When dealing with multiple petitions, consider if the court may approve at least one."
     ],
+    "indian_text_segmentation": [
+      "In Indian case law, what is the rhetorical role of this part of a court judgment? The options are: Preamble, Facts, Ruling by lower court, Issues, Argument by Petitioner, Argument by Respondent, Analysis, Statute, Precedent Relied, Precedent Not Relied, Ratio of the decision, Ruling by Present Court, Nothing meaningful.",
+      "Can you explain the rhetorical function of this section in an Indian court judgment? You can choose from the following options: Preamble, Facts, Ruling by lower court, Issues, Argument by Petitioner, Argument by Respondent, Analysis, Statute, Precedent Relied, Precedent Not Relied, Ratio of the decision, Ruling by Present Court, or Nothing meaningful.",
+      "Please describe the rhetorical purpose of this portion in an Indian court judgment. You have the following choices: Preamble, Facts, Ruling by lower court, Issues, Argument by Petitioner, Argument by Respondent, Analysis, Statute, Precedent Relied, Precedent Not Relied, Ratio of the decision, Ruling by Present Court, or Nothing meaningful.",
+      "In the context of Indian case law, what is the rhetorical function of this segment in a court judgment? You can select from the following options: Preamble, Facts, Ruling by lower court, Issues, Argument by Petitioner, Argument by Respondent, Analysis, Statute, Precedent Relied, Precedent Not Relied, Ratio of the decision, Ruling by Present Court, or Nothing meaningful.",
+      "Could you elaborate on the rhetorical role of this part in an Indian court judgment? You are provided with the following choices: Preamble, Facts, Ruling by lower court, Issues, Argument by Petitioner, Argument by Respondent, Analysis, Statute, Precedent Relied, Precedent Not Relied, Ratio of the decision, Ruling by Present Court, or Nothing meaningful.",
+      "What is the rhetorical purpose of this segment in Indian case law court judgments? You can choose from the following options: Preamble, Facts, Ruling by lower court, Issues, Argument by Petitioner, Argument by Respondent, Analysis, Statute, Precedent Relied, Precedent Not Relied, Ratio of the decision, Ruling by Present Court, or Nothing meaningful.",
+      "In the realm of Indian case law, elucidate the rhetorical role of this part of a court judgment. You have the following options for your response: Preamble, Facts, Ruling by lower court, Issues, Argument by Petitioner, Argument by Respondent, Analysis, Statute, Precedent Relied, Precedent Not Relied, Ratio of the decision, Ruling by Present Court, or Nothing meaningful.",
+      "Please provide insights into the rhetorical function of this portion within Indian court judgments. You can select from the following choices: Preamble, Facts, Ruling by lower court, Issues, Argument by Petitioner, Argument by Respondent, Analysis, Statute, Precedent Relied, Precedent Not Relied, Ratio of the decision, Ruling by Present Court, or Nothing meaningful.",
+      "In the context of Indian case law, clarify the rhetorical purpose of this segment in a court judgment. You are provided with the following options: Preamble, Facts, Ruling by lower court, Issues, Argument by Petitioner, Argument by Respondent, Analysis, Statute, Precedent Relied, Precedent Not Relied, Ratio of the decision, Ruling by Present Court, or Nothing meaningful.",
+      "Within the domain of Indian case law, what is the intended rhetorical purpose of this section in a court judgment? Please choose from the following options: Preamble, Facts, Ruling by lower court, Issues, Argument by Petitioner, Argument by Respondent, Analysis, Statute, Precedent Relied, Precedent Not Relied, Ratio of the decision, Ruling by Present Court, Nothing meaningful."
+    ],
+    "international_citizenship_law_questions_mode_acq": [
+      "Answer the following question about international citizenship law. This question asks about the provisions applying to how citizenship can be acquired in a given country.",
+      "Respond to the subsequent inquiry concerning international citizenship law. The question pertains to the regulations governing the acquisition of citizenship in a specific country.",
+      "Provide a response to the following query regarding international citizenship law. This question focuses on the rules governing the process of acquiring citizenship in a particular nation.",
+      "Answer the forthcoming question related to international citizenship law. The question seeks information about the stipulations governing the acquisition of citizenship in a specific country.",
+      "Offer a reply to the ensuing question concerning international citizenship law. This question inquires about the regulations governing how citizenship can be obtained in a given nation.",
+      "Address the following question pertaining to international citizenship law. The question is focused on the provisions concerning the process of acquiring citizenship in a specific country.",
+      "Answer the forthcoming question related to international citizenship law. This question seeks information about the provisions governing the acquisition of citizenship in a designated country.",
+      "Address the subsequent query pertaining to international citizenship law. This question inquires about the regulations governing how citizenship can be obtained in a given country.",
+      "Reply to the following question regarding international citizenship law. This question focuses on the stipulations regarding the acquisition of citizenship in a specific nation.",
+      "Answer the following query pertaining to international citizenship law. This question seeks information about the provisions governing the process of acquiring citizenship in a designated country."
+    ],
+    "international_citizenship_law_questions_mode_loss": [
+      "Answer the following question about international citizenship law. This questions asks about the provisions applying to how citizenship can be lost in a given country.",
+      "Respond to the subsequent query concerning international citizenship law. This question pertains to the regulations governing the loss of citizenship in a specific nation.",
+      "Provide a response to the following inquiry related to international citizenship law. This question specifically addresses the rules governing the process of losing citizenship in a particular country.",
+      "Answer the forthcoming question regarding international citizenship law. This question seeks information about the provisions governing the loss of citizenship in a designated country.",
+      "Address the subsequent query pertaining to international citizenship law. This question inquires about the regulations governing how citizenship can be lost in a given country.",
+      "Reply to the following question about international citizenship law. This question focuses on the stipulations regarding the loss of citizenship in a specific nation.",
+      "Provide an answer to the upcoming inquiry related to international citizenship law. This question relates to the provisions governing the process of losing citizenship in a particular country.",
+      "Respond to the upcoming question concerning international citizenship law. This question is concerned with the regulations governing the loss of citizenship in a specific nation.",
+      "Answer the following query pertaining to international citizenship law. This question seeks information about the provisions governing the process of losing citizenship in a designated country.",
+      "Provide a response to the upcoming inquiry concerning international citizenship law. This question specifically addresses the rules governing the loss of citizenship in a particular country."
+    ],
     "jec_qa": [
       "Answer these multiple choice reasoning questions about Chinese Law. Select all answers that apply, you may have multiple correct answers.",
       "Answer these Chinese Law multiple choice questions, you might have multiple correct answers. Denote your answer(s) as “Answer: [answer(s)].”",
@@ -360,6 +432,30 @@
       "For the presented facts in a South Korean criminal law case, deduce the court's ruling and the underlying reasoning.",
       "Given the facts of a South Korean criminal law case, project the court's decision and the grounds for that decision.",
       "Taking into account the facts from a South Korean criminal law case, predict the court's outcome and the reasons behind it."
+    ],
+    "legal_case_summarization_india": [
+      "Summarize the following document from an Indian Supreme Court case.",
+      "Provide a summary for the given document originating from an Indian Supreme Court case.",
+      "Create a concise summary for the document extracted from an Indian Supreme Court case.",
+      "Offer a brief summary of the provided document from an Indian Supreme Court case.",
+      "Generate a summary for the document sourced from an Indian Supreme Court case.",
+      "Summarize the content of the document derived from an Indian Supreme Court case.",
+      "Produce a succinct summary for the document associated with an Indian Supreme Court case.",
+      "Compose a summary for the document originating from an Indian Supreme Court case.",
+      "Deliver a brief summary of the document from an Indian Supreme Court case.",
+      "Craft a concise summary for the document found in an Indian Supreme Court case."
+    ],
+    "legal_case_summarization_uk": [
+      "Summarize the following document from a U.K. Supreme Court case.",
+      "Provide a summary for the given document from a U.K. Supreme Court case.",
+      "Create a concise summary for the document extracted from a U.K. Supreme Court case.",
+      "Offer a brief summary of the provided document from a U.K. Supreme Court case.",
+      "Generate a summary for the document sourced from a U.K. Supreme Court case.",
+      "Summarize the content of the document derived from a U.K. Supreme Court case.",
+      "Produce a succinct summary for the document associated with a U.K. Supreme Court case.",
+      "Compose a summary for the document originating from a U.K. Supreme Court case.",
+      "Deliver a brief summary of the document from a U.K. Supreme Court case.",
+      "Craft a concise summary for the document found in a U.K. Supreme Court case."
     ],
     "legal_qa": [
       "Answer the following question according to Chinese law, use plain language as if you are a lawyer answering on an online forum.",
@@ -504,6 +600,18 @@
       "Write a research memo in line with the U.S. Office of Legal Counsel's style.",
       "Develop a legal research memo addressing the following question.",
       "Create a legal research memorandum in the style of the U.S. Office of Legal Counsel."
+    ],
+    "plain_english_contracts_summarization": [
+      "Summarize the following excerpt of a legal agreement.",
+      "Provide a summary for the given excerpt of a legal agreement.",
+      "Create a concise summary for the portion of the legal agreement provided.",
+      "Offer a brief summary of the provided section from the legal agreement.",
+      "Generate a summary for the excerpt sourced from a legal agreement.",
+      "Summarize the content of the excerpt from the legal agreement.",
+      "Produce a succinct summary for the section of the legal agreement provided.",
+      "Compose a summary for the excerpt originating from a legal agreement.",
+      "Deliver a brief summary of the provided portion from the legal agreement.",
+      "Craft a concise summary for the excerpt found in the legal agreement."
     ],
     "privacy_qa": [
       "Determine whether a term mentioned in a privacy policy is relevant or irrelevant to a given question.",
@@ -685,30 +793,6 @@
       "Explain the answer to the legal question, incorporating any applicable evidence when possible.",
       "Respond to the legal question at hand and reference any relevant evidence to support your answer."
     ],
-    "swiss_judgment_dismiss_approve": [
-      "Determine if the Swiss court will dismiss or approve the case.",
-      "Determine if you think the Swiss court will rule dismissal or approval for the case.",
-      "Predict whether the Swiss court will opt for dismissal or approval in this case.",
-      "Assess if the Swiss court is likely to dismiss or approve the presented case.",
-      "Figure out if the Swiss court will choose to dismiss or approve the case in question.",
-      "Decide if the Swiss court is inclined to dismiss or approve the case.",
-      "Evaluate if the Swiss court will lean towards dismissing or approving the case.",
-      "Estimate whether the Swiss court will favor dismissal or approval for the case.",
-      "Gauge if the Swiss court will be more likely to dismiss or approve the case.",
-      "Deduce if the Swiss court is likely to go for dismissal or approval of the case."
-    ],
-    "swiss_judgment_criticality": [
-      "How important or critical is this case? The case can be non-critical or range from critical-1 (least critical) to critical-4 (most critical).",
-      "Determine the level of importance or criticality of this case, with non-critical being the lowest and critical-4 being the highest.",
-      "Assess the criticality of this case on a scale of non-critical to critical-4, with critical-4 being the most critical.",
-      "Rate the importance or criticality of this case, from non-critical to critical-4, where critical-4 represents the highest level of criticality.",
-      "Evaluate the significance or criticality of this case, with options ranging from non-critical to critical-4 (most critical).",
-      "Gauge the level of criticality of this case, with non-critical at the low end and critical-4 at the high end.",
-      "Estimate the importance or criticality of this case, with levels ranging from non-critical to critical-4 (most critical).",
-      "Rank the criticality of this case on a scale from non-critical to critical-4, where critical-4 is the most critical.",
-      "Deduce the level of importance or criticality for this case, with options from non-critical to critical-4 (most critical).",
-      "Decide on the criticality of this case, with a range of non-critical to critical-4, where critical-4 is the highest level of criticality."
-    ],
     "swiss_judgment_court_view_generation_same_court": [
       "Write the court's view (considerations) for the given facts description.",
       "Provide the court's perspective (considerations) based on the presented facts.",
@@ -733,29 +817,29 @@
       "Detail the court's viewpoint (considerations) for the given facts and lower court's considerations.",
       "Explain the court's stance (considerations) based on the provided facts and lower court's considerations."
     ],
-    "swiss_judgment_area_of_law_main_area": [
-      "What main area of law is this case related to?",
-      "Determine the main area of law that this case is related to.",
-      "Identify the primary legal domain associated with this case.",
-      "In which field of law is this case situated?",
-      "What is the principal area of law involved in this case?",
-      "Which major area of law does this case fall under?",
-      "What is the main legal category that pertains to this case?",
-      "What primary area of law is connected to this case?",
-      "In which main area of law is this case classified?",
-      "What is the key area of law relevant to this case?"
+    "swiss_judgment_criticality": [
+      "How important or critical is this case? The case can be non-critical or range from critical-1 (least critical) to critical-4 (most critical).",
+      "Determine the level of importance or criticality of this case, with non-critical being the lowest and critical-4 being the highest.",
+      "Assess the criticality of this case on a scale of non-critical to critical-4, with critical-4 being the most critical.",
+      "Rate the importance or criticality of this case, from non-critical to critical-4, where critical-4 represents the highest level of criticality.",
+      "Evaluate the significance or criticality of this case, with options ranging from non-critical to critical-4 (most critical).",
+      "Gauge the level of criticality of this case, with non-critical at the low end and critical-4 at the high end.",
+      "Estimate the importance or criticality of this case, with levels ranging from non-critical to critical-4 (most critical).",
+      "Rank the criticality of this case on a scale from non-critical to critical-4, where critical-4 is the most critical.",
+      "Deduce the level of importance or criticality for this case, with options from non-critical to critical-4 (most critical).",
+      "Decide on the criticality of this case, with a range of non-critical to critical-4, where critical-4 is the highest level of criticality."
     ],
-    "swiss_judgment_area_of_law_sub_area": [
-      "What sub-area of law is this case related to?",
-      "Determine the sub-area of law that this case is related to.",
-      "Identify the specific legal subdomain associated with this case.",
-      "In which sub-field of law is this case situated?",
-      "What is the particular area of law involved in this case?",
-      "Which subcategory of law does this case fall under?",
-      "What is the secondary legal category that pertains to this case?",
-      "What specific area of law is connected to this case?",
-      "In which sub-area of law is this case classified?",
-      "What is the specialized area of law relevant to this case?"
+    "swiss_judgment_dismiss_approve": [
+      "Determine if the Swiss court will dismiss or approve the case.",
+      "Determine if you think the Swiss court will rule dismissal or approval for the case.",
+      "Predict whether the Swiss court will opt for dismissal or approval in this case.",
+      "Assess if the Swiss court is likely to dismiss or approve the presented case.",
+      "Figure out if the Swiss court will choose to dismiss or approve the case in question.",
+      "Decide if the Swiss court is inclined to dismiss or approve the case.",
+      "Evaluate if the Swiss court will lean towards dismissing or approving the case.",
+      "Estimate whether the Swiss court will favor dismissal or approval for the case.",
+      "Gauge if the Swiss court will be more likely to dismiss or approve the case.",
+      "Deduce if the Swiss court is likely to go for dismissal or approval of the case."
     ],
     "swiss_judgment_location": [
       "Where do you think this case was adjudicated?",
@@ -792,6 +876,30 @@
       "Review the Swiss Federal Supreme Court case and select the most appropriate correct answer.",
       "Analyze the given Swiss Federal Supreme Court case and choose the correct answer for these multiple choice questions. Label it as “Answer:”.",
       "Based on the provided Swiss case, pick the most accurate answer for these multiple choice questions."
+    ],
+    "swiss_judgment_area_of_law_main_area": [
+      "What main area of law is this case related to?",
+      "Determine the main area of law that this case is related to.",
+      "Identify the primary legal domain associated with this case.",
+      "In which field of law is this case situated?",
+      "What is the principal area of law involved in this case?",
+      "Which major area of law does this case fall under?",
+      "What is the main legal category that pertains to this case?",
+      "What primary area of law is connected to this case?",
+      "In which main area of law is this case classified?",
+      "What is the key area of law relevant to this case?"
+    ],
+    "swiss_judgment_area_of_law_sub_area": [
+      "What sub-area of law is this case related to?",
+      "Determine the sub-area of law that this case is related to.",
+      "Identify the specific legal subdomain associated with this case.",
+      "In which sub-field of law is this case situated?",
+      "What is the particular area of law involved in this case?",
+      "Which subcategory of law does this case fall under?",
+      "What is the secondary legal category that pertains to this case?",
+      "What specific area of law is connected to this case?",
+      "In which sub-area of law is this case classified?",
+      "What is the specialized area of law relevant to this case?"
     ],
     "swiss_legislation_canton": [
       "Where do you think this Swiss law was passed?",
