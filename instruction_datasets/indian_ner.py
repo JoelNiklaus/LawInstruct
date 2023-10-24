@@ -63,7 +63,8 @@ class IndianNER(AbstractDataset):
                 label = named_entity["value"]["labels"][0]
 
                 start, end = find_sub_list(name, tokens)
-                tags[start:end] = label
+                for i in range(start, end):
+                    tags[i] = label
 
             instruction = self.random.choice(instruction_bank)
             prompt, answer = self._tags.build_answer(tokens, tags)
