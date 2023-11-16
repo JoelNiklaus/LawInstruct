@@ -17,7 +17,7 @@ def compute_dataset_stats():
         stats = copy.deepcopy(base_dict)
 
         dataset = load_dataset(dataset_name, config, split="train", streaming=True)
-        for example in tqdm(dataset):
+        for example in tqdm(dataset, total=len(dataset)):
             stats["jurisdiction"].append(example["jurisdiction"])
             stats["task_type"].append(example["task_type"])
 
@@ -62,9 +62,12 @@ def compute_aggregate_stats():
 
 
 if __name__ == '__main__':
-    dataset_name = "lawinstruct/lawinstruct_multilingual"
+    dataset_name = "lawinstruct/lawinstruct"
     configs = get_dataset_config_names(dataset_name)
-    configs = [config for config in configs if config != 'all']
+    # Filter out to just single dataset configs
+    configs = configs[16:]
+    # Select the 1_english instruction sampling config for each dataset
+    configs = [config for config in configs if config.endswith("1_english")]
     print(f"Computing stats for configs {configs}")
 
     # Collect dataset specific stats
