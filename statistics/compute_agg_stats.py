@@ -17,7 +17,7 @@ def compute_dataset_stats():
         stats = copy.deepcopy(base_dict)
 
         dataset = load_dataset(dataset_name, config, split="train", streaming=True)
-        for example in tqdm(dataset, total=len(dataset)):
+        for example in tqdm(dataset):
             stats["jurisdiction"].append(example["jurisdiction"])
             stats["task_type"].append(example["task_type"])
 
