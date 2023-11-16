@@ -12,7 +12,7 @@ def get_length(text):
 
 
 def compute_dataset_stats():
-    for config in configs:
+    for config in tqdm(configs):
         print(f"Started computing dataset specific stats for {config}")
         stats = copy.deepcopy(base_dict)
 
@@ -45,7 +45,8 @@ def compute_aggregate_stats():
         df = pd.read_csv(f"{folder_name}/{config}.csv")
 
         # add general information
-        dataset, subset = config.split("-", 2)
+        config_parts = config.split("-")
+        dataset, subset = config_parts[0], config_parts[1]
         agg["dataset"].append(dataset)
         agg["subset"].append(subset)
 
@@ -67,7 +68,7 @@ if __name__ == '__main__':
     # Filter out to just single dataset configs
     configs = configs[16:]
     # Select the 1_english instruction sampling config for each dataset
-    configs = [config for config in configs if config.endswith("1_english")]
+    configs = [config for config in configs if config.endswith("10_english")]
     print(f"Computing stats for configs {configs}")
 
     # Collect dataset specific stats
