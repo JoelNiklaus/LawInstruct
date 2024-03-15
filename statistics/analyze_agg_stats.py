@@ -2,9 +2,14 @@ import pandas as pd
 import ast
 import matplotlib
 import matplotlib.pyplot as plt
+import matplotlib.font_manager
 import numpy as np
 import os
 import constants
+import seaborn as sns
+
+from matplotlib.colors import ListedColormap
+
 
 TASK_TYPE_COLOR_INDICES = {
     'MULTIPLE_CHOICE': 0,
@@ -86,22 +91,20 @@ def plot_and_save_histogram(data, title, file_prefix, filename, cap=None):
         filename = f"plots/{file_prefix}/{filename}_capped_at_{cap}.png"
     else:
         filename = f"plots/{file_prefix}/{filename}.png"
+    
+    plt.rcParams["font.family"] = "Times New Roman"
+    plt.rc('axes', titlesize=20) 
+    plt.rc('axes', labelsize=20)
+
     fig, ax = plt.subplots()
-    ax.hist(data, bins=100)
+    ax.hist(data, colors=cmap.colors, bins=100)
     ax.set_title(title)
     plt.tight_layout()
-    plt.savefig(filename)
+    plt.savefig(filename, bbox_inches='tight')
     plt.close()
 
 
-def plot_pie_chart(data, column, title, filename, threshold=0.03):
-    if column == "task_type":
-        cmap = matplotlib.colormaps.get_cmap("tab10")
-        color_indices = TASK_TYPE_COLOR_INDICES
-    elif column == "jurisdiction":
-        cmap = matplotlib.colormaps.get_cmap("tab20")
-        color_indices = JURISDICTION_COLOR_INDICES
-    
+def plot_pie_chart(data, column, title, filename, threshold=0.03): 
     # Compute percentages
     percentages = data / data.sum()
 
@@ -116,16 +119,20 @@ def plot_pie_chart(data, column, title, filename, threshold=0.03):
         large_values.loc['OTHER'] = data[~mask].sum()
 
     labels = large_values.index
-    colors = [cmap.colors[color_indices[label]] for label in labels]
+
+    plt.rcParams["font.family"] = "Times New Roman"
+    plt.rc('axes', titlesize=20) 
+    plt.rc('axes', labelsize=20)
+    cmap = sns.color_palette("Set2", as_cmap=True)
 
     # Plot a pie chart
-    fig, ax = plt.subplots(figsize=(10, 7))
-    ax.pie(large_values, labels=labels, colors=colors, autopct='%1.1f%%', startangle=140)
+    fig, ax = plt.subplots(figsize=(12, 9))
+    ax.pie(large_values, labels=labels, colors=cmap.colors, autopct='%1.1f%%', startangle=140)
     ax.set_title(title)
-    plt.tight_layout()
 
     # Save the pie chart to a file
-    plt.savefig(filename)
+    plt.tight_layout()
+    plt.savefig(filename, bbox_inches='tight')
     plt.close()
 
 
@@ -186,26 +193,26 @@ def main():
     df_en_commercial = filter_datasets(df, lang=file_prefix.split("_")[0], license=file_prefix.split("_")[1])
     make_plots(df_en_commercial, file_prefix)
 
-    # "en_research"
-    file_prefix = "en_research"
-    print(file_prefix)
-    os.makedirs(f"plots/{file_prefix}", exist_ok=True)
-    df_en_research = filter_datasets(df, lang=file_prefix.split("_")[0], license=file_prefix.split("_")[1])
-    make_plots(df_en_research, file_prefix)
+    # # "en_research"
+    # file_prefix = "en_research"
+    # print(file_prefix)
+    # os.makedirs(f"plots/{file_prefix}", exist_ok=True)
+    # df_en_research = filter_datasets(df, lang=file_prefix.split("_")[0], license=file_prefix.split("_")[1])
+    # make_plots(df_en_research, file_prefix)
 
-    # "multi_commercial"
-    file_prefix = "multi_commercial"
-    print(file_prefix)
-    os.makedirs(f"plots/{file_prefix}", exist_ok=True)
-    df_multi_commercial = filter_datasets(df, lang=file_prefix.split("_")[0], license=file_prefix.split("_")[1])
-    make_plots(df_multi_commercial, file_prefix)
+    # # "multi_commercial"
+    # file_prefix = "multi_commercial"
+    # print(file_prefix)
+    # os.makedirs(f"plots/{file_prefix}", exist_ok=True)
+    # df_multi_commercial = filter_datasets(df, lang=file_prefix.split("_")[0], license=file_prefix.split("_")[1])
+    # make_plots(df_multi_commercial, file_prefix)
 
-    # "multi_research"
-    file_prefix = "multi_research"
-    print(file_prefix)
-    os.makedirs(f"plots/{file_prefix}", exist_ok=True)
-    df_multi_research = filter_datasets(df, lang=file_prefix.split("_")[0], license=file_prefix.split("_")[1])
-    make_plots(df_multi_research, file_prefix)
+    # # "multi_research"
+    # file_prefix = "multi_research"
+    # print(file_prefix)
+    # os.makedirs(f"plots/{file_prefix}", exist_ok=True)
+    # df_multi_research = filter_datasets(df, lang=file_prefix.split("_")[0], license=file_prefix.split("_")[1])
+    # make_plots(df_multi_research, file_prefix)
 
 
 if __name__ == "__main__":
