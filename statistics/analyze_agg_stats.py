@@ -8,37 +8,35 @@ import os
 import constants
 import seaborn as sns
 
-from matplotlib.colors import ListedColormap
 
-
-TASK_TYPE_COLOR_INDICES = {
-    'MULTIPLE_CHOICE': 0,
-    'NATURAL_LANGUAGE_INFERENCE': 1,
-    'QUESTION_ANSWERING': 2,
-    'QUESTION_GENERATION': 3,
-    'SUMMARIZATION': 4,
-    'TEXT_CLASSIFICATION': 5,
-    'TEXT_GENERATION': 6,
-    'OTHER': 7,
+TASK_TYPE_NAMES = {
+    'MULTIPLE_CHOICE': 'Multiple Choice',
+    'NATURAL_LANGUAGE_INFERENCE': 'Natural Language\nInference',
+    'QUESTION_ANSWERING': 'Question Answering',
+    'QUESTION_GENERATION': 'Question Generation',
+    'SUMMARIZATION': 'Summarization',
+    'TEXT_CLASSIFICATION': 'Text Classification',
+    'TEXT_GENERATION': 'Text Generation',
+    'OTHER': 'Other',
 }
 
-JURISDICTION_COLOR_INDICES = {
-    'BRAZIL': 0,
-    'CHINA': 1,
-    'EU': 2,
-    'GERMANY': 3,
-    'GREECE': 4,
-    'INDIA': 5,
-    'INTERNATIONAL': 6,
-    'JAPAN': 7,
-    'SPAIN': 8,
-    'SOUTH_KOREA': 9,
-    'SWITZERLAND': 10,
-    'TURKEY': 11,
-    'UK': 12,
-    'UNKNOWN': 13,
-    'US': 14,
-    'OTHER': 15,
+JURISDICTION_NAMES = {
+    'BRAZIL': 'Brazil',
+    'CHINA': 'China',
+    'EU': 'EU',
+    'GERMANY': 'Germany',
+    'GREECE': 'Greece',
+    'INDIA': 'India',
+    'INTERNATIONAL': 'International',
+    'JAPAN': 'Japan',
+    'SPAIN': 'Spain',
+    'SOUTH_KOREA': 'South Korea',
+    'SWITZERLAND': 'Switzerland',
+    'TURKEY': 'Turkey',
+    'UK': 'UK',
+    'UNKNOWN': 'Unknown',
+    'US': 'US',
+    'OTHER': 'Other',
 }
 
 
@@ -87,24 +85,26 @@ def plot_and_save_histogram(data, title, file_prefix, filename, cap=None):
     """Function to plot a histogram and save it to a file"""
     if cap is not None:
         data = np.minimum(data, cap)
-        title = f"{title}, Capped at {cap}"
-        filename = f"plots/{file_prefix}/{filename}_capped_at_{cap}.png"
+        # title = f"{title}, Capped at {cap}"
+        filename = f"plots/{file_prefix}/{filename}_capped_at_{cap}.pdf"
     else:
-        filename = f"plots/{file_prefix}/{filename}.png"
+        filename = f"plots/{file_prefix}/{filename}.pdf"
     
     plt.rcParams["font.family"] = "Times New Roman"
-    plt.rc('axes', titlesize=20) 
-    plt.rc('axes', labelsize=20)
+    plt.rc('axes', titlesize=30)
+    plt.rc('xtick', labelsize=20) 
+    plt.rc('ytick', labelsize=20)
+    cmap = sns.color_palette("Set2", as_cmap=True)
 
     fig, ax = plt.subplots()
-    ax.hist(data, colors=cmap.colors, bins=100)
+    ax.hist(data, color=cmap.colors[0], bins=100)
     ax.set_title(title)
     plt.tight_layout()
     plt.savefig(filename, bbox_inches='tight')
     plt.close()
 
 
-def plot_pie_chart(data, column, title, filename, threshold=0.03): 
+def plot_pie_chart(data, column, ax, title, threshold=0.03): 
     # Compute percentages
     percentages = data / data.sum()
 
@@ -119,36 +119,38 @@ def plot_pie_chart(data, column, title, filename, threshold=0.03):
         large_values.loc['OTHER'] = data[~mask].sum()
 
     labels = large_values.index
+    if column == "task_type":
+        labels = [TASK_TYPE_NAMES[label] for label in labels]
+    else:
+        labels = [JURISDICTION_NAMES[label] for label in labels]
 
     plt.rcParams["font.family"] = "Times New Roman"
-    plt.rc('axes', titlesize=20) 
+    plt.rc('axes', titlesize=40) 
     plt.rc('axes', labelsize=20)
     cmap = sns.color_palette("Set2", as_cmap=True)
+    colors = cmap.colors + ((238/255, 191/255, 212/255), (177/255, 201/255, 240/255))
 
     # Plot a pie chart
-    fig, ax = plt.subplots(figsize=(12, 9))
-    ax.pie(large_values, labels=labels, colors=cmap.colors, autopct='%1.1f%%', startangle=140)
-    ax.set_title(title)
-
-    # Save the pie chart to a file
-    plt.tight_layout()
-    plt.savefig(filename, bbox_inches='tight')
-    plt.close()
+    pie = ax.pie(large_values, colors=colors, autopct='%1.1f%%', startangle=140, textprops={'fontsize': 20})
+    ax.set_title(title, x=0.85)
+    box = ax.get_position()
+    ax.legend(labels=labels, fontsize=30, loc='center left', bbox_to_anchor=(1, 0.5))
 
 
 # Define a function to plot pie charts for a given column
-def plot_pie_charts_for_column(df, file_prefix, column, name):
+def plot_pie_charts_for_column(df, name, column, by, ax):
     # Sort column alphabetically
     df = df.sort_values(by=column, axis=0)
 
     # Aggregate the column counts across the entire dataset and plot a pie chart
     # Don't sort by frequencies, retain sorted order (alphabetical) of column
-    column_counts = df[column].value_counts(sort=False)
-    plot_pie_chart(column_counts, column, f'{name} by Number of Examples', f'plots/{file_prefix}/{column}_by_examples_pie_chart.png')
-
-    # Count the number of unique datasets for each column value and plot a pie chart
-    column_dataset_counts = df.groupby(column)['dataset'].nunique()
-    plot_pie_chart(column_dataset_counts, column, f'{name} by Number of Datasets', f'plots/{file_prefix}/{column}_by_datasets_pie_chart.png')
+    if by == "by_examples":
+        column_counts = df[column].value_counts(sort=False)
+        plot_pie_chart(column_counts, column, ax, f'{name} by Number of Examples')
+    elif by == "by_datasets":
+        # Count the number of unique datasets for each column value and plot a pie chart
+        column_dataset_counts = df.groupby(column)['dataset'].nunique()
+        plot_pie_chart(column_dataset_counts, column, ax, f'{name} by Number of Datasets')
 
 
 def make_plots(df, file_prefix):
@@ -165,21 +167,38 @@ def make_plots(df, file_prefix):
     answer_length_stats = df['answer_length'].apply(pd.Series)
 
     # Plot and save the histograms
-    plot_and_save_histogram(instruction_length_stats['mean'].dropna(), 'Distribution of Instruction Lengths (Mean)',
+    plot_and_save_histogram(instruction_length_stats['mean'].dropna(), 'Instruction Lengths',
                             file_prefix, 'instruction_length_histogram')
-    plot_and_save_histogram(prompt_length_stats['mean'].dropna(), 'Distribution of Prompt Lengths (Mean)',
+    plot_and_save_histogram(prompt_length_stats['mean'].dropna(), 'Prompt Lengths',
                             file_prefix, 'prompt_length_histogram', cap=15000)
-    plot_and_save_histogram(prompt_length_stats['mean'].dropna(), 'Distribution of Prompt Lengths (Mean)',
+    plot_and_save_histogram(prompt_length_stats['mean'].dropna(), 'Prompt Lengths',
                             file_prefix, 'prompt_length_histogram', cap=5000)
-    plot_and_save_histogram(answer_length_stats['mean'], 'Distribution of Answer Lengths (Mean)', 
+    plot_and_save_histogram(answer_length_stats['mean'], 'Answer Lengths', 
                             file_prefix, 'answer_length_histogram', cap=1000)
 
     # Flatten the columns
     df_flattened = df.explode(one_entry_cols)
 
     # Plot and save the pie charts
-    plot_pie_charts_for_column(df_flattened, file_prefix, "task_type", "Task Type")
-    plot_pie_charts_for_column(df_flattened, file_prefix, "jurisdiction", "Jurisdiction")
+    by = "by_examples"
+    filename = f"plots/{file_prefix}/{by}_pie_chart.pdf"
+    # Plot both charts on one figure
+    fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(27, 9))
+    plot_pie_charts_for_column(df_flattened, "Task Type", "task_type", by, ax0)
+    plot_pie_charts_for_column(df_flattened, "Jurisdiction", "jurisdiction", by, ax1)
+    plt.tight_layout()
+    plt.savefig(filename)
+    plt.close()
+
+    by = "by_datasets"
+    filename = f"plots/{file_prefix}/{by}_pie_chart.pdf"
+    # Plot both charts on one figure
+    fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(27, 9))
+    plot_pie_charts_for_column(df_flattened, file_prefix, "Task Type", "task_type", by, ax0)
+    plot_pie_charts_for_column(df_flattened, file_prefix, "Jurisdiction", "jurisdiction", by, ax1)
+    plt.tight_layout()
+    plt.savefig(filename)
+    plt.close()
 
 
 def main():
@@ -193,26 +212,26 @@ def main():
     df_en_commercial = filter_datasets(df, lang=file_prefix.split("_")[0], license=file_prefix.split("_")[1])
     make_plots(df_en_commercial, file_prefix)
 
-    # # "en_research"
-    # file_prefix = "en_research"
-    # print(file_prefix)
-    # os.makedirs(f"plots/{file_prefix}", exist_ok=True)
-    # df_en_research = filter_datasets(df, lang=file_prefix.split("_")[0], license=file_prefix.split("_")[1])
-    # make_plots(df_en_research, file_prefix)
+    # "en_research"
+    file_prefix = "en_research"
+    print(file_prefix)
+    os.makedirs(f"plots/{file_prefix}", exist_ok=True)
+    df_en_research = filter_datasets(df, lang=file_prefix.split("_")[0], license=file_prefix.split("_")[1])
+    make_plots(df_en_research, file_prefix)
 
-    # # "multi_commercial"
-    # file_prefix = "multi_commercial"
-    # print(file_prefix)
-    # os.makedirs(f"plots/{file_prefix}", exist_ok=True)
-    # df_multi_commercial = filter_datasets(df, lang=file_prefix.split("_")[0], license=file_prefix.split("_")[1])
-    # make_plots(df_multi_commercial, file_prefix)
+    # "multi_commercial"
+    file_prefix = "multi_commercial"
+    print(file_prefix)
+    os.makedirs(f"plots/{file_prefix}", exist_ok=True)
+    df_multi_commercial = filter_datasets(df, lang=file_prefix.split("_")[0], license=file_prefix.split("_")[1])
+    make_plots(df_multi_commercial, file_prefix)
 
-    # # "multi_research"
-    # file_prefix = "multi_research"
-    # print(file_prefix)
-    # os.makedirs(f"plots/{file_prefix}", exist_ok=True)
-    # df_multi_research = filter_datasets(df, lang=file_prefix.split("_")[0], license=file_prefix.split("_")[1])
-    # make_plots(df_multi_research, file_prefix)
+    # "multi_research"
+    file_prefix = "multi_research"
+    print(file_prefix)
+    os.makedirs(f"plots/{file_prefix}", exist_ok=True)
+    df_multi_research = filter_datasets(df, lang=file_prefix.split("_")[0], license=file_prefix.split("_")[1])
+    make_plots(df_multi_research, file_prefix)
 
 
 if __name__ == "__main__":
