@@ -1,6 +1,6 @@
 # LawInstruct
 
-This repository has code used to generate legal instruction datasets
+This repository has code used to generate legal instruction datasets.
 
 ## How to add a new dataset
 
@@ -42,49 +42,10 @@ The en.json file was created by writing one to 5 seed instructions. Using GPT4, 
 We used the following prompt: "Below is a list of instructions for a large language model. Expand this json to 10
 paraphrases. Provide json as output. Keep the provided examples."
 
-## Swiss Datasets
+## Possible improvements
 
-### Swiss Legislation
-
-- Inputs: pdf_content
-- Outputs: abbreviation, short, title, canton
-
-### Swiss Rulings
-
-- Inputs: facts, considerations
-- Outputs: topic, canton and region
-
-### Swiss Court View Generation
-
-- Inputs: facts
-- Outputs: considerations
-
-### Swiss Criticality Prediction
-
-- Inputs: facts, considerations
-- Outputs: citation_label
-
-### Swiss Law Area Prediction
-
-- Inputs: facts, considerations
-- Outputs: label (law area)
-
-### Swiss Judgment Prediction (Only Supreme Court but with mt)
-
-- Inputs: text (facts)
-- Outputs: label (dismissal/approval)
-
-### Swiss Judgment Prediction XL (All courts but without mt)
-
-- Inputs: facts, considerations
-- Outputs: label (dismissal/approval)
-
-## TODOs
-
-- make overview tables and graphs describing lawinstruct (Joel)
 - make huggingface dataset loading script better: enable dynamic loading of instructions in differing numbers of
   paraphrases and languages
-- double check that languages are correct (Arya)
 
 ## Maybe later
 
@@ -101,29 +62,6 @@ paraphrases. Provide json as output. Keep the provided examples."
 - add retrieval datasets (see here for how to structure
   prompts: https://crfm-helm.readthedocs.io/en/latest/scenarios/#helm.benchmark.scenarios.msmarco_scenario) ==> average
   prompt is very long, so we could probably only use a small part of the data
-
-## Done
-
-- add initial datasets (Peter)
-- code refactoring (Joel)
-- add additional datasets (Joel)
-- search for additional datasets (Joel)
-- add additional datasets (Arya)
-- add more datasets like coliee (Lucia)
-- replace ANSWER_GENERATION with QUESTION_ANSWERING (Joel)
-- add urls to the source in the init call (MBE, civipro, mc_ecams, professional_law, sara_prolog)
-- test the dataset generation thoroughly (Joel)
-- run the script on a big machine to generate the datasets and upload to lawinstruct organisation on huggingface hub (
-  Joel)
-- refactor code, so that we can allow for more finegrained instruction control (Arya)
-- added more datasets (Joel)
-- make sure the jurisdiction is always in the instruction (Joel)
-- refactor code, so that all the instruction banks live in a json file that we can easily paraphrase and translate in
-  the other languages (Arya)
-- paraphrase the instruction banks with GPT4 (prompt: Below is a list of instructions for a large language model. Expand
-  this json to 10 paraphrases. Provide json as output. Keep the provided examples.) (Joel)
-- translate instruction banks (from json file) into the 24 EU languages (Joel)
-- Test why some datasets only have very few examples (Joel)
 
 ## Datasets possibly to be reconsidered later
 
@@ -174,3 +112,18 @@ Other Datasets:
 
 Make sure to only yield from the same subset in the `get_data()` method. Otherwise, it will only write one example to
 the file and close it again.
+
+## References
+
+Please cite the following preprint:
+
+```
+@misc{niklaus2024flawnt5,
+      title={FLawN-T5: An Empirical Examination of Effective Instruction-Tuning Data Mixtures for Legal Reasoning}, 
+      author={Joel Niklaus and Lucia Zheng and Arya D. McCarthy and Christopher Hahn and Brian M. Rosen and Peter Henderson and Daniel E. Ho and Garrett Honke and Percy Liang and Christopher Manning},
+      year={2024},
+      eprint={2404.02127},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+```
