@@ -4,7 +4,7 @@ This repository has code used to generate legal instruction datasets.
 
 ## How to add a new dataset
 
-1. Take the raw data and upload it to the huggingface hub (in a private repo if the data is not permissively licensed)
+1. If there is no public Hugging Face repo for the dataset, take the raw data and upload it to the Hugging Face hub (in a private repo if the data is not permissively licensed)
 2. Add a class to the folder `instruction_datasets` that inherits from `AbstractDataset` and implements the abstract
    method `get_data`. The `get_data` method should yield datapoints with the following fields:
     - "instruction_language": the language of the instruction
@@ -49,32 +49,37 @@ paraphrases. Provide json as output. Keep the provided examples."
 
 ## Maybe later
 
+- add retrieval datasets (see here for how to structure
+  prompts: https://crfm-helm.readthedocs.io/en/latest/scenarios/#helm.benchmark.scenarios.msmarco_scenario) ==> average
+  prompt is very long, so we could probably only use a small part of the data
 - frame casehold as a generation task: let the model generate the correct holding statement
-- add Swiss Citation Extraction (and maybe Doc2Doc IR) and MultiLegalNeg Datasets
-- use the same instruction banks for the same tasks if applicable (Lucia)
-- add more examples to the instruction banks and diversify them by looking at FLAN and Natural Instructions (Lucia)
 - put local data on huggingface hub (find them if they use the raw_data folder)
 - translate some answers into the 24 EU languages ==> save instructions and answers into different columns
 - do not use xP3 and natural instructions but only code and legal instructions because of figure
   4: https://arxiv.org/pdf/2210.11416v5.pdf
 - add CoT data (https://github.com/jasonwei20/flan-2/blob/main/mmlu-cot.json) ==> this is only for MMMLU (which we leave
   out)
-- add retrieval datasets (see here for how to structure
-  prompts: https://crfm-helm.readthedocs.io/en/latest/scenarios/#helm.benchmark.scenarios.msmarco_scenario) ==> average
-  prompt is very long, so we could probably only use a small part of the data
 
 ## Datasets possibly to be reconsidered later
 
-Here we hit an obstacle
+### Datasets to be added next
+- Long-form Legal Question Answering (https://huggingface.co/datasets/maastrichtlawtech/lleqa)
+- Legal Lens (https://huggingface.co/collections/joelniklaus/legallens-datasets-6601a17a92e663923265c845)
+- MultiLegalNeg (https://huggingface.co/datasets/rcds/MultiLegalNeg)
+- GerLayQA (https://github.com/trusthlt/eacl24-german-legal-questions)
+- Keyphrase Generation (https://huggingface.co/datasets/NCube/europa)
+- Swiss Citation Extraction (https://huggingface.co/datasets/rcds/swiss_citation_extraction/viewer/original/test?row=1)
 
-IR Datasets:
+### Datasets where we hit an obstacle
+
+#### IR Datasets:
 
 - GerDALIR (https://github.com/lavis-nlp/GerDaLIR)
 - Covid Law Matching (https://github.com/DFKI-NLP/covid19-law-matching)
 - BSARD (https://github.com/maastrichtlawtech/bsard)
 - SwissIR (https://huggingface.co/datasets/rcds/doc2doc)
 
-Summarization Datasets:
+#### Summarization Datasets:
 
 - Dutch Legal Summarization (https://github.com/prijsdf/dutch-legal-summarization) ==> Requires multiple requests per
   document to retrieve; documentation in Dutch; no actual summarization targets.
@@ -90,7 +95,7 @@ Summarization Datasets:
   , https://aclanthology.org/W12-0515.pdf) ==> no re-destribution allowed, thus upload to raw_data. (summaries not
   clear)
 
-Other Datasets:
+#### Other Datasets:
 
 - BVACItationPrediction (https://github.com/TUMLegalTech/bva-citation-prediction) ==> no dataset downloadable directly
 - Cornell eRulemaking Corpus (https://facultystaff.richmond.edu/~jpark/data/jpark_lrec18.zip
