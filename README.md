@@ -16,7 +16,12 @@ This repository has code used to generate legal instruction datasets.
     - "task_type": the type of task (e.g. "summarization")
     - "jurisdiction": the jurisdiction of the example (e.g. "US")
     - "subset": the subset of the dataset (e.g. "swiss_judgment_prediction" for "lextreme")
-3. Add the dataset to the list in `build_instruction_datasets.py` a run the script to generate the dataset.
+3. Write one to 10 seed instructions to the en.json file for the new class 
+4. Add the dataset to the list in `lawinstruct_datasets.py`
+5. To generate the dataset run the command 
+   ```bash 
+   python build_instruction_datasets.py --datasets ExampleDatasetName1 ExampleDatasetName2
+   ```
 
 ## Setup
 
