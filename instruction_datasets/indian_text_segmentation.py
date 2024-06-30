@@ -42,6 +42,7 @@ class IndianTextSegmentation(AbstractDataset):
         instruction_language = "en"
         prompt_language = "en"
         answer_language = "en"
+        subset = "indian_text_segmentation"
 
         with open(self._path, "r") as f:
             data = json.load(f)
@@ -55,10 +56,12 @@ class IndianTextSegmentation(AbstractDataset):
 
                 instruction = f"In Indian case law, what is the rhetorical role of this part of a court judgment?" \
                               f" The options are {', '.join(list(_CATEGORIES.values()))}."
+                # Sample instruction paraphrases of base instruction
+                instruction, instruction_language = instructions.sample(subset)
                 prompt = f"Passage: {passage}"
                 answer = f"Role: {_CATEGORIES[label]}"
 
                 yield self.build_data_point(instruction_language,
                                             prompt_language, answer_language,
                                             instruction, prompt, answer,
-                                            task_type, jurisdiction)
+                                            task_type, jurisdiction, subset)

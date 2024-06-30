@@ -20,7 +20,7 @@ class ValidWills(AbstractDataset):
         train = pd.read_csv(
             f'{self.raw_data_dir}/wills_train.csv',
             encoding='utf-8')  # replace with real path and dataset names
-        instructions_group = "valid_wills_entailment"
+        subset = "valid_wills_entailment"
         task_type = TaskType.TEXT_CLASSIFICATION
         jurisdiction = Jurisdiction.US
         prompt_language = "en"
@@ -30,7 +30,7 @@ class ValidWills(AbstractDataset):
                 "conditions"], row["law"], row["classification"]
             CLASSIFICATION_MAP = ['refuted', 'supported', 'unrelated']
             classification = CLASSIFICATION_MAP[classification]
-            instruction, instruction_language = instructions.sample(instructions_group)
+            instruction, instruction_language = instructions.sample(subset)
             prompt = f"Statement: {statement}\n\nLaw: {law}\n\nCondition: {conditions}"
             prompt2 = f"Statement: {statement}\n\nLaw: {law}\n\nCondition: {conditions}\n\nIs the statement supported by the law and condition?"
             answer = answer2 = f'Answer: {classification}'
@@ -48,10 +48,10 @@ class ValidWills(AbstractDataset):
             answer_mc = f'Answer: {correct_option}'
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", instruction, prompt, answer,
-                                        task_type, jurisdiction)
+                                        task_type, jurisdiction, subset)
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", _BLANK_INSTRUCTION, prompt2,
-                                        answer2, task_type, jurisdiction)
+                                        answer2, task_type, jurisdiction, subset)
             yield self.build_data_point(instruction_language, prompt_language,
                                         "en", _BLANK_INSTRUCTION, prompt_mc,
-                                        answer_mc, task_type, jurisdiction)
+                                        answer_mc, task_type, jurisdiction, subset)

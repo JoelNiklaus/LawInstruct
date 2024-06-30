@@ -1,10 +1,10 @@
 # LawInstruct
 
-This repository has code used to generate legal instruction datasets
+This repository has code used to generate legal instruction datasets.
 
 ## How to add a new dataset
 
-1. Take the raw data and upload it to the huggingface hub (in a private repo if the data is not permissively licensed)
+1. If there is no public Hugging Face repo for the dataset, take the raw data and upload it to the Hugging Face hub (in a private repo if the data is not permissively licensed)
 2. Add a class to the folder `instruction_datasets` that inherits from `AbstractDataset` and implements the abstract
    method `get_data`. The `get_data` method should yield datapoints with the following fields:
     - "instruction_language": the language of the instruction
@@ -42,101 +42,44 @@ The en.json file was created by writing one to 5 seed instructions. Using GPT4, 
 We used the following prompt: "Below is a list of instructions for a large language model. Expand this json to 10
 paraphrases. Provide json as output. Keep the provided examples."
 
-## Swiss Datasets
+## Possible improvements
 
-### Swiss Legislation
-
-- Inputs: pdf_content
-- Outputs: abbreviation, short, title, canton
-
-### Swiss Rulings
-
-- Inputs: facts, considerations
-- Outputs: topic, canton and region
-
-### Swiss Court View Generation
-
-- Inputs: facts
-- Outputs: considerations
-
-### Swiss Criticality Prediction
-
-- Inputs: facts, considerations
-- Outputs: citation_label
-
-### Swiss Law Area Prediction
-
-- Inputs: facts, considerations
-- Outputs: label (law area)
-
-### Swiss Judgment Prediction (Only Supreme Court but with mt)
-
-- Inputs: text (facts)
-- Outputs: label (dismissal/approval)
-
-### Swiss Judgment Prediction XL (All courts but without mt)
-
-- Inputs: facts, considerations
-- Outputs: label (dismissal/approval)
-
-## TODOs
-
-- make overview tables and graphs describing lawinstruct (Joel)
 - make huggingface dataset loading script better: enable dynamic loading of instructions in differing numbers of
   paraphrases and languages
-- double check that languages are correct (Arya)
 
 ## Maybe later
 
+- add retrieval datasets (see here for how to structure
+  prompts: https://crfm-helm.readthedocs.io/en/latest/scenarios/#helm.benchmark.scenarios.msmarco_scenario) ==> average
+  prompt is very long, so we could probably only use a small part of the data
 - frame casehold as a generation task: let the model generate the correct holding statement
-- add Swiss Citation Extraction (and maybe Doc2Doc IR) and MultiLegalNeg Datasets
-- use the same instruction banks for the same tasks if applicable (Lucia)
-- add more examples to the instruction banks and diversify them by looking at FLAN and Natural Instructions (Lucia)
 - put local data on huggingface hub (find them if they use the raw_data folder)
 - translate some answers into the 24 EU languages ==> save instructions and answers into different columns
 - do not use xP3 and natural instructions but only code and legal instructions because of figure
   4: https://arxiv.org/pdf/2210.11416v5.pdf
 - add CoT data (https://github.com/jasonwei20/flan-2/blob/main/mmlu-cot.json) ==> this is only for MMMLU (which we leave
   out)
-- add retrieval datasets (see here for how to structure
-  prompts: https://crfm-helm.readthedocs.io/en/latest/scenarios/#helm.benchmark.scenarios.msmarco_scenario) ==> average
-  prompt is very long, so we could probably only use a small part of the data
-
-## Done
-
-- add initial datasets (Peter)
-- code refactoring (Joel)
-- add additional datasets (Joel)
-- search for additional datasets (Joel)
-- add additional datasets (Arya)
-- add more datasets like coliee (Lucia)
-- replace ANSWER_GENERATION with QUESTION_ANSWERING (Joel)
-- add urls to the source in the init call (MBE, civipro, mc_ecams, professional_law, sara_prolog)
-- test the dataset generation thoroughly (Joel)
-- run the script on a big machine to generate the datasets and upload to lawinstruct organisation on huggingface hub (
-  Joel)
-- refactor code, so that we can allow for more finegrained instruction control (Arya)
-- added more datasets (Joel)
-- make sure the jurisdiction is always in the instruction (Joel)
-- refactor code, so that all the instruction banks live in a json file that we can easily paraphrase and translate in
-  the other languages (Arya)
-- paraphrase the instruction banks with GPT4 (prompt: Below is a list of instructions for a large language model. Expand
-  this json to 10 paraphrases. Provide json as output. Keep the provided examples.) (Joel)
-- translate instruction banks (from json file) into the 24 EU languages (Joel)
-- Test why some datasets only have very few examples (Joel)
 
 ## Datasets possibly to be reconsidered later
 
-Here we hit an obstacle
+### Datasets to be added next
+- Long-form Legal Question Answering (https://huggingface.co/datasets/maastrichtlawtech/lleqa)
+- Legal Lens (https://huggingface.co/collections/joelniklaus/legallens-datasets-6601a17a92e663923265c845)
+- MultiLegalNeg (https://huggingface.co/datasets/rcds/MultiLegalNeg)
+- GerLayQA (https://github.com/trusthlt/eacl24-german-legal-questions)
+- Keyphrase Generation (https://huggingface.co/datasets/NCube/europa)
+- Swiss Citation Extraction (https://huggingface.co/datasets/rcds/swiss_citation_extraction/viewer/original/test?row=1)
 
-IR Datasets:
+### Datasets where we hit an obstacle
+
+#### IR Datasets:
 
 - GerDALIR (https://github.com/lavis-nlp/GerDaLIR)
 - Covid Law Matching (https://github.com/DFKI-NLP/covid19-law-matching)
 - BSARD (https://github.com/maastrichtlawtech/bsard)
 - SwissIR (https://huggingface.co/datasets/rcds/doc2doc)
 
-Summarization Datasets:
+#### Summarization Datasets:
 
 - Dutch Legal Summarization (https://github.com/prijsdf/dutch-legal-summarization) ==> Requires multiple requests per
   document to retrieve; documentation in Dutch; no actual summarization targets.
@@ -152,7 +95,7 @@ Summarization Datasets:
   , https://aclanthology.org/W12-0515.pdf) ==> no re-destribution allowed, thus upload to raw_data. (summaries not
   clear)
 
-Other Datasets:
+#### Other Datasets:
 
 - BVACItationPrediction (https://github.com/TUMLegalTech/bva-citation-prediction) ==> no dataset downloadable directly
 - Cornell eRulemaking Corpus (https://facultystaff.richmond.edu/~jpark/data/jpark_lrec18.zip
@@ -174,3 +117,18 @@ Other Datasets:
 
 Make sure to only yield from the same subset in the `get_data()` method. Otherwise, it will only write one example to
 the file and close it again.
+
+## References
+
+Please cite the following preprint:
+
+```
+@misc{niklaus2024flawnt5,
+      title={FLawN-T5: An Empirical Examination of Effective Instruction-Tuning Data Mixtures for Legal Reasoning}, 
+      author={Joel Niklaus and Lucia Zheng and Arya D. McCarthy and Christopher Hahn and Brian M. Rosen and Peter Henderson and Daniel E. Ho and Garrett Honke and Percy Liang and Christopher Manning},
+      year={2024},
+      eprint={2404.02127},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+```

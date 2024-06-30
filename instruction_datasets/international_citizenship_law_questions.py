@@ -5,8 +5,6 @@ from enums import Jurisdiction
 from enums import TaskType
 import instruction_manager
 
-_BLANK_INSTRUCTION = ''
-
 
 class InternationalCitizenshipLawQuestions(AbstractDataset):
 
@@ -19,6 +17,7 @@ class InternationalCitizenshipLawQuestions(AbstractDataset):
         jurisdiction = Jurisdiction.INTERNATIONAL
         instruction_language = "en"
         prompt_language = "en"
+        answer_language = "en"
 
         df_mode_acq = pd.read_csv(
             f"{self.raw_data_dir}/data_v1.0_country-year-mode_acq.csv")
@@ -29,6 +28,7 @@ class InternationalCitizenshipLawQuestions(AbstractDataset):
         code_dictionary = pd.read_csv(
             f"{self.raw_data_dir}/code_dictionary.csv")
 
+        subset = "international_citizenship_law_questions_mode_acq"
         for idx, row in df_mode_acq.iterrows():
             mode_id = row["mode_id"]
             country = row["country"]
@@ -55,10 +55,13 @@ class InternationalCitizenshipLawQuestions(AbstractDataset):
                 answer = f"A: {code_year_spec_answer} This is covered in: {law_article}. {specification}".strip(
                 )
 
-            yield self.build_data_point(instruction_language, prompt_language,
-                                        "en", _BLANK_INSTRUCTION, prompt,
-                                        answer, task_type, jurisdiction, "mode_acq")
+            instruction, instruction_language = instructions.sample(subset)
 
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        answer_language, instruction, prompt,
+                                        answer, task_type, jurisdiction, subset)
+
+        subset = "international_citizenship_law_questions_mode_loss"
         for idx, row in df_mode_loss.iterrows():
             mode_id = row["mode_id"]
             country = row["country"]
@@ -85,6 +88,9 @@ class InternationalCitizenshipLawQuestions(AbstractDataset):
             else:
                 answer = f"A: {code_year_spec_answer} This is covered in: {law_article}. {specification}".strip(
                 )
+
+            instruction, instruction_language = instructions.sample(subset)
+            
             yield self.build_data_point(instruction_language, prompt_language,
-                                        "en", _BLANK_INSTRUCTION, prompt, answer, task_type,
-                                        jurisdiction, "mode_loss")
+                                        answer_language, instruction, prompt, answer, task_type,
+                                        jurisdiction, subset)
