@@ -4,7 +4,7 @@ from abstract_dataset import AbstractDataset
 from enums import Jurisdiction
 from enums import TaskType
 import instruction_manager
-from greek_ner import NerTags
+from .greek_ner import NerTags
 
 class LegalLensTags(NerTags):
 
@@ -46,7 +46,7 @@ class LegalLens(AbstractDataset):
         prompt_language = "en"
         answer_language = "en"
         for example in df_nil:
-            subset = 'legal_lens_nli'
+            subset = 'legal_lens_nil'
             instruction, instruction_language = instructions.sample(subset)
             promt = f"Case Context: {example['premise']}\n\n" \
                     f"Hypothesis: {example['hypothesis']}\n\n"\
@@ -68,9 +68,10 @@ class LegalLens(AbstractDataset):
             instruction_sentence + " " + self._tags.instruction
         ]
 
-        for example in df_ner: 
+        for example in df_ner:
+            subset = 'legal_lens_ner' 
             instruction = self.random.choice(instruction_bank)
-            prompt, answer = self._tags.build_answer(df['tokens'], df['ner_tags'])
+            prompt, answer = self._tags.build_answer(example['tokens'], example['ner_tags'])
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt,
                                         answer, task_type, jurisdiction)
