@@ -46,7 +46,7 @@ class LegalLens(AbstractDataset):
         prompt_language = "en"
         answer_language = "en"
         for example in df_nil:
-            subset = 'legal_lens_nil'
+            subset = 'legal_lens_nli'
             instruction, instruction_language = instructions.sample(subset)
             promt = f"Case Context: {example['premise']}\n\n" \
                     f"Hypothesis: {example['hypothesis']}\n\n"\

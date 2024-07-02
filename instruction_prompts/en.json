@@ -475,7 +475,7 @@
       "In this task, you will examine a sentence from legal documents. Determine the named entity type for each token using these labels: O, B-LAW, I-LAW, B-VIOLATION, I-VIOLATION, B-VIOLATED BY, I-VIOLATED BY, B-VIOLATED ON, I-VIOLATED ON.",
       "In this task, you will analyze a sentence from legal texts. Identify the named entity type for each token using the following categories: O, B-LAW, I-LAW, B-VIOLATION, I-VIOLATION, B-VIOLATED BY, I-VIOLATED BY, B-VIOLATED ON, I-VIOLATED ON."
     ],
-    "legal_lens_nil": [
+    "legal_lens_nli": [
       "Consider the following legal case background and hypothesis. Determine whether the hypothesis is entailed/contradicted/neutral.",
       "Does the following background information from a legal case entail/contradict/remain neutral to the given hypothesis?",
       "Evaluate the given legal case background and hypothesis to determine if the background entails/contradicts/is neutral to the hypothesis.",
