@@ -289,6 +289,17 @@
       "Create a short summary of the European legal document.",
       "Outline the main points of the European legal document."
     ],
+    "german_laymen_qa": [
+      "Answer the following question regarding the German civil code.",
+      "Provide an answer to the question related to German criminal code.",
+      "Respond to the question concerning the German code of civil procedure.",
+      "Give an answer to the question based on the German civil code.",
+      "Using your knowledge of the German criminal code, answer the following question.",
+      "Answer the question with reference to the German code of civil procedure.",
+      "Based on the German code of civil procedure, provide an answer to the question.",
+      "Considering the German criminal code, what is the answer to the question?",
+      "Give a detailed answer to the question regarding the German civil code."
+    ],
     "german_rental_agreements": [
       "You are given a sentence from a German rental agreement. Predict the category of the sentence.",
       "Predict the category of the following sentence from a German rental agreement.",

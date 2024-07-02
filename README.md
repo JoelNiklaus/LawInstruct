@@ -16,7 +16,12 @@ This repository has code used to generate legal instruction datasets.
     - "task_type": the type of task (e.g. "summarization")
     - "jurisdiction": the jurisdiction of the example (e.g. "US")
     - "subset": the subset of the dataset (e.g. "swiss_judgment_prediction" for "lextreme")
-3. Add the dataset to the list in `build_instruction_datasets.py` a run the script to generate the dataset.
+3. Write one to 10 seed instructions to the en.json file for the new class 
+4. Add the dataset to the list in `lawinstruct_datasets.py`
+5. To generate the dataset run the command 
+   ```bash 
+   python build_instruction_datasets.py --datasets ExampleDatasetName1 ExampleDatasetName2
+   ```
 
 ## Setup
 
@@ -64,16 +69,35 @@ paraphrases. Provide json as output. Keep the provided examples."
 
 ### Datasets to be added next
 - Long-form Legal Question Answering (https://huggingface.co/datasets/maastrichtlawtech/lleqa)
+  - ask for access 
+  - add the question answering task similar to other qa tasks
+  - try to think of other tasks that could be added like asking for regions or topics
 - Legal Lens (https://huggingface.co/collections/joelniklaus/legallens-datasets-6601a17a92e663923265c845)
+  - add the NER task similar to other ner tasks and the nli task similar to other nli tasks
+- Swiss Citation Extraction (https://huggingface.co/datasets/rcds/swiss_citation_extraction/viewer/original/test?row=0)
+  - combine the words again into a standard string but use the indices to edit it
+  - two subsets:
+    - citation extraction:
+      - input: text with citations
+      - output: list of citations (as a markdown list (- before each item and separated with new line))
+    - citation prediction:
+      - input: text with the citations masked with a placeholder (e.g., <citation1>, <citation2>, etc.)
+      - output: - <citation1>: the citation
+                - <citation2>: the citation
+                - ...
 - MultiLegalNeg (https://huggingface.co/datasets/rcds/MultiLegalNeg)
-- GerLayQA (https://github.com/trusthlt/eacl24-german-legal-questions)
+    - combine words similar to Swiss Citation Extraction
+    - more information here: https://arxiv.org/pdf/2309.08695
+    - two subsets:
+      - negation cue detection: goal is for the language model to repeat the negation cue word
+      - negation scope detection: goal is for the language model to repeat the negation scope given the negation cue
 - Keyphrase Generation (https://huggingface.co/datasets/NCube/europa)
-- Swiss Citation Extraction (https://huggingface.co/datasets/rcds/swiss_citation_extraction/viewer/original/test?row=1)
 
 ### Datasets where we hit an obstacle
 
 #### IR Datasets:
 
+- CLERC (https://huggingface.co/datasets/jhu-clsp/CLERC)
 - GerDALIR (https://github.com/lavis-nlp/GerDaLIR)
 - Covid Law Matching (https://github.com/DFKI-NLP/covid19-law-matching)
 - BSARD (https://github.com/maastrichtlawtech/bsard)

@@ -73,6 +73,7 @@ from instruction_datasets.turkish_constitutional_court import TurkishConstitutio
 from instruction_datasets.us_class_actions import USClassActions
 from instruction_datasets.valid_wills import ValidWills
 from instruction_datasets.xp3mt import XP3MT
+from instruction_datasets.german_laymen_qa import GermanLaymenQA
 from instruction_datasets.legal_lens import LegalLens
 
 LEGAL_DATASETS = frozenset({
@@ -92,6 +93,7 @@ LEGAL_DATASETS = frozenset({
     Ell18GreekNER,
     EOIRPrivacy,
     EurLexSum,
+    GermanLaymenQA,
     GermanLER,
     GermanRentalAgreements,
     ILDC,
@@ -158,6 +160,7 @@ DATASETS_ALREADY_BUILT = NATURAL_INSTRUCTIONS | XP3MT | frozenset({
     Ell18GreekNER,
     EOIRPrivacy,
     EurLexSum,
+    GermanLaymenQA,
     GermanLER,
     GermanRentalAgreements,
     GSM8K,
