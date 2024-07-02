@@ -74,6 +74,7 @@ from instruction_datasets.us_class_actions import USClassActions
 from instruction_datasets.valid_wills import ValidWills
 from instruction_datasets.xp3mt import XP3MT
 from instruction_datasets.german_laymen_qa import GermanLaymenQA
+from instruction_datasets.legal_lens import LegalLens
 
 LEGAL_DATASETS = frozenset({
     BrazilianBarExam,
@@ -104,6 +105,7 @@ LEGAL_DATASETS = frozenset({
     LawngNli,
     LboxOpen,
     LegalCaseDocumentSummarization,
+    LegalLens,
     LegalQA,
     LexGLUE,
     LEXTREME,
@@ -172,6 +174,7 @@ DATASETS_ALREADY_BUILT = NATURAL_INSTRUCTIONS | XP3MT | frozenset({
     LboxOpen,
     LegalCaseDocumentSummarization,
     LegalQA,
+    LegalLens,
     LexGLUE,
     LEXTREME,
     Lila,

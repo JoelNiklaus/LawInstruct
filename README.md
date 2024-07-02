@@ -20,7 +20,7 @@ This repository has code used to generate legal instruction datasets.
 4. Add the dataset to the list in `lawinstruct_datasets.py`
 5. To generate the dataset run the command 
    ```bash 
-   python build_instruction_datasets.py --datasets ExampleDatasetName1 ExampleDatasetName2
+   python build_instruction_datasets.py --datasets ExampleDatasetName1 ExampleDatasetName2 --build_from_scratch
    ```
 
 ## Setup

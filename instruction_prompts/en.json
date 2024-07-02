@@ -468,6 +468,20 @@
       "Deliver a brief summary of the document from a U.K. Supreme Court case.",
       "Craft a concise summary for the document found in a U.K. Supreme Court case."
     ],
+    "legal_lens_ner": [
+      "In this task, you are given a sentence from legal documents. Predict the named entity type for each token out of the following: O, B-LAW, I-LAW, B-VIOLATION, I-VIOLATION, B-VIOLATED BY, I-VIOLATED BY, B-VIOLATED ON, I-VIOLATED ON.",
+      "In this task, you are provided with a sentence from legal documents. Identify the named entity type for each token using these labels: O, B-LAW, I-LAW, B-VIOLATION, I-VIOLATION, B-VIOLATED BY, I-VIOLATED BY, B-VIOLATED ON, I-VIOLATED ON.",
+      "For this task, you are given a sentence from legal texts. Predict the named entity type for each token using the following categories: O, B-LAW, I-LAW, B-VIOLATION, I-VIOLATION, B-VIOLATED BY, I-VIOLATED BY, B-VIOLATED ON, I-VIOLATED ON.",
+      "In this task, you will examine a sentence from legal documents. Determine the named entity type for each token using these labels: O, B-LAW, I-LAW, B-VIOLATION, I-VIOLATION, B-VIOLATED BY, I-VIOLATED BY, B-VIOLATED ON, I-VIOLATED ON.",
+      "In this task, you will analyze a sentence from legal texts. Identify the named entity type for each token using the following categories: O, B-LAW, I-LAW, B-VIOLATION, I-VIOLATION, B-VIOLATED BY, I-VIOLATED BY, B-VIOLATED ON, I-VIOLATED ON."
+    ],
+    "legal_lens_nli": [
+      "Consider the following legal case background and hypothesis. Determine whether the hypothesis is entailed/contradicted/neutral.",
+      "Does the following background information from a legal case entail/contradict/remain neutral to the given hypothesis?",
+      "Evaluate the given legal case background and hypothesis to determine if the background entails/contradicts/is neutral to the hypothesis.",
+      "Analyze the legal case context and hypothesis to determine if they are in agreement (entailment), disagreement (contradiction), or unrelated (neutral).",
+      "Based on the legal case details provided and the hypothesis, decide if the entail, contradict, or stand neutral to each other"
+   ],
     "legal_qa": [
       "Answer the following question according to Chinese law, use plain language as if you are a lawyer answering on an online forum.",
       "This is a question on a Chinese online forum for legal advice. Do not cite case law and use plain language.",
