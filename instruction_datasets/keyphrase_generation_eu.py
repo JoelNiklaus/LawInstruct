@@ -15,6 +15,12 @@ def build_answer(keyphrases_list: Sequence[Sequence[str]]) ->str:
     return markdown_list 
 
 class KeyphraseGenerationEU(AbstractDataset): 
+
+    def __init__(self):
+        super().__init__(
+            "KeyphraseGenerationEU",
+            "https://huggingface.co/datasets/NCube/europa"
+        )
     
     def get_data(self, instructions: instruction_manager.InstructionManager): 
         ds = load_dataset("NCube/europa", split ='train')
