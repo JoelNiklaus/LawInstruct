@@ -75,6 +75,7 @@ from instruction_datasets.valid_wills import ValidWills
 from instruction_datasets.xp3mt import XP3MT
 from instruction_datasets.german_laymen_qa import GermanLaymenQA
 from instruction_datasets.legal_lens import LegalLens
+from instruction_datasets.keyphrase_generation_eu import KeyphraseGenerationEU
 
 LEGAL_DATASETS = frozenset({
     BrazilianBarExam,
@@ -101,6 +102,7 @@ LEGAL_DATASETS = frozenset({
     IndianTextSegmentation,
     InternationalCitizenshipLawQuestions,
     JECQA,
+    KeyphraseGenerationEU,
     KoreanLegalQA,
     LawngNli,
     LboxOpen,
@@ -169,6 +171,7 @@ DATASETS_ALREADY_BUILT = NATURAL_INSTRUCTIONS | XP3MT | frozenset({
     IndianTextSegmentation,
     InternationalCitizenshipLawQuestions,
     JECQA,
+    KeyphraseGenerationEU,
     KoreanLegalQA,
     LawngNli,
     LboxOpen,
