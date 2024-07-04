@@ -7,11 +7,10 @@ from enums import TaskType
 import instruction_manager
 
 
-def build_answer(keyphrases_list: Sequence[Sequence[str]]) ->str:
+def build_answer(keyphrases_list: Sequence[str]) ->str:
     markdown_list = ""
-    for keyphrases in keyphrases_list:
-        for keyphrase in keyphrases:
-            markdown_list += "- " + keyphrase + "\n"
+    for keyphrase in keyphrases_list:
+        markdown_list += "- " + keyphrase + " \n"
     return markdown_list 
 
 class KeyphraseGenerationEU(AbstractDataset): 
@@ -31,7 +30,7 @@ class KeyphraseGenerationEU(AbstractDataset):
             subset = 'keyphrase_generation_eu'
             instruction, instruction_language = instructions.sample(subset)
             prompt = f"Judgment transcription: {example['input_text']}"
-            answer = f"Keyphrases: {build_answer(example['keyphrases'])}"
+            answer = f"Keyphrases: {repr(build_answer(example['keyphrases']))}"
             yield self.build_data_point(instruction_language, example['lang'],
                                         example['lang'], instruction,
                                         prompt, answer, task_type, 
