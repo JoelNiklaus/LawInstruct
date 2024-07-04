@@ -75,6 +75,7 @@ from instruction_datasets.valid_wills import ValidWills
 from instruction_datasets.xp3mt import XP3MT
 from instruction_datasets.german_laymen_qa import GermanLaymenQA
 from instruction_datasets.legal_lens import LegalLens
+from instruction_datasets.swiss_citation_extraction import SwissCitationExtraction
 
 LEGAL_DATASETS = frozenset({
     BrazilianBarExam,
@@ -126,6 +127,7 @@ LEGAL_DATASETS = frozenset({
     ShortAnswerFeedback,
     SpanishLaborLaw,
     StackExchangeQuestionsLegal,
+    SwissCitationExtraction,
     SwissCourtViewGeneration,
     SwissCriticalityPrediction,
     SwissJudgmentPrediction,
@@ -197,6 +199,7 @@ DATASETS_ALREADY_BUILT = NATURAL_INSTRUCTIONS | XP3MT | frozenset({
     ShortAnswerFeedback,
     SpanishLaborLaw,
     StackExchangeQuestionsLegal,
+    SwissCitationExtraction,
     SwissCourtViewGeneration,
     SwissCriticalityPrediction,
     SwissJudgmentPrediction,
