@@ -818,6 +818,23 @@
       "Explain the answer to the legal question, incorporating any applicable evidence when possible.",
       "Respond to the legal question at hand and reference any relevant evidence to support your answer."
     ],
+    "swiss_citation_extraction": [
+      "Extract the citations from the following legal consideration",
+      "Identify the citations in the following legal consideration",
+      "List the citations found in the following legal consideration",
+      "Identify the key citations from the following legal consideration",
+      "Highlight the citations within the following legal consideration"
+    ],
+    "swiss_citation_prediction": [
+      "Predict the citations in the text with placeholders",
+      "Fill in the missing citations in the following text",
+      "Identify and insert the citations in the text with placeholders",
+      "Provide the citations for the placeholders in the text",
+      "Complete the text by predicting the missing citations",
+      "Restore the masked citations in the text",
+      "Determine the citations for the placeholders in the given text",
+      "Insert the correct citations in place of the placeholders"
+    ],
     "swiss_judgment_court_view_generation_same_court": [
       "Write the court's view (considerations) for the given facts description.",
       "Provide the court's perspective (considerations) based on the presented facts.",
