@@ -1,5 +1,30 @@
 {
   "en": {
+    "agb_de_judgment": [
+      "Determine whether the clause is potentially void under the German law.",
+      "Can the following clause be enforced by the parties of the contract under the german governing law? Seperate clearly whether it is valid or potentially void.",
+      "Assess if the clause could be considered potentially void according to German law.",
+      "Is this clause enforceable under German law, and if not, is it potentially void?",
+      "Evaluate whether the clause might be void under German legal standards.",
+      "Can the clause be enforced under the German governing law? Clearly state if it is valid or potentially void.",
+      "Examine if this clause is likely to be void under German law.",
+      "Determine the enforceability of the clause under German law and specify if it is valid or potentially void.",
+      "Analyze whether this clause is enforceable by the contract parties according to German law, indicating if it is potentially void.",
+      "Check if this clause is potentially void under German law.",
+      "Verify whether the clause can be enforced under German law and clarify if it is valid or potentially void."
+    ],
+    "agb_de_mc": [
+      "Select the fitting topic or topics for the following clause of a german consumer contract. Return the selection as 'Topic(s):'.",
+      "Pick which topic(s) this clause of a consumer contract falls under. Return the selection as 'Topic(s):'.",
+      "Choose the appropriate topic or topics for this clause in a German consumer contract. Return the result as 'Topic(s):'.",
+      "Identify the relevant topic or topics for the following clause of a German consumer contract. Return the selection as 'Topic(s):'.",
+      "Determine the suitable topic or topics for this clause within a German consumer contract. Return your selection as 'Topic(s):'.",
+      "Select the topic(s) that best fit this clause in a German consumer contract. Return your choice as 'Topic(s):'.",
+      "Assign the correct topic or topics to the following clause of a German consumer contract. Return your decision as 'Topic(s):'.",
+      "Choose the most fitting topic or topics for this clause from a German consumer contract. Return the result as 'Topic(s):'.",
+      "Identify which topic(s) this clause of a German consumer contract falls under. Return your selection as 'Topic(s):'.",
+      "Determine which topic or topics apply to this clause in a German consumer contract. Return the answer as 'Topic(s):'."
+    ],
     "brazilian_bar_exam": [
       "Answer the questions from the Brazilian bar exam.",
       "Answer these legal multiple choice questions according to Brazilian law.",
@@ -551,6 +576,9 @@
       "Work through these Chinese Law multiple choice questions, noting that each question has a unique correct answer.",
       "Take on these Chinese Law multiple choice questions, and remember that each question offers only one valid answer.",
       "Attempt these multiple choice questions about Chinese Law, keeping in mind that each question has merely one accurate answer."
+    ],
+    "longform_legal_qa": [
+      "Answer the following question according to Belgian law, use plain language as if you are a lawyer answering on an online forum."
     ],
     "maud": [
       "Consider the following deal point text from a US merger agreement.",
