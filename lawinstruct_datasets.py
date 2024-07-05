@@ -76,6 +76,7 @@ from instruction_datasets.xp3mt import XP3MT
 from instruction_datasets.german_laymen_qa import GermanLaymenQA
 from instruction_datasets.legal_lens import LegalLens
 from instruction_datasets.keyphrase_generation_eu import KeyphraseGenerationEU
+from instruction_datasets.pred_ex import PredEx
 
 LEGAL_DATASETS = frozenset({
     BrazilianBarExam,
@@ -119,6 +120,7 @@ LEGAL_DATASETS = frozenset({
     MultiLexSum,
     OLCMemos,
     PlainEnglishContractsSummarization,
+    PredEx,
     PrivacyQA,
     PrivacySummarization,
     ProfessionalLaw,
@@ -190,6 +192,7 @@ DATASETS_ALREADY_BUILT = NATURAL_INSTRUCTIONS | XP3MT | frozenset({
     MultiLexSum,
     OLCMemos,
     PlainEnglishContractsSummarization,
+    PredEx,
     PrivacyQA,
     PrivacySummarization,
     ProfessionalLaw,
