@@ -68,7 +68,7 @@ class InstructionManager:
         self._instruction_bank_size = instruction_bank_size
         self._instructions: dict[str, list[str]] = {}
         # JSON file's structure is lang_code -> instruction_group -> text.
-        with open(json_file) as f:
+        with open(json_file, encoding='utf-8') as f:
             self._instructions = json.load(f)
 
         self._confirm_well_formed(json_file, self._instructions)

@@ -48,13 +48,13 @@ class LegalLens(AbstractDataset):
         for example in df_nil:
             subset = 'legal_lens_nli'
             instruction, instruction_language = instructions.sample(subset)
-            promt = f"Case Context: {example['premise']}\n\n" \
+            prompt = f"Case Context: {example['premise']}\n\n" \
                     f"Hypothesis: {example['hypothesis']}\n\n"\
                     f"Relevant Statute: {example['legal_act']}"
             answer = f"Classification: {example['label']}"
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction,
-                                        promt, answer, task_type, 
+                                        prompt, answer, task_type, 
                                         jurisdiction, subset)
 
         df_ner = load_dataset("darrow-ai/LegalLensNER", split = 'train')    
