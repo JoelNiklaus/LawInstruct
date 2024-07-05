@@ -396,6 +396,16 @@
       "Work through these multiple choice questions on Chinese Law, and remember that more than one answer may be correct. Present your answer(s) as “Answer: [answer(s)].”",
       "Answer these Chinese Law-related multiple choice questions, bearing in mind that multiple answers could be accurate. Mark your answer(s) as “Answer: [answer(s)].”"
     ],
+    "keyphrase_generation_eu": [
+      "Extract the key phrases from the following legal judgment.",
+      "Identify the key phrases in the following legal judgment.",
+      "List the main phrases from the following legal judgment.",
+      "From the provided legal judgment, list the key phrases.",
+      "Determine the key phrases from the following legal judgment.",
+      "Summarize the following legal judgment by listing the key phrases.",
+      "From the following legal judgment text, extract the key phrases.",
+      "Identify and list the key phrases from the following legal judgment."
+    ],
     "korean_legal_qa": [
       "Consider the following question. Retrieve the relevant South Korean legal article.",
       "What is the best South Korean law that can help answer this question.",
