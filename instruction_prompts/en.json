@@ -612,6 +612,30 @@
       "Select the accurate multiple choice answer as per American law, and explain your choice.",
       "Determine the correct answer in line with U.S. legal principles, and provide your rationale."
     ],
+    "multi_legal_cue_detection_de": [
+      "Extract the negations from the following sentence."
+    ],
+    "multi_legal_cue_detection_it": [
+      "Extract the negations from the following sentence."
+    ],
+    "multi_legal_cue_detection_fr": [
+      "Extract the negations from the following sentence."
+    ],
+    "multi_legal_cue_detection_swiss": [
+      "Extract the negations from the following sentence."
+    ],
+    "multi_legal_scope_detection_de": [
+      "Extract the scopes for the following negation cues."
+    ],
+    "multi_legal_scope_detection_it": [
+      "Extract the scopes for the following negation cues."
+    ],
+    "multi_legal_scope_detection_fr": [
+      "Extract the scopes for the following negation cues."
+    ],
+    "multi_legal_scope_detection_swiss": [
+      "Extract the scopes for the following negation cues."
+    ],
     "multi_lex_sum": [
       "Summarize the following summary of a US legal document further.",
       "Consider this summary of a US legal document and summarize it further.",
