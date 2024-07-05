@@ -289,16 +289,38 @@
       "Create a short summary of the European legal document.",
       "Outline the main points of the European legal document."
     ],
-    "german_laymen_qa": [
+    "german_laymen_bgb_qa": [
       "Answer the following question regarding the German civil code.",
-      "Provide an answer to the question related to German criminal code.",
-      "Respond to the question concerning the German code of civil procedure.",
+      "Provide an answer to the question related to German civil code.",
+      "Respond to the question concerning the German civil code.",
       "Give an answer to the question based on the German civil code.",
+      "Using your knowledge of the German civil code, answer the following question.",
+      "Answer the question with reference to the German civil code.",
+      "Based on the German civil code, provide an answer to the question.",
+      "Considering the German civil code, what is the answer to the question?",
+      "Give a detailed answer to the question regarding the German civil code."
+    ],
+    "german_laymen_stgb_qa": [
+      "Answer the following question regarding the German criminal code.",
+      "Provide an answer to the question related to German criminal code.",
+      "Respond to the question concerning the German criminal code.",
+      "Give an answer to the question based on the German criminal code.",
       "Using your knowledge of the German criminal code, answer the following question.",
+      "Answer the question with reference to the German criminal code.",
+      "Based on the German criminal code, provide an answer to the question.",
+      "Considering the German criminal code, what is the answer to the question?",
+      "Give a detailed answer to the question regarding the German criminal code."
+    ],
+    "german_laymen_zpo_qa": [
+      "Answer the following question regarding the German code of civil procedure.",
+      "Provide an answer to the question related to German code of civil procedure.",
+      "Respond to the question concerning the German code of civil procedure.",
+      "Give an answer to the question based on the German code of civil procedure.",
+      "Using your knowledge of the German code of civil procedure, answer the following question.",
       "Answer the question with reference to the German code of civil procedure.",
       "Based on the German code of civil procedure, provide an answer to the question.",
-      "Considering the German criminal code, what is the answer to the question?",
-      "Give a detailed answer to the question regarding the German civil code."
+      "Considering the German code of civil procedure, what is the answer to the question?",
+      "Give a detailed answer to the question regarding the German code of civil procedure."
     ],
     "german_rental_agreements": [
       "You are given a sentence from a German rental agreement. Predict the category of the sentence.",
