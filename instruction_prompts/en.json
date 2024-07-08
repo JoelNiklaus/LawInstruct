@@ -696,17 +696,17 @@
       "Craft a concise summary for the excerpt found in the legal agreement."
     ],
     "predex_judgement": [
-      "Analyze the case proceeding and predict whether the appeal/petition will be rejected (0) or accepted (1).",
-      "Based on the information in the case proceeding, determine the likely outcome: acceptance (1) or rejection (0) of the appellant/petitioner's case.",
-      "Review the case details and forecast whether the appeal/petition will be approved (1) or denied (0).",
-      "Examine the proceedings and decide if the appeal/petition is likely to be accepted (1) or rejected (0).",
-      "Evaluate the case proceedings and predict the outcome: rejection (0) or acceptance (1) of the appeal/petition.",
-      "Given the case proceedings, predict if the appeal/petition will be accepted (1) or rejected (0).",
-      "Assess the provided case information and determine if the appeal/petition will result in acceptance (1) or rejection (0).",
-      "Interpret the details of the case and forecast the outcome: acceptance (1) or rejection (0) of the appeal/petition.",
-      "Analyze the case proceedings to predict if the appeal/petition will be rejected (0) or accepted (1).",
-      "Based on the case details, determine if the appeal/petition is likely to be rejected (0) or accepted (1).",
-      "Evaluate the proceedings and predict the decision: rejection (0) or acceptance (1) of the appeal/petition."
+      "Analyze the case proceeding and predict whether the appeal/petition will be rejected or accepted.",
+      "Based on the information in the case proceeding, determine the likely outcome: acceptance or rejection of the appellant/petitioner's case.",
+      "Review the case details and forecast whether the appeal/petition will be approved or denied.",
+      "Examine the proceedings and decide if the appeal/petition is likely to be accepted or rejected.",
+      "Evaluate the case proceedings and predict the outcome: rejection or acceptance of the appeal/petition.",
+      "Given the case proceedings, predict if the appeal/petition will be accepted or rejected.",
+      "Assess the provided case information and determine if the appeal/petition will result in acceptance or rejection.",
+      "Interpret the details of the case and forecast the outcome: acceptance or rejection of the appeal/petition.",
+      "Analyze the case proceedings to predict if the appeal/petition will be rejected or accepted.",
+      "Based on the case details, determine if the appeal/petition is likely to be rejected or accepted.",
+      "Evaluate the proceedings and predict the decision: rejection or acceptance of the appeal/petition."
     ],
     "predex_explanation": [
       "Analyze the case proceeding and provide an explanation for why the Indian court took that decision. Please provide some important textual evidence from the case proceeding.",

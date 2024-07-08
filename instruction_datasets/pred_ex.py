@@ -22,6 +22,8 @@ class PredEx(AbstractDataset):
         answer_language = "en"
         instruction_language: str
 
+        label_mapping = {0: 'Rejection', 1: 'Acceptance'}
+
         for example in df:
             subset = "predex_judgement"
             case_name = example['Case Name']
@@ -30,7 +32,7 @@ class PredEx(AbstractDataset):
 
             instruction, instruction_language = instructions.sample(subset)
             prompt = f"Case: {case}"
-            answer = f"Prediction: {example['Label']}."
+            answer = f"Prediction: {label_mapping[example['Label']]}."
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt, 
                                         answer, task_type, jurisdiction, subset) 
