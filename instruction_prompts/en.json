@@ -551,6 +551,30 @@
       "Answer the question as a lawyer knowledgeable in Chinese law, using easy-to-understand language suitable for an online forum.",
       "Respond to the question in layman's terms, as a lawyer providing advice on a forum related to Chinese law."
     ],
+    "lexabsumm_fact_sum": [
+      "Give a summary of the legal reasoning and conclusion stating the Court's verdict on alleged violations of this case.",
+      "Summarize this text containing relevant law articles from a case of the European Court of Human Rights and their conclusion.",
+      "Provide a summary of the Court's legal reasoning and verdict on the alleged violations in this case.",
+      "Summarize the legal arguments and final decision of the Court regarding the alleged violations in this case.",
+      "Outline the legal rationale and conclusion of the European Court of Human Rights in this case.",
+      "Write a summary of the Court's reasoning and conclusion on the alleged human rights violations in this case.",
+      "Summarize the Court's legal analysis and conclusion on the alleged breaches in this case.",
+      "Give an overview of the legal reasoning and final verdict of the European Court of Human Rights on this case.",
+      "Create a summary of the legal points and conclusion stated by the Court in this case.",
+      "Summarize the relevant legal articles and the Court's decision in this European Court of Human Rights case."
+    ],
+    "lexabsumm_law_sum": [
+      "Summarize the facts of this lawcase from the European Court of Human Rights jurisdiction.",
+      "Create a summary of what this lawcase about European human rights is about.",
+      "Provide a summary of the details in this European Court of Human Rights case.",
+      "Summarize the key points of this case from the European Court of Human Rights.",
+      "Give a brief overview of the facts in this lawcase from the European Court of Human Rights.",
+      "Outline the main facts of this European Court of Human Rights case.",
+      "Write a summary highlighting the important aspects of this lawcase from the European Court of Human Rights.",
+      "Summarize the essential details of this case from the European Court of Human Rights.",
+      "Create a brief summary of the facts involved in this European Court of Human Rights lawcase.",
+      "Summarize the principal elements of this European human rights lawcase."
+    ],
     "lila": [
       "Consider the following question. Write a Python program to solve it.",
       "Write a Python program to solve the following question, denote it as “Program:”. Provide the output as “Answer:”.",
