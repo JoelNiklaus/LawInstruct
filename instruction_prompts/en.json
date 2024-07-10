@@ -695,6 +695,32 @@
       "Deliver a brief summary of the provided portion from the legal agreement.",
       "Craft a concise summary for the excerpt found in the legal agreement."
     ],
+    "predex_judgement": [
+      "Analyze the case proceeding and predict whether the appeal/petition will be rejected or accepted.",
+      "Based on the information in the case proceeding, determine the likely outcome: acceptance or rejection of the appellant/petitioner's case.",
+      "Review the case details and forecast whether the appeal/petition will be approved or denied.",
+      "Examine the proceedings and decide if the appeal/petition is likely to be accepted or rejected.",
+      "Evaluate the case proceedings and predict the outcome: rejection or acceptance of the appeal/petition.",
+      "Given the case proceedings, predict if the appeal/petition will be accepted or rejected.",
+      "Assess the provided case information and determine if the appeal/petition will result in acceptance or rejection.",
+      "Interpret the details of the case and forecast the outcome: acceptance or rejection of the appeal/petition.",
+      "Analyze the case proceedings to predict if the appeal/petition will be rejected or accepted.",
+      "Based on the case details, determine if the appeal/petition is likely to be rejected or accepted.",
+      "Evaluate the proceedings and predict the decision: rejection or acceptance of the appeal/petition."
+    ],
+    "predex_explanation": [
+      "Analyze the case proceeding and provide an explanation for why the Indian court took that decision. Please provide some important textual evidence from the case proceeding.",
+      "Elaborate why the Indian Supreme Court accepted or rejected the given appeal/petition by extracting and interpreting significant sentences from the proceeding.",
+      "Examine the case proceeding and explain the reasoning behind the Indian court's decision, citing key textual evidence.",
+      "Review the proceedings and clarify why the Indian Supreme Court made its decision, highlighting important excerpts from the case.",
+      "Interpret the case details and explain the rationale for the Indian court's decision, providing relevant textual evidence.",
+      "Analyze the court's decision in the case and describe the reasoning, including important sentences from the proceeding.",
+      "Provide an explanation for the Indian court's decision on the appeal/petition, citing significant parts of the case proceeding.",
+      "Evaluate the case proceeding and explain why the Indian court reached its decision, using key textual evidence.",
+      "Discuss the reasons behind the Indian Supreme Court's decision on the appeal/petition, highlighting important textual excerpts.",
+      "Analyze the decision of the Indian court in the case and provide an explanation, including significant textual evidence from the proceeding.",
+      "Examine and explain the reasoning for the Indian court's decision on the appeal/petition, citing important sentences from the case proceeding."
+    ],
     "privacy_qa": [
       "Determine whether a term mentioned in a privacy policy is relevant or irrelevant to a given question.",
       "Decide if a term mentioned in a privacy policy is pertinent or unrelated to the given question.",

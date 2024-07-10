@@ -77,7 +77,9 @@ from instruction_datasets.german_laymen_qa import GermanLaymenQA
 from instruction_datasets.agb_de import AGBDE
 from instruction_datasets.legal_lens import LegalLens
 from instruction_datasets.keyphrase_generation_eu import KeyphraseGenerationEU
+from instruction_datasets.pred_ex import PredEx
 from instruction_datasets.swiss_citation_extraction import SwissCitationExtraction
+
 
 LEGAL_DATASETS = frozenset({
     AGBDE,
@@ -122,6 +124,7 @@ LEGAL_DATASETS = frozenset({
     MultiLexSum,
     OLCMemos,
     PlainEnglishContractsSummarization,
+    PredEx,
     PrivacyQA,
     PrivacySummarization,
     ProfessionalLaw,
@@ -195,6 +198,7 @@ DATASETS_ALREADY_BUILT = NATURAL_INSTRUCTIONS | XP3MT | frozenset({
     MultiLexSum,
     OLCMemos,
     PlainEnglishContractsSummarization,
+    PredEx,
     PrivacyQA,
     PrivacySummarization,
     ProfessionalLaw,
