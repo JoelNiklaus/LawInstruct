@@ -41,18 +41,33 @@ def extract_negation_scopes(data: dict) -> list[str]:
             current_cue = None
     return results 
 
-def build_answer_scopes(data: Sequence[str]) -> str:
-    scope_before_cue = data['scope_before_cue']
-    scope_after_cue = data['scope_after_cue']
-    if scope_before_cue == None:
-        scope_before_cue = ''
-    if scope_after_cue == None: 
-        scope_after_cue = ''
-    answer = 'scope before cue: ' + scope_before_cue +\
-            ', scope after cue: '  + scope_after_cue
+def list_cues(data: Sequence[str]) -> str:
+    if not data:
+        return 'There are no negation cues in this sentence'
+    num = 1
+    answer = ''
+    for cue in data:
+        answer += "cue"+str(num) + ": " + cue + ' \n'
+        num += 1
+    return answer    
+
+
+def list_scopes(data: Sequence[str]) -> str:
+    if not data:
+        return 'There are no negation cues in this sentence'
+    answer = ''
+    num = 1
+    for item in data:
+        cue = item['cue']
+        if item['scope_before_cue'] == None:
+            item['scope_before_cue'] = ''  
+        if item['scope_after_cue'] == None:
+            item['scope_after_cue'] = ''       
+        answer += 'cue'+str(num)+ ': ' + item['cue'] + ' \n' \
+                         'scope before cue'+str(num)+ ': ' + item['scope_before_cue'] + ' \n' \
+                         'scope after cue'+str(num)+ ' :'+ item['scope_after_cue'] + ' \n'
+        num +=1
     return answer
-
-
 
 class MultiLegalNegation(AbstractDataset):
 
@@ -79,11 +94,10 @@ class MultiLegalNegation(AbstractDataset):
                 instruction, instruction_language = instructions.sample(subset1)
                 prompt = f"Text: {example['text']}"
                 negation_cues = extract_negation_cues(example)
-                for neg in negation_cues:
-                        answer = f"Extracted negation cue: {neg}"
-                        yield self.build_data_point(instruction_language, subds['language'],
-                                                subds['language'], instruction, prompt, 
-                                                answer, task_type, subds['jurisdiction'], subset1)
+                answer = f"Extracted negation cues: {list_cues(negation_cues)}"
+                yield self.build_data_point(instruction_language, subds['language'],
+                                            subds['language'], instruction, prompt, 
+                                            answer, task_type, subds['jurisdiction'], subset1)
         
         for subds in subsets: 
             ds = load_dataset("rcds/MultiLegalNeg", subds['name'], split='train')
@@ -91,11 +105,10 @@ class MultiLegalNegation(AbstractDataset):
             for example in ds:
                 instruction, instruction_language = instructions.sample(subset2)
                 negation_scopes = extract_negation_scopes(example)
-                for scope in negation_scopes:
-                    prompt = f"Text: {example['text']}\n" \
-                            f"Negation cue: {scope['cue']}"
-                    answer = f"Scopes for given cue: {build_answer_scopes(scope)}"
-                    yield self.build_data_point(instruction_language, subds['language'],
-                                                subds['language'], instruction, prompt, 
-                                                answer, task_type, subds['jurisdiction'], subset2)    
+                prompt = f"Text: {example['text']} \n"\
+                        f"Cues: {list_cues(extract_negation_cues(example))}"
+                answer = f"Scopes for given cues: {list_scopes(negation_scopes)}"     
+                yield self.build_data_point(instruction_language, subds['language'],
+                                            subds['language'], instruction, prompt, 
+                                            answer, task_type, subds['jurisdiction'], subset2)    
                 
