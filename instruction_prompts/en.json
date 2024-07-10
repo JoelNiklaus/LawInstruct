@@ -659,6 +659,25 @@
       "Select the accurate multiple choice answer as per American law, and explain your choice.",
       "Determine the correct answer in line with U.S. legal principles, and provide your rationale."
     ],
+    "multi_legal_cue_detection": [
+      "Extract the negation cues from the following sentence.",
+      "Identify the negation cues present in the given text.",
+      "Find the negation cues in the following sentence.",
+      "Determine the negation cues from the following passage.",
+      "Locate the negation cues within the provided statement.",
+      "Identify any negation cues in the text snippet below.",
+      "Spot the negation cues in the following sentence."
+    ],
+    "multi_legal_scope_detection": [
+      "Extract the scopes for the following negation cues.",
+      "Identify the scopes for the negation cues in the given text.",
+      "Find and highlight the scopes for the following negation cues.",
+      "Determine the scopes associated with the negation cues in the following passage.",
+      "Locate the scopes corresponding to the negation cues within the provided statement.",
+      "Extract the scopes that relate to the negation cues in the given sentence.",
+      "Identify the text spans that serve as scopes for the negation cues below.",
+      "Spot the scopes for the negation cues in the following sentence."
+    ],
     "multi_lex_sum": [
       "Summarize the following summary of a US legal document further.",
       "Consider this summary of a US legal document and summarize it further.",
