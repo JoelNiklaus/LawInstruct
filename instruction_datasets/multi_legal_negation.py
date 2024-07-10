@@ -79,8 +79,6 @@ class MultiLegalNegation(AbstractDataset):
                 instruction, instruction_language = instructions.sample(subset1)
                 prompt = f"Text: {example['text']}"
                 negation_cues = extract_negation_cues(example)
-                if not negation_cues:
-                    continue
                 for neg in negation_cues:
                         answer = f"Extracted negation cue: {neg}"
                         yield self.build_data_point(instruction_language, subds['language'],
@@ -93,8 +91,6 @@ class MultiLegalNegation(AbstractDataset):
             for example in ds:
                 instruction, instruction_language = instructions.sample(subset2)
                 negation_scopes = extract_negation_scopes(example)
-                if not negation_scopes:
-                    continue
                 for scope in negation_scopes:
                     prompt = f"Text: {example['text']}\n" \
                             f"Negation cue: {scope['cue']}"
