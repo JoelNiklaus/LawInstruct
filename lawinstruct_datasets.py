@@ -79,8 +79,8 @@ from instruction_datasets.legal_lens import LegalLens
 from instruction_datasets.keyphrase_generation_eu import KeyphraseGenerationEU
 from instruction_datasets.pred_ex import PredEx
 from instruction_datasets.swiss_citation_extraction import SwissCitationExtraction
+from instruction_datasets.lex_ab_summ import LexAbSumm
 from instruction_datasets.multi_legal_negation import MultiLegalNegation
-
 
 LEGAL_DATASETS = frozenset({
     AGBDE,
@@ -115,6 +115,7 @@ LEGAL_DATASETS = frozenset({
     LegalCaseDocumentSummarization,
     LegalLens,
     LegalQA,
+    LexAbSumm,
     LexGLUE,
     LEXTREME,
     Littleton,
@@ -188,6 +189,7 @@ DATASETS_ALREADY_BUILT = NATURAL_INSTRUCTIONS | XP3MT | frozenset({
     LegalCaseDocumentSummarization,
     LegalQA,
     LegalLens,
+    LexAbSumm,
     LexGLUE,
     LEXTREME,
     Lila,
