@@ -42,3 +42,29 @@ class LexAbSumm(AbstractDataset):
             yield self.build_data_point(instruction_language, prompt_language,
                                         answer_language, instruction, prompt, 
                                         answer, task_type, jurisdiction, subset) 
+
+        task_type = TaskType.TEXT_GENERATION
+
+        for example in df:
+            subset = "lexabsumm_title"
+            summary = example['facts_summary']
+            
+            instruction, instruction_language = instructions.sample(subset)
+            prompt = f"Summary: {summary}"
+            answer = f"Title: {example['title']}."
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        answer_language, instruction, prompt, 
+                                        answer, task_type, jurisdiction, subset)
+
+        for example in df:
+            subset = "lexabsumm_subtitle"
+            title = example['title']
+            summary = example['law_summary']
+            
+            instruction, instruction_language = instructions.sample(subset)
+            prompt = f"Title: {title}\n\n" \
+                     f"Summary: {summary}"
+            answer = f"Subtitle: {example['subtitle']}."
+            yield self.build_data_point(instruction_language, prompt_language,
+                                        answer_language, instruction, prompt, 
+                                        answer, task_type, jurisdiction, subset)

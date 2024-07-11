@@ -564,16 +564,42 @@
       "Summarize the relevant legal articles and the Court's decision in this European Court of Human Rights case."
     ],
     "lexabsumm_law_sum": [
-      "Summarize the facts of this lawcase from the European Court of Human Rights jurisdiction.",
-      "Create a summary of what this lawcase about European human rights is about.",
+      "Summarize the facts of this case from the European Court of Human Rights jurisdiction.",
+      "Create a summary of what this case about European human rights is about.",
       "Provide a summary of the details in this European Court of Human Rights case.",
       "Summarize the key points of this case from the European Court of Human Rights.",
-      "Give a brief overview of the facts in this lawcase from the European Court of Human Rights.",
+      "Give a brief overview of the facts in this case from the European Court of Human Rights.",
       "Outline the main facts of this European Court of Human Rights case.",
-      "Write a summary highlighting the important aspects of this lawcase from the European Court of Human Rights.",
+      "Write a summary highlighting the important aspects of this case from the European Court of Human Rights.",
       "Summarize the essential details of this case from the European Court of Human Rights.",
-      "Create a brief summary of the facts involved in this European Court of Human Rights lawcase.",
-      "Summarize the principal elements of this European human rights lawcase."
+      "Create a brief summary of the facts involved in this European Court of Human Rights case.",
+      "Summarize the principal elements of this European human rights case."
+    ],
+    "lexabsumm_title": [
+      "Given the summary of the facts of this court case, formulate a title for it.",
+      "Generate a title for this case, it should describe the general topic of the case.",
+      "Based on the facts provided in the summary, create an appropriate title for this court case.",
+      "Utilize the summary of the case facts to draft a title that encapsulates the general theme.",
+      "Formulate a case title that reflects the key points of the provided summary.",
+      "Using the summary of the court case, produce a title that covers the main topic.",
+      "Craft a title for the case that accurately represents the facts given in the summary.",
+      "Create a title based on the summary facts that captures the essence of the court case.",
+      "Generate a title from the case summary that conveys the overall subject matter.",
+      "Devise a title for this court case, ensuring it describes the general facts outlined in the summary.",
+      "Compose a title for the case that effectively summarizes the facts provided in the summary."
+    ],
+    "lexabsumm_subtitle": [
+      "Given the title, describing the general topic, and a summary of a case conducted in court, provide a more specific subtitle.",
+      "Create a subtitle for this case using the information given in the summary that complements the title of the case.",
+      "Based on the provided title and court case summary, generate a detailed subtitle.",
+      "Utilize the title and case summary to craft a descriptive subtitle that enhances the title.",
+      "Formulate a subtitle from the court case summary that aligns with and elaborates on the given title.",
+      "Using the title and summary of the court case, produce a specific subtitle that adds detail to the title.",
+      "Draft a subtitle that integrates details from the summary and fits well with the given title of the case.",
+      "Create a subtitle based on the summary that provides additional context to the given case title.",
+      "Generate a subtitle that reflects the content of the summary and complements the provided title.",
+      "Compose a subtitle that captures the essence of the summary and enriches the given case title.",
+      "Devise a subtitle from the summary details that aligns with and adds specificity to the provided title."
     ],
     "lila": [
       "Consider the following question. Write a Python program to solve it.",
