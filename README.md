@@ -136,6 +136,8 @@ paraphrases. Provide json as output. Keep the provided examples."
 - MakeThisYourLastTime (https://www.makethisyourlasttime.com/essay-bank/) ==> Requires scraping several PDFs; format not
   standardized.
 - ECHR Argument Mining (http://www.di.uevora.pt/~pq/echr/) ==> This is an argument mining dataset.
+- AsyLex (https://huggingface.co/datasets/clairebarale/AsyLex) ==> complicated structure requireing preprocessing;
+  additionally outcome prediction task seems quite trivial as outcome is often clearly stated at the end of the text.
 
 ## Troublehooting
 
