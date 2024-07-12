@@ -1012,16 +1012,16 @@
       "Explain the court's stance (considerations) based on the provided facts and lower court's considerations."
     ],
     "swiss_judgment_criticality": [
-      "How important or critical is this case? The case can be non-critical or range from critical-1 (least critical) to critical-4 (most critical).",
-      "Determine the level of importance or criticality of this case, with non-critical being the lowest and critical-4 being the highest.",
-      "Assess the criticality of this case on a scale of non-critical to critical-4, with critical-4 being the most critical.",
-      "Rate the importance or criticality of this case, from non-critical to critical-4, where critical-4 represents the highest level of criticality.",
-      "Evaluate the significance or criticality of this case, with options ranging from non-critical to critical-4 (most critical).",
-      "Gauge the level of criticality of this case, with non-critical at the low end and critical-4 at the high end.",
-      "Estimate the importance or criticality of this case, with levels ranging from non-critical to critical-4 (most critical).",
-      "Rank the criticality of this case on a scale from non-critical to critical-4, where critical-4 is the most critical.",
-      "Deduce the level of importance or criticality for this case, with options from non-critical to critical-4 (most critical).",
-      "Decide on the criticality of this case, with a range of non-critical to critical-4, where critical-4 is the highest level of criticality."
+      "How important or critical is this case?",
+      "Determine the level of importance or criticality of this case.",
+      "Assess the criticality of this case.",
+      "Rate the importance or criticality of this case.",
+      "Evaluate the significance or criticality of this case.",
+      "Gauge the level of criticality of this case.",
+      "Estimate the importance or criticality of this case.",
+      "Rank the criticality of this case.",
+      "Deduce the level of importance or criticality for this case.",
+      "Decide on the criticality of this case."
     ],
     "swiss_judgment_dismiss_approve": [
       "Determine if the Swiss court will dismiss or approve the case.",
